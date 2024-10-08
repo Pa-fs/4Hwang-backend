@@ -22,4 +22,11 @@ public class PurchaseProduct {
     @OneToOne(mappedBy = "purchaseProduct")
     private DeliveryPurchases deliveryPurchases;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "purchase_id")
+    private Purchase purchase;
+
+    @OneToOne(mappedBy = "purchaseProduct")
+    private PurchasePayment purchasePayment;
+
 }

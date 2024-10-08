@@ -19,7 +19,13 @@ public class PurchasePayment {
     @Column(name = "purchase_payment_id")
     private Long id;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "purchase_product_id")
+    private PurchaseProduct purchaseProduct;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "payment_id")
+    private Payments payments;
 
 
 }
