@@ -36,7 +36,7 @@ public class Member {
     private List<Review> reviews = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
-    private List<Payments> payments = new ArrayList<>();
+    private List<Payment> payments = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
     private List<Sale> sales = new ArrayList<>();
