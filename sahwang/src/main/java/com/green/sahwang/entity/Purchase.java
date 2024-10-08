@@ -39,13 +39,6 @@ public class Purchase {
         return member;
     }
 
-    // main()
-    /**
-     * Member member = new Member();
-     * Order order = new Order();
-     * order.setMember(member);
-     * member.setOrders(order);
-     */
     public void setMember(Member member) {
         if (this.member != null){
             this.member.getPurchases().remove(this);
