@@ -28,7 +28,7 @@ public class SalePayment {
     private Payment payment;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "payments_id")
+    @JoinColumn(name = "sale_product_id")
     private SaleProduct saleProduct;
 
     public void setPayment(Payment payment) {

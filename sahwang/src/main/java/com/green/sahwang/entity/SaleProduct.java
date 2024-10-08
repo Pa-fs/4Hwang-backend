@@ -30,11 +30,10 @@ public class SaleProduct {
 
     private LocalDateTime tradeCompletedDate;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "saleProduct")
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "saleProduct")
     private DeliverySale deliverySales;
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "salePayment")
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "saleProduct")
     private SalePayment salePayment;
 
 

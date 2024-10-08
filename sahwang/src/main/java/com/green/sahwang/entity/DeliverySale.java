@@ -27,7 +27,8 @@ public class DeliverySale {
     private Sale sale;
 
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "deliverySale")
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "sale_product_id")
     private SaleProduct saleProduct;
 
     public void setSale(Sale sale) {
