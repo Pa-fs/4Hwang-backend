@@ -20,7 +20,7 @@ public class PurchaseProduct {
     private Long id;
 
     @OneToOne(mappedBy = "purchaseProduct")
-    private DeliveryPurchases deliveryPurchases;
+    private DeliveryPurchase deliveryPurchases;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "purchase_id")

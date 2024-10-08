@@ -30,6 +30,19 @@ public class SaleProduct {
 
     private LocalDateTime tradeCompletedDate;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "saleProduct")
+    private DeliverySale deliverySales;
+
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "salePayment")
+    private SalePayment salePayment;
+
+
+    public void setDeliverySale(DeliverySale deliverySales) {
+        this.deliverySales = deliverySales;
+        deliverySales.setSaleProduct(this);
+    }
+
     public void setProduct(Product product) {
         if (this.product != null) {
             this.product.getSaleProducts().remove(this);
