@@ -1,7 +1,9 @@
 package com.green.sahwang.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -10,6 +12,8 @@ import java.util.List;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 public class Purchase {
 
     @Id
@@ -26,18 +30,6 @@ public class Purchase {
 
     @OneToMany(mappedBy = "purchase")
     private List<PurchaseProduct> purchaseProducts = new ArrayList<>();
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Member getMember() {
-        return member;
-    }
 
     public void setMember(Member member) {
         if (this.member != null){
