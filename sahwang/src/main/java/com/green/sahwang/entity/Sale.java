@@ -39,7 +39,7 @@ public class Sale {
     private Member member;
 
     @OneToMany(mappedBy = "sale")
-    private List<SaleProduct> saleProduct = new ArrayList<>();
+    private List<SaleProduct> saleProducts = new ArrayList<>();
 
     public void setMember(Member member) {
         if (this.member != null) {

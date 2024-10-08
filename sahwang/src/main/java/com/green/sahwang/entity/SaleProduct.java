@@ -40,9 +40,9 @@ public class SaleProduct {
 
     public void setSale(Sale sale) {
         if (this.sale != null) {
-            this.sale.getSaleProduct().remove(this);
+            this.sale.getSaleProducts().remove(this);
         }
         this.sale = sale;
-        sale.getSaleProduct().add(this);
+        sale.getSaleProducts().add(this);
     }
 }
