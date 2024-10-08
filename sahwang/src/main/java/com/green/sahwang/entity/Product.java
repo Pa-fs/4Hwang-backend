@@ -14,21 +14,15 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Member {
+public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "member_id")
+    @Column(name = "product_id")
     private Long id;
-
     private String name;
+    private int price;
 
-    @Enumerated(EnumType.STRING)
-    private MemberRole role;
-
-    @OneToMany(mappedBy = "member")
-    private List<Purchase> purchases = new ArrayList<>();
-
-    @OneToMany(mappedBy = "member")
-    private List<Sale> sales = new ArrayList<>();
+    @OneToMany(mappedBy = "product")
+    private List<SaleProduct> saleProducts = new ArrayList<>();
 }
