@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -28,5 +30,16 @@ public class PurchaseProduct {
 
     @OneToOne(mappedBy = "purchaseProduct")
     private PurchasePayment purchasePayment;
+
+    @OneToMany(mappedBy = "purchaseProduct")
+    private List<Review> reviews = new ArrayList<>();
+
+    public void setPurchase(Purchase purchase){
+        if(this.purchase != null){
+            this.purchase.getPurchaseProducts().remove(this);
+        }
+        this.purchase = purchase;
+        purchase.getPurchaseProducts().add(this);
+    }
 
 }
