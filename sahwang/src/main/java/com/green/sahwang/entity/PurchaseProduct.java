@@ -20,6 +20,6 @@ public class PurchaseProduct {
     private Long id;
 
     @OneToOne(mappedBy = "purchaseProduct")
-    private DeliveryPurchases deliveryPurchases;
+    private DeliveryPurchase deliveryPurchases;
 
 }

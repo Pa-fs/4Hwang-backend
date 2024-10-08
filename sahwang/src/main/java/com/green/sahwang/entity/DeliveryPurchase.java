@@ -12,7 +12,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @Setter
-public class DeliveryPurchases {
+public class DeliveryPurchase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

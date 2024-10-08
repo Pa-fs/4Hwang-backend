@@ -41,6 +41,9 @@ public class Sale {
     @OneToMany(mappedBy = "sale")
     private List<SaleProduct> saleProducts = new ArrayList<>();
 
+    @OneToMany(mappedBy = "sale")
+    private List<DeliverySale> deliverySales = new ArrayList<>();
+
     public void setMember(Member member) {
         if (this.member != null) {
             this.member.getSales().remove(this);

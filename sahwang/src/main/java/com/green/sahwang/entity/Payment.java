@@ -6,13 +6,15 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class Payments {
+public class Payment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,4 +25,14 @@ public class Payments {
     @JoinColumn(name = "member_id")
     private Member member;
 
+    @OneToMany(mappedBy = "payment")
+    private List<SalePayment> salePayments = new ArrayList<>();
+
+    public void setMember(Member member) {
+        if (this.member != null) {
+            this.member.getPayments().remove(this);
+        }
+        this.member = member;
+        member.getPayments().add(this);
+    }
 }
