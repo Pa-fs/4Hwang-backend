@@ -22,6 +22,15 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private List<Purchase> purchases = new ArrayList<>();
 
+    @OneToOne(mappedBy = "member")
+    private Cart cart;
+
+    @OneToMany(mappedBy = "member")
+    private List<Review> reviews = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    private List<Payments> payments = new ArrayList<>();
+
     public Long getId() {
         return id;
     }

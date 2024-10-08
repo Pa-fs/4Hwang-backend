@@ -1,0 +1,21 @@
+package com.green.sahwang.entity;
+
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
+
+@Entity
+@AllArgsConstructor
+@NoArgsConstructor
+public class PurchasePayment {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "purchase_payment_id")
+    private Long id;
+
+
+
+
+}
