@@ -27,5 +27,17 @@ public class PurchasePayment {
     @JoinColumn(name = "payment_id")
     private Payment payment;
 
+    public void setPurchaseProduct(PurchaseProduct purchaseProduct){
+        this.purchaseProduct=purchaseProduct;
+        purchaseProduct.setPurchasePayment(this);
+    }
+    public void setPayment(Payment payment){
+        if(this.payment != null){
+            this.payment.getPurchasePayments().remove(this);
+        }
+        this.payment = payment;
+        payment.getPurchasePayments().add(this);
+    }
+
 
 }

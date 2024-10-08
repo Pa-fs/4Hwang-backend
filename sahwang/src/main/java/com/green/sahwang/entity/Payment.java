@@ -26,7 +26,7 @@ public class Payment {
     private Member member;
 
     @OneToMany(mappedBy = "payment")
-    private List<PurchasePayment> purchasePayments = new ArrayList();
+    private List<PurchasePayment> purchasePayments = new ArrayList<>();
 
     @OneToMany(mappedBy = "payment")
     private List<SalePayment> salePayments = new ArrayList<>();

@@ -27,4 +27,17 @@ public class DeliveryPurchase {
     @JoinColumn(name = "purchase_product_id")
     private PurchaseProduct purchaseProduct;
 
+    public void setPurchase(Purchase purchase){
+        if (this.purchase != null){
+            this.purchase.getDeliveryPurchases().remove(this);
+        }
+        this.purchase = purchase;
+        purchase.getDeliveryPurchases().add(this);
+    }
+
+    public void setPurchaseProduct(PurchaseProduct purchaseProduct){
+        this.purchaseProduct = purchaseProduct;
+        purchaseProduct.setDeliveryPurchases(this);
+    }
+
 }
