@@ -32,6 +32,4 @@ public abstract class Product {
     @JoinColumn(name = "brand_id")
     private Brand brand;
 
-    @OneToMany(mappedBy = "product")
-    private List<SaleProduct> saleProducts = new ArrayList<>();
 }

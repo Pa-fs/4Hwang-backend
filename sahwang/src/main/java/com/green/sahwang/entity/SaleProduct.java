@@ -28,31 +28,4 @@ public class SaleProduct {
 
     private LocalDateTime tradeCompletedDate;
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "saleProduct")
-    private DeliverySale deliverySales;
-
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "saleProduct")
-    private SalePayment salePayment;
-
-
-    public void setDeliverySale(DeliverySale deliverySales) {
-        this.deliverySales = deliverySales;
-        deliverySales.setSaleProduct(this);
-    }
-
-    public void setProduct(Product product) {
-        if (this.product != null) {
-            this.product.getSaleProducts().remove(this);
-        }
-        this.product = product;
-        product.getSaleProducts().add(this);
-    }
-
-    public void setSale(Sale sale) {
-        if (this.sale != null) {
-            this.sale.getSaleProducts().remove(this);
-        }
-        this.sale = sale;
-        sale.getSaleProducts().add(this);
-    }
 }

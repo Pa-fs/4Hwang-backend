@@ -25,16 +25,8 @@ public class DeliverySale {
     @JoinColumn(name = "sale_id")
     private Sale sale;
 
-
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sale_product_id")
     private SaleProduct saleProduct;
 
-    public void setSale(Sale sale) {
-        if (this.sale != null) {
-            this.sale.getDeliverySales().remove(this);
-        }
-        this.sale = sale;
-        sale.getDeliverySales().add(this);
-    }
 }

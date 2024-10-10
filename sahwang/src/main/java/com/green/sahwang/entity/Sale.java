@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "sales")
+@Table(name = "sale")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -36,11 +36,5 @@ public class Sale {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
-
-    @OneToMany(mappedBy = "sale")
-    private List<SaleProduct> saleProducts = new ArrayList<>();
-
-    @OneToMany(mappedBy = "sale")
-    private List<DeliverySale> deliverySales = new ArrayList<>();
 
 }
