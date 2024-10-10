@@ -23,6 +23,4 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private MemberRole role;
 
-    @OneToOne(mappedBy = "member")
-    private Cart cart;
 }
