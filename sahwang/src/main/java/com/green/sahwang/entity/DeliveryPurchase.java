@@ -1,5 +1,6 @@
 package com.green.sahwang.entity;
 
+import com.green.sahwang.entity.enumtype.ShipStatus;
 import lombok.*;
 
 import javax.persistence.*;
@@ -17,6 +18,9 @@ public class DeliveryPurchase {
     @Column(name = "delivery_purchases_id")
     private Long id;
 
+    @Enumerated(EnumType.STRING)
+    private ShipStatus status;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "purchase_id")
     private Purchase purchase;
@@ -24,18 +28,5 @@ public class DeliveryPurchase {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "purchase_product_id")
     private PurchaseProduct purchaseProduct;
-
-    public void setPurchase(Purchase purchase){
-        if (this.purchase != null){
-            this.purchase.getDeliveryPurchases().remove(this);
-        }
-        this.purchase = purchase;
-        purchase.getDeliveryPurchases().add(this);
-    }
-
-    public void setPurchaseProduct(PurchaseProduct purchaseProduct){
-        this.purchaseProduct = purchaseProduct;
-        purchaseProduct.setDeliveryPurchases(this);
-    }
 
 }

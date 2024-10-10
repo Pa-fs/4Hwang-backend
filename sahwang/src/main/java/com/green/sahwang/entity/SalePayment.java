@@ -29,16 +29,4 @@ public class SalePayment {
     @JoinColumn(name = "sale_product_id")
     private SaleProduct saleProduct;
 
-    public void setPayment(Payment payment) {
-        if (this.payment != null) {
-            this.payment.getSalePayments().remove(this);
-        }
-        this.payment = payment;
-        payment.getSalePayments().add(this);
-    }
-
-    public void setSaleProduct(SaleProduct saleProduct) {
-        this.saleProduct = saleProduct;
-        saleProduct.setSalePayment(this);
-    }
 }

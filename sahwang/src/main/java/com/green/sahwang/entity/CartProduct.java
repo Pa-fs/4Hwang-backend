@@ -3,8 +3,6 @@ package com.green.sahwang.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -12,15 +10,21 @@ import java.util.List;
 @Getter
 @Setter
 @Builder
-public class PurchaseProduct {
+public class CartProduct {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "purchase_product_id")
+    @Column(name = "cart_product_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "purchase_id")
-    private Purchase purchase;
+    @JoinColumn(name = "product_id")
+    private Product product;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cart_id")
+    private Cart cart;
+
+    private int quantity;
 
 }
