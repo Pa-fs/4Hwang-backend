@@ -11,12 +11,20 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Builder
-public class Brand {
+public class CategoryBrand {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "brand_id")
+    @Column(name = "categ(ory_brand_id")
     private Long id;
 
-    private String name;
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
+
+    @ManyToOne
+    @JoinColumn(name = "brand_id")
+    private Brand brand;
+
+    private LocalDateTime createdDate;
 }

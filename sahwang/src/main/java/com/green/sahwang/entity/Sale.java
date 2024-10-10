@@ -1,9 +1,7 @@
 package com.green.sahwang.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.green.sahwang.entity.enumtype.SaleStatus;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -16,6 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
+@Builder
 public class Sale {
 
     @Id
@@ -44,11 +43,4 @@ public class Sale {
     @OneToMany(mappedBy = "sale")
     private List<DeliverySale> deliverySales = new ArrayList<>();
 
-    public void setMember(Member member) {
-        if (this.member != null) {
-            this.member.getSales().remove(this);
-        }
-        this.member = member;
-        member.getSales().add(this);
-    }
 }

@@ -1,5 +1,7 @@
 package com.green.sahwang.entity;
 
+import com.green.sahwang.entity.enumtype.MemberRole;
+import com.green.sahwang.entity.enumtype.SaleStatus;
 import com.green.sahwang.repository.MemberRepository;
 import com.green.sahwang.repository.ProductRepository;
 import com.green.sahwang.repository.SaleProductRepository;
@@ -69,15 +71,6 @@ class SaleTest {
 
         assertThat(sale1.getMember().getId()).isEqualTo(member.getId());
         assertThat(sale2.getMember().getId()).isEqualTo(member.getId());
-
-        assertThat(member.getSales().get(0).getId()).isEqualTo(sale1.getId());
-        assertThat(member.getSales().get(0).getId() == sale1.getId()).isTrue();
-        assertThat(member.getSales().get(0) == sale1).isTrue();
-
-
-        assertThat(member.getSales().get(1).getId()).isEqualTo(sale2.getId());
-        assertThat(member.getSales().get(1).getId() == sale2.getId());
-        assertThat(member.getSales().get(1) == sale2).isTrue();
     }
 
     @Test

@@ -51,11 +51,6 @@ class PurchaseTest {
 
         assertThat(savedpurchase1.getMember().getId()).isEqualTo(savedmember.getId());
         assertThat(savedpurchase2.getMember().getId()).isEqualTo(savedmember.getId());
-
-        assertThat(savedmember.getPurchases().get(0).getId()).isEqualTo(savedpurchase1.getId());
-        assertThat(savedmember.getPurchases().get(1).getId()).isEqualTo(savedpurchase2.getId());
-
-
     }
 
 }

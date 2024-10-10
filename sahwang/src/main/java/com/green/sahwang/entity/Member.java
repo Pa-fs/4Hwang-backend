@@ -1,19 +1,16 @@
 package com.green.sahwang.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.green.sahwang.entity.enumtype.MemberRole;
+import lombok.*;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
+@Builder
 public class Member {
 
     @Id
@@ -26,18 +23,6 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private MemberRole role;
 
-    @OneToMany(mappedBy = "member")
-    private List<Purchase> purchases = new ArrayList<>();
-
     @OneToOne(mappedBy = "member")
     private Cart cart;
-
-    @OneToMany(mappedBy = "member")
-    private List<Review> reviews = new ArrayList<>();
-
-    @OneToMany(mappedBy = "member")
-    private List<Payment> payments = new ArrayList<>();
-
-    @OneToMany(mappedBy = "member")
-    private List<Sale> sales = new ArrayList<>();
 }

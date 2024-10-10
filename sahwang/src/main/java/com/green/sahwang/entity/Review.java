@@ -27,14 +27,6 @@ public class Review {
     @JoinColumn(name = "purchase_product_id")
     private PurchaseProduct purchaseProduct;
 
-    public void setMember(Member member){
-        if(this.member != null){
-            this.member.getReviews().remove(this);
-        }
-        this.member = member;
-        member.getReviews().add(this);
-    }
-
     public void setPurchaseProduct(PurchaseProduct purchaseProduct){
         if(this.purchaseProduct != null){
             this.purchaseProduct.getReviews().remove(this);
