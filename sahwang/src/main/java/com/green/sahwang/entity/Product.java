@@ -11,8 +11,9 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-@Builder
-public class Product {
+@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(name = "DTYPE")
+public abstract class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,6 +21,16 @@ public class Product {
     private Long id;
     private String name;
     private int price;
+
+    private int size;
+
+    private String content;
+
+    private int volume;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "brand_id")
+    private Brand brand;
 
     @OneToMany(mappedBy = "product")
     private List<SaleProduct> saleProducts = new ArrayList<>();

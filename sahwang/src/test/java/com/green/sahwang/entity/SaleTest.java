@@ -2,6 +2,8 @@ package com.green.sahwang.entity;
 
 import com.green.sahwang.entity.enumtype.MemberRole;
 import com.green.sahwang.entity.enumtype.SaleStatus;
+import com.green.sahwang.entity.product.Candle;
+import com.green.sahwang.entity.product.Perfume;
 import com.green.sahwang.repository.MemberRepository;
 import com.green.sahwang.repository.ProductRepository;
 import com.green.sahwang.repository.SaleProductRepository;
@@ -36,19 +38,19 @@ class SaleTest {
     @Autowired
     SaleProductRepository saleProductRepository;
 
-    @BeforeAll
+    @BeforeEach
     void setUp() {
         Member member = new Member();
         member.setName("test1");
         member.setRole(MemberRole.SELLER);
         memberRepository.save(member);
 
-        Product product1 = new Product();
-        product1.setName("productTest1");
+        Candle product1 = new Candle();
+        product1.setName("candle1");
         product1.setPrice(10000);
 
-        Product product2 = new Product();
-        product2.setName("productTest2");
+        Perfume product2 = new Perfume();
+        product2.setName("perfume1");
         product2.setPrice(20000);
 
         productRepository.save(product1);
@@ -61,9 +63,7 @@ class SaleTest {
         Sale sale1 = new Sale();
         Sale sale2 = new Sale();
 
-        Member member = memberRepository.findById(1L)
-                .orElse(null);
-
+        Member member = memberRepository.findAll().get(0);
 
         log.info("member.getId() : {}", member.getId());
         sale1.setMember(member);
