@@ -1,5 +1,6 @@
 package com.green.sahwang.entity;
 
+import com.green.sahwang.entity.enumtype.PaymentType;
 import lombok.*;
 
 import javax.persistence.*;
@@ -22,5 +23,10 @@ public class Payment {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
+
+    // 0 - 구매 / 1 - 판매
+    private Boolean systemLogicType;
+
+    private PaymentType paymentType;
 
 }
