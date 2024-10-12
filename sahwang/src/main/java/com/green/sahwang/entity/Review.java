@@ -3,6 +3,7 @@ package com.green.sahwang.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @AllArgsConstructor
@@ -24,5 +25,9 @@ public class Review {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "purchase_product_id")
     private PurchaseProduct purchaseProduct;
+
+    private LocalDate reviewCreationDate;
+
+    private LocalDate reviewModifiedDate;
 
 }

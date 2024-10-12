@@ -19,6 +19,7 @@ public class SalePayment {
     private Long id;
 
     private LocalDateTime createdDate;
+
     private LocalDateTime modifiedDate;
 
     @ManyToOne(fetch = FetchType.LAZY)

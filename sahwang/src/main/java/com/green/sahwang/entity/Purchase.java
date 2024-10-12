@@ -1,8 +1,10 @@
 package com.green.sahwang.entity;
 
+import com.green.sahwang.entity.enumtype.PurchaseStatus;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,5 +25,10 @@ public class Purchase {
     @JoinColumn(name = "member_id")
     private Member member;
 
+    private LocalDate purchaseDate;
+
+    private int totalPrice;
+
+    private PurchaseStatus purchaseStatus;
 
 }
