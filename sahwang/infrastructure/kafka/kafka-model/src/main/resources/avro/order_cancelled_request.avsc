@@ -1,0 +1,11 @@
+{
+  "type": "record",
+  "name": "OrderCancelledEvent",
+  "namespace": "com.green.sahwang.model.order.avro",
+  "fields": [
+    { "name": "orderId", "type": "long" },
+    { "name": "userId", "type": "long" },
+//    { "name": "cancelReason", "type": "string" },
+    { "name": "timestamp", "type": "long" }
+  ]
+}
