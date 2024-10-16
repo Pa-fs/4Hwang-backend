@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -99,10 +100,13 @@ public class PurchaseServiceImpl implements PurchaseService {
         try {
             outboxMessage = OutboxMessage.builder()
                     .aggregateId(PREFIX + purchaseId)
+                    .avroModel(purchaseCreatedEventAvroModel.getClass().getName())
+                    .eventType("Purchase")
                     .topicName("purchase-created")
                     .payload(AvroToDBSerializer.serialize(purchaseCreatedEventAvroModel))
                     .sequenceNumber(System.currentTimeMillis())
                     .status("PENDING")
+                    .createdAt(LocalDateTime.now())
                     .build();
         } catch (Exception e) {
             throw new PurchaseDomainException("failed serializer");

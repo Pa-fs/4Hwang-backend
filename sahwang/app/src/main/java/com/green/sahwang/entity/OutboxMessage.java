@@ -3,6 +3,7 @@ package com.green.sahwang.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "outbox")
@@ -20,6 +21,8 @@ public class OutboxMessage {
     @Column(nullable = false)
     private String aggregateId;
 
+    private String avroModel;
+
     @Lob
     @Column(nullable = false)
     private byte[] payload;
@@ -33,5 +36,5 @@ public class OutboxMessage {
 
     private String status;
 
-    private Long createdAt;
+    private LocalDateTime createdAt;
 }

@@ -3,6 +3,7 @@ package com.green.sahwang.service;
 import com.green.sahwang.config.DBToAvroDeserializer;
 import com.green.sahwang.entity.OutboxMessage;
 import com.green.sahwang.exception.DomainExcepton;
+import com.green.sahwang.exception.outbox.OutboxDeserializeEventException;
 import com.green.sahwang.model.purchase.avro.PurchaseCreatedEventAvroModel;
 import com.green.sahwang.repository.OutboxRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,8 +18,7 @@ import java.util.List;
 public class OutboxProcessor {
 
     private final OutboxRepository outboxRepository;
-    // value 부분, 이벤트 인터페이스 지정해야함
-    private final KafkaTemplate<String, PurchaseCreatedEventAvroModel> kafkaTemplate;
+    private final KafkaTemplate<String, Object> kafkaTemplate;
 
     @Scheduled(fixedRate = 3000)
     public void fetchOutboxMessage() {
@@ -27,15 +27,17 @@ public class OutboxProcessor {
         if(pendingMessages.isEmpty()) return;
 
         for (OutboxMessage outboxMessage : pendingMessages) {
-            String topicName = outboxMessage.getTopicName();
-            PurchaseCreatedEventAvroModel payload = null;
+            Object payload = null;
             try {
-                payload = DBToAvroDeserializer.deserialize(outboxMessage.getPayload(),
-                        PurchaseCreatedEventAvroModel.class);
+                // 동적으로 클래스 타입을 결정하여 역직렬화
+                Class<?> avroModelClass = Class.forName(outboxMessage.getAvroModel());
+                payload = DBToAvroDeserializer.deserialize(outboxMessage.getPayload(), avroModelClass);
             } catch (Exception e) {
-                throw new DomainExcepton("failed deserializer outboxMessage");
+                e.printStackTrace();
+                throw new OutboxDeserializeEventException("Failed to deserialize outboxMessage: " + e.getMessage());
             }
-            kafkaTemplate.send(topicName, outboxMessage.getAggregateId(), payload);
+
+            kafkaTemplate.send(outboxMessage.getTopicName(), outboxMessage.getAggregateId(), payload);
 
             outboxMessage.setStatus("SENT");
             outboxRepository.save(outboxMessage);

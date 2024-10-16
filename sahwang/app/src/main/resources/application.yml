@@ -14,7 +14,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     properties:
       hibernate.format_sql: true
     show-sql: true
@@ -23,10 +23,16 @@ spring:
 
 
 # for kafka
+
+# business logic service with kafka topic
 purchase-service:
   purchase-created-topic-name: purchase-created
   purchase-cancelled-topic-name: purchase-cancelled
 
+payment-service:
+  payment-paid-topic-name: payment-paid
+
+# kafka config
 kafka-config:
   bootstrap-servers: localhost:19092, localhost:29092, localhost:39092
   schema-registry-url-key: schema.registry.url
@@ -48,9 +54,10 @@ kafka-producer-config:
 kafka-consumer-config:
   key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
   value-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
-  #  payment-consumer-group-id: payment-topic-consumer
-  #  restaurant-approval-consumer-group-id: restaurant-approval-topic-consumer
+  # custom related business logic
   purchase-consumer-group-id: purchase-topic-consumer
+  payment-consumer-group-id: payment-topic-consumer
+  # custom related business logic
   auto-offset-reset: earliest
   specific-avro-reader-key: specific.avro.reader
   specific-avro-reader: true
