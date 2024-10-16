@@ -20,7 +20,7 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     public void processCancelOrder(Long orderId) {
         Purchase findPurchase = purchaseRepository.findById(orderId)
-                .orElseThrow(() -> new RuntimeException("No Purchase"));
+                .orElseThrow(() -> new RuntimeException("주문(구매)번호가 존재하지 않습니다"));
 
         Member member = findPurchase.getMember();
 
