@@ -29,7 +29,7 @@ class OrderCancellationConsumerTest {
     private List<OrderCancelledEvent> receivedEvents;
 
     @KafkaListener(id = "${kafka-consumer-config.purchase-consumer-group-id}1",
-            topics = "${purchase-service.purchase-cancellation-topic-name}")
+            topics = "${purchase-service.purchase-cancelled-topic-name}")
     public void receive(@Payload List<OrderCancelledEvent> messages,
                         @Header(KafkaHeaders.RECEIVED_MESSAGE_KEY) List<String> keys,
                         @Header(KafkaHeaders.RECEIVED_PARTITION_ID) List<Integer> partitions,
@@ -49,7 +49,7 @@ class OrderCancellationConsumerTest {
     void testListenOrderCancellation() throws InterruptedException {
         OrderCancelledEvent event = new OrderCancelledEvent(1L, 1L, System.currentTimeMillis());
 
-        kafkaTemplate.send("purchase-cancellation", event);
+        kafkaTemplate.send("purchase-cancelled", event);
 
         boolean messageReceived = latch.await(5, TimeUnit.SECONDS);
 

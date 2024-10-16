@@ -22,19 +22,20 @@ public class Sale {
     @Column(name = "sale_id")
     private Long id;
 
-    private LocalDateTime createdDate;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
+
+    private LocalDateTime saleStartDate;
 
     @Enumerated(EnumType.STRING)
     private SaleStatus status;
 
-    private boolean accepted;
-
     private int expectedSellingPrice;
+
+    private boolean accepted;
 
     private String rejectedReason;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
-    private Member member;
 
 }

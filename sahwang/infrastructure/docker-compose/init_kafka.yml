@@ -9,10 +9,12 @@ services:
       kafka-topics --bootstrap-server kafka-broker-1:9092 --list
 
       echo -e 'Deleting kafka topics'
-      kafka-topics --bootstrap-server kafka-broker-1:9092 --topic purchase-cancellation --delete --if-exists
+      kafka-topics --bootstrap-server kafka-broker-1:9092 --topic purchase-created --delete --if-exists
+      kafka-topics --bootstrap-server kafka-broker-1:9092 --topic purchase-cancelled --delete --if-exists
 
       echo -e 'Creating kafka topics'
-      kafka-topics --bootstrap-server kafka-broker-1:9092 --create --if-not-exists --topic purchase-cancellation --replication-factor 3 --partitions 3
+      kafka-topics --bootstrap-server kafka-broker-1:9092 --create --if-not-exists --topic purchase-created --replication-factor 3 --partitions 3
+      kafka-topics --bootstrap-server kafka-broker-1:9092 --create --if-not-exists --topic purchase-cancelled --replication-factor 3 --partitions 3
 
 
       echo -e 'Successfully created the following topics:'

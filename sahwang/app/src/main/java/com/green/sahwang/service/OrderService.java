@@ -1,4 +1,4 @@
-package com.green.sahwang.service.service;
+package com.green.sahwang.service;
 
 public interface OrderService {
 

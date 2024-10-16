@@ -1,0 +1,28 @@
+{
+  "type": "record",
+  "name": "PurchaseCreatedEventAvroModel",
+  "namespace": "com.green.sahwang.model.purchase.avro",
+  "fields": [
+    { "name": "purchaseId", "type": "string" },
+    { "name": "memberId", "type": "string" },
+    { "name": "products", "type": {
+        "type": "array",
+        "items": {
+          "name": "ProductAvroModel",
+          "type": "record",
+          "fields": [
+            {
+              "name": "productId",
+              "type": "string"
+            }
+            //          {"name": "name", "type": "string"},
+            //          {"name": "quantity", "type": "string"},
+            //          {"name": "price", "type": "int"},
+          ]
+        }
+      }
+    },
+//    { "name": "cancelReason", "type": "string" },
+    { "name": "timestamp", "type": "long" }
+  ]
+}

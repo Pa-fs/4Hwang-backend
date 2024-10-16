@@ -8,5 +8,6 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ConfigurationProperties(prefix = "purchase-service")
 public class PurchaseServiceConfigData {
-    private String purchaseCancellationTopicName;
+    private String purchaseCreatedTopicName;
+    private String purchaseCancelledTopicName;
 }

@@ -1,9 +1,9 @@
-package com.green.sahwang.service.service.impl;
+package com.green.sahwang.service.impl;
 
 import com.green.sahwang.entity.Member;
 import com.green.sahwang.entity.Purchase;
 import com.green.sahwang.repository.PurchaseRepository;
-import com.green.sahwang.service.service.OrderService;
+import com.green.sahwang.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
