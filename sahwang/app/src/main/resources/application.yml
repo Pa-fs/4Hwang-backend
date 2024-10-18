@@ -1,7 +1,9 @@
 spring:
   application:
     name: SaHwang
-#  sql:
+  profiles:
+    include: API-KEY
+  #  sql:
 #    init:
 #      mode: always
 
