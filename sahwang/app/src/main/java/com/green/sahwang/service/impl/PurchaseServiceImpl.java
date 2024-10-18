@@ -1,7 +1,10 @@
 package com.green.sahwang.service.impl;
 
 import com.green.sahwang.config.AvroToDBSerializer;
+import com.green.sahwang.dto.request.PurchaseReqDto;
+import com.green.sahwang.dto.response.PurchaseResDto;
 import com.green.sahwang.entity.*;
+import com.green.sahwang.entity.enumtype.OutboxStatus;
 import com.green.sahwang.entity.enumtype.PurchaseStatus;
 import com.green.sahwang.entity.product.Candle;
 import com.green.sahwang.exception.ProductDomainException;
@@ -33,21 +36,23 @@ public class PurchaseServiceImpl implements PurchaseService {
 
     @Override
     @Transactional
-    public void createPurchase(String memberId) {
+    public PurchaseResDto createPurchase(PurchaseReqDto purchaseReqDto) {
 
         // dto -> entity
         // 1. ModelMapper
         // 2. builder
         // 3. getter setter
         // entity <-> repository
-        Member member = memberRepository.findById(Long.valueOf(memberId))
+        Member member = memberRepository.findById(purchaseReqDto.getMemberId())
                 .orElseThrow(() -> new PurchaseDomainException("사용자를 찾을 수 없습니다."));
 
         // 나중에 소스 수정할 곳
         Candle candle1 = new Candle();
         Candle candle2 = new Candle();
         candle1.setName("초1");
+        candle1.setPrice(5);
         candle2.setName("초2");
+        candle2.setPrice(5);
         productRepository.save(candle1);
         productRepository.save(candle2);
 
@@ -55,6 +60,7 @@ public class PurchaseServiceImpl implements PurchaseService {
         Purchase purchase = Purchase.builder()
                 .member(member)
                 .purchaseStatus(PurchaseStatus.CREATED)
+                .totalPrice(candle1.getPrice() + candle2.getPrice())
                 .build();
         Purchase savedPurchase = purchaseRepository.save(purchase);
 
@@ -92,9 +98,13 @@ public class PurchaseServiceImpl implements PurchaseService {
 
         OutboxMessage outboxMessage = createPurchaseOutboxMessage(savedPurchase.getId(), purchaseCreatedEventAvroModel);
         log.info("outboxMessage = {}", outboxMessage.toString());
+
+        return PurchaseResDto.builder()
+                .purchaseId(purchase.getId())
+                .memberId(purchase.getMember().getId())
+                .build();
     }
 
-    // payload 직렬화는 추후에
     private OutboxMessage createPurchaseOutboxMessage(Long purchaseId, PurchaseCreatedEventAvroModel purchaseCreatedEventAvroModel) {
         OutboxMessage outboxMessage;
         try {
@@ -105,7 +115,7 @@ public class PurchaseServiceImpl implements PurchaseService {
                     .topicName("purchase-created")
                     .payload(AvroToDBSerializer.serialize(purchaseCreatedEventAvroModel))
                     .sequenceNumber(System.currentTimeMillis())
-                    .status("PENDING")
+                    .status(OutboxStatus.CREATED)
                     .createdAt(LocalDateTime.now())
                     .build();
         } catch (Exception e) {

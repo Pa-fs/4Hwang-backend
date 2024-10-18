@@ -1,5 +1,6 @@
 package com.green.sahwang.entity;
 
+import com.green.sahwang.entity.enumtype.OutboxStatus;
 import lombok.*;
 
 import javax.persistence.*;
@@ -34,7 +35,8 @@ public class OutboxMessage {
     @Column(nullable = false)
     private String topicName;
 
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private OutboxStatus status;
 
     private LocalDateTime createdAt;
 }

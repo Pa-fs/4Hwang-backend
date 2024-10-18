@@ -1,11 +1,10 @@
 package com.green.sahwang.service;
 
-import com.green.sahwang.entity.Product;
-
-import java.util.List;
+import com.green.sahwang.dto.request.PurchaseReqDto;
+import com.green.sahwang.dto.response.PurchaseResDto;
 
 public interface PurchaseService {
 
 //    void createPurchase(String memberId, List<Product> products);
-      void createPurchase(String memberId);
+      PurchaseResDto createPurchase(PurchaseReqDto purchaseReqDto);
 }

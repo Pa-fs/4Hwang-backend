@@ -1,5 +1,6 @@
 package com.green.sahwang.service.listener;
 
+import com.green.sahwang.controller.NotificationService;
 import com.green.sahwang.entity.DeliveryPurchase;
 import com.green.sahwang.kafka.consumer.service.KafkaConsumer;
 import com.green.sahwang.model.payment.avro.PurchasePaidEventAvroModel;
@@ -20,6 +21,7 @@ import java.util.List;
 public class PaymentPaidListener implements KafkaConsumer<PurchasePaidEventAvroModel> {
 
     private final DeliveryPurchaseService deliveryPurchaseService;
+    private final NotificationService notificationService;
 
     @KafkaListener(id = "${kafka-consumer-config.payment-consumer-group-id}",
             topics = "${payment-service.payment-paid-topic-name}")
@@ -34,6 +36,7 @@ public class PaymentPaidListener implements KafkaConsumer<PurchasePaidEventAvroM
                 partitions.toString(),
                 offsets.toString());
 
+        notificationService.broadCast(keys, messages);
         deliveryPurchaseService.processDeliveryPurchase(keys, messages);
     }
 }
