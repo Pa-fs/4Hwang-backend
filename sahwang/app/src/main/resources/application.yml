@@ -71,3 +71,11 @@ kafka-consumer-config:
   max-partition-fetch-bytes-default: 1048576
   max-partition-fetch-bytes-boost-factor: 1
   poll-timeout-ms: 150
+  retries: 3
+
+
+# for external payment api keys
+imp:
+  api:
+    key: 5282007136413765
+    apiSecret: i9czmtYON4Y8QqgDj3mq3qnkOmwHP6Fl5kCvbj0FItuW7ZjdRDUGqT3CAA3e2TwW0eBlE9JZCNHtHCmv

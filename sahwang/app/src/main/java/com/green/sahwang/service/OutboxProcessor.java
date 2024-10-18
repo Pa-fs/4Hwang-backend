@@ -2,6 +2,7 @@ package com.green.sahwang.service;
 
 import com.green.sahwang.config.DBToAvroDeserializer;
 import com.green.sahwang.entity.OutboxMessage;
+import com.green.sahwang.entity.enumtype.OutboxStatus;
 import com.green.sahwang.exception.DomainExcepton;
 import com.green.sahwang.exception.outbox.OutboxDeserializeEventException;
 import com.green.sahwang.model.purchase.avro.PurchaseCreatedEventAvroModel;
@@ -22,7 +23,7 @@ public class OutboxProcessor {
 
     @Scheduled(fixedRate = 3000)
     public void fetchOutboxMessage() {
-        List<OutboxMessage> pendingMessages = outboxRepository.findByStatus("PENDING");
+        List<OutboxMessage> pendingMessages = outboxRepository.findByStatusOrderByCreatedAt(OutboxStatus.PENDING);
 
         if(pendingMessages.isEmpty()) return;
 
@@ -39,7 +40,7 @@ public class OutboxProcessor {
 
             kafkaTemplate.send(outboxMessage.getTopicName(), outboxMessage.getAggregateId(), payload);
 
-            outboxMessage.setStatus("SENT");
+            outboxMessage.setStatus(OutboxStatus.SENT);
             outboxRepository.save(outboxMessage);
         }
     }

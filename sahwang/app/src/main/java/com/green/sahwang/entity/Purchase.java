@@ -41,16 +41,20 @@ public class Purchase {
     }
 
     public void pay() {
-        if (this.purchaseStatus != PurchaseStatus.PAY_WAIT) {
+        if (this.purchaseStatus != PurchaseStatus.CREATED) {
             throw new PurchaseDomainException("해당 구매번호는 " + this.getId() + " 결제준비 상태가 아닙니다!");
         }
         purchaseStatus = PurchaseStatus.PAID;
     }
 
-    public void doReadyForShip() {
+    public void validatePaidStatus() {
         if (this.purchaseStatus != PurchaseStatus.PAID) {
             throw new PurchaseDomainException("해당 구매번호는 " + this.getId() + " 결제완료 상태가 아닙니다!");
         }
+    }
+
+    public void doReadyForShip() {
+        validatePaidStatus();
         purchaseStatus = PurchaseStatus.SHIP_READY;
     }
 }

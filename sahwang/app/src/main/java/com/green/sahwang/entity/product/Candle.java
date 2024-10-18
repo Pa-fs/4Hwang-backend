@@ -14,5 +14,5 @@ import javax.persistence.Entity;
 @Builder
 @DiscriminatorValue("C")
 public class Candle extends Product {
-    private int BurningTime;
+    private int burningTime;
 }

@@ -11,6 +11,13 @@
 
     <artifactId>app</artifactId>
 
+    <repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -89,6 +96,13 @@
         <dependency>
             <groupId>com.green.sahwang</groupId>
             <artifactId>kafka-model</artifactId>
+        </dependency>
+
+        <!-- 결제 API -->
+        <dependency>
+            <groupId>com.github.iamport</groupId>
+            <artifactId>iamport-rest-client-java</artifactId>
+            <version>0.2.23</version>
         </dependency>
     </dependencies>
 

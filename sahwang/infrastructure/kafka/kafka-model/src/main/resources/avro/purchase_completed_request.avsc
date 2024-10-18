@@ -1,0 +1,13 @@
+{
+  "type": "record",
+  "name": "PurchaseCompletedEventAvroModel",
+  "namespace": "com.green.sahwang.model.purchase.avro",
+  "fields": [
+    { "name": "purchaseId", "type": "string" },
+    { "name": "memberId", "type": "string" },
+    {"name": "purchaseDate", "type": "long"},
+    {"name": "purchaseStatus", "type": "string"},
+    {"name": "totalAmount", "type": "int"},
+    {"name": "shippingAddress", "type": "string"}
+  ]
+}
