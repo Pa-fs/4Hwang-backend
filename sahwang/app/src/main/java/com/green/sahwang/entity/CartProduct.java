@@ -26,5 +26,4 @@ public class CartProduct {
     private Cart cart;
 
     private int quantity;
-
 }
