@@ -35,3 +35,4 @@ build/
 
 ### docker-compose log ###
 infrastructure/docker-compose/volumes/**
+app/src/main/resources/application-API-KEY.yml
