@@ -1,7 +1,6 @@
 package com.green.sahwang.service.listener;
 
 import com.green.sahwang.kafka.consumer.service.KafkaConsumer;
-import com.green.sahwang.model.order.avro.OrderCancelledEvent;
 import com.green.sahwang.model.purchase.avro.PurchaseCreatedEventAvroModel;
 import com.green.sahwang.service.PaymentService;
 import lombok.RequiredArgsConstructor;
@@ -25,8 +24,8 @@ public class PurchaseCreatedListener implements KafkaConsumer<PurchaseCreatedEve
             topics = "${purchase-service.purchase-created-topic-name}")
     @Override
     public void receive(@Payload List<PurchaseCreatedEventAvroModel> messages,
-                        @Header(KafkaHeaders.RECEIVED_MESSAGE_KEY) List<String> keys,
-                        @Header(KafkaHeaders.RECEIVED_PARTITION_ID) List<Integer> partitions,
+                        @Header(KafkaHeaders.RECEIVED_KEY) List<String> keys,
+                        @Header(KafkaHeaders.RECEIVED_PARTITION) List<Integer> partitions,
                         @Header(KafkaHeaders.OFFSET) List<Long> offsets) {
         log.info("{} number of payment responses received with keys:{}, partitions:{} and offsets: {}",
                 messages.size(),

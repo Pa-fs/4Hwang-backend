@@ -1,9 +1,9 @@
 package com.green.sahwang.entity;
 
 import com.green.sahwang.entity.enumtype.OutboxStatus;
+import jakarta.persistence.*;
 import lombok.*;
 
-import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
