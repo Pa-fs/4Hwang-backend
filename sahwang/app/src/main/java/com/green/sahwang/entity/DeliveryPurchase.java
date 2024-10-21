@@ -1,9 +1,9 @@
 package com.green.sahwang.entity;
 
 import com.green.sahwang.entity.enumtype.ShipStatus;
+import jakarta.persistence.*;
 import lombok.*;
 
-import javax.persistence.*;
 
 @Entity
 @AllArgsConstructor
