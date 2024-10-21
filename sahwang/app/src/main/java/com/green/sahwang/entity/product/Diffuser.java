@@ -14,4 +14,6 @@ import lombok.*;
 @DiscriminatorValue("D")
 public class Diffuser extends Product {
     private int scentTime;
+
+    private String accessory;
 }

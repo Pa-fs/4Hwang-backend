@@ -45,16 +45,16 @@ public class PaymentServiceImpl implements PaymentService {
 
     private IamportClient paymentExternalApi;
 
-    @Value("${imp.api.key}")
-    private String apiKey;
-
-    @Value("${imp.api.apiSecret}")
-    private String apiSecret;
-
-    @PostConstruct
-    public void init() {
-        this.paymentExternalApi = new IamportClient(apiKey, apiSecret);
-    }
+//    @Value("${imp.api.key}")
+//    private String apiKey;
+//
+//    @Value("${imp.api.apiSecret}")
+//    private String apiSecret;
+//
+//    @PostConstruct
+//    public void init() {
+//        this.paymentExternalApi = new IamportClient(apiKey, apiSecret);
+//    }
 
     @Override
     @Transactional

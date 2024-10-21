@@ -125,4 +125,5 @@ public class PurchaseServiceImpl implements PurchaseService {
         outboxRepository.save(outboxMessage);
         return outboxMessage;
     }
+
 }
