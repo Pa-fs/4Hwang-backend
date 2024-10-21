@@ -44,6 +44,7 @@ public abstract class Product {
     private Boolean usedOrNot;
 
     // 이건 어떻게???
-//    private
+//    private mainImage
+//    private adImage
 
 }
