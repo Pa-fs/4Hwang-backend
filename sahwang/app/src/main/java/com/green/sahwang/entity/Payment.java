@@ -1,11 +1,9 @@
 package com.green.sahwang.entity;
 
 import com.green.sahwang.entity.enumtype.PaymentType;
+import jakarta.persistence.*;
 import lombok.*;
 
-import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @AllArgsConstructor

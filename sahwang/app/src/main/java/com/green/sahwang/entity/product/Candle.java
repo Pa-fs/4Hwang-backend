@@ -1,10 +1,9 @@
 package com.green.sahwang.entity.product;
 
 import com.green.sahwang.entity.Product;
+import jakarta.persistence.*;
 import lombok.*;
 
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
 
 @Entity
 @AllArgsConstructor

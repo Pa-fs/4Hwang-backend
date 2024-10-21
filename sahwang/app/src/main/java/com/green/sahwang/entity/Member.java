@@ -2,11 +2,10 @@ package com.green.sahwang.entity;
 
 import com.green.sahwang.entity.enumtype.MemberRole;
 import com.green.sahwang.entity.enumtype.SnsType;
+import jakarta.persistence.*;
 import lombok.*;
 
-import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Date;
 
 @Entity
 @AllArgsConstructor
