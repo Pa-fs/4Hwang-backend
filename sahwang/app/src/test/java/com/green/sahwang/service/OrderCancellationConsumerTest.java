@@ -31,8 +31,8 @@ class OrderCancellationConsumerTest {
     @KafkaListener(id = "${kafka-consumer-config.purchase-consumer-group-id}1",
             topics = "${purchase-service.purchase-cancelled-topic-name}")
     public void receive(@Payload List<OrderCancelledEvent> messages,
-                        @Header(KafkaHeaders.RECEIVED_MESSAGE_KEY) List<String> keys,
-                        @Header(KafkaHeaders.RECEIVED_PARTITION_ID) List<Integer> partitions,
+                        @Header(KafkaHeaders.RECEIVED_KEY) List<String> keys,
+                        @Header(KafkaHeaders.RECEIVED_PARTITION) List<Integer> partitions,
                         @Header(KafkaHeaders.OFFSET) List<Long> offsets) {
         log.info("{} number of payment responses received with keys:{}, partitions:{} and offsets: {}",
                 messages.size(),

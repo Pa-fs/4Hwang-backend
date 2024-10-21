@@ -21,6 +21,7 @@ public class ProductController {
     @GetMapping("/best")
     public ResponseEntity<BestProductResDto> bestProduct(){
 
+        return null;
     }
 
 
