@@ -2,6 +2,7 @@ package com.green.sahwang.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.persister.entity.DiscriminatorType;
 
 import java.time.LocalDate;
 
@@ -18,6 +19,9 @@ public abstract class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_id")
     private Long id;
+
+    @Column(insertable = false, updatable = false)
+    private String dtype;
 
     private String name;
 
