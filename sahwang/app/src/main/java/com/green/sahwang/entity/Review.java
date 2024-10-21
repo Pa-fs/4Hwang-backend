@@ -30,4 +30,8 @@ public class Review {
 
     private LocalDate reviewModifiedDate;
 
+    private String content;
+
+    private double star;
+
 }
