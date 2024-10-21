@@ -16,6 +16,11 @@ public class ProductResDto {
 
     private String brandName;
 
+    private int price;
+
+    // review Service 만들어서
+    private int reviewCount;
+
     private List<ProductImageResDto> imageList;
 
 }
