@@ -10,7 +10,7 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     #    url: jdbc:mariadb://maria_container:3306/pmh
-    url: jdbc:mysql://localhost:3309/fourhwang
+    url: jdbc:mysql://192.168.0.216:3307/fourhwang
     username: root
     password: 1234
 
@@ -72,4 +72,3 @@ kafka-consumer-config:
   max-poll-records: 500
   max-partition-fetch-bytes-default: 1048576
   max-partition-fetch-bytes-boost-factor: 1
-  poll-timeout-ms: 150
