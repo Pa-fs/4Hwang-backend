@@ -10,6 +10,7 @@ values (2, 'Diffuser');
 insert into category(category_id, name)
 values (3, 'Perfume');
 
+DELETE FROM `brand`;
 insert into brand(brand_id, name)
 values (1, 'Ferrari');
 insert into brand(brand_id, name)
@@ -31,6 +32,7 @@ values (9, 'Santa Maria Novella');
 insert into brand(brand_id, name)
 values (10, 'Baobab collection');
 
+DELETE FROM `category_brand`;
 insert into category_brand(category_brand_id, category_id, brand_id, created_date)
 values (1, 3, 1, now());
 insert into category_brand(category_brand_id, category_id, brand_id, created_date)
@@ -67,6 +69,7 @@ LIMIT 0, 1000
 
 -- Date: 2024-10-22 03:00
 */
+DELETE FROM `product`;
 INSERT INTO `product` (`dtype`,`product_id`,`content`,`expiration_period`,`member_buy_date`,`name`,`price`,`production_date`,`purpose`,`size`,`used_or_not`,`volume`,`brand_id`,`burning_time`,`scent_time`,`duration_time`,`gender`,`type`) VALUES ('P',1,'플로럴한 하트 노트, 이를 감싸주는 베이스 노트가 조화를 이루며 밝고 투명한 탑 노트로 움직이는 물의 상쾌함과 생명력을 포착합니다','2024-10-21','2024-10-21','아쿠아 오드퍼퓸',365000,'2024-10-21','',100,0,0,9,0,0,0,NULL,NULL);
 INSERT INTO `product` (`dtype`,`product_id`,`content`,`expiration_period`,`member_buy_date`,`name`,`price`,`production_date`,`purpose`,`size`,`used_or_not`,`volume`,`brand_id`,`burning_time`,`scent_time`,`duration_time`,`gender`,`type`) VALUES ('P',4,'플로럴한 하트 노트, 이를 감싸주는 베이스 노트가 조화를 이루며 밝고 투명한 탑 노트로 움직이는 물의 상쾌함과 생명력을 포착합니다','2024-10-21','2024-10-21','퀘르치아 오드퍼퓸',245000,'2024-10-21','',50,0,0,9,0,0,0,NULL,NULL);
 INSERT INTO `product` (`dtype`,`product_id`,`content`,`expiration_period`,`member_buy_date`,`name`,`price`,`production_date`,`purpose`,`size`,`used_or_not`,`volume`,`brand_id`,`burning_time`,`scent_time`,`duration_time`,`gender`,`type`) VALUES ('P',5,'플로럴한 하트 노트, 이를 감싸주는 베이스 노트가 조화를 이루며 밝고 투명한 탑 노트로 움직이는 물의 상쾌함과 생명력을 포착합니다','2024-10-21','2024-10-21','퀘르치아 오드퍼퓸',365000,'2024-10-21','',100,0,0,9,0,0,0,NULL,NULL);

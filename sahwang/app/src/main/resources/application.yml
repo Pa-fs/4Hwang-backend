@@ -3,25 +3,25 @@ spring:
     name: SaHwang
   profiles:
     include: API-KEY
-#  sql:
-#    init:
-#      mode: always
+  sql:
+    init:
+      mode: always
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     #    url: jdbc:mariadb://maria_container:3306/pmh
-    url: jdbc:mysql://192.168.0.216:3307/fourhwang
+    url: jdbc:mysql://localhost:3309/fourhwang
     username: root
     password: 1234
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     properties:
       hibernate.format_sql: true
     show-sql: true
     open-in-view: false
-#    defer-datasource-initialization: true
+    defer-datasource-initialization: true
 
 # for kafka
 # business logic service with kafka topic

@@ -5,6 +5,7 @@ import lombok.*;
 import org.hibernate.persister.entity.DiscriminatorType;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @AllArgsConstructor
@@ -39,11 +40,11 @@ public abstract class Product {
 
     private String purpose;
 
-    private LocalDate productionDate;
+    private LocalDateTime productionDate;
 
-    private LocalDate memberBuyDate;
+    private LocalDateTime memberBuyDate;
 
-    private LocalDate expirationPeriod;
+    private LocalDateTime expirationPeriod;
 
     private Boolean usedOrNot;
 
@@ -51,4 +52,8 @@ public abstract class Product {
 //    private mainImage
 //    private adImage
 
+    @Column(updatable = false)
+    private LocalDateTime registerDate;
+
+    private LocalDateTime modifyDate;
 }

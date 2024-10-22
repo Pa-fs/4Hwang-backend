@@ -9,8 +9,6 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-import java.util.List;
-
 public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findProductsByDtype(Pageable pageable, String dtype);
 
@@ -18,4 +16,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @Query(value = "SELECT * FROM product p WHERE p.dtype= :dtype", nativeQuery = true)
     List<Product> findAllByDtype(@Param("dtype") String type);
+
+    @Query("SELECT p FROM Product p ORDER BY FUNCTION('RAND')")
+    List<Product> findRandomProducts(Pageable pageable);
 }
