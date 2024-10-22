@@ -12,7 +12,10 @@ import java.util.List;
 import java.util.List;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
+    List<Product> findProductsByDtype(Pageable pageable, String dtype);
+
     List<Product> findProductsByBrandAndDtype(Brand brand, Pageable pageable, String dtype);
+
     @Query(value = "SELECT * FROM product p WHERE p.dtype= :dtype", nativeQuery = true)
     List<Product> findAllByDtype(@Param("dtype") String type);
 }

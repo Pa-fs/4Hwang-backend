@@ -1,6 +1,5 @@
 package com.green.sahwang.dto.response;
 
-import com.green.sahwang.entity.Product;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,14 +9,14 @@ import java.util.List;
 @Getter
 @Setter
 @Builder
-public class ProductResponse {
+public class ProductResInBrandDto {
 
     private Long productId;
     private String productName;
     private int price;
-    private List<ImageResponse> images;
+    private List<ImageResDto> images;
 
-    public ProductResponse(Long productId, String productName, int price, List<ImageResponse> images) {
+    public ProductResInBrandDto(Long productId, String productName, int price, List<ImageResDto> images) {
         this.productId = productId;
         this.productName = productName;
         this.price = price;

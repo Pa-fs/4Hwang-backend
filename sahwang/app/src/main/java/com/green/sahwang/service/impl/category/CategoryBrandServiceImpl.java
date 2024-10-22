@@ -1,14 +1,16 @@
 package com.green.sahwang.service.impl.category;
 
-import com.green.sahwang.dto.response.BrandProductResponse;
-import com.green.sahwang.dto.response.ImageResponse;
-import com.green.sahwang.dto.response.ProductResponse;
+import com.green.sahwang.dto.response.BrandProductResDto;
+import com.green.sahwang.dto.response.ImageResDto;
+import com.green.sahwang.dto.response.ProductResDto;
+import com.green.sahwang.dto.response.ProductResInBrandDto;
 import com.green.sahwang.entity.Brand;
 import com.green.sahwang.entity.Category;
 import com.green.sahwang.entity.Product;
 import com.green.sahwang.entity.ProductImage;
 import com.green.sahwang.exception.CategoryDomainException;
 import com.green.sahwang.repository.*;
+import com.green.sahwang.service.ReviewService;
 import com.green.sahwang.service.category.CategoryBrandService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +33,41 @@ public class CategoryBrandServiceImpl implements CategoryBrandService {
     private final CategoryBrandRepository categoryBrandRepository;
     private final ProductRepository productRepository;
     private final ProductImageRepository productImageRepository;
+    private final ReviewService reviewService;
+
+    @Override
+    @Transactional
+    public List<ProductResDto> getProductsByCategory(Long categoryId, int pageNum, int size, String sortType) {
+        Category category = categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new CategoryDomainException("해당 카테고리는 존재하지 않습니다"));
+        // 개선 여지 코드
+        String dType = String.valueOf(category.getName().charAt(0)).toUpperCase();
+
+        Pageable pageable = PageRequest.of(pageNum, size, Sort.by(Sort.Direction.DESC, sortType));
+        List<Product> products = productRepository.findProductsByDtype(pageable, dType);
+
+        List<ProductResDto> productResDtoList = products.stream()
+                .map(product -> {
+                    List<ProductImage> productImages = productImageRepository.findByProduct(product);
+
+                    List<ImageResDto> imageResponses = productImages.stream()
+                            .map(image -> new ImageResDto(image.getFilename(), image.getPath(), image.getFileDesc()))
+                            .toList();
+
+                    return new ProductResDto(product.getId(),
+                            product.getName(),
+                            product.getContent(),
+                            product.getDtype(),
+                            product.getBrand().getName(),
+                            product.getPrice(),
+                            reviewService.reviewCount(product),
+                            imageResponses  // 이미지 리스트 포함
+                    );
+                })
+                .toList();
+
+        return productResDtoList;
+    }
 
     @Transactional(readOnly = true)
     public CategoryBrandResponse getBrandsAndProductsByCategory(Long categoryId, int pageNum, int size, String sortType) {
@@ -54,7 +91,7 @@ public class CategoryBrandServiceImpl implements CategoryBrandService {
         int totalSum = 0;
         int currentPage = pageNum;
 
-        List<BrandProductResponse> brandProductResponses = new ArrayList<>();
+        List<BrandProductResDto> brandProductResponses = new ArrayList<>();
 
         for (Brand brand : brands) {
             // 남은 상품 수가 없으면 종료
@@ -68,15 +105,15 @@ public class CategoryBrandServiceImpl implements CategoryBrandService {
 
             // 남은 개수만큼 상품을 제한해서 가져옴
             int remainingSlots = totalLimit - totalSum;
-            List<ProductResponse> limitedProducts = products.stream()
+            List<ProductResInBrandDto> limitedProducts = products.stream()
                     .map(product -> {
                         List<ProductImage> productImages = productImageRepository.findByProduct(product);
 
-                        List<ImageResponse> imageResponses = productImages.stream()
-                                .map(image -> new ImageResponse(image.getFilename(), image.getPath(), image.getFileDesc()))
+                        List<ImageResDto> imageResponses = productImages.stream()
+                                .map(image -> new ImageResDto(image.getFilename(), image.getPath(), image.getFileDesc()))
                                 .toList();
 
-                        return new ProductResponse(
+                        return new ProductResInBrandDto(
                                 product.getId(),
                                 product.getName(),
                                 product.getPrice(),
@@ -86,7 +123,7 @@ public class CategoryBrandServiceImpl implements CategoryBrandService {
                     .limit(remainingSlots)
                     .toList();
 
-            brandProductResponses.add(new BrandProductResponse(brand, limitedProducts));
+            brandProductResponses.add(new BrandProductResDto(brand, limitedProducts));
 
             // 가져온 상품 누적
             totalSum += limitedProducts.size();

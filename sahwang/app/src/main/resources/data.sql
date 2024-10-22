@@ -100,3 +100,30 @@ INSERT INTO `product` (`dtype`,`product_id`,`content`,`expiration_period`,`membe
 INSERT INTO `product` (`dtype`,`product_id`,`content`,`expiration_period`,`member_buy_date`,`name`,`price`,`production_date`,`purpose`,`size`,`used_or_not`,`volume`,`brand_id`,`burning_time`,`scent_time`,`duration_time`,`gender`,`type`) VALUES ('D',32,'플로럴한 하트 노트, 이를 감싸주는 베이스 노트가 조화를 이루며 밝고 투명한 탑 노트로 움직이는 물의 상쾌함과 생명력을 포착합니다','2024-10-21','2024-10-21','리드 디퓨저 베이',279000,'2024-10-21','bottle',200,0,0,6,0,0,0,NULL,NULL);
 INSERT INTO `product` (`dtype`,`product_id`,`content`,`expiration_period`,`member_buy_date`,`name`,`price`,`production_date`,`purpose`,`size`,`used_or_not`,`volume`,`brand_id`,`burning_time`,`scent_time`,`duration_time`,`gender`,`type`) VALUES ('D',33,'플로럴한 하트 노트, 이를 감싸주는 베이스 노트가 조화를 이루며 밝고 투명한 탑 노트로 움직이는 물의 상쾌함과 생명력을 포착합니다','2024-10-21','2024-10-21','리드 디퓨저 테스트',279000,'2024-10-21','bottle',200,0,0,6,0,0,0,NULL,NULL);
 INSERT INTO `product` (`dtype`,`product_id`,`content`,`expiration_period`,`member_buy_date`,`name`,`price`,`production_date`,`purpose`,`size`,`used_or_not`,`volume`,`brand_id`,`burning_time`,`scent_time`,`duration_time`,`gender`,`type`) VALUES ('D',34,'플로럴한 하트 노트, 이를 감싸주는 베이스 노트가 조화를 이루며 밝고 투명한 탑 노트로 움직이는 물의 상쾌함과 생명력을 포착합니다','2024-10-21','2024-10-21','리드 디퓨저 테스트테스트',279000,'2024-10-21','bottle',200,0,0,6,0,0,0,NULL,NULL);
+
+DELETE FROM `product_image`;
+INSERT INTO `product_image` (`product_image_id`, `file_desc`, `filename`, `path`, `product_id`) VALUES
+	(1, 'perfume1', 'p_001', 'images/file/\\p_001.png', 1),
+	(2, 'perfume2', 'p_002', 'images/file/\\p_002.png', 2),
+	(3, 'perfume3', 'p_003', 'images/file/\\p_003.png', 3),
+	(4, 'perfume4', 'p_004', 'images/file/\\p_004.png', 4),
+	(5, 'perfume5', 'p_005', 'images/file/\\p_005.png', 5),
+	(6, 'perfume6', 'p_006', 'images/file/\\p_006.png', 6),
+	(7, 'perfume7', 'p_007', 'images/file/\\p_007.png', 7),
+	(8, 'perfume8', 'p_008', 'images/file/\\p_008.png', 8),
+	(9, 'candle1', 'c_001', 'images/file/\\c_001.jpg', 9),
+	(10, 'candle2', 'c_002', 'images/file/\\c_002.jpg', 10),
+	(11, 'candle3', 'c_003', 'images/file/\\c_003.jpg', 11),
+	(12, 'candle4', 'c_004', 'images/file/\\c_004.jpg', 12),
+	(13, 'candle5', 'c_005', 'images/file/\\c_005.jpg', 13),
+	(14, 'candle6', 'c_006', 'images/file/\\c_006.jpg', 14),
+	(15, 'candle7', 'c_007', 'images/file/\\c_007.jpg', 15),
+	(16, 'candle8', 'c_008', 'images/file/\\c_008.jpg', 16),
+	(17, 'diffuser1', 'd_001', 'images/file/\\d_001.png', 17),
+	(18, 'diffuser2', 'd_002', 'images/file/\\d_002.png', 18),
+	(19, 'diffuser3', 'd_003', 'images/file/\\d_003.jpg', 19),
+	(20, 'diffuser4', 'd_004', 'images/file/\\d_004.jpg', 20),
+	(21, 'diffuser5', 'd_005', 'images/file/\\d_005.jpg', 21),
+	(22, 'diffuser6', 'd_006', 'images/file/\\d_006.jpg', 22),
+	(23, 'diffuser7', 'd_007', 'images/file/\\d_007.jpg', 23),
+	(24, 'diffuser8', 'd_008', 'images/file/\\d_008.jpg', 24);
