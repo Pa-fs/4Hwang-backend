@@ -1,9 +1,6 @@
 package com.green.sahwang.service.impl.category;
 
-import com.green.sahwang.dto.response.BrandProductResDto;
-import com.green.sahwang.dto.response.ImageResDto;
-import com.green.sahwang.dto.response.ProductResDto;
-import com.green.sahwang.dto.response.ProductResInBrandDto;
+import com.green.sahwang.dto.response.*;
 import com.green.sahwang.entity.Brand;
 import com.green.sahwang.entity.Category;
 import com.green.sahwang.entity.Product;
@@ -70,7 +67,7 @@ public class CategoryBrandServiceImpl implements CategoryBrandService {
     }
 
     @Transactional(readOnly = true)
-    public CategoryBrandResponse getBrandsAndProductsByCategory(Long categoryId, int pageNum, int size, String sortType) {
+    public CategoryBrandResDto getBrandsAndProductsByCategory(Long categoryId, int pageNum, int size, String sortType) {
         Category category = categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new CategoryDomainException("해당 카테고리는 존재하지 않습니다"));
         List<Brand> brands = categoryBrandRepository.findBrandsByCategoryId(categoryId);
@@ -134,6 +131,6 @@ public class CategoryBrandServiceImpl implements CategoryBrandService {
             }
         }
 
-        return new CategoryBrandResponse(brandProductResponses);
+        return new CategoryBrandResDto(brandProductResponses);
     }
 }

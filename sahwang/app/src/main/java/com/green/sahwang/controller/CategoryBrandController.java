@@ -2,7 +2,7 @@ package com.green.sahwang.controller;
 
 import com.green.sahwang.dto.response.ProductResDto;
 import com.green.sahwang.service.category.CategoryBrandService;
-import com.green.sahwang.service.impl.category.CategoryBrandResponse;
+import com.green.sahwang.dto.response.CategoryBrandResDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -31,12 +31,12 @@ public class CategoryBrandController {
     }
 
     @GetMapping("/{categoryId}/brands-products")
-    public ResponseEntity<CategoryBrandResponse> getBrandsAndProducts(
+    public ResponseEntity<CategoryBrandResDto> getBrandsAndProducts(
             @PathVariable(name = "categoryId") Long categoryId,
             @RequestParam(name = "pageNum", defaultValue = "0") int pageNum,
             @RequestParam(name = "size", defaultValue = "8") int size,
             @RequestParam(name = "sortType", defaultValue = "productionDate") String sortType) {
-        CategoryBrandResponse response = categoryBrandService
+        CategoryBrandResDto response = categoryBrandService
                 .getBrandsAndProductsByCategory(categoryId, pageNum, size, sortType);
 
         return ResponseEntity.ok(response);
