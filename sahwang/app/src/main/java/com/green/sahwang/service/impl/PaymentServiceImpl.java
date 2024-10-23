@@ -73,7 +73,7 @@ public class PaymentServiceImpl implements PaymentService {
 
             List<PurchaseProduct> orderedProducts = new ArrayList<>();
             // PaymentServiceHelper ...
-            List<PurchaseCreatedEventAvroModel> collect = messages.stream().collect(Collectors.toList());
+            List<PurchaseCreatedEventAvroModel> collect = messages.stream().toList();
             for (PurchaseCreatedEventAvroModel purchaseCreatedEventAvroModel : collect) {
 
                 List<ProductAvroModel> products = purchaseCreatedEventAvroModel.getProducts();

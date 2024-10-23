@@ -1,13 +1,21 @@
 package com.green.sahwang.service.impl;
 
 import com.green.sahwang.dto.response.BestProductResDto;
+import com.green.sahwang.dto.response.ImageResDto;
 import com.green.sahwang.dto.response.ProductImageResDto;
 import com.green.sahwang.dto.response.ProductResDto;
 import com.green.sahwang.entity.Product;
+import com.green.sahwang.entity.ProductImage;
 import com.green.sahwang.repository.ProductImageRepository;
 import com.green.sahwang.repository.ProductRepository;
 import com.green.sahwang.service.ProductService;
+import com.green.sahwang.service.ReviewService;
 import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.NotNull;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +28,7 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
     private final ProductImageRepository productImageRepository;
+    private final ReviewService reviewService;
 
     @Override
     @Transactional
@@ -33,6 +42,52 @@ public class ProductServiceImpl implements ProductService {
         List<ProductImageResDto> productImageResDtos = new ArrayList<>();
 
         return null;
+    }
+    @Override
+    @Transactional(readOnly = true)
+    public List<ProductResDto> getRandomProducts(int pageNum, int size) {
+        Pageable pageable = PageRequest.of(pageNum, size);
+        List<Product> randomProducts = productRepository.findRandomProducts(pageable);
+        return getProductResDtos(randomProducts);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<ProductResDto> getNewProducts(int pageNum, int size) {
+        Pageable pageable = PageRequest.of(pageNum, size, Sort.by("registerDate").descending());
+        Page<Product> products = productRepository.findAll(pageable);
+        return getProductResDtos(products.stream().toList());
+    }
+
+    @NotNull
+    private List<ProductResDto> getProductResDtos(List<Product> products) {
+        List<ProductResDto> productResDtoList = products.stream()
+                .map(product -> {
+                    List<ProductImage> productImages = productImageRepository.findByProduct(product);
+                    List<ImageResDto> images = productImages.stream()
+                            .map(productImage -> {
+                                ImageResDto imageResDto = new ImageResDto(
+                                        productImage.getFilename(),
+                                        productImage.getPath(),
+                                        productImage.getFileDesc()
+                                );
+                                return imageResDto;
+                            }).toList();
+
+                    ProductResDto productResDto = new ProductResDto(
+                            product.getId(),
+                            product.getName(),
+                            product.getContent(),
+                            product.getDtype(),
+                            product.getBrand().getName(),
+                            product.getPrice(),
+                            reviewService.reviewCount(product),
+                            images
+                    );
+                    return productResDto;
+                })
+                .toList();
+        return productResDtoList;
     }
 
 }

@@ -31,6 +31,7 @@
 		<snappy.version>1.1.8.4</snappy.version>
 		<jwt.version>0.12.3</jwt.version>
 		<modelmapper.version>3.2.1</modelmapper.version>
+		<springdoc-openapi-starter-webmvc-ui.version>2.6.0</springdoc-openapi-starter-webmvc-ui.version>
 	</properties>
 
 	<dependencyManagement>
@@ -93,6 +94,7 @@
 				<version>${modelmapper.version}</version>
 			</dependency>
 		</dependencies>
+
 	</dependencyManagement>
 
 	<dependencies>
@@ -106,6 +108,12 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-logging</artifactId>
 			<version>${spring-boot.version}</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui -->
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+			<version>${springdoc-openapi-starter-webmvc-ui.version}</version>
 		</dependency>
 	</dependencies>
 
