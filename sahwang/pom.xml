@@ -29,6 +29,8 @@
 		<kafka-avro-serializer.version>7.2.1</kafka-avro-serializer.version>
 		<avro.version>1.11.3</avro.version>
 		<snappy.version>1.1.8.4</snappy.version>
+		<jwt.version>0.12.3</jwt.version>
+		<modelmapper.version>3.2.1</modelmapper.version>
 		<springdoc-openapi-starter-webmvc-ui.version>2.6.0</springdoc-openapi-starter-webmvc-ui.version>
 	</properties>
 
@@ -66,6 +68,30 @@
 				<groupId>org.xerial.snappy</groupId>
 				<artifactId>snappy-java</artifactId>
 				<version>${snappy.version}</version>
+			</dependency>
+
+			<!-- jwt token 시작-->
+			<dependency>
+				<groupId>io.jsonwebtoken</groupId>
+				<artifactId>jjwt-api</artifactId>
+				<version>${jwt.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.jsonwebtoken</groupId>
+				<artifactId>jjwt-impl</artifactId>
+				<version>${jwt.version}</version>
+				<scope>runtime</scope>
+			</dependency>
+			<dependency>
+				<groupId>io.jsonwebtoken</groupId>
+				<artifactId>jjwt-jackson</artifactId>
+				<version>${jwt.version}</version>
+			</dependency>
+			<!-- jwt token 끝-->
+			<dependency>
+				<groupId>org.modelmapper</groupId>
+				<artifactId>modelmapper</artifactId>
+				<version>${modelmapper.version}</version>
 			</dependency>
 		</dependencies>
 
