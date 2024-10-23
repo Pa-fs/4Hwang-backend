@@ -1,6 +1,6 @@
 package com.green.sahwang.exception;
 
-public class PurchaseDomainException extends DomainExcepton {
+public class PurchaseDomainException extends DomainException {
 
     public PurchaseDomainException(String message) {
         super(message);

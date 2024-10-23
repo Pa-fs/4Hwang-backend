@@ -1,6 +1,6 @@
 package com.green.sahwang.exception;
 
-public class CartDomainException extends DomainExcepton {
+public class CartDomainException extends DomainException {
 
     public CartDomainException(String message) {
         super(message);

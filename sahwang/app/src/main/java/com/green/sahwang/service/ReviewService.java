@@ -8,5 +8,4 @@ import java.util.List;
 public interface ReviewService {
 
     int reviewCount(Product product);
-
 }

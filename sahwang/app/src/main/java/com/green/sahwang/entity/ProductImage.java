@@ -25,5 +25,7 @@ public class ProductImage {
 
     private String filename;
 
+    private String fileDesc;
+
 
 }

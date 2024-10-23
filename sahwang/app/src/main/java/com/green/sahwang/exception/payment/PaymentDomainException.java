@@ -1,8 +1,8 @@
 package com.green.sahwang.exception.payment;
 
-import com.green.sahwang.exception.DomainExcepton;
+import com.green.sahwang.exception.DomainException;
 
-public class PaymentDomainException extends DomainExcepton {
+public class PaymentDomainException extends DomainException {
 
     public PaymentDomainException(String message) {
         super(message);

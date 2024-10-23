@@ -3,14 +3,11 @@ package com.green.sahwang.service;
 import com.green.sahwang.config.DBToAvroDeserializer;
 import com.green.sahwang.entity.OutboxMessage;
 import com.green.sahwang.entity.enumtype.OutboxStatus;
-import com.green.sahwang.exception.DomainExcepton;
 import com.green.sahwang.exception.outbox.OutboxDeserializeEventException;
-import com.green.sahwang.model.purchase.avro.PurchaseCreatedEventAvroModel;
 import com.green.sahwang.repository.OutboxRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
