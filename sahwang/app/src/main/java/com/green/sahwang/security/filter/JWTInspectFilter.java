@@ -18,6 +18,8 @@ public class JWTInspectFilter extends OncePerRequestFilter {
     public void doFilterInternal(HttpServletRequest request,
                                  HttpServletResponse response,
                                  FilterChain filterChain) throws ServletException, IOException{
+
+
         filterChain.doFilter(request, response);
     }
 

@@ -61,6 +61,7 @@ public class KakaoServiceImpl implements KakaoService{
                     KakaoUserInfoDto.class);
             KakaoUserInfoDto kakaoUserInfoDto = res.getBody();
 
+//            Kakao Entity는 DB 저장 필요가 없어서...
 //            Kakao kakao = new ModelMapper().map(kakaoTokenDto, Kakao.class);
 //
 //            kakao.setEmail(kakaoUserInfoDto.getKakaoAccount().getEmail());
@@ -68,7 +69,7 @@ public class KakaoServiceImpl implements KakaoService{
 //            kakao.setProfileImage(kakaoUserInfoDto.getProperties().getProfileImage());
 //            kakao.setThumbnailImage(kakaoUserInfoDto.getProperties().getThumbnailImage());
 //
-//            kakaoRepository.save(kakao);
+//            kakaoRepository.save(kakao); // kakaorepository는 삭제했음
 
             String email = kakaoUserInfoDto.getKakaoAccount().getEmail();
 
