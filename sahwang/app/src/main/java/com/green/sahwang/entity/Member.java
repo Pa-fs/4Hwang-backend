@@ -38,7 +38,7 @@ public class Member {
     private SnsType snsType;
 
     // kakao 로그인 할때 가져옴
-    @Column(name = "nickname")
+    @Column(name = "nick_name")
     private String nickName;
 
     private Boolean adReceived;
