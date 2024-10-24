@@ -20,6 +20,7 @@ public class KakaoController {
     public ResponseEntity<String> kakaoCode(@RequestParam(value = "code") String code){
         String jwt = kakaoService.getToken(code);
 
+
         return ResponseEntity.ok(jwt);
     }
 

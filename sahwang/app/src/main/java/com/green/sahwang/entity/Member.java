@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @AllArgsConstructor
@@ -22,17 +23,22 @@ public class Member {
 
     private String name;
 
+    // kakao 로그인 할때 가져옴
     @Enumerated(EnumType.STRING)
     private MemberRole role;
 
     private String phoneNum;
 
+    // kakao 로그인 할때 가져옴
     private String email;
 
     private String address;
 
+    // kakao 로그인 할때 가져옴
     private SnsType snsType;
 
+    // kakao 로그인 할때 가져옴
+    @Column(name = "nickname")
     private String nickName;
 
     private Boolean adReceived;
@@ -41,11 +47,15 @@ public class Member {
 
     private Boolean isDeleted;
 
-    private LocalDate joinDate;
+    // kakao 로그인 할때 가져옴
+    private LocalDateTime joinDate;
 
-    private LocalDate withdrawDate;
+    private LocalDateTime withdrawDate;
 
-    // 이건 어떻게 해야되???
-//    private
+    // kakao 로그인 할때 가져옴
+    private String profileImage;
+
+    // kakao 로그인 할때 가져옴
+    private String thumbnailImage;
 
 }
