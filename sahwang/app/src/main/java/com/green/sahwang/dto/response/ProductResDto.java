@@ -1,8 +1,10 @@
 package com.green.sahwang.dto.response;
 
+import com.green.sahwang.config.DateTimeUtils;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -24,6 +26,8 @@ public class ProductResDto {
     // review Service 만들어서
     private int reviewCount;
 
+    private String registerDate;
+
     private List<ImageResDto> images;
 
     public ProductResDto(Long productId,
@@ -33,6 +37,7 @@ public class ProductResDto {
                          String brandName,
                          int price,
                          int reviewCount,
+                         String registerDate,
                          List<ImageResDto> images) {
         this.productId = productId;
         this.productName = productName;
@@ -41,6 +46,7 @@ public class ProductResDto {
         this.brandName = brandName;
         this.price = price;
         this.reviewCount = reviewCount;
+        this.registerDate = registerDate;
         this.images = images;
     }
 }

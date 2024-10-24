@@ -6,10 +6,9 @@ import com.green.sahwang.entity.Product;
 import java.util.List;
 
 public interface ProductService {
-
-    List<Product> productList();
-
     List<ProductResDto> getRandomProducts(int pageNum, int size);
 
     List<ProductResDto> getNewProducts(int pageNum, int size);
+
+    List<ProductResDto> getBestProducts(int pageNum, int size);
 }
