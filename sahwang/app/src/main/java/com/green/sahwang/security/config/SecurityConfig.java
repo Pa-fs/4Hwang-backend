@@ -1,5 +1,7 @@
 package com.green.sahwang.security.config;
 
+import com.green.sahwang.security.filter.JWTUtils;
+import com.green.sahwang.security.filter.SecurityFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -7,6 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -22,6 +25,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth.requestMatchers("/**").permitAll())
 //                .authorizeHttpRequests(auth -> auth.requestMatchers("/kakao/login").permitAll())
 //                .authorizeHttpRequests(auth -> auth.requestMatchers("/kakao/msg").authenticated())
+                .addFilterAt(new SecurityFilter(new JWTUtils()), UsernamePasswordAuthenticationFilter.class)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         return httpSecurity.build();
