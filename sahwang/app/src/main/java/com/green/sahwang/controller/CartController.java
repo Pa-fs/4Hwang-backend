@@ -1,6 +1,7 @@
 package com.green.sahwang.controller;
 
 import com.green.sahwang.dto.request.CartProductsReqDto;
+import com.green.sahwang.dto.request.TestCartProductsReqDto;
 import com.green.sahwang.service.cart.CartService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,8 +25,9 @@ public class CartController {
     }
 
     @DeleteMapping("remove")
-    public ResponseEntity<String> removeProducts(@RequestBody CartProductsReqDto cartProductsReqDto) {
-        cartService.removeProductFromCart(cartProductsReqDto.getMemberId(), cartProductsReqDto.getProductId());
+    public ResponseEntity<String> removeProducts(@RequestBody List<TestCartProductsReqDto> testCartProductsReqDtos) {
+        log.info("testDtos : {}", testCartProductsReqDtos);
+        cartService.removeProductFromCart(testCartProductsReqDtos);
         return ResponseEntity.ok("delete products in cart");
     }
 }

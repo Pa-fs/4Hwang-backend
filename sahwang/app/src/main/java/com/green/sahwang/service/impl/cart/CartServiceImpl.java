@@ -1,11 +1,11 @@
 package com.green.sahwang.service.impl.cart;
 
+import com.green.sahwang.dto.request.TestCartProductsReqDto;
 import com.green.sahwang.entity.Cart;
 import com.green.sahwang.entity.CartProduct;
 import com.green.sahwang.entity.Member;
 import com.green.sahwang.entity.Product;
 import com.green.sahwang.exception.CartDomainException;
-import com.green.sahwang.exception.CartProductDomainException;
 import com.green.sahwang.exception.ProductDomainException;
 import com.green.sahwang.repository.CartProductRepository;
 import com.green.sahwang.repository.CartRepository;
@@ -16,6 +16,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -65,29 +67,23 @@ public class CartServiceImpl implements CartService {
 
     @Override
     @Transactional
-    public Cart removeProductFromCart(Long memberId, Long productId) {
-        Member member = getMemberById(memberId);
-        Cart cart = cartRepository.findByMember(member)
-                .orElseThrow(() -> new CartDomainException("해당 회원의 장바구니를 찾을 수 없습니다"));
-
-        Product product = productRepository.findById(productId)
-                .orElseThrow(() -> new ProductDomainException("productId " + productId + " 해당 제품이 존재하지 않습니다"));
-
-        CartProduct cartProduct = cartProductRepository.findByCartAndProduct(cart, product)
-                .orElseThrow(() -> new CartProductDomainException("해당 제품이 장바구니에 존재하지 않습니다"));
-
-        cartProductRepository.delete(cartProduct);
-        return cart;
-    }
-
-    @Override
-    @Transactional
     public void clearCart(Long memberId) {
         Member member = getMemberById(memberId);
         Cart cart = cartRepository.findByMember(member)
                 .orElseThrow(() -> new CartDomainException("해당 회원의 장바구니를 찾을 수 없습니다"));
 
         cartProductRepository.deleteAllByCart(cart);
+    }
+
+    @Override
+    @Transactional
+    public void removeProductFromCart(List<TestCartProductsReqDto> cartProductsReqDtos) {
+        List<Product> products = cartProductsReqDtos.stream()
+                .map(cartProductsReqDto -> productRepository.findById(cartProductsReqDto.getProductId())
+                        .orElseThrow(() -> new ProductDomainException("productId " + cartProductsReqDto.getProductId() + " 해당 제품이 존재하지 않습니다"))).toList();
+
+        List<CartProduct> cartProducts = cartProductRepository.findAllByProductIn(products);
+        cartProductRepository.deleteAll(cartProducts);
     }
 
     private Cart createNewCartForMember(Member member) {

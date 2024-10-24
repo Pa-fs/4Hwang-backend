@@ -1,7 +1,9 @@
 package com.green.sahwang.service.cart;
 
-import com.green.sahwang.dto.response.ProductResDto;
+import com.green.sahwang.dto.request.TestCartProductsReqDto;
 import com.green.sahwang.entity.Cart;
+
+import java.util.List;
 
 public interface CartService {
 
@@ -9,7 +11,7 @@ public interface CartService {
 
     Cart addProductToCart(Long memberId, Long productId, int quantity);
 
-    Cart removeProductFromCart(Long memberId, Long productId);
-
     void clearCart(Long memberid);
+
+    void removeProductFromCart(List<TestCartProductsReqDto> cartProductsReqDtos);
 }

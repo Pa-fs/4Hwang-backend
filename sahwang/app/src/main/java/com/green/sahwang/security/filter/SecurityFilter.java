@@ -26,12 +26,12 @@ public class SecurityFilter extends OncePerRequestFilter {
     @Override
     public void doFilterInternal(HttpServletRequest request,
                                  HttpServletResponse response,
-                                 FilterChain filterChain) throws ServletException, IOException{
+                                 FilterChain filterChain) throws ServletException, IOException {
 
         log.info("Security Filter");
 
         String authorization = request.getHeader("Authorization");
-        log.info("Security Filter"+authorization);
+        log.info("Security Filter " + authorization);
 
         if( authorization == null || !authorization.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
