@@ -1,5 +1,9 @@
 package com.green.sahwang.security.service;
 
+import com.green.sahwang.entity.Member;
+import com.green.sahwang.entity.enumtype.MemberRole;
+import com.green.sahwang.entity.enumtype.SnsType;
+import com.green.sahwang.repository.MemberRepository;
 import com.green.sahwang.security.dto.KakaoTokenDto;
 import com.green.sahwang.security.dto.KakaoUserInfoDto;
 import com.green.sahwang.security.filter.JWTUtils;
@@ -16,12 +20,16 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.LocalDateTime;
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class KakaoServiceImpl implements KakaoService{
 
 //    private final KakaoRepository kakaoRepository;
+    private final MemberRepository memberRepository;
     private final Environment environment;
     private final JWTUtils jwtUtils;
 
@@ -73,7 +81,25 @@ public class KakaoServiceImpl implements KakaoService{
 
             String email = kakaoUserInfoDto.getKakaoAccount().getEmail();
 
-            return jwtUtils.createJWT(email, kakaoTokenDto.getAccessToken());
+            Optional<Member> existingMember = memberRepository.findByEmail(email);
+
+            if(existingMember.isPresent()){
+                return jwtUtils.createJWT(email, kakaoTokenDto.getAccessToken());
+            } else {
+
+                Member member = new Member();
+                member.setEmail(kakaoUserInfoDto.getKakaoAccount().getEmail());
+                member.setNickName(kakaoUserInfoDto.getKakaoAccount().getProfile().getNickname());
+                member.setProfileImage(kakaoUserInfoDto.getProperties().getProfileImage());
+                member.setThumbnailImage(kakaoUserInfoDto.getProperties().getThumbnailImage());
+                member.setSnsType(SnsType.KAKAO);
+                member.setJoinDate(LocalDateTime.now());
+                member.setRole(MemberRole.USER);
+
+                memberRepository.save(member);
+
+                return jwtUtils.createJWT(email, kakaoTokenDto.getAccessToken());
+            }
         }catch (Exception e){
             e.printStackTrace();
         }
