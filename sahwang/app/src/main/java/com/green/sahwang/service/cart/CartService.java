@@ -1,5 +1,6 @@
 package com.green.sahwang.service.cart;
 
+import com.green.sahwang.dto.response.ProductResDto;
 import com.green.sahwang.entity.Cart;
 
 public interface CartService {

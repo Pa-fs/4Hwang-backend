@@ -20,6 +20,8 @@ public class SecurityConfig {
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth.requestMatchers("/**").permitAll())
+//                .authorizeHttpRequests(auth -> auth.requestMatchers("/kakao/login").permitAll())
+//                .authorizeHttpRequests(auth -> auth.requestMatchers("/kakao/msg").authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         return httpSecurity.build();
