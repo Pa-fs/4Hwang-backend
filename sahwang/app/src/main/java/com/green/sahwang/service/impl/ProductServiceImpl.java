@@ -1,5 +1,6 @@
 package com.green.sahwang.service.impl;
 
+import com.green.sahwang.config.DateTimeUtils;
 import com.green.sahwang.dto.response.BestProductResDto;
 import com.green.sahwang.dto.response.ImageResDto;
 import com.green.sahwang.dto.response.ProductImageResDto;
@@ -32,17 +33,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public List<Product> productList(){
-        return productRepository.findAll();
+    public List<ProductResDto> getBestProducts(int pageNum, int size) {
+        Pageable pageable = PageRequest.of(pageNum, size);
+        List<Product> bestProducts = productRepository.findBestProducts(pageable);
+        return getProductResDtos(bestProducts);
     }
 
-    public List<BestProductResDto> bestProductList(){
-        BestProductResDto bestProductResDto = new BestProductResDto();
-        List<ProductResDto> productResDtos = new ArrayList<>();
-        List<ProductImageResDto> productImageResDtos = new ArrayList<>();
-
-        return null;
-    }
     @Override
     @Transactional(readOnly = true)
     public List<ProductResDto> getRandomProducts(int pageNum, int size) {
@@ -61,33 +57,36 @@ public class ProductServiceImpl implements ProductService {
 
     @NotNull
     private List<ProductResDto> getProductResDtos(List<Product> products) {
-        List<ProductResDto> productResDtoList = products.stream()
-                .map(product -> {
-                    List<ProductImage> productImages = productImageRepository.findByProduct(product);
-                    List<ImageResDto> images = productImages.stream()
-                            .map(productImage -> {
-                                ImageResDto imageResDto = new ImageResDto(
-                                        productImage.getFilename(),
-                                        productImage.getPath(),
-                                        productImage.getFileDesc()
-                                );
-                                return imageResDto;
-                            }).toList();
-
-                    ProductResDto productResDto = new ProductResDto(
-                            product.getId(),
-                            product.getName(),
-                            product.getContent(),
-                            product.getDtype(),
-                            product.getBrand().getName(),
-                            product.getPrice(),
-                            reviewService.reviewCount(product),
-                            images
-                    );
-                    return productResDto;
-                })
+        return products.stream()
+                .map(product -> getProductResDto(product))
                 .toList();
-        return productResDtoList;
+    }
+
+    @NotNull
+    public ProductResDto getProductResDto(Product product) {
+        List<ProductImage> productImages = productImageRepository.findByProduct(product);
+        List<ImageResDto> images = productImages.stream()
+                .map(productImage -> {
+                    ImageResDto imageResDto = new ImageResDto(
+                            productImage.getFilename(),
+                            productImage.getPath(),
+                            productImage.getFileDesc()
+                    );
+                    return imageResDto;
+                }).toList();
+
+        ProductResDto productResDto = new ProductResDto(
+                product.getId(),
+                product.getName(),
+                product.getContent(),
+                product.getDtype(),
+                product.getBrand().getName(),
+                product.getPrice(),
+                reviewService.reviewCount(product),
+                DateTimeUtils.format(product.getRegisterDate()),
+                images
+        );
+        return productResDto;
     }
 
 }

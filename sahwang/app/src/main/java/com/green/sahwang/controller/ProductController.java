@@ -20,9 +20,11 @@ public class ProductController {
     private final ProductService productService;
 
     @GetMapping("/best")
-    public ResponseEntity<BestProductResDto> bestProduct() {
-
-        return null;
+    public ResponseEntity<List<ProductResDto>> bestProduct(
+            @RequestParam(name = "pageNum", defaultValue = "0") int pageNum,
+            @RequestParam(name = "size", defaultValue = "3") int size) {
+        List<ProductResDto> bestProducts = productService.getBestProducts(pageNum, size);
+        return ResponseEntity.ok(bestProducts);
     }
 
     @GetMapping("/random")

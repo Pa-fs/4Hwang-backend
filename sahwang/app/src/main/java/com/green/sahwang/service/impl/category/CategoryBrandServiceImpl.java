@@ -1,5 +1,6 @@
 package com.green.sahwang.service.impl.category;
 
+import com.green.sahwang.config.DateTimeUtils;
 import com.green.sahwang.dto.response.*;
 import com.green.sahwang.entity.Brand;
 import com.green.sahwang.entity.Category;
@@ -7,8 +8,10 @@ import com.green.sahwang.entity.Product;
 import com.green.sahwang.entity.ProductImage;
 import com.green.sahwang.exception.CategoryDomainException;
 import com.green.sahwang.repository.*;
+import com.green.sahwang.service.ProductService;
 import com.green.sahwang.service.ReviewService;
 import com.green.sahwang.service.category.CategoryBrandService;
+import com.green.sahwang.service.impl.ProductServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -28,9 +31,9 @@ public class CategoryBrandServiceImpl implements CategoryBrandService {
 
     private final CategoryRepository categoryRepository;
     private final CategoryBrandRepository categoryBrandRepository;
+    private final ProductServiceImpl productService;
     private final ProductRepository productRepository;
     private final ProductImageRepository productImageRepository;
-    private final ReviewService reviewService;
 
     @Override
     @Transactional
@@ -43,27 +46,9 @@ public class CategoryBrandServiceImpl implements CategoryBrandService {
         Pageable pageable = PageRequest.of(pageNum, size, Sort.by(Sort.Direction.DESC, sortType));
         List<Product> products = productRepository.findProductsByDtype(pageable, dType);
 
-        List<ProductResDto> productResDtoList = products.stream()
-                .map(product -> {
-                    List<ProductImage> productImages = productImageRepository.findByProduct(product);
-
-                    List<ImageResDto> imageResponses = productImages.stream()
-                            .map(image -> new ImageResDto(image.getFilename(), image.getPath(), image.getFileDesc()))
-                            .toList();
-
-                    return new ProductResDto(product.getId(),
-                            product.getName(),
-                            product.getContent(),
-                            product.getDtype(),
-                            product.getBrand().getName(),
-                            product.getPrice(),
-                            reviewService.reviewCount(product),
-                            imageResponses  // 이미지 리스트 포함
-                    );
-                })
+        return products.stream()
+                .map(product -> productService.getProductResDto(product))
                 .toList();
-
-        return productResDtoList;
     }
 
     @Transactional(readOnly = true)

@@ -19,8 +19,7 @@ import java.util.Date;
 @Slf4j
 public class JWTUtils {
 
-    @Value("${msa.jwt.secret}")
-    private String SECRET_KEY;
+    private String SECRET_KEY = "abcdefghijklmnopqrstuvwxyz01234567890";
 //
 //    // JWT 생성
     public String createJWT(String email, String accessToken){
