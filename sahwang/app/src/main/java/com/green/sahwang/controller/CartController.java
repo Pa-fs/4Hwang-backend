@@ -1,11 +1,13 @@
 package com.green.sahwang.controller;
 
-import com.green.sahwang.dto.request.CartProductsReqDto;
-import com.green.sahwang.dto.request.TestCartProductsReqDto;
+import com.green.sahwang.dto.request.cart.CartProductsRemoveReqDto;
+import com.green.sahwang.dto.request.cart.CartProductsReqDto;
 import com.green.sahwang.service.cart.CartService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,9 +27,15 @@ public class CartController {
     }
 
     @DeleteMapping("remove")
-    public ResponseEntity<String> removeProducts(@RequestBody List<TestCartProductsReqDto> testCartProductsReqDtos) {
-        log.info("testDtos : {}", testCartProductsReqDtos);
-        cartService.removeProductFromCart(testCartProductsReqDtos);
+    public ResponseEntity<String> removeProducts(@RequestBody List<CartProductsRemoveReqDto> cartProductsRemoveReqDtos) {
+        cartService.removeProductFromCart(cartProductsRemoveReqDtos);
         return ResponseEntity.ok("delete products in cart");
+    }
+
+    @PostMapping("merge")
+    public ResponseEntity<String> mergeProducts(@RequestBody List<CartProductsReqDto> cartProductsReqDtos,
+                                                @AuthenticationPrincipal UserDetails userDetails) {
+        cartService.mergeProductsInCartWithUserLogin(cartProductsReqDtos, userDetails.getUsername());
+        return ResponseEntity.ok("success merge");
     }
 }

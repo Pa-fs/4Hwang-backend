@@ -48,9 +48,9 @@ public abstract class Product {
 
     private Boolean usedOrNot;
 
-    // 이건 어떻게???
-//    private mainImage
-//    private adImage
+    private String mainImage;
+
+    private String adImage;
 
     @Column(updatable = false)
     private LocalDateTime registerDate;

@@ -1,8 +1,10 @@
 DELETE FROM `product_image`;
 DELETE FROM `category_brand`;
+DELETE FROM `cart_product`;
 DELETE FROM `product`;
 DELETE FROM `brand`;
 DELETE FROM `category`;
+DELETE FROM `cart`;
 DELETE FROM `member`;
 
 insert into member(member_id)

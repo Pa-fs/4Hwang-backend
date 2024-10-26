@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/purchase")
 @RequiredArgsConstructor
-@CrossOrigin
 public class PurchaseController {
     private final PurchaseService purchaseService;
 
