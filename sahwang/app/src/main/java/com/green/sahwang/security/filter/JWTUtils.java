@@ -86,4 +86,9 @@ public class JWTUtils {
         Claims claims = decodeJwt(jwt);
         return claims.get("access_token").toString();
     }
+
+    public String getRoleFromJwt(String jwt){
+        Claims claims = decodeJwt(jwt);
+        return claims.get("role").toString();
+    }
 }
