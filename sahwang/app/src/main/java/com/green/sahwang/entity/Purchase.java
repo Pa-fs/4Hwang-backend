@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @AllArgsConstructor
@@ -24,7 +25,7 @@ public class Purchase {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    private LocalDate purchaseDate;
+    private LocalDateTime purchaseDate;
 
     private int totalPrice;
 

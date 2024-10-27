@@ -11,4 +11,6 @@ public interface PurchaseProductRepository extends JpaRepository<PurchaseProduct
     Optional<PurchaseProduct> findByProductIdAndPurchaseId(Long productId, Long purchaseId);
 
     List<PurchaseProduct> findByProductIdAndPurchaseIn(Long productId, List<Purchase> purchases);
+
+    List<PurchaseProduct> findAllByProductIdIn(List<Long> productIds);
 }

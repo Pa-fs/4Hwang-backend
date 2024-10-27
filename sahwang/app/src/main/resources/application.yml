@@ -9,8 +9,8 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://192.168.0.216:3307/fourhwang
-#    url: jdbc:mysql://localhost:3309/fourhwang
+#    url: jdbc:mysql://192.168.0.216:3307/fourhwang
+    url: jdbc:mysql://localhost:3309/fourhwang
     username: root
     password: 1234
 

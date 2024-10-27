@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @AllArgsConstructor
@@ -26,8 +27,8 @@ public class PurchasePayment {
     @JoinColumn(name = "payment_id")
     private Payment payment;
 
-    private LocalDate payDate;
+    private LocalDateTime createdDate;
 
-    private LocalDate payCancelDate;
+    private LocalDateTime cancelledDate;
 
 }

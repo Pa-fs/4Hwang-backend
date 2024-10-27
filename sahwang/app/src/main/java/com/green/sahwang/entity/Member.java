@@ -32,7 +32,8 @@ public class Member {
     // kakao 로그인 할때 가져옴
     private String email;
 
-    private String address;
+    @Embedded
+    private Address address;
 
     // kakao 로그인 할때 가져옴
     private SnsType snsType;

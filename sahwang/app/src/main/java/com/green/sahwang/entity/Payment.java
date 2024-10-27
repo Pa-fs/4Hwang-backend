@@ -1,8 +1,12 @@
 package com.green.sahwang.entity;
 
+import com.green.sahwang.entity.enumtype.PaymentStatus;
 import com.green.sahwang.entity.enumtype.PaymentType;
+import com.green.sahwang.entity.enumtype.SystemLogicType;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.time.LocalDateTime;
 
 
 @Entity
@@ -22,9 +26,20 @@ public class Payment {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    // 0 - 구매 / 1 - 판매
-    private Boolean systemLogicType;
+    private SystemLogicType systemLogicType;
 
     private PaymentType paymentType;
+
+    private int totalPrice;
+
+    private PaymentStatus status;
+
+    // 외부 결제 API
+    private String merchantUid;
+    private String impUid;
+    private String payMethod;
+    private LocalDateTime paidAt;
+    private String embPgProvider;
+    private String pgProvider;
 
 }

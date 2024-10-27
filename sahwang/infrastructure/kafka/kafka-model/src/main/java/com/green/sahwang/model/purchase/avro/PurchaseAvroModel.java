@@ -13,26 +13,26 @@ import org.apache.avro.message.BinaryMessageDecoder;
 import org.apache.avro.message.SchemaStore;
 
 @org.apache.avro.specific.AvroGenerated
-public class ProductAvroModel extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = 6469570295083585606L;
+public class PurchaseAvroModel extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
+  private static final long serialVersionUID = 1293588656262181630L;
 
 
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"ProductAvroModel\",\"namespace\":\"com.green.sahwang.model.purchase.avro\",\"fields\":[{\"name\":\"productId\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}}]}");
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"PurchaseAvroModel\",\"namespace\":\"com.green.sahwang.model.purchase.avro\",\"fields\":[{\"name\":\"productId\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"quantity\",\"type\":\"int\"}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static final SpecificData MODEL$ = new SpecificData();
 
-  private static final BinaryMessageEncoder<ProductAvroModel> ENCODER =
+  private static final BinaryMessageEncoder<PurchaseAvroModel> ENCODER =
       new BinaryMessageEncoder<>(MODEL$, SCHEMA$);
 
-  private static final BinaryMessageDecoder<ProductAvroModel> DECODER =
+  private static final BinaryMessageDecoder<PurchaseAvroModel> DECODER =
       new BinaryMessageDecoder<>(MODEL$, SCHEMA$);
 
   /**
    * Return the BinaryMessageEncoder instance used by this class.
    * @return the message encoder used by this class
    */
-  public static BinaryMessageEncoder<ProductAvroModel> getEncoder() {
+  public static BinaryMessageEncoder<PurchaseAvroModel> getEncoder() {
     return ENCODER;
   }
 
@@ -40,7 +40,7 @@ public class ProductAvroModel extends org.apache.avro.specific.SpecificRecordBas
    * Return the BinaryMessageDecoder instance used by this class.
    * @return the message decoder used by this class
    */
-  public static BinaryMessageDecoder<ProductAvroModel> getDecoder() {
+  public static BinaryMessageDecoder<PurchaseAvroModel> getDecoder() {
     return DECODER;
   }
 
@@ -49,12 +49,12 @@ public class ProductAvroModel extends org.apache.avro.specific.SpecificRecordBas
    * @param resolver a {@link SchemaStore} used to find schemas by fingerprint
    * @return a BinaryMessageDecoder instance for this class backed by the given SchemaStore
    */
-  public static BinaryMessageDecoder<ProductAvroModel> createDecoder(SchemaStore resolver) {
+  public static BinaryMessageDecoder<PurchaseAvroModel> createDecoder(SchemaStore resolver) {
     return new BinaryMessageDecoder<>(MODEL$, SCHEMA$, resolver);
   }
 
   /**
-   * Serializes this ProductAvroModel to a ByteBuffer.
+   * Serializes this PurchaseAvroModel to a ByteBuffer.
    * @return a buffer holding the serialized data for this instance
    * @throws java.io.IOException if this instance could not be serialized
    */
@@ -63,31 +63,34 @@ public class ProductAvroModel extends org.apache.avro.specific.SpecificRecordBas
   }
 
   /**
-   * Deserializes a ProductAvroModel from a ByteBuffer.
+   * Deserializes a PurchaseAvroModel from a ByteBuffer.
    * @param b a byte buffer holding serialized data for an instance of this class
-   * @return a ProductAvroModel instance decoded from the given buffer
+   * @return a PurchaseAvroModel instance decoded from the given buffer
    * @throws java.io.IOException if the given bytes could not be deserialized into an instance of this class
    */
-  public static ProductAvroModel fromByteBuffer(
+  public static PurchaseAvroModel fromByteBuffer(
       java.nio.ByteBuffer b) throws java.io.IOException {
     return DECODER.decode(b);
   }
 
   private java.lang.String productId;
+  private int quantity;
 
   /**
    * Default constructor.  Note that this does not initialize fields
    * to their default values from the schema.  If that is desired then
    * one should use <code>newBuilder()</code>.
    */
-  public ProductAvroModel() {}
+  public PurchaseAvroModel() {}
 
   /**
    * All-args constructor.
    * @param productId The new value for productId
+   * @param quantity The new value for quantity
    */
-  public ProductAvroModel(java.lang.String productId) {
+  public PurchaseAvroModel(java.lang.String productId, java.lang.Integer quantity) {
     this.productId = productId;
+    this.quantity = quantity;
   }
 
   @Override
@@ -101,6 +104,7 @@ public class ProductAvroModel extends org.apache.avro.specific.SpecificRecordBas
   public java.lang.Object get(int field$) {
     switch (field$) {
     case 0: return productId;
+    case 1: return quantity;
     default: throw new IndexOutOfBoundsException("Invalid index: " + field$);
     }
   }
@@ -111,6 +115,7 @@ public class ProductAvroModel extends org.apache.avro.specific.SpecificRecordBas
   public void put(int field$, java.lang.Object value$) {
     switch (field$) {
     case 0: productId = value$ != null ? value$.toString() : null; break;
+    case 1: quantity = (java.lang.Integer)value$; break;
     default: throw new IndexOutOfBoundsException("Invalid index: " + field$);
     }
   }
@@ -133,47 +138,65 @@ public class ProductAvroModel extends org.apache.avro.specific.SpecificRecordBas
   }
 
   /**
-   * Creates a new ProductAvroModel RecordBuilder.
-   * @return A new ProductAvroModel RecordBuilder
+   * Gets the value of the 'quantity' field.
+   * @return The value of the 'quantity' field.
    */
-  public static com.green.sahwang.model.purchase.avro.ProductAvroModel.Builder newBuilder() {
-    return new com.green.sahwang.model.purchase.avro.ProductAvroModel.Builder();
+  public int getQuantity() {
+    return quantity;
+  }
+
+
+  /**
+   * Sets the value of the 'quantity' field.
+   * @param value the value to set.
+   */
+  public void setQuantity(int value) {
+    this.quantity = value;
   }
 
   /**
-   * Creates a new ProductAvroModel RecordBuilder by copying an existing Builder.
+   * Creates a new PurchaseAvroModel RecordBuilder.
+   * @return A new PurchaseAvroModel RecordBuilder
+   */
+  public static com.green.sahwang.model.purchase.avro.PurchaseAvroModel.Builder newBuilder() {
+    return new com.green.sahwang.model.purchase.avro.PurchaseAvroModel.Builder();
+  }
+
+  /**
+   * Creates a new PurchaseAvroModel RecordBuilder by copying an existing Builder.
    * @param other The existing builder to copy.
-   * @return A new ProductAvroModel RecordBuilder
+   * @return A new PurchaseAvroModel RecordBuilder
    */
-  public static com.green.sahwang.model.purchase.avro.ProductAvroModel.Builder newBuilder(com.green.sahwang.model.purchase.avro.ProductAvroModel.Builder other) {
+  public static com.green.sahwang.model.purchase.avro.PurchaseAvroModel.Builder newBuilder(com.green.sahwang.model.purchase.avro.PurchaseAvroModel.Builder other) {
     if (other == null) {
-      return new com.green.sahwang.model.purchase.avro.ProductAvroModel.Builder();
+      return new com.green.sahwang.model.purchase.avro.PurchaseAvroModel.Builder();
     } else {
-      return new com.green.sahwang.model.purchase.avro.ProductAvroModel.Builder(other);
+      return new com.green.sahwang.model.purchase.avro.PurchaseAvroModel.Builder(other);
     }
   }
 
   /**
-   * Creates a new ProductAvroModel RecordBuilder by copying an existing ProductAvroModel instance.
+   * Creates a new PurchaseAvroModel RecordBuilder by copying an existing PurchaseAvroModel instance.
    * @param other The existing instance to copy.
-   * @return A new ProductAvroModel RecordBuilder
+   * @return A new PurchaseAvroModel RecordBuilder
    */
-  public static com.green.sahwang.model.purchase.avro.ProductAvroModel.Builder newBuilder(com.green.sahwang.model.purchase.avro.ProductAvroModel other) {
+  public static com.green.sahwang.model.purchase.avro.PurchaseAvroModel.Builder newBuilder(com.green.sahwang.model.purchase.avro.PurchaseAvroModel other) {
     if (other == null) {
-      return new com.green.sahwang.model.purchase.avro.ProductAvroModel.Builder();
+      return new com.green.sahwang.model.purchase.avro.PurchaseAvroModel.Builder();
     } else {
-      return new com.green.sahwang.model.purchase.avro.ProductAvroModel.Builder(other);
+      return new com.green.sahwang.model.purchase.avro.PurchaseAvroModel.Builder(other);
     }
   }
 
   /**
-   * RecordBuilder for ProductAvroModel instances.
+   * RecordBuilder for PurchaseAvroModel instances.
    */
   @org.apache.avro.specific.AvroGenerated
-  public static class Builder extends org.apache.avro.specific.SpecificRecordBuilderBase<ProductAvroModel>
-    implements org.apache.avro.data.RecordBuilder<ProductAvroModel> {
+  public static class Builder extends org.apache.avro.specific.SpecificRecordBuilderBase<PurchaseAvroModel>
+    implements org.apache.avro.data.RecordBuilder<PurchaseAvroModel> {
 
     private java.lang.String productId;
+    private int quantity;
 
     /** Creates a new Builder */
     private Builder() {
@@ -184,23 +207,31 @@ public class ProductAvroModel extends org.apache.avro.specific.SpecificRecordBas
      * Creates a Builder by copying an existing Builder.
      * @param other The existing Builder to copy.
      */
-    private Builder(com.green.sahwang.model.purchase.avro.ProductAvroModel.Builder other) {
+    private Builder(com.green.sahwang.model.purchase.avro.PurchaseAvroModel.Builder other) {
       super(other);
       if (isValidValue(fields()[0], other.productId)) {
         this.productId = data().deepCopy(fields()[0].schema(), other.productId);
         fieldSetFlags()[0] = other.fieldSetFlags()[0];
       }
+      if (isValidValue(fields()[1], other.quantity)) {
+        this.quantity = data().deepCopy(fields()[1].schema(), other.quantity);
+        fieldSetFlags()[1] = other.fieldSetFlags()[1];
+      }
     }
 
     /**
-     * Creates a Builder by copying an existing ProductAvroModel instance
+     * Creates a Builder by copying an existing PurchaseAvroModel instance
      * @param other The existing instance to copy.
      */
-    private Builder(com.green.sahwang.model.purchase.avro.ProductAvroModel other) {
+    private Builder(com.green.sahwang.model.purchase.avro.PurchaseAvroModel other) {
       super(SCHEMA$, MODEL$);
       if (isValidValue(fields()[0], other.productId)) {
         this.productId = data().deepCopy(fields()[0].schema(), other.productId);
         fieldSetFlags()[0] = true;
+      }
+      if (isValidValue(fields()[1], other.quantity)) {
+        this.quantity = data().deepCopy(fields()[1].schema(), other.quantity);
+        fieldSetFlags()[1] = true;
       }
     }
 
@@ -218,7 +249,7 @@ public class ProductAvroModel extends org.apache.avro.specific.SpecificRecordBas
       * @param value The value of 'productId'.
       * @return This builder.
       */
-    public com.green.sahwang.model.purchase.avro.ProductAvroModel.Builder setProductId(java.lang.String value) {
+    public com.green.sahwang.model.purchase.avro.PurchaseAvroModel.Builder setProductId(java.lang.String value) {
       validate(fields()[0], value);
       this.productId = value;
       fieldSetFlags()[0] = true;
@@ -238,18 +269,58 @@ public class ProductAvroModel extends org.apache.avro.specific.SpecificRecordBas
       * Clears the value of the 'productId' field.
       * @return This builder.
       */
-    public com.green.sahwang.model.purchase.avro.ProductAvroModel.Builder clearProductId() {
+    public com.green.sahwang.model.purchase.avro.PurchaseAvroModel.Builder clearProductId() {
       productId = null;
       fieldSetFlags()[0] = false;
       return this;
     }
 
+    /**
+      * Gets the value of the 'quantity' field.
+      * @return The value.
+      */
+    public int getQuantity() {
+      return quantity;
+    }
+
+
+    /**
+      * Sets the value of the 'quantity' field.
+      * @param value The value of 'quantity'.
+      * @return This builder.
+      */
+    public com.green.sahwang.model.purchase.avro.PurchaseAvroModel.Builder setQuantity(int value) {
+      validate(fields()[1], value);
+      this.quantity = value;
+      fieldSetFlags()[1] = true;
+      return this;
+    }
+
+    /**
+      * Checks whether the 'quantity' field has been set.
+      * @return True if the 'quantity' field has been set, false otherwise.
+      */
+    public boolean hasQuantity() {
+      return fieldSetFlags()[1];
+    }
+
+
+    /**
+      * Clears the value of the 'quantity' field.
+      * @return This builder.
+      */
+    public com.green.sahwang.model.purchase.avro.PurchaseAvroModel.Builder clearQuantity() {
+      fieldSetFlags()[1] = false;
+      return this;
+    }
+
     @Override
     @SuppressWarnings("unchecked")
-    public ProductAvroModel build() {
+    public PurchaseAvroModel build() {
       try {
-        ProductAvroModel record = new ProductAvroModel();
+        PurchaseAvroModel record = new PurchaseAvroModel();
         record.productId = fieldSetFlags()[0] ? this.productId : (java.lang.String) defaultValue(fields()[0]);
+        record.quantity = fieldSetFlags()[1] ? this.quantity : (java.lang.Integer) defaultValue(fields()[1]);
         return record;
       } catch (org.apache.avro.AvroMissingFieldException e) {
         throw e;
@@ -260,8 +331,8 @@ public class ProductAvroModel extends org.apache.avro.specific.SpecificRecordBas
   }
 
   @SuppressWarnings("unchecked")
-  private static final org.apache.avro.io.DatumWriter<ProductAvroModel>
-    WRITER$ = (org.apache.avro.io.DatumWriter<ProductAvroModel>)MODEL$.createDatumWriter(SCHEMA$);
+  private static final org.apache.avro.io.DatumWriter<PurchaseAvroModel>
+    WRITER$ = (org.apache.avro.io.DatumWriter<PurchaseAvroModel>)MODEL$.createDatumWriter(SCHEMA$);
 
   @Override public void writeExternal(java.io.ObjectOutput out)
     throws java.io.IOException {
@@ -269,8 +340,8 @@ public class ProductAvroModel extends org.apache.avro.specific.SpecificRecordBas
   }
 
   @SuppressWarnings("unchecked")
-  private static final org.apache.avro.io.DatumReader<ProductAvroModel>
-    READER$ = (org.apache.avro.io.DatumReader<ProductAvroModel>)MODEL$.createDatumReader(SCHEMA$);
+  private static final org.apache.avro.io.DatumReader<PurchaseAvroModel>
+    READER$ = (org.apache.avro.io.DatumReader<PurchaseAvroModel>)MODEL$.createDatumReader(SCHEMA$);
 
   @Override public void readExternal(java.io.ObjectInput in)
     throws java.io.IOException {
@@ -284,6 +355,8 @@ public class ProductAvroModel extends org.apache.avro.specific.SpecificRecordBas
   {
     out.writeString(this.productId);
 
+    out.writeInt(this.quantity);
+
   }
 
   @Override public void customDecode(org.apache.avro.io.ResolvingDecoder in)
@@ -293,11 +366,17 @@ public class ProductAvroModel extends org.apache.avro.specific.SpecificRecordBas
     if (fieldOrder == null) {
       this.productId = in.readString();
 
+      this.quantity = in.readInt();
+
     } else {
-      for (int i = 0; i < 1; i++) {
+      for (int i = 0; i < 2; i++) {
         switch (fieldOrder[i].pos()) {
         case 0:
           this.productId = in.readString();
+          break;
+
+        case 1:
+          this.quantity = in.readInt();
           break;
 
         default:
