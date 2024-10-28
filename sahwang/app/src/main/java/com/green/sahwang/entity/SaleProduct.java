@@ -19,9 +19,11 @@ public class SaleProduct {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id")
     private Product product;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "sale_id")
     private Sale sale;
 
     private int tradePrice;

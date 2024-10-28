@@ -22,9 +22,10 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(auth -> auth.requestMatchers("/**").permitAll())
-//                .authorizeHttpRequests(auth -> auth.requestMatchers("/kakao/login").permitAll())
-//                .authorizeHttpRequests(auth -> auth.requestMatchers("/kakao/msg").authenticated())
+//                .authorizeHttpRequests(auth -> auth.requestMatchers("/**").permitAll())
+                .authorizeHttpRequests(auth -> auth.requestMatchers("/kakao/login").permitAll())
+                .authorizeHttpRequests(auth -> auth.requestMatchers("/kakao/msg").authenticated())
+                .authorizeHttpRequests(auth -> auth.requestMatchers("/detail/**").permitAll())
                 .addFilterAt(new SecurityFilter(new JWTUtils()), UsernamePasswordAuthenticationFilter.class)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 

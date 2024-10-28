@@ -5,6 +5,8 @@ DELETE FROM `purchase_payment`;
 DELETE FROM `purchase_product`;
 DELETE FROM `purchase`;
 DELETE FROM `payment`;
+DELETE FROM `product_product_type`;
+DELETE FROM `product_type`;
 DELETE FROM `product`;
 DELETE FROM `brand`;
 DELETE FROM `category`;
@@ -80,6 +82,35 @@ insert into category_brand(category_brand_id, category_id, brand_id, created_dat
 values (14, 3, 9, now());
 insert into category_brand(category_brand_id, category_id, brand_id, created_date)
 values (15, 2, 10, now());
+
+insert into `product_type`(product_type_id, name, info, created_date) values (1, 'CITRUS', '오렌지, 레몬 등 새콤달콤한 특성을 지닌 과일의 향', now());
+insert into `product_type`(product_type_id, name, info, created_date) values (2, 'FRUITY', '농익은 과일의 달콤한 향', now());
+insert into `product_type`(product_type_id, name, info, created_date) values (3, 'GREEN', '풀, 잎, 줄기 등을 연상시키는 신선한 향', now());
+insert into `product_type`(product_type_id, name, info, created_date) values (4, 'AROMATIC', '로즈메리, 라벤더 등 허브 계열을 표현한 향', now());
+insert into `product_type`(product_type_id, name, info, created_date) values (5, 'LIGHT', '프레시, 시트러스, 그린과 같이 휘발성이 높은 향으로 지속 시간이 짧다', now());
+insert into `product_type`(product_type_id, name, info, created_date) values (6, 'HEAVY', '무겁게 가라앉아 지속력이 높은 향', now());
+insert into `product_type`(product_type_id, name, info, created_date) values (7, 'FLORAL', '달콤한 꽃향기', now());
+insert into `product_type`(product_type_id, name, info, created_date) values (8, 'SMOKY', '그을린 듯한 향', now());
+insert into `product_type`(product_type_id, name, info, created_date) values (9, 'INCENSE', '인센스 스틱을 태워서 나는 듯한 향', now());
+insert into `product_type`(product_type_id, name, info, created_date) values (10, 'ORIENTAL', '동양적인 향으로 발삼, 레진, 스파이시, 우디, 애니멀 향 등을 표현', now());
+insert into `product_type`(product_type_id, name, info, created_date) values (11, 'SPICY', '톡 쏘는 듯한 자극적이고 강한 향', now());
+insert into `product_type`(product_type_id, name, info, created_date) values (12, 'ANIMALIC', '동물성 향료에서 유래한 것으로 희석하여 사용할 경우 따듯한 느낌을 준다', now());
+insert into `product_type`(product_type_id, name, info, created_date) values (13, 'LEATHER', '가죽 특유의 향', now());
+insert into `product_type`(product_type_id, name, info, created_date) values (14, 'EARTHY', '흙, 산림 등 대지에서 비롯된 향', now());
+insert into `product_type`(product_type_id, name, info, created_date) values (15, 'MUSK', '사향노루에서 추출한 향으로 따듯하고 포근한 느낌의 관능적인 향', now());
+insert into `product_type`(product_type_id, name, info, created_date) values (16, 'DRY', '마른 나무, 이끼, 건초에서 느껴지는 건조한 향', now());
+insert into `product_type`(product_type_id, name, info, created_date) values (17, 'ABSOLUTE', '식물에서 추출한 천연 향료', now());
+insert into `product_type`(product_type_id, name, info, created_date) values (18, 'CHYPRE', '시원한 식물 향', now());
+insert into `product_type`(product_type_id, name, info, created_date) values (19, 'WATERY', '물에서 느껴지는 상쾌하고 투명한 향', now());
+insert into `product_type`(product_type_id, name, info, created_date) values (20, 'MARINE', '시원한 물과 해초류에서 느껴지는 짭조름한 느낌을 표현한 향', now());
+insert into `product_type`(product_type_id, name, info, created_date) values (21, 'RESINOID', '송진, 식물 등에서 추출해 담은 향', now());
+insert into `product_type`(product_type_id, name, info, created_date) values (22, 'BOUQUET', '다채로운 꽃이 혼합된 꽃다발에서 느껴지는 향', now());
+insert into `product_type`(product_type_id, name, info, created_date) values (23, 'CHORD', '화음이라는 뜻으로 개별적인 향을 섞어 탄생한 새로운 형태의 향', now());
+insert into `product_type`(product_type_id, name, info, created_date) values (24, 'BITTER', '나무뿌리, 약초, 애니멀 노트 등 서로 다른 성격의 여러 향이 복합되어 만들어낸 향', now());
+insert into `product_type`(product_type_id, name, info, created_date) values (25, 'NUANCE', '향의 이미지를 연상시키는 향', now());
+insert into `product_type`(product_type_id, name, info, created_date) values (26, 'HARMONY', '여러 향을 조합해 탄생한 새로운 향', now());
+insert into `product_type`(product_type_id, name, info, created_date) values (27, 'TRAIL', '향수를 뿌린 후 지속되는 향의 여운, 잔향', now());
+
 /*
 -- Query: SELECT * FROM fourhwang.product
 LIMIT 0, 1000
@@ -120,7 +151,39 @@ INSERT INTO `product` (`dtype`,`product_id`,`content`,`expiration_period`,`membe
 INSERT INTO `product` (`dtype`,`product_id`,`content`,`expiration_period`,`member_buy_date`,`name`,`price`,`production_date`,`purpose`,`size`,`used_or_not`,`volume`,`brand_id`,`burning_time`,`scent_time`,`duration_time`,`gender`,`type`,`accessory`,`modify_date`,`register_date`) VALUES ('D',33,'플로럴한 하트 노트, 이를 감싸주는 베이스 노트가 조화를 이루며 밝고 투명한 탑 노트로 움직이는 물의 상쾌함과 생명력을 포착합니다','2024-10-21','2024-10-21','리드 디퓨저 테스트',279000,'2024-10-21','bottle',200,0,0,6,0,0,0,NULL,NULL,NULL,NULL,'2024-10-24 06:39:22.217122');
 INSERT INTO `product` (`dtype`,`product_id`,`content`,`expiration_period`,`member_buy_date`,`name`,`price`,`production_date`,`purpose`,`size`,`used_or_not`,`volume`,`brand_id`,`burning_time`,`scent_time`,`duration_time`,`gender`,`type`,`accessory`,`modify_date`,`register_date`) VALUES ('D',34,'플로럴한 하트 노트, 이를 감싸주는 베이스 노트가 조화를 이루며 밝고 투명한 탑 노트로 움직이는 물의 상쾌함과 생명력을 포착합니다','2024-10-21','2024-10-21','리드 디퓨저 테스트테스트',279000,'2024-10-21','bottle',200,0,0,6,0,0,0,NULL,NULL,NULL,NULL,'2024-10-22 22:45:11.158737');
 
-
+insert into `product_product_type`(product_product_type_id, product_type_id, product_id) values(1, 5, 17);
+insert into `product_product_type`(product_product_type_id, product_type_id, product_id) values(2, 12, 4);
+insert into `product_product_type`(product_product_type_id, product_type_id, product_id) values(3, 8, 22);
+insert into `product_product_type`(product_product_type_id, product_type_id, product_id) values(4, 19, 30);
+insert into `product_product_type`(product_product_type_id, product_type_id, product_id) values(5, 3, 11);
+insert into `product_product_type`(product_product_type_id, product_type_id, product_id) values(6, 26, 7);
+insert into `product_product_type`(product_product_type_id, product_type_id, product_id) values(7, 14, 28);
+insert into `product_product_type`(product_product_type_id, product_type_id, product_id) values(8, 10, 5);
+insert into `product_product_type`(product_product_type_id, product_type_id, product_id) values(9, 21, 2);
+insert into `product_product_type`(product_product_type_id, product_type_id, product_id) values(10, 1, 33);
+insert into `product_product_type`(product_product_type_id, product_type_id, product_id) values(11, 6, 1);
+insert into `product_product_type`(product_product_type_id, product_type_id, product_id) values(12, 18, 3);
+insert into `product_product_type`(product_product_type_id, product_type_id, product_id) values(13, 13, 6);
+insert into `product_product_type`(product_product_type_id, product_type_id, product_id) values(14, 9, 8);
+insert into `product_product_type`(product_product_type_id, product_type_id, product_id) values(15, 24, 9);
+insert into `product_product_type`(product_product_type_id, product_type_id, product_id) values(16, 2, 10);
+insert into `product_product_type`(product_product_type_id, product_type_id, product_id) values(17, 11, 12);
+insert into `product_product_type`(product_product_type_id, product_type_id, product_id) values(18, 15, 13);
+insert into `product_product_type`(product_product_type_id, product_type_id, product_id) values(19, 7, 14);
+insert into `product_product_type`(product_product_type_id, product_type_id, product_id) values(20, 27, 15);
+insert into `product_product_type`(product_product_type_id, product_type_id, product_id) values(21, 4, 16);
+insert into `product_product_type`(product_product_type_id, product_type_id, product_id) values(22, 23, 18);
+insert into `product_product_type`(product_product_type_id, product_type_id, product_id) values(23, 20, 19);
+insert into `product_product_type`(product_product_type_id, product_type_id, product_id) values(24, 16, 20);
+insert into `product_product_type`(product_product_type_id, product_type_id, product_id) values(25, 25, 21);
+insert into `product_product_type`(product_product_type_id, product_type_id, product_id) values(26, 22, 23);
+insert into `product_product_type`(product_product_type_id, product_type_id, product_id) values(27, 17, 24);
+insert into `product_product_type`(product_product_type_id, product_type_id, product_id) values(28, 3, 25);
+insert into `product_product_type`(product_product_type_id, product_type_id, product_id) values(29, 12, 27);
+insert into `product_product_type`(product_product_type_id, product_type_id, product_id) values(30, 8, 29);
+insert into `product_product_type`(product_product_type_id, product_type_id, product_id) values(31, 14, 31);
+insert into `product_product_type`(product_product_type_id, product_type_id, product_id) values(32, 19, 32);
+insert into `product_product_type`(product_product_type_id, product_type_id, product_id) values(33, 9, 34);
 
 INSERT INTO `product_image` (`product_image_id`, `file_desc`, `filename`, `path`, `product_id`) VALUES
 	(1, 'perfume1', 'p_001.png', 'images/file/\\p_001.png', 1),
