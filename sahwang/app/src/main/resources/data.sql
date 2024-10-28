@@ -1,14 +1,25 @@
 DELETE FROM `product_image`;
 DELETE FROM `category_brand`;
+DELETE FROM `cart_product`;
+DELETE FROM `purchase_payment`;
+DELETE FROM `purchase_product`;
+DELETE FROM `purchase`;
+DELETE FROM `payment`;
 DELETE FROM `product`;
 DELETE FROM `brand`;
 DELETE FROM `category`;
+DELETE FROM `cart`;
 DELETE FROM `member`;
+DELETE FROM `outbox`;
+DELETE FROM `external_prepare_payment`;
 
 insert into member(member_id)
 values (1);
 insert into member(member_id)
 values (2);
+
+insert into cart(cart_id, quantities, member_id)
+values (1, 3, 1);
 
 insert into category(category_id, name)
 values (1, 'Candle');

@@ -8,12 +8,16 @@
     { "name": "products", "type": {
         "type": "array",
         "items": {
-          "name": "ProductAvroModel",
+          "name": "PurchaseAvroModel",
           "type": "record",
           "fields": [
             {
               "name": "productId",
               "type": "string"
+            },
+            {
+              "name": "quantity",
+              "type": "int"
             }
             //          {"name": "name", "type": "string"},
             //          {"name": "quantity", "type": "string"},
@@ -22,6 +26,7 @@
         }
       }
     },
+    { "name": "totalPrice", "type": "long" },
 //    { "name": "cancelReason", "type": "string" },
     { "name": "timestamp", "type": "long" }
   ]

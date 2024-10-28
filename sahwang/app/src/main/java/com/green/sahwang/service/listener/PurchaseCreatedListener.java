@@ -34,7 +34,7 @@ public class PurchaseCreatedListener implements KafkaConsumer<PurchaseCreatedEve
                 offsets.toString());
 
         // 주문하기 클릭 시 결제 외부 API 사전 검증 메서드 구현...
-//        paymentService.validateOrder(keys, messages);
+//        paymentService.postValidateOrder(keys, messages);
 //        paymentService.processPayment(keys, messages);
     }
 }

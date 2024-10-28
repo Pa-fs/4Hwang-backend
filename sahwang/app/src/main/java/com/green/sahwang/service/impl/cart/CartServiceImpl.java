@@ -1,6 +1,7 @@
 package com.green.sahwang.service.impl.cart;
 
-import com.green.sahwang.dto.request.TestCartProductsReqDto;
+import com.green.sahwang.dto.request.cart.CartProductsRemoveReqDto;
+import com.green.sahwang.dto.request.cart.CartProductsReqDto;
 import com.green.sahwang.entity.Cart;
 import com.green.sahwang.entity.CartProduct;
 import com.green.sahwang.entity.Member;
@@ -12,6 +13,7 @@ import com.green.sahwang.repository.CartRepository;
 import com.green.sahwang.repository.MemberRepository;
 import com.green.sahwang.repository.ProductRepository;
 import com.green.sahwang.service.cart.CartService;
+import com.green.sahwang.service.impl.cart.helper.CartServiceHelper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -28,6 +30,7 @@ public class CartServiceImpl implements CartService {
     private final MemberRepository memberRepository;
     private final ProductRepository productRepository;
     private final CartProductRepository cartProductRepository;
+    private final CartServiceHelper cartServiceHelper;
 
     @Override
     public Cart getCartForMember(Long memberId) {
@@ -44,8 +47,7 @@ public class CartServiceImpl implements CartService {
         Cart cart = cartRepository.findByMember(member)
                 .orElseGet(() -> createNewCartForMember(member));
 
-        Product product = productRepository.findById(productId)
-                .orElseThrow(() -> new ProductDomainException("productId " + productId + " 해당 제품이 존재하지 않습니다"));
+        Product product = getProduct(productId);
 
 
         CartProduct cartProduct = cartProductRepository.findByCartAndProduct(cart, product)
@@ -65,10 +67,11 @@ public class CartServiceImpl implements CartService {
         return cart;
     }
 
+
     @Override
     @Transactional
-    public void clearCart(Long memberId) {
-        Member member = getMemberById(memberId);
+    public void clearCart(String userEmail) {
+        Member member = getMemberByEmail(userEmail);
         Cart cart = cartRepository.findByMember(member)
                 .orElseThrow(() -> new CartDomainException("해당 회원의 장바구니를 찾을 수 없습니다"));
 
@@ -77,13 +80,44 @@ public class CartServiceImpl implements CartService {
 
     @Override
     @Transactional
-    public void removeProductFromCart(List<TestCartProductsReqDto> cartProductsReqDtos) {
-        List<Product> products = cartProductsReqDtos.stream()
+    public void removeProductFromCart(List<CartProductsRemoveReqDto> cartProductsRemoveReqDtos) {
+        List<Product> products = cartProductsRemoveReqDtos.stream()
                 .map(cartProductsReqDto -> productRepository.findById(cartProductsReqDto.getProductId())
                         .orElseThrow(() -> new ProductDomainException("productId " + cartProductsReqDto.getProductId() + " 해당 제품이 존재하지 않습니다"))).toList();
 
         List<CartProduct> cartProducts = cartProductRepository.findAllByProductIn(products);
         cartProductRepository.deleteAll(cartProducts);
+    }
+
+    @Override
+    @Transactional
+    public void mergeProductsInCartWithUserLogin(List<CartProductsReqDto> cartProductsReqDtos, String userEmail) {
+        Member member = getMemberByEmail(userEmail);
+        Cart cart = getCartForMember(member.getId());
+
+        List<CartProduct> localProducts = cartServiceHelper.getLocalProducts(cart, cartProductsReqDtos);
+
+        List<CartProduct> existingProducts = cartProductRepository.findByCart(cart);
+
+        for (CartProduct localProduct : localProducts) {
+            CartProduct existingCartProduct = existingProducts.stream()
+                    .filter(product -> product.getProduct().getId().equals(localProduct.getProduct().getId()))
+                    .findFirst()
+                    .orElse(null);
+
+            if (existingCartProduct != null) {
+                existingCartProduct.setQuantity(existingCartProduct.getQuantity() + localProduct.getQuantity());
+                cartProductRepository.save(existingCartProduct);
+            } else {
+                Product product = getProduct(localProduct.getProduct().getId());
+                CartProduct cartProduct = CartProduct.builder()
+                        .cart(cart)
+                        .product(product)
+                        .quantity(localProduct.getQuantity())
+                        .build();
+                cartProductRepository.save(cartProduct);
+            }
+        }
     }
 
     private Cart createNewCartForMember(Member member) {
@@ -95,5 +129,14 @@ public class CartServiceImpl implements CartService {
     private Member getMemberById(Long memberId) {
         return memberRepository.findById(memberId)
                 .orElseThrow(() -> new CartDomainException("memberId " + memberId + " 해당 사용자가 존재하지 않습니다."));
+    }
+
+    private Member getMemberByEmail(String userEmail) {
+        return memberRepository.findByEmail(userEmail);
+    }
+
+    private Product getProduct(Long productId) {
+        return productRepository.findById(productId)
+                .orElseThrow(() -> new ProductDomainException("productId " + productId + " 해당 제품이 존재하지 않습니다"));
     }
 }

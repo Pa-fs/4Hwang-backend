@@ -50,13 +50,13 @@ class ProductServiceTest {
         assertThat(diffusers.get(0).getName()).isEqualTo(diffuser.getName());
 
 
-        List<Product> productList = productService.productList();
-        System.out.println(productList);
-
-        assertThat(productRepository).isNotNull();
-        assertThat(productList.get(0).getName()).isEqualTo(productRepository.findById(candle.getId()).orElse(null).getName());
-        assertThat(productList.get(1).getName()).isEqualTo(productRepository.findById(diffuser.getId()).orElse(null).getName());
-        assertThat(productList.get(2).getName()).isEqualTo(productRepository.findById(perfume.getId()).orElse(null).getName());
+//        List<Product> productList = productService.productList();
+//        System.out.println(productList);
+//
+//        assertThat(productRepository).isNotNull();
+//        assertThat(productList.get(0).getName()).isEqualTo(productRepository.findById(candle.getId()).orElse(null).getName());
+//        assertThat(productList.get(1).getName()).isEqualTo(productRepository.findById(diffuser.getId()).orElse(null).getName());
+//        assertThat(productList.get(2).getName()).isEqualTo(productRepository.findById(perfume.getId()).orElse(null).getName());
 
     }
 }

@@ -3,13 +3,13 @@ package com.green.sahwang.service.impl;
 import com.green.sahwang.config.AvroToDBSerializer;
 import com.green.sahwang.dto.request.PurchaseReqDto;
 import com.green.sahwang.dto.response.PurchaseResDto;
+import com.green.sahwang.dto.response.externalapi.ExternalPaymentResDto;
 import com.green.sahwang.entity.*;
 import com.green.sahwang.entity.enumtype.OutboxStatus;
 import com.green.sahwang.entity.enumtype.PurchaseStatus;
-import com.green.sahwang.entity.product.Candle;
 import com.green.sahwang.exception.ProductDomainException;
 import com.green.sahwang.exception.PurchaseDomainException;
-import com.green.sahwang.model.purchase.avro.ProductAvroModel;
+import com.green.sahwang.model.purchase.avro.PurchaseAvroModel;
 import com.green.sahwang.model.purchase.avro.PurchaseCreatedEventAvroModel;
 import com.green.sahwang.repository.*;
 import com.green.sahwang.service.PurchaseService;
@@ -36,65 +36,60 @@ public class PurchaseServiceImpl implements PurchaseService {
 
     @Override
     @Transactional
-    public PurchaseResDto createPurchase(PurchaseReqDto purchaseReqDto) {
+    public PurchaseResDto createPurchase(PurchaseReqDto purchaseReqDto, String userEmail) {
 
         // dto -> entity
         // 1. ModelMapper
         // 2. builder
         // 3. getter setter
         // entity <-> repository
-        Member member = memberRepository.findById(purchaseReqDto.getMemberId())
-                .orElseThrow(() -> new PurchaseDomainException("사용자를 찾을 수 없습니다."));
+//        Member member = memberRepository.findByEmail(userEmail);
 
-        // 나중에 소스 수정할 곳
-        Candle candle1 = new Candle();
-        Candle candle2 = new Candle();
-        candle1.setName("초1");
-        candle1.setPrice(5);
-        candle2.setName("초2");
-        candle2.setPrice(5);
-        productRepository.save(candle1);
-        productRepository.save(candle2);
+        // 테스트 데이터
+        Member member = memberRepository.findById(1L)
+                .orElse(null);
 
+        List<Product> products = productRepository.findAllById(purchaseReqDto.getPurchaseProductDtos().stream()
+                .map(purchaseProductReqDto -> purchaseProductReqDto.getProductId())
+                .toList());
 
         Purchase purchase = Purchase.builder()
                 .member(member)
                 .purchaseStatus(PurchaseStatus.CREATED)
-                .totalPrice(candle1.getPrice() + candle2.getPrice())
+                .purchaseDate(LocalDateTime.now())
+                .totalPrice(products.stream()
+                        .mapToInt(product -> product.getPrice() * getCartProductQuantity(purchaseReqDto, product))
+                        .sum())
                 .build();
-        Purchase savedPurchase = purchaseRepository.save(purchase);
 
-        // 프론트에서 보낸 상품 리스트가 들어올거라 생각하고 짜자
-        // List<Product> products
-        List<Product> products = new ArrayList<>();
-        products.add(candle1);
-        products.add(candle2);
+        log.info("purchase 사전 총합 : {}", purchase.getTotalPrice());
+        log.info("purchaseReqDto.getTotalPrice() 사전 총합 : {}", purchaseReqDto.getTotalPrice());
+
+        if (purchase.getTotalPrice() != purchaseReqDto.getTotalPrice()) {
+            throw new PurchaseDomainException("사전 총 결제 금액이 맞지 않습니다.");
+        }
+
+        Purchase savedPurchase = purchaseRepository.save(purchase);
 
         for (Product product : products) {
             Product findProduct = productRepository.findById(product.getId())
                     .orElseThrow(() -> new ProductDomainException("해당 " + product.getId() + "제품이 없습니다"));
 
+            Integer cartProductQuantity = getCartProductQuantity(purchaseReqDto, product);
+
             PurchaseProduct purchaseProduct = PurchaseProduct.builder()
                     .purchase(savedPurchase)
+                    .productName(findProduct.getName())
                     .product(findProduct)
+                    .productQuantity(cartProductQuantity)
+                    .purchaseCreationDate(LocalDateTime.now())
                     .build();
 
             purchaseProductRepository.save(purchaseProduct);
         }
 
-        List<ProductAvroModel> productAvroModels = products.stream()
-                .map(product -> ProductAvroModel.newBuilder()
-                        .setProductId(String.valueOf(product.getId()))
-                        .build())
-                .toList();
-
-
-        PurchaseCreatedEventAvroModel purchaseCreatedEventAvroModel = PurchaseCreatedEventAvroModel.newBuilder()
-                .setPurchaseId(PREFIX + savedPurchase.getId())
-                .setMemberId("memberId:" + savedPurchase.getMember().getId())
-                .setProducts(new ArrayList<>(productAvroModels))
-                .setTimestamp(System.currentTimeMillis())
-                .build();
+        PurchaseCreatedEventAvroModel purchaseCreatedEventAvroModel =
+                getPurchaseCreatedEventAvroModel(purchaseReqDto, savedPurchase);
 
         OutboxMessage outboxMessage = createPurchaseOutboxMessage(savedPurchase.getId(), purchaseCreatedEventAvroModel);
         log.info("outboxMessage = {}", outboxMessage.toString());
@@ -102,6 +97,37 @@ public class PurchaseServiceImpl implements PurchaseService {
         return PurchaseResDto.builder()
                 .purchaseId(purchase.getId())
                 .memberId(purchase.getMember().getId())
+                .build();
+    }
+
+    @Override
+    public ExternalPaymentResDto purchaseCompleted(String merchantUid) {
+        return null;
+    }
+
+    private Integer getCartProductQuantity(PurchaseReqDto purchaseReqDto, Product product) {
+        return purchaseReqDto.getPurchaseProductDtos().stream()
+                .filter(purchaseProductReqDto -> purchaseProductReqDto.getProductId().equals(product.getId()))
+                .map(purchaseProductReqDto -> purchaseProductReqDto.getQuantity())
+                .findFirst()
+                .orElseThrow(() -> new PurchaseDomainException("해당 " + product.getId() + " 제품의 수량이 없습니다."));
+    }
+
+    private PurchaseCreatedEventAvroModel getPurchaseCreatedEventAvroModel(PurchaseReqDto purchaseReqDto, Purchase savedPurchase) {
+        List<PurchaseAvroModel> productAvroModels = purchaseReqDto.getPurchaseProductDtos().stream()
+                .map(purchaseProductReqDto -> PurchaseAvroModel.newBuilder()
+                        .setProductId(String.valueOf(purchaseProductReqDto.getProductId()))
+                        .setQuantity(purchaseProductReqDto.getQuantity())
+                        .build())
+                .toList();
+
+
+        return PurchaseCreatedEventAvroModel.newBuilder()
+                .setPurchaseId(PREFIX + savedPurchase.getId())
+                .setMemberId("memberId:" + savedPurchase.getMember().getId())
+                .setProducts(new ArrayList<>(productAvroModels))
+                .setTimestamp(System.currentTimeMillis())
+                .setTotalPrice(purchaseReqDto.getTotalPrice())
                 .build();
     }
 

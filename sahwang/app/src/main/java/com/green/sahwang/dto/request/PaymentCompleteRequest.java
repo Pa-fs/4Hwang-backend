@@ -1,5 +1,6 @@
 package com.green.sahwang.dto.request;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Data;
 
@@ -7,9 +8,13 @@ import lombok.Data;
 @Builder
 public class PaymentCompleteRequest {
     private String purchaseId;
-    private String imp_uid;
-    private String merchant_uid;
-    private String paid_amount;
-    private String apply_num;
+    @JsonProperty(value = "imp_uid")
+    private String impUid;
+    @JsonProperty(value = "merchant_uid")
+    private String merchantUid;
+    @JsonProperty(value = "paid_amount")
+    private String paidAmount;
+    @JsonProperty(value = "apply_num")
+    private String applyNum;
     private String email;
 }

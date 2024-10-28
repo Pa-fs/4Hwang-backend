@@ -14,7 +14,6 @@ import java.io.IOException;
 @RestController
 @Slf4j
 @RequiredArgsConstructor
-@CrossOrigin
 public class SseController {
 
     private final SseEmitters sseEmitters;
