@@ -84,6 +84,7 @@ public class ProductServiceImpl implements ProductService {
                 product.getPrice(),
                 reviewService.reviewCount(product),
                 DateTimeUtils.format(product.getRegisterDate()),
+                images.get(0),
                 images
         );
         return productResDto;

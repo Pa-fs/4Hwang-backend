@@ -20,6 +20,8 @@ public class ProductType {
 
     private String name;
 
+    private String info;
+
     private LocalDateTime createdDate;
 
 }

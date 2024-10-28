@@ -28,6 +28,8 @@ public class ProductResDto {
 
     private String registerDate;
 
+    private ImageResDto mainImage;
+
     private List<ImageResDto> images;
 
     public ProductResDto(Long productId,
@@ -38,6 +40,7 @@ public class ProductResDto {
                          int price,
                          int reviewCount,
                          String registerDate,
+                         ImageResDto mainImage,
                          List<ImageResDto> images) {
         this.productId = productId;
         this.productName = productName;
@@ -47,6 +50,7 @@ public class ProductResDto {
         this.price = price;
         this.reviewCount = reviewCount;
         this.registerDate = registerDate;
+        this.mainImage = mainImage;
         this.images = images;
     }
 }
