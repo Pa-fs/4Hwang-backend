@@ -39,6 +39,7 @@ public class ProductDetailPageController {
         return ResponseEntity.ok(detailChartResDtoList);
     }
 
-
+//    @GetMapping("/info/{productId}")
+//    public ResponseEntity<>
 
 }
