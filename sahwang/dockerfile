@@ -1,0 +1,33 @@
+FROM maven:3.8.5-openjdk-17 AS builder
+WORKDIR /build
+
+# 부모 POM 복사
+COPY pom.xml ./
+
+# infrastructure와 kafka 모듈들 복사
+COPY infrastructure/pom.xml ./infrastructure/
+COPY infrastructure/kafka ./infrastructure/kafka
+COPY infrastructure/kafka/kafka-config-data ./infrastructure/kafka/kafka-config-data
+COPY infrastructure/kafka/kafka-model ./infrastructure/kafka/kafka-model
+COPY infrastructure/kafka/kafka-producer ./infrastructure/kafka/kafka-producer
+COPY infrastructure/kafka/kafka-consumer ./infrastructure/kafka/kafka-consumer
+
+# app 모듈 복사
+COPY app/pom.xml ./app/
+COPY app/src ./app/src
+
+# 전체 프로젝트 빌드 (infrastructure 모듈을 먼저 빌드해야 app에서 의존성을 찾을 수 있음)
+RUN mvn clean install -DskipTests
+
+# app 모듈 빌드
+WORKDIR /build/app
+RUN mvn package -DskipTests
+
+FROM openjdk:17.0-slim
+WORKDIR /app
+
+COPY --from=builder /build/app/target/*.jar ./app.jar
+
+EXPOSE 8080
+
+ENTRYPOINT ["java", "-jar", "-Djava.security.egd=file:/dev/./urandom", "-Dsun.net.inetaddr.ttl=0", "app.jar"]
