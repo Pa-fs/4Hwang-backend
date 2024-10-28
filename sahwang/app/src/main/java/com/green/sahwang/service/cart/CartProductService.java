@@ -1,5 +1,6 @@
 package com.green.sahwang.service.cart;
 
+import com.green.sahwang.dto.request.cart.ProductQuantityReqDto;
 import com.green.sahwang.dto.response.CartProductsResDto;
 import com.green.sahwang.entity.CartProduct;
 
@@ -11,7 +12,7 @@ public interface CartProductService {
 
     CartProduct updateQuantity(Long cartProductId, int quantity);
 
-    CartProduct incrementQuantity(Long cartProductId, int incrementValue);
+    void incrementQuantity(ProductQuantityReqDto productQuantityReqDto);
 
-    CartProduct decrementQuantity(Long cartProductId, int decrementValue);
+    void decrementQuantity(ProductQuantityReqDto productQuantityReqDto);
 }

@@ -14,7 +14,7 @@ public interface CartService {
 
     void clearCart(String userEmail);
 
-    void removeProductFromCart(List<CartProductsRemoveReqDto> cartProductsReqDtos);
+    void removeProductFromCart(List<CartProductsRemoveReqDto> cartProductsReqDto);
 
     void mergeProductsInCartWithUserLogin(List<CartProductsReqDto> cartProductsReqDtos, String userEmail);
 }

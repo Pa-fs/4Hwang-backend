@@ -1,5 +1,6 @@
 package com.green.sahwang.controller;
 
+import com.green.sahwang.dto.request.cart.ProductQuantityReqDto;
 import com.green.sahwang.dto.response.CartProductsResDto;
 import com.green.sahwang.service.cart.CartProductService;
 import lombok.RequiredArgsConstructor;
@@ -22,5 +23,17 @@ public class CartProductController {
     public ResponseEntity<List<CartProductsResDto>> getProductsInCart(@RequestParam Long memberId) {
         List<CartProductsResDto> productsInCart = cartProductService.getProductsInCart(memberId);
         return ResponseEntity.ok(productsInCart);
+    }
+
+    @PostMapping("increment")
+    public ResponseEntity<String> incrementProductInCart(@RequestBody ProductQuantityReqDto productQuantityReqDto) {
+        cartProductService.incrementQuantity(productQuantityReqDto);
+        return ResponseEntity.ok("success increment");
+    }
+
+    @PostMapping("decrement")
+    public ResponseEntity<String> decrementProductInCart(@RequestBody ProductQuantityReqDto productQuantityReqDto) {
+        cartProductService.decrementQuantity(productQuantityReqDto);
+        return ResponseEntity.ok("success decrement");
     }
 }

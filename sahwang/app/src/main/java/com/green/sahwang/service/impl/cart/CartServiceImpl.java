@@ -82,8 +82,8 @@ public class CartServiceImpl implements CartService {
     @Transactional
     public void removeProductFromCart(List<CartProductsRemoveReqDto> cartProductsRemoveReqDtos) {
         List<Product> products = cartProductsRemoveReqDtos.stream()
-                .map(cartProductsReqDto -> productRepository.findById(cartProductsReqDto.getProductId())
-                        .orElseThrow(() -> new ProductDomainException("productId " + cartProductsReqDto.getProductId() + " 해당 제품이 존재하지 않습니다"))).toList();
+                .map(cartProductsRemoveReqDto -> productRepository.findById(cartProductsRemoveReqDto.getProductId())
+                        .orElseThrow(() -> new ProductDomainException("productId " + cartProductsRemoveReqDto.getProductId() + " 해당 제품이 존재하지 않습니다"))).toList();
 
         List<CartProduct> cartProducts = cartProductRepository.findAllByProductIn(products);
         cartProductRepository.deleteAll(cartProducts);
