@@ -56,4 +56,10 @@ public class Purchase {
         validatePaidStatus();
         purchaseStatus = PurchaseStatus.SHIP_READY;
     }
+
+    public void validatePaidCompletedStatus() {
+        if (this.purchaseStatus != PurchaseStatus.SHIP_READY) {
+            throw new PurchaseDomainException("해당 구매번호는 " + this.getId() + " 배송준비 상태가 아닙니다!");
+        }
+    }
 }

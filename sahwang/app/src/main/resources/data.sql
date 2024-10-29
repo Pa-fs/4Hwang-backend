@@ -15,8 +15,8 @@ DELETE FROM `member`;
 DELETE FROM `outbox`;
 DELETE FROM `external_prepare_payment`;
 
-insert into member(member_id)
-values (1);
+insert into member(member_id, email)
+values (1, 'qordi124@gmail.com');
 insert into member(member_id)
 values (2);
 

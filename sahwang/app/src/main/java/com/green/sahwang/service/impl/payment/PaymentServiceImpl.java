@@ -39,7 +39,6 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Slf4j
@@ -114,12 +113,12 @@ public class PaymentServiceImpl implements PaymentService {
     @Transactional
     public void processAsyncPayment(PaymentCompleteRequest paymentCompleteRequest) {
         // 사용자가 결제 완료 후 사후 검증 메서드 구현 ...
-        String purchaseId = paymentCompleteRequest.getPurchaseId();
-        changedOutboxMessageForPreparePayment(purchaseId);
-
-        String aggregateId = modifyOutboxStatusToSendPaidEvent(purchaseId);
-        Optional<Purchase> purchase = purchaseRepository.findById(Long.valueOf(purchaseId));
-        createPaymentPaidOutboxMessage(aggregateId, purchase.get());
+//        String purchaseId = paymentCompleteRequest.getPurchaseId();
+//        changedOutboxMessageForPreparePayment(purchaseId);
+//
+//        String aggregateId = modifyOutboxStatusToSendPaidEvent(purchaseId);
+//        Optional<Purchase> purchase = purchaseRepository.findById(Long.valueOf(purchaseId));
+//        createPaymentPaidOutboxMessage(aggregateId, purchase.get(), payment.getPaidAt(), payment.getTotalPrice());
     }
 
     private void changedOutboxMessageForPreparePayment(String purchaseId) {
@@ -192,7 +191,10 @@ public class PaymentServiceImpl implements PaymentService {
 
         BigDecimal paidAmount = iamportResponse.getResponse().getAmount(); // 실제 사용자가 결제한 금액
 
-        if (!preAmount.equals(paidAmount)) {
+        log.info("preAmount : {}, paidAmount : {}", preAmount, paidAmount);
+        // 데이터 포맷에 따른 오류가 발생 가능
+        if (preAmount.intValue() != paidAmount.intValue()) {
+            log.info("cancel payment in external payment API");
             CancelData cancelData = cancelPayment(iamportResponse);
             paymentExternalApi.cancelPaymentByImpUid(cancelData);
         }
@@ -233,6 +235,11 @@ public class PaymentServiceImpl implements PaymentService {
         paymentRepository.save(payment);
     }
 
+    /**
+     * 결제 완료 시 시스템 내 purchasePayment 저장 후
+     * 카프카 이벤트 전송
+     * @param externalPurchasePaymentReqDto
+     */
     @Override
     @Transactional
     public void savePurchaseInfoForPayment(ExternalPurchasePaymentReqDto externalPurchasePaymentReqDto) {
@@ -245,6 +252,7 @@ public class PaymentServiceImpl implements PaymentService {
                 .orElseThrow(() -> new PaymentDomainException("해당 " + externalPurchasePaymentReqDto.getImpUid()
                         + " 외부결제가 존재하지 않습니다."));
 
+        Purchase purchase = null;
         for (PurchaseProduct purchaseProduct : purchaseProducts) {
             PurchasePayment purchasePayment = PurchasePayment.builder()
                     .purchaseProduct(purchaseProduct)
@@ -252,7 +260,12 @@ public class PaymentServiceImpl implements PaymentService {
                     .createdDate(payment.getPaidAt())
                     .build();
             purchasePaymentRepository.save(purchasePayment);
+
+            purchase = purchaseProduct.getPurchase();
         }
+
+        // 이벤트 준비
+        createPaymentPaidOutboxMessage(purchase, payment, externalPurchasePaymentReqDto);
     }
 
     private CancelData cancelPayment(IamportResponse<com.siot.IamportRestClient.response.Payment>
@@ -261,34 +274,42 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     // Todo : 현재 사용 안함
-    // 추후 수정
     private String modifyOutboxStatusToSendPaidEvent(String purchaseId) {
-        String aggregateId = PURCHASE_PREFIX + purchaseId;
-        OutboxMessage outboxMessage = outboxRepository.findByAggregateId(aggregateId)
-                .orElseThrow(() -> new PurchaseDomainException("No outbox purchase event"));
-        outboxMessage.setStatus(OutboxStatus.PENDING);
-        outboxRepository.save(outboxMessage);
-        return aggregateId;
+//        String aggregateId = PURCHASE_PREFIX + purchaseId;
+//        OutboxMessage outboxMessage = outboxRepository.findByAggregateId(aggregateId)
+//                .orElseThrow(() -> new PurchaseDomainException("No outbox purchase event"));
+//        outboxMessage.setStatus(OutboxStatus.PENDING);
+//        outboxRepository.save(outboxMessage);
+//        return aggregateId;
+
+        return null;
     }
 
-    private void createPaymentPaidOutboxMessage(String purchaseId, Purchase purchase) {
+    @Transactional
+    private void createPaymentPaidOutboxMessage(Purchase purchase, Payment payment,
+                                                  ExternalPurchasePaymentReqDto externalPurchasePaymentReqDto) {
         purchase.pay();
         purchaseRepository.save(purchase);
 
+        payment.setStatus(com.green.sahwang.entity.enumtype.PaymentStatus.COMPLETED);
+        paymentRepository.save(payment);
+
         PurchasePaidEventAvroModel purchasePaidEventAvroModel = PurchasePaidEventAvroModel.newBuilder()
-                .setPurchaseId(purchaseId)
+                .setPurchaseId(String.valueOf(purchase.getId()))
                 .setMemberId(MEMBER_PREFIX + purchase.getMember().getId())
-                .setPaymentStatus(PaymentStatus.PAID)
+                .setPaymentStatus(PaymentStatus.valueOf(payment.getStatus().toString().toUpperCase()))
                 .setPaymentMethod(PaymentMethod.CREDIT_CARD)
-                .setTransactionId("TEMP")
+                .setTransactionId(payment.getImpUid())
                 .setTimestamp(System.currentTimeMillis())
-                .setAmount(0)
+                .setAmount(payment.getTotalPrice())
+                .setShippingAddress(externalPurchasePaymentReqDto.getBuyerPostcode()
+                + " " + externalPurchasePaymentReqDto.getBuyerAddr())
                 .build();
 
         OutboxMessage outboxMessage;
         try {
             outboxMessage = OutboxMessage.builder()
-                    .aggregateId(purchaseId)
+                    .aggregateId(PURCHASE_PREFIX + purchase.getId())
                     .avroModel(purchasePaidEventAvroModel.getClass().getName())
                     .eventType("Payment")
                     .topicName("payment-paid")
