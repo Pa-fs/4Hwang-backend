@@ -38,8 +38,9 @@ public class CartProductServiceImpl implements CartProductService {
 
     @Override
     @Transactional
-    public List<CartProductsResDto> getProductsInCart(Long memberId) {
-        Cart cart = cartService.getCartForMember(memberId);
+    public List<CartProductsResDto> getProductsInCart(String email) {
+        Member member = getMemberForEmail(email);
+        Cart cart = cartService.getCartForMember(member.getId());
 
         List<CartProduct> cartProducts = cartProductRepository.findByCart(cart);
 
@@ -66,10 +67,10 @@ public class CartProductServiceImpl implements CartProductService {
 
     @Override
     @Transactional
-    public void incrementQuantity(ProductQuantityReqDto productQuantityReqDto) {
+    public void incrementQuantity(String email, ProductQuantityReqDto productQuantityReqDto) {
 
         Product product = getProduct(productQuantityReqDto.getProductId());
-        Member member = getMember(productQuantityReqDto);
+        Member member = getMemberForEmail(email);
         Cart cart = getCart(member);
 
 
@@ -81,9 +82,9 @@ public class CartProductServiceImpl implements CartProductService {
 
     @Override
     @Transactional
-    public void decrementQuantity(ProductQuantityReqDto productQuantityReqDto) {
+    public void decrementQuantity(String email, ProductQuantityReqDto productQuantityReqDto) {
         Product product = getProduct(productQuantityReqDto.getProductId());
-        Member member = getMember(productQuantityReqDto);
+        Member member = getMemberForEmail(email);
         Cart cart = getCart(member);
 
         CartProduct cartProduct = getCartProduct(cart, product);
@@ -115,5 +116,9 @@ public class CartProductServiceImpl implements CartProductService {
     private Member getMember(ProductQuantityReqDto productQuantityReqDto) {
         return memberRepository.findById(productQuantityReqDto.getMemberId())
                 .orElseThrow(() -> new DomainException("No member"));
+    }
+
+    private Member getMemberForEmail(String email) {
+        return memberRepository.findByEmail(email);
     }
 }
