@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Data;
 
+import java.math.BigDecimal;
+
 @Data
 @Builder
 public class PaymentCompleteRequest {
@@ -13,7 +15,7 @@ public class PaymentCompleteRequest {
     @JsonProperty(value = "merchant_uid")
     private String merchantUid;
     @JsonProperty(value = "paid_amount")
-    private String paidAmount;
+    private BigDecimal paidAmount;
     @JsonProperty(value = "apply_num")
     private String applyNum;
     private String email;

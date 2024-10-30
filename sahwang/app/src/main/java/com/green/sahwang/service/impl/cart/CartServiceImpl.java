@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -33,6 +34,7 @@ public class CartServiceImpl implements CartService {
     private final CartServiceHelper cartServiceHelper;
 
     @Override
+    @Transactional
     public Cart getCartForMember(Long memberId) {
         Member member = getMemberById(memberId);
         return cartRepository.findByMember(member)
@@ -41,8 +43,8 @@ public class CartServiceImpl implements CartService {
 
     @Override
     @Transactional
-    public Cart addProductToCart(Long memberId, Long productId, int quantity) {
-        Member member = getMemberById(memberId);
+    public void addProductToCart(String email, Long productId, int quantity) {
+        Member member = getMemberByEmail(email);
 
         Cart cart = cartRepository.findByMember(member)
                 .orElseGet(() -> createNewCartForMember(member));
@@ -64,7 +66,6 @@ public class CartServiceImpl implements CartService {
             cartProduct.setQuantity(cartProduct.getQuantity() + quantity);
         }
         cartProductRepository.save(cartProduct);
-        return cart;
     }
 
 
@@ -80,12 +81,19 @@ public class CartServiceImpl implements CartService {
 
     @Override
     @Transactional
-    public void removeProductFromCart(List<CartProductsRemoveReqDto> cartProductsRemoveReqDtos) {
+    public void removeProductFromCart(String email, List<CartProductsRemoveReqDto> cartProductsRemoveReqDtos) {
         List<Product> products = cartProductsRemoveReqDtos.stream()
                 .map(cartProductsRemoveReqDto -> productRepository.findById(cartProductsRemoveReqDto.getProductId())
                         .orElseThrow(() -> new ProductDomainException("productId " + cartProductsRemoveReqDto.getProductId() + " 해당 제품이 존재하지 않습니다"))).toList();
 
-        List<CartProduct> cartProducts = cartProductRepository.findAllByProductIn(products);
+        Member member = getMemberByEmail(email);
+        Cart cart = cartRepository.findByMember(member)
+                .orElseThrow(() -> new CartDomainException("No cart"));
+
+        List<CartProduct> cartProducts = cartProductRepository.findAllByProductIn(products)
+                .stream()
+                .filter(cartProduct -> cartProduct.getCart().equals(cart)) // 특정 카트에 해당하는 것만 필터링
+                .collect(Collectors.toList());
         cartProductRepository.deleteAll(cartProducts);
     }
 

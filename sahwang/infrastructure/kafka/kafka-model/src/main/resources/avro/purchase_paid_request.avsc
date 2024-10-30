@@ -7,7 +7,7 @@
     { "name": "memberId", "type": "string" },
     { "name": "transactionId", "type":  "string" },
     { "name": "paymentStatus", "type": {
-        "type": "enum", "name": "PaymentStatus", "symbols": ["PAYING", "PAID"]
+        "type": "enum", "name": "PaymentStatus", "symbols": ["PAYING", "PAID", "COMPLETED"]
       }
     },
     { "name": "paymentMethod", "type": {
@@ -15,6 +15,7 @@
       }
     },
     { "name": "amount", "type":  "int" },
-    { "name": "timestamp", "type": "long" }
+    { "name": "timestamp", "type": "long" },
+    { "name": "shippingAddress", "type": "string"}
   ]
 }

@@ -35,7 +35,7 @@ public class PaymentPaidListener implements KafkaConsumer<PurchasePaidEventAvroM
                 partitions.toString(),
                 offsets.toString());
 
-        notificationService.broadCast(keys, messages);
+        notificationService.paymentCompletedUniCast(keys, messages);
         deliveryPurchaseService.processDeliveryPurchase(keys, messages);
     }
 }

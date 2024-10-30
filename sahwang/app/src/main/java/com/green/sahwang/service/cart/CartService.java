@@ -10,11 +10,11 @@ public interface CartService {
 
     Cart getCartForMember(Long memberId);
 
-    Cart addProductToCart(Long memberId, Long productId, int quantity);
+    void addProductToCart(String email, Long productId, int quantity);
 
     void clearCart(String userEmail);
 
-    void removeProductFromCart(List<CartProductsRemoveReqDto> cartProductsReqDto);
+    void removeProductFromCart(String email, List<CartProductsRemoveReqDto> cartProductsReqDto);
 
     void mergeProductsInCartWithUserLogin(List<CartProductsReqDto> cartProductsReqDtos, String userEmail);
 }

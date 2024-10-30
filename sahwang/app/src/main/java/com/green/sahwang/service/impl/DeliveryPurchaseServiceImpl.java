@@ -40,17 +40,17 @@ public class DeliveryPurchaseServiceImpl implements DeliveryPurchaseService {
                     .orElseThrow(() -> new PurchaseDomainException("해당 구매번호가 없습니다"));
 
             // Idempotency
-            purchase.doReadyForShip();
+//            purchase.validatePaidCompletedStatus();
 
             log.info("해당 구매번호 : {}, 배송 준비 중", purchaseKeyId);
 
-            createPurchaseCompletedOutboxMessage(purchase);
+//            createPurchaseCompletedOutboxMessage(purchase);
 
             // 알림서비스 추가 될 곳 (주문완료)
 
             // 배송 프로세스 시작
 
-            log.info("주문완료 이벤트 발행, 구매번호 : {}", purchaseKeyId);
+//            log.info("주문완료 이벤트 발행, 구매번호 : {}", purchaseKeyId);
         }
     }
 
