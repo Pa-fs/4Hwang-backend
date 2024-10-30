@@ -2,15 +2,13 @@ package com.green.sahwang.detail.controller;
 
 import com.green.sahwang.detail.dto.response.DetailChartResDto;
 import com.green.sahwang.detail.dto.response.DetailImagesResDto;
-import com.green.sahwang.detail.service.ProductDetailService;
+import com.green.sahwang.detail.dto.response.DetailReviewResDto;
+import com.green.sahwang.detail.service.ProductDetailPageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,12 +19,12 @@ import java.util.List;
 public class ProductDetailPageController {
 
     @Autowired
-    private ProductDetailService productDetailService;
+    private ProductDetailPageService productDetailPageService;
 
     @GetMapping("/images/{productId}")
     public ResponseEntity<DetailImagesResDto> productDetailPageImages(@PathVariable(name = "productId") Long productId){
         log.info("productId {}", productId);
-        DetailImagesResDto detailImagesResDto = productDetailService.getProductImages(productId);
+        DetailImagesResDto detailImagesResDto = productDetailPageService.getProductImages(productId);
 
         return ResponseEntity.ok(detailImagesResDto);
     }
@@ -34,12 +32,18 @@ public class ProductDetailPageController {
     @GetMapping("/chart/{productId}")
     public ResponseEntity<List<DetailChartResDto>> productDetailPageChart(@PathVariable(name = "productId") Long productId){
 
-        List<DetailChartResDto> detailChartResDtoList = productDetailService.getSaleProducts(productId);
+        List<DetailChartResDto> detailChartResDtoList = productDetailPageService.getSaleProducts(productId);
 
         return ResponseEntity.ok(detailChartResDtoList);
     }
 
-//    @GetMapping("/info/{productId}")
-//    public ResponseEntity<>
+    // 필요할꺼 같은 정보들
+    @GetMapping("/info/{productId}")
+    public ResponseEntity<DetailReviewResDto> getReviewInfo(@PathVariable(name = "productId") Long productId){
+
+        DetailReviewResDto detailReviewResDto = productDetailPageService.getDetailReviewInfo(productId);
+
+        return ResponseEntity.ok(detailReviewResDto);
+    }
 
 }
