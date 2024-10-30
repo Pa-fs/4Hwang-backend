@@ -14,10 +14,10 @@ import org.apache.avro.message.SchemaStore;
 
 @org.apache.avro.specific.AvroGenerated
 public class PurchasePaidEventAvroModel extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = -4659866678306217572L;
+  private static final long serialVersionUID = -3796832107767195849L;
 
 
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"PurchasePaidEventAvroModel\",\"namespace\":\"com.green.sahwang.model.payment.avro\",\"fields\":[{\"name\":\"purchaseId\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"memberId\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"transactionId\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"paymentStatus\",\"type\":{\"type\":\"enum\",\"name\":\"PaymentStatus\",\"symbols\":[\"PAYING\",\"PAID\"]}},{\"name\":\"paymentMethod\",\"type\":{\"type\":\"enum\",\"name\":\"PaymentMethod\",\"symbols\":[\"CREDIT_CARD\",\"ACCOUNT_TRANSFER\"]}},{\"name\":\"amount\",\"type\":\"int\"},{\"name\":\"timestamp\",\"type\":\"long\"}]}");
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"PurchasePaidEventAvroModel\",\"namespace\":\"com.green.sahwang.model.payment.avro\",\"fields\":[{\"name\":\"purchaseId\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"memberId\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"transactionId\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"paymentStatus\",\"type\":{\"type\":\"enum\",\"name\":\"PaymentStatus\",\"symbols\":[\"PAYING\",\"PAID\",\"COMPLETED\"]}},{\"name\":\"paymentMethod\",\"type\":{\"type\":\"enum\",\"name\":\"PaymentMethod\",\"symbols\":[\"CREDIT_CARD\",\"ACCOUNT_TRANSFER\"]}},{\"name\":\"amount\",\"type\":\"int\"},{\"name\":\"timestamp\",\"type\":\"long\"},{\"name\":\"shippingAddress\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static final SpecificData MODEL$ = new SpecificData();
@@ -80,6 +80,7 @@ public class PurchasePaidEventAvroModel extends org.apache.avro.specific.Specifi
   private com.green.sahwang.model.payment.avro.PaymentMethod paymentMethod;
   private int amount;
   private long timestamp;
+  private java.lang.String shippingAddress;
 
   /**
    * Default constructor.  Note that this does not initialize fields
@@ -97,8 +98,9 @@ public class PurchasePaidEventAvroModel extends org.apache.avro.specific.Specifi
    * @param paymentMethod The new value for paymentMethod
    * @param amount The new value for amount
    * @param timestamp The new value for timestamp
+   * @param shippingAddress The new value for shippingAddress
    */
-  public PurchasePaidEventAvroModel(java.lang.String purchaseId, java.lang.String memberId, java.lang.String transactionId, com.green.sahwang.model.payment.avro.PaymentStatus paymentStatus, com.green.sahwang.model.payment.avro.PaymentMethod paymentMethod, java.lang.Integer amount, java.lang.Long timestamp) {
+  public PurchasePaidEventAvroModel(java.lang.String purchaseId, java.lang.String memberId, java.lang.String transactionId, com.green.sahwang.model.payment.avro.PaymentStatus paymentStatus, com.green.sahwang.model.payment.avro.PaymentMethod paymentMethod, java.lang.Integer amount, java.lang.Long timestamp, java.lang.String shippingAddress) {
     this.purchaseId = purchaseId;
     this.memberId = memberId;
     this.transactionId = transactionId;
@@ -106,6 +108,7 @@ public class PurchasePaidEventAvroModel extends org.apache.avro.specific.Specifi
     this.paymentMethod = paymentMethod;
     this.amount = amount;
     this.timestamp = timestamp;
+    this.shippingAddress = shippingAddress;
   }
 
   @Override
@@ -125,6 +128,7 @@ public class PurchasePaidEventAvroModel extends org.apache.avro.specific.Specifi
     case 4: return paymentMethod;
     case 5: return amount;
     case 6: return timestamp;
+    case 7: return shippingAddress;
     default: throw new IndexOutOfBoundsException("Invalid index: " + field$);
     }
   }
@@ -141,6 +145,7 @@ public class PurchasePaidEventAvroModel extends org.apache.avro.specific.Specifi
     case 4: paymentMethod = (com.green.sahwang.model.payment.avro.PaymentMethod)value$; break;
     case 5: amount = (java.lang.Integer)value$; break;
     case 6: timestamp = (java.lang.Long)value$; break;
+    case 7: shippingAddress = value$ != null ? value$.toString() : null; break;
     default: throw new IndexOutOfBoundsException("Invalid index: " + field$);
     }
   }
@@ -265,6 +270,23 @@ public class PurchasePaidEventAvroModel extends org.apache.avro.specific.Specifi
   }
 
   /**
+   * Gets the value of the 'shippingAddress' field.
+   * @return The value of the 'shippingAddress' field.
+   */
+  public java.lang.String getShippingAddress() {
+    return shippingAddress;
+  }
+
+
+  /**
+   * Sets the value of the 'shippingAddress' field.
+   * @param value the value to set.
+   */
+  public void setShippingAddress(java.lang.String value) {
+    this.shippingAddress = value;
+  }
+
+  /**
    * Creates a new PurchasePaidEventAvroModel RecordBuilder.
    * @return A new PurchasePaidEventAvroModel RecordBuilder
    */
@@ -312,6 +334,7 @@ public class PurchasePaidEventAvroModel extends org.apache.avro.specific.Specifi
     private com.green.sahwang.model.payment.avro.PaymentMethod paymentMethod;
     private int amount;
     private long timestamp;
+    private java.lang.String shippingAddress;
 
     /** Creates a new Builder */
     private Builder() {
@@ -352,6 +375,10 @@ public class PurchasePaidEventAvroModel extends org.apache.avro.specific.Specifi
         this.timestamp = data().deepCopy(fields()[6].schema(), other.timestamp);
         fieldSetFlags()[6] = other.fieldSetFlags()[6];
       }
+      if (isValidValue(fields()[7], other.shippingAddress)) {
+        this.shippingAddress = data().deepCopy(fields()[7].schema(), other.shippingAddress);
+        fieldSetFlags()[7] = other.fieldSetFlags()[7];
+      }
     }
 
     /**
@@ -387,6 +414,10 @@ public class PurchasePaidEventAvroModel extends org.apache.avro.specific.Specifi
       if (isValidValue(fields()[6], other.timestamp)) {
         this.timestamp = data().deepCopy(fields()[6].schema(), other.timestamp);
         fieldSetFlags()[6] = true;
+      }
+      if (isValidValue(fields()[7], other.shippingAddress)) {
+        this.shippingAddress = data().deepCopy(fields()[7].schema(), other.shippingAddress);
+        fieldSetFlags()[7] = true;
       }
     }
 
@@ -668,6 +699,46 @@ public class PurchasePaidEventAvroModel extends org.apache.avro.specific.Specifi
       return this;
     }
 
+    /**
+      * Gets the value of the 'shippingAddress' field.
+      * @return The value.
+      */
+    public java.lang.String getShippingAddress() {
+      return shippingAddress;
+    }
+
+
+    /**
+      * Sets the value of the 'shippingAddress' field.
+      * @param value The value of 'shippingAddress'.
+      * @return This builder.
+      */
+    public com.green.sahwang.model.payment.avro.PurchasePaidEventAvroModel.Builder setShippingAddress(java.lang.String value) {
+      validate(fields()[7], value);
+      this.shippingAddress = value;
+      fieldSetFlags()[7] = true;
+      return this;
+    }
+
+    /**
+      * Checks whether the 'shippingAddress' field has been set.
+      * @return True if the 'shippingAddress' field has been set, false otherwise.
+      */
+    public boolean hasShippingAddress() {
+      return fieldSetFlags()[7];
+    }
+
+
+    /**
+      * Clears the value of the 'shippingAddress' field.
+      * @return This builder.
+      */
+    public com.green.sahwang.model.payment.avro.PurchasePaidEventAvroModel.Builder clearShippingAddress() {
+      shippingAddress = null;
+      fieldSetFlags()[7] = false;
+      return this;
+    }
+
     @Override
     @SuppressWarnings("unchecked")
     public PurchasePaidEventAvroModel build() {
@@ -680,6 +751,7 @@ public class PurchasePaidEventAvroModel extends org.apache.avro.specific.Specifi
         record.paymentMethod = fieldSetFlags()[4] ? this.paymentMethod : (com.green.sahwang.model.payment.avro.PaymentMethod) defaultValue(fields()[4]);
         record.amount = fieldSetFlags()[5] ? this.amount : (java.lang.Integer) defaultValue(fields()[5]);
         record.timestamp = fieldSetFlags()[6] ? this.timestamp : (java.lang.Long) defaultValue(fields()[6]);
+        record.shippingAddress = fieldSetFlags()[7] ? this.shippingAddress : (java.lang.String) defaultValue(fields()[7]);
         return record;
       } catch (org.apache.avro.AvroMissingFieldException e) {
         throw e;
@@ -726,6 +798,8 @@ public class PurchasePaidEventAvroModel extends org.apache.avro.specific.Specifi
 
     out.writeLong(this.timestamp);
 
+    out.writeString(this.shippingAddress);
+
   }
 
   @Override public void customDecode(org.apache.avro.io.ResolvingDecoder in)
@@ -747,8 +821,10 @@ public class PurchasePaidEventAvroModel extends org.apache.avro.specific.Specifi
 
       this.timestamp = in.readLong();
 
+      this.shippingAddress = in.readString();
+
     } else {
-      for (int i = 0; i < 7; i++) {
+      for (int i = 0; i < 8; i++) {
         switch (fieldOrder[i].pos()) {
         case 0:
           this.purchaseId = in.readString();
@@ -776,6 +852,10 @@ public class PurchasePaidEventAvroModel extends org.apache.avro.specific.Specifi
 
         case 6:
           this.timestamp = in.readLong();
+          break;
+
+        case 7:
+          this.shippingAddress = in.readString();
           break;
 
         default:

@@ -8,11 +8,11 @@ import java.util.List;
 
 public interface CartProductService {
 
-    List<CartProductsResDto> getProductsInCart(Long memberId);
+    List<CartProductsResDto> getProductsInCart(String email);
 
     CartProduct updateQuantity(Long cartProductId, int quantity);
 
-    void incrementQuantity(ProductQuantityReqDto productQuantityReqDto);
+    void incrementQuantity(String email, ProductQuantityReqDto productQuantityReqDto);
 
-    void decrementQuantity(ProductQuantityReqDto productQuantityReqDto);
+    void decrementQuantity(String email, ProductQuantityReqDto productQuantityReqDto);
 }

@@ -15,6 +15,8 @@ services:
       SCHEMA_REGISTRY_LISTENERS: http://schema-registry:8081
       SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: PLAINTEXT://kafka-broker-2:9092,LISTENER_LOCAL://localhost:29092
       SCHEMA_REGISTRY_DEBUG: 'true'
+#       호환성 모드를 NONE으로 설정
+#      SCHEMA_REGISTRY_COMPATIBILITY_LEVEL: NONE
     networks:
       - ${GLOBAL_NETWORK:-kafka}
   kafka-broker-1:
