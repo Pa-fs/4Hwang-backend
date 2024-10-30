@@ -1,17 +1,14 @@
 package com.green.sahwang.detail.controller;
 
-import com.green.sahwang.detail.dto.response.DetailChartResDto;
-import com.green.sahwang.detail.dto.response.DetailImagesResDto;
-import com.green.sahwang.detail.dto.response.DetailReviewResDto;
+import com.green.sahwang.detail.dto.response.*;
 import com.green.sahwang.detail.service.ProductDetailPageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -47,6 +44,23 @@ public class ProductDetailPageController {
         DetailReviewResDto detailReviewResDto = productDetailPageService.getDetailReviewInfo(productId);
 
         return ResponseEntity.ok(detailReviewResDto);
+    }
+
+    @GetMapping("/review/{productId}")
+    public ResponseEntity<List<ReviewResDto>> getReviewPage(@PathVariable(name = "productId") Long productID,
+                                                            @RequestParam(name = "pageNum", defaultValue = "0", required = false) int pageNum,
+                                                            @RequestParam(name = "size", defaultValue = "3", required = false) int size){
+        List<ReviewResDto> reviewResDtoList = productDetailPageService.getReviewPages(productID, pageNum, size);
+
+        return ResponseEntity.ok(reviewResDtoList);
+    }
+
+    @GetMapping("/favorite/{productId}")
+    public ResponseEntity<List<FavoriteCheckedResDto>> favoriteCheck(@PathVariable(name = "productId") Long productId,
+                                                                     @AuthenticationPrincipal UserDetails userDetails){
+        List<FavoriteCheckedResDto> favoriteCheckedResDtoList = productDetailPageService.getChecked(productId, userDetails);
+
+        return ResponseEntity.ok(favoriteCheckedResDtoList);
     }
 
 }

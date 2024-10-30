@@ -7,12 +7,17 @@ import com.green.sahwang.entity.*;
 import com.green.sahwang.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -129,6 +134,57 @@ public class ProductDetailPagePageServiceImpl implements ProductDetailPageServic
         detailReviewResDto.setFiveStarCount(fiveStarCount);
 
         return detailReviewResDto;
+    }
+
+    @Transactional
+    public List<ReviewResDto> getReviewPages(Long productId, int pageNum, int size){
+        List<PurchaseProduct> purchaseProductList = purchaseProductRepository.findAllByProductId(productId);
+
+        Pageable pageable = PageRequest.of(pageNum, size);
+
+        Page<Review> reviewList = reviewRepository.findAllByPurchaseProductIn(purchaseProductList, pageable);
+
+        List<ReviewResDto> reviewResDtoList = new ArrayList<>();
+
+        for(Review review : reviewList.getContent()){
+            Member member = review.getMember();
+            MemberDetailReviewResDto memberDetailReviewResDto = new MemberDetailReviewResDto(
+                    member.getNickName(), member.getProfileImage()
+            );
+
+            ReviewResDto reviewResDto = new ReviewResDto();
+            reviewResDto.setStar(review.getStar());
+            reviewResDto.setContent(review.getContent());
+            reviewResDto.setReviewCreationDate(review.getReviewCreationDate());
+            reviewResDto.setReviewModifiedDate(review.getReviewModifiedDate());
+            reviewResDto.setMemberDetailReviewResDto(memberDetailReviewResDto);
+
+            reviewResDtoList.add(reviewResDto);
+        }
+
+        return reviewResDtoList;
+    }
+
+    public List<FavoriteCheckedResDto> getChecked(Long productId, UserDetails userDetails){
+        List<PurchaseProduct> purchaseProductList = purchaseProductRepository.findAllByProductId(productId);
+        List<Review> reviewList = reviewRepository.findAllByPurchaseProductIn(purchaseProductList);
+        List<Favorite> favoriteList = favoriteRepository.findAllByReviewIn(reviewList);
+        List<Member> memberList = memberRepository.findAllByEmail(userDetails.getUsername());
+
+        Set<Long> favoriteMemberIds = favoriteList.stream()
+                .map(favorite -> favorite.getMember().getId())
+                .collect(Collectors.toSet());
+
+        List<FavoriteCheckedResDto> favoriteCheckedResDtoList = memberList.stream()
+                .map(member -> {
+                    Boolean isChecked = favoriteMemberIds.contains(member.getId());
+                    FavoriteCheckedResDto favoriteCheckedResDto = new FavoriteCheckedResDto();
+                    favoriteCheckedResDto.setChecked(isChecked);
+                    return favoriteCheckedResDto;
+                })
+                .toList();
+
+        return favoriteCheckedResDtoList;
     }
 
 }
