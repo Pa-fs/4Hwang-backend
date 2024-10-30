@@ -30,7 +30,7 @@ public class ReviewServiceImpl implements ReviewService {
 
         List<PurchaseProduct> purchaseProducts = purchaseProductRepository.findByProductIdAndPurchaseIn(product.getId(), purchases);
 
-        List<Review> reviews = reviewRepository.findByPurchaseProductIn(purchaseProducts);
+        List<Review> reviews = reviewRepository.findAllByPurchaseProductIn(purchaseProducts);
 
         return reviews.size();
     }

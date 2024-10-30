@@ -2,6 +2,7 @@ package com.green.sahwang.repository;
 
 import com.green.sahwang.entity.Brand;
 import com.green.sahwang.entity.Product;
+import com.green.sahwang.entity.ProductProductType;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -26,4 +27,5 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             "    GROUP BY p2.dtype\n" +
             ")")
     List<Product> findBestProducts(Pageable pageable);
+
 }

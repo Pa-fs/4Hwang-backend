@@ -1,5 +1,6 @@
 package com.green.sahwang.entity;
 
+import com.green.sahwang.entity.enumtype.ProductTypeGroup;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,5 +24,8 @@ public class ProductType {
     private String info;
 
     private LocalDateTime createdDate;
+
+    @Enumerated(EnumType.STRING)
+    private ProductTypeGroup productTypeGroup;
 
 }

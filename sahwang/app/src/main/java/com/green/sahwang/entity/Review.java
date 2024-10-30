@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @AllArgsConstructor
@@ -22,13 +23,13 @@ public class Review {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "purchase_product_id")
     private PurchaseProduct purchaseProduct;
 
-    private LocalDate reviewCreationDate;
+    private LocalDateTime reviewCreationDate;
 
-    private LocalDate reviewModifiedDate;
+    private LocalDateTime reviewModifiedDate;
 
     private String content;
 
