@@ -32,7 +32,7 @@ public class PurchaseController {
 
         // memberId, List<Product> products.
 //        PurchaseResDto purchaseResDto = purchaseService.createPurchase(purchaseReqDto, userDetails.getUsername());
-        PurchaseResDto purchaseResDto = purchaseService.createPurchase(purchaseReqDto, "temp");
+        PurchaseResDto purchaseResDto = purchaseService.createPurchase(purchaseReqDto, userDetails.getUsername());
         return ResponseEntity.ok("purchase created");
     }
 
