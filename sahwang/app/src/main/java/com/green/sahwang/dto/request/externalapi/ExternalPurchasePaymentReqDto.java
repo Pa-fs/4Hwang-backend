@@ -16,6 +16,7 @@ public class ExternalPurchasePaymentReqDto {
 
     private String buyerName;
 
+
     private String buyerAddr;
 
     private String buyerPostcode;

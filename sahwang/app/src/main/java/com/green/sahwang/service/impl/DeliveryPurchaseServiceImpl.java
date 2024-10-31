@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -33,16 +34,28 @@ public class DeliveryPurchaseServiceImpl implements DeliveryPurchaseService {
     public void processDeliveryPurchase(List<String> purchaseIds, List<PurchasePaidEventAvroModel> messages) {
 
         for (String purchaseId : purchaseIds) {
-            String PREFIX = purchaseId.split(":")[0];
             String purchaseKeyId = purchaseId.split(":")[1];
             log.info("purchaseKeyId = {}", purchaseKeyId);
             Purchase purchase = purchaseRepository.findById(Long.valueOf(purchaseKeyId))
                     .orElseThrow(() -> new PurchaseDomainException("해당 구매번호가 없습니다"));
 
             // Idempotency
-//            purchase.validatePaidCompletedStatus();
+            purchase.validatePaidCompletedStatus();
 
+            log.info("purchaseId : {}", purchaseId);
             log.info("해당 구매번호 : {}, 배송 준비 중", purchaseKeyId);
+
+            String shippingAddress = null;
+            List<PurchasePaidEventAvroModel> purchasePaidEventAvroModels = messages.stream().toList();
+            for (PurchasePaidEventAvroModel purchasePaidEventAvroModel : purchasePaidEventAvroModels) {
+                log.info("purchasePaidEventAvroModel.getPurchaseId() : ", purchasePaidEventAvroModel.getPurchaseId());
+                if(purchaseId.equals("purchase:" + purchasePaidEventAvroModel.getPurchaseId())) {
+                    shippingAddress = purchasePaidEventAvroModel.getShippingAddress();
+                    break;
+                }
+            }
+
+            log.info("목적지 주소 : {}", shippingAddress);
 
 //            createPurchaseCompletedOutboxMessage(purchase);
 

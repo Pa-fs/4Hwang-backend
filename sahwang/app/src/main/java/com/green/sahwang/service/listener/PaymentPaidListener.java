@@ -4,6 +4,7 @@ import com.green.sahwang.controller.NotificationService;
 import com.green.sahwang.kafka.consumer.service.KafkaConsumer;
 import com.green.sahwang.model.payment.avro.PurchasePaidEventAvroModel;
 import com.green.sahwang.service.DeliveryPurchaseService;
+import com.green.sahwang.service.cart.CartService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -14,13 +15,14 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-//@Component
+@Component
 @RequiredArgsConstructor
 @Slf4j
 public class PaymentPaidListener implements KafkaConsumer<PurchasePaidEventAvroModel> {
 
     private final DeliveryPurchaseService deliveryPurchaseService;
     private final NotificationService notificationService;
+    private final CartService cartService;
 
     @KafkaListener(id = "${kafka-consumer-config.payment-consumer-group-id}",
             topics = "${payment-service.payment-paid-topic-name}")
@@ -35,6 +37,7 @@ public class PaymentPaidListener implements KafkaConsumer<PurchasePaidEventAvroM
                 partitions.toString(),
                 offsets.toString());
 
+        cartService.clearCart(keys, messages);
         notificationService.paymentCompletedUniCast(keys, messages);
         deliveryPurchaseService.processDeliveryPurchase(keys, messages);
     }

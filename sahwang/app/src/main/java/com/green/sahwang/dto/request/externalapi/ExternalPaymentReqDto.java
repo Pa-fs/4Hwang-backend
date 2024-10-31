@@ -1,6 +1,9 @@
 package com.green.sahwang.dto.request.externalapi;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.green.sahwang.config.LocalDateTimeDeserializer;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
@@ -23,6 +26,7 @@ public class ExternalPaymentReqDto {
     @JsonProperty(value = "pay_method")
     private String payMethod;
 
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime paidAt;
 
     private String embPgProvider;

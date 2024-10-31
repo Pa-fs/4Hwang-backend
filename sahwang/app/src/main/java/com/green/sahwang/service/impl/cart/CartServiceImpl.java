@@ -2,16 +2,14 @@ package com.green.sahwang.service.impl.cart;
 
 import com.green.sahwang.dto.request.cart.CartProductsRemoveReqDto;
 import com.green.sahwang.dto.request.cart.CartProductsReqDto;
-import com.green.sahwang.entity.Cart;
-import com.green.sahwang.entity.CartProduct;
-import com.green.sahwang.entity.Member;
-import com.green.sahwang.entity.Product;
+import com.green.sahwang.entity.*;
 import com.green.sahwang.exception.CartDomainException;
+import com.green.sahwang.exception.DomainException;
 import com.green.sahwang.exception.ProductDomainException;
-import com.green.sahwang.repository.CartProductRepository;
-import com.green.sahwang.repository.CartRepository;
-import com.green.sahwang.repository.MemberRepository;
-import com.green.sahwang.repository.ProductRepository;
+import com.green.sahwang.exception.PurchaseDomainException;
+import com.green.sahwang.exception.payment.PaymentDomainException;
+import com.green.sahwang.model.payment.avro.PurchasePaidEventAvroModel;
+import com.green.sahwang.repository.*;
 import com.green.sahwang.service.cart.CartService;
 import com.green.sahwang.service.impl.cart.helper.CartServiceHelper;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +30,7 @@ public class CartServiceImpl implements CartService {
     private final ProductRepository productRepository;
     private final CartProductRepository cartProductRepository;
     private final CartServiceHelper cartServiceHelper;
+    private final PaymentRepository paymentRepository;
 
     @Override
     @Transactional
@@ -66,17 +65,6 @@ public class CartServiceImpl implements CartService {
             cartProduct.setQuantity(cartProduct.getQuantity() + quantity);
         }
         cartProductRepository.save(cartProduct);
-    }
-
-
-    @Override
-    @Transactional
-    public void clearCart(String userEmail) {
-        Member member = getMemberByEmail(userEmail);
-        Cart cart = cartRepository.findByMember(member)
-                .orElseThrow(() -> new CartDomainException("해당 회원의 장바구니를 찾을 수 없습니다"));
-
-        cartProductRepository.deleteAllByCart(cart);
     }
 
     @Override
@@ -125,6 +113,28 @@ public class CartServiceImpl implements CartService {
                         .build();
                 cartProductRepository.save(cartProduct);
             }
+        }
+    }
+
+    @Override
+    @Transactional
+    public void clearCart(List<String> keys, List<PurchasePaidEventAvroModel> messages) {
+        Payment payment = null;
+        List<PurchasePaidEventAvroModel> purchasePaidEventAvroModels = messages.stream().toList();
+        for (PurchasePaidEventAvroModel purchasePaidEventAvroModel : purchasePaidEventAvroModels) {
+            payment = paymentRepository.findByImpUid(purchasePaidEventAvroModel.getTransactionId())
+                    .orElseThrow(() -> new PaymentDomainException("No Payment TransactionId"));
+
+            payment.validatePaidCompletedStatus();
+
+            Long memberId = Long.parseLong(purchasePaidEventAvroModel.getMemberId().split(":")[1]);
+            Member member = memberRepository.findById(memberId)
+                    .orElseThrow(() -> new DomainException(memberId + "해당 회원을 찾을 수 없습니다"));
+
+            Cart cart = cartRepository.findByMember(member)
+                    .orElseThrow(() -> new CartDomainException("해당 회원의 장바구니를 찾을 수 없습니다"));
+
+            cartProductRepository.deleteAllByCart(cart);
         }
     }
 
