@@ -20,7 +20,7 @@ import java.nio.file.Paths;
 @RestController
 @RequestMapping("/api/file")
 @Slf4j
-public class    ImageFileController {
+public class ImageFileController {
 
     private final Path imagePath;
     private final ImageFileService imageFileService;

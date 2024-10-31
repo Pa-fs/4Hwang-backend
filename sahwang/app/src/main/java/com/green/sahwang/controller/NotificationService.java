@@ -5,7 +5,6 @@ import com.green.sahwang.entity.Purchase;
 import com.green.sahwang.exception.PurchaseDomainException;
 import com.green.sahwang.exception.payment.PaymentDomainException;
 import com.green.sahwang.model.payment.avro.PurchasePaidEventAvroModel;
-import com.green.sahwang.repository.OutboxRepository;
 import com.green.sahwang.repository.PaymentRepository;
 import com.green.sahwang.repository.PurchaseRepository;
 import com.green.sahwang.service.SseEmitterService;
@@ -32,18 +31,7 @@ public class NotificationService {
                     .orElseThrow(() -> new PurchaseDomainException("해당 구매번호가 없습니다"));
 
             // Idempotency
-            purchase.doReadyForShip();
-
-//            List<SseEmitter> deadEmitters = new ArrayList<>();
-//            for (SseEmitter emitter : SSE_EMITTERS) {
-//                try {
-//                    emitter.send(SseEmitter.event().name("paidCompleted")
-//                            .data(purchase.getPurchaseStatus()));
-//                } catch (IOException e) {
-//                    deadEmitters.add(emitter);
-//                }
-//            }
-//            SSE_EMITTERS.removeAll(deadEmitters);
+            purchase.validatePaidCompletedStatus();
 
             int totalAmount = 0;
             Long orderId = 0L;

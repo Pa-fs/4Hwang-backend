@@ -7,6 +7,7 @@ import com.green.sahwang.dto.request.externalapi.ExternalPurchasePaymentReqDto;
 import com.green.sahwang.entity.*;
 import com.green.sahwang.entity.enumtype.OutboxStatus;
 import com.green.sahwang.entity.enumtype.PaymentType;
+import com.green.sahwang.entity.enumtype.PurchaseStatus;
 import com.green.sahwang.entity.enumtype.SystemLogicType;
 import com.green.sahwang.entity.externalapi.ExternalPrePaymentReqDto;
 import com.green.sahwang.entity.externalapi.PrePaymentEntity;
@@ -206,6 +207,7 @@ public class PaymentServiceImpl implements PaymentService {
     @Transactional
     public void saveUserInfoForPayment(ExternalPaymentReqDto externalPaymentReqDto) {
 
+        log.info("externalPaymentReqDto {}", externalPaymentReqDto.toString());
         /**
          * JWT 받아서 처리해야함
          */
@@ -243,6 +245,7 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     @Transactional
     public void savePurchaseInfoForPayment(ExternalPurchasePaymentReqDto externalPurchasePaymentReqDto) {
+        log.info("externalPurchasePaymentReqDto : {}", externalPurchasePaymentReqDto.toString());
         List<PurchaseProduct> purchaseProducts = purchaseProductRepository.findAllByProductIdIn(externalPurchasePaymentReqDto
                 .getPurchaseProductDtos().stream()
                 .map(purchaseProductReqDto -> purchaseProductReqDto.getProductId())
@@ -264,6 +267,9 @@ public class PaymentServiceImpl implements PaymentService {
             purchase = purchaseProduct.getPurchase();
         }
 
+        // 결제 완료
+        purchase.setPurchaseStatus(PurchaseStatus.SHIP_READY);
+        purchaseRepository.save(purchase);
         // 이벤트 준비
         createPaymentPaidOutboxMessage(purchase, payment, externalPurchasePaymentReqDto);
     }
@@ -288,8 +294,8 @@ public class PaymentServiceImpl implements PaymentService {
     @Transactional
     private void createPaymentPaidOutboxMessage(Purchase purchase, Payment payment,
                                                   ExternalPurchasePaymentReqDto externalPurchasePaymentReqDto) {
-        purchase.pay();
-        purchaseRepository.save(purchase);
+        log.info("created purchaseId : {}", purchase.getId());
+        log.info("purchase : {}", purchase.getPurchaseStatus());
 
         payment.setStatus(com.green.sahwang.entity.enumtype.PaymentStatus.COMPLETED);
         paymentRepository.save(payment);
@@ -305,6 +311,8 @@ public class PaymentServiceImpl implements PaymentService {
                 .setShippingAddress(externalPurchasePaymentReqDto.getBuyerPostcode()
                 + " " + externalPurchasePaymentReqDto.getBuyerAddr())
                 .build();
+
+        log.info("purchasePaidEventAvroModel : {}", purchasePaidEventAvroModel.toString());
 
         OutboxMessage outboxMessage;
         try {

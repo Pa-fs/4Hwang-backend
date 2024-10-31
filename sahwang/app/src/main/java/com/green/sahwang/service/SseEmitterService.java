@@ -23,8 +23,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 @RequiredArgsConstructor
 @Slf4j
 public class SseEmitterService {
-
-    //    public final static List<SseEmitter> SSE_EMITTERS = new CopyOnWriteArrayList<>();
     private final Map<String, SseEmitter> emitters = new ConcurrentHashMap<>();
     private final MemberRepository memberRepository;
     private final ObjectMapper objectMapper;
@@ -51,7 +49,6 @@ public class SseEmitterService {
 
         return emitter;
     }
-
 
     public void sendPaymentCompletedEventToUser(String userId, String message, Long orderId, int totalAmount, PaymentStatus status) {
         SseEmitter emitter = emitters.get(userId);

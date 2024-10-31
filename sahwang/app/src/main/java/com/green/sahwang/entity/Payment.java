@@ -2,7 +2,10 @@ package com.green.sahwang.entity;
 
 import com.green.sahwang.entity.enumtype.PaymentStatus;
 import com.green.sahwang.entity.enumtype.PaymentType;
+import com.green.sahwang.entity.enumtype.PurchaseStatus;
 import com.green.sahwang.entity.enumtype.SystemLogicType;
+import com.green.sahwang.exception.PurchaseDomainException;
+import com.green.sahwang.exception.payment.PaymentDomainException;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -42,4 +45,9 @@ public class Payment {
     private String embPgProvider;
     private String pgProvider;
 
+    public void validatePaidCompletedStatus() {
+        if (this.status != PaymentStatus.COMPLETED) {
+            throw new PaymentDomainException("해당 결제번호는 " + this.getId() + " 완료상태가 아닙니다!");
+        }
+    }
 }
