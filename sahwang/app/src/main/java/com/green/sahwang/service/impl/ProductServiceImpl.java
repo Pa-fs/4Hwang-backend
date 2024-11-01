@@ -1,9 +1,7 @@
 package com.green.sahwang.service.impl;
 
 import com.green.sahwang.config.DateTimeUtils;
-import com.green.sahwang.dto.response.BestProductResDto;
 import com.green.sahwang.dto.response.ImageResDto;
-import com.green.sahwang.dto.response.ProductImageResDto;
 import com.green.sahwang.dto.response.ProductResDto;
 import com.green.sahwang.entity.Product;
 import com.green.sahwang.entity.ProductImage;
@@ -20,7 +18,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -64,7 +61,7 @@ public class ProductServiceImpl implements ProductService {
 
     @NotNull
     public ProductResDto getProductResDto(Product product) {
-        List<ProductImage> productImages = productImageRepository.findByProduct(product);
+        List<ProductImage> productImages = productImageRepository.findAllByProduct(product);
         List<ImageResDto> images = productImages.stream()
                 .map(productImage -> {
                     ImageResDto imageResDto = new ImageResDto(

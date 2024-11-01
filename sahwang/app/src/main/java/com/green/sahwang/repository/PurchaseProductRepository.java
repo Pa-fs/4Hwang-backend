@@ -1,5 +1,6 @@
 package com.green.sahwang.repository;
 
+import com.green.sahwang.entity.Product;
 import com.green.sahwang.entity.Purchase;
 import com.green.sahwang.entity.PurchaseProduct;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,4 +16,6 @@ public interface PurchaseProductRepository extends JpaRepository<PurchaseProduct
     List<PurchaseProduct> findAllByProductIdIn(List<Long> productIds);
 
     List<PurchaseProduct> findAllByProductId(Long productId);
+
+    List<PurchaseProduct> findAllByProduct(Product product);
 }
