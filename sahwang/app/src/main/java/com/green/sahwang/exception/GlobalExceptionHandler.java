@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(BizException.class)
-    public ResponseEntity<ErrorResponse> noPurchaseProductException(BizException e){
+    public ResponseEntity<ErrorResponse> globalBizException(BizException e){
         ErrorResponse errorResponse = ErrorResponse.builder()
                 .message(e.getErrorCode().getMessage())
                 .httpStatus(e.getErrorCode().getHttpStatus())
@@ -19,5 +19,7 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.status(errorResponse.getHttpStatus()).body(errorResponse);
     }
+
+
 
 }
