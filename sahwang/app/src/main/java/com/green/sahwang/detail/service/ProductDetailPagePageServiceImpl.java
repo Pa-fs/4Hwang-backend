@@ -1,9 +1,10 @@
 package com.green.sahwang.detail.service;
 
 import com.green.sahwang.detail.dto.response.*;
-import com.green.sahwang.detail.error.SalePaymentException;
 import com.green.sahwang.dto.response.ImageResDto;
 import com.green.sahwang.entity.*;
+import com.green.sahwang.exception.BizException;
+import com.green.sahwang.exception.ErrorCode;
 import com.green.sahwang.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,10 +15,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,37 +23,45 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ProductDetailPagePageServiceImpl implements ProductDetailPageService {
 
-    private final SaleProductRepository saleProductRepository;
-    private final SalePaymentRepository salePaymentRepository;
     private final ProductImageRepository productImageRepository;
     private final ProductRepository productRepository;
     private final PurchaseProductRepository purchaseProductRepository;
+    private final PurchasePaymentRepository purchasePaymentRepository;
     private final ReviewRepository reviewRepository;
     private final MemberRepository memberRepository;
     private final FavoriteRepository favoriteRepository;
 
     @Transactional
-    public List<DetailChartResDto> getSaleProducts(Long productId){
-        Optional<SaleProduct> optionalSaleProduct = saleProductRepository.findById(productId);
+    public List<DetailChartResDto> getSaleProducts(Long productId, int size){
+        Product product = productRepository.findById(productId).orElseThrow();
+        Product product1 = productRepository.findByNameAndSize(product.getName(), size);
+        List<PurchaseProduct> purchaseProductList = purchaseProductRepository.findAllByProduct(product1);
+        List<PurchasePayment> purchasePaymentList = purchasePaymentRepository.findAllByPurchaseProductIn(purchaseProductList);
 
-        salePaymentRepository.findBySaleProduct(optionalSaleProduct.orElse(null)).orElseThrow(()->new SalePaymentException("결제 완료된 판매 내역이 없습니다"));
+        if (purchasePaymentList.isEmpty()){
+            throw new BizException(ErrorCode.NO_PURCHASE_PRODUCT);
+//            return null;
+        }
 
-        return optionalSaleProduct
-                .stream()
-                .map(saleProduct -> {
-                    DetailChartResDto detailChartResDto = new DetailChartResDto();
-                    detailChartResDto.setTradeCompletedDate(saleProduct.getTradeCompletedDate());
-                    detailChartResDto.setTradePrice(saleProduct.getTradePrice());
-                    return detailChartResDto;
-                })
-                .collect(Collectors.toList());
+
+        List<DetailChartResDto> detailChartResDtoList = new ArrayList<>();
+
+        for (PurchasePayment purchasePayment : purchasePaymentList){
+            DetailChartResDto detailChartResDto = new DetailChartResDto();
+            detailChartResDto.setTradePrice(product.getPrice());
+            detailChartResDto.setTradeCompletedDate(purchasePayment.getCreatedDate());
+
+            detailChartResDtoList.add(detailChartResDto);
+        }
+
+        return detailChartResDtoList;
     }
 
     @Transactional
     public DetailImagesResDto getProductImages(Long productId){
         Product product = productRepository.findById(productId)
                 .orElse(null);
-        List<ProductImage> productImages = productImageRepository.findByProduct(product);
+        List<ProductImage> productImages = productImageRepository.findAllByProduct(product);
 
         List<ImageResDto> imageResDtoList = new ArrayList<>();
         for (ProductImage productImage : productImages) {
@@ -68,37 +74,30 @@ public class ProductDetailPagePageServiceImpl implements ProductDetailPageServic
     }
 
     @Transactional
-    public DetailReviewResDto getDetailReviewInfo(Long productId){
+    public List<DetailProductInfoResDto> getDetailProductInfo(Long productId){
+        Product product = productRepository.findById(productId).orElseThrow();
+        List<Product> productList = productRepository.findAllByName(product.getName());
+
+        List<DetailProductInfoResDto> detailProductInfoResDtoList = new ArrayList<>();
+
+        for (Product product1 : productList){
+            DetailProductInfoResDto detailProductInfoResDto = new DetailProductInfoResDto();
+            detailProductInfoResDto.setBrandName(product1.getBrand().getName());
+            detailProductInfoResDto.setProductName(product1.getName());
+            detailProductInfoResDto.setSize(product1.getSize());
+            detailProductInfoResDto.setPrice(product1.getPrice());
+
+            detailProductInfoResDtoList.add(detailProductInfoResDto);
+        }
+
+        return detailProductInfoResDtoList;
+    }
+
+    @Transactional
+    public DetailReviewInfoResDto getDetailReviewInfo(Long productId){
         List<PurchaseProduct> purchaseProductList = purchaseProductRepository.findAllByProductId(productId);
         List<Review> reviewList = reviewRepository.findAllByPurchaseProductIn(purchaseProductList);
-        List<Member> memberList = new ArrayList<>();
-        for (Review review : reviewList){
-            memberList.add(review.getMember());
-            log.info("memberList.size() : {}", memberList.size());
-        }
-
-        log.info("memberList : {}", memberList);
-
-        List<MemberDetailReviewResDto> memberDetailReviewResDtoList = new ArrayList<>();
-        for (Member member : memberList){
-            memberDetailReviewResDtoList.add(new MemberDetailReviewResDto(member.getNickName(), member.getProfileImage()));
-        }
-
-        List<ReviewResDto> reviewResDtoList = new ArrayList<>();
-
-        for (int i = 0; i < reviewList.size(); i++){
-            Review review = reviewList.get(i);
-            MemberDetailReviewResDto memberDetailReviewResDto = memberDetailReviewResDtoList.get(i);
-
-            ReviewResDto reviewResDto = new ReviewResDto();
-            reviewResDto.setMemberDetailReviewResDto(memberDetailReviewResDto);
-            reviewResDto.setStar(review.getStar());
-            reviewResDto.setContent(review.getContent());
-            reviewResDto.setReviewCreationDate(review.getReviewCreationDate());
-            reviewResDto.setReviewModifiedDate(review.getReviewModifiedDate());
-
-            reviewResDtoList.add(reviewResDto);
-        }
+        List<Favorite> favoriteList = favoriteRepository.findAllByReviewIn(reviewList);
 
         int oneStarCount = 0;
         int twoStarCount = 0;
@@ -121,19 +120,24 @@ public class ProductDetailPagePageServiceImpl implements ProductDetailPageServic
         // 별점 평균 계산
         double averageStar = reviewList.isEmpty() ? 0.0 : totalStars / reviewList.size();
 
-        List<Favorite> favoriteList = favoriteRepository.findAllByReviewIn(reviewList);
+        DetailReviewInfoResDto detailReviewInfoResDto = new DetailReviewInfoResDto();
+        detailReviewInfoResDto.setStarAverage(averageStar);
+        detailReviewInfoResDto.setOneStarCount(oneStarCount);
+        detailReviewInfoResDto.setTwoStarCount(twoStarCount);
+        detailReviewInfoResDto.setThreeStarCount(threeStarCount);
+        detailReviewInfoResDto.setFourStarCount(fourStarCount);
+        detailReviewInfoResDto.setFiveStarCount(fiveStarCount);
+        detailReviewInfoResDto.setReviewCount(reviewList.size());
+        detailReviewInfoResDto.setFavoriteCount(favoriteList.size());
 
-        DetailReviewResDto detailReviewResDto = new DetailReviewResDto();
-        detailReviewResDto.setReviewResDtoList(reviewResDtoList);
-        detailReviewResDto.setFavoriteCount(favoriteList.size());
-        detailReviewResDto.setStarAverage(averageStar);
-        detailReviewResDto.setOneStarCount(oneStarCount);
-        detailReviewResDto.setTwoStarCount(twoStarCount);
-        detailReviewResDto.setThreeStarCount(threeStarCount);
-        detailReviewResDto.setFourStarCount(fourStarCount);
-        detailReviewResDto.setFiveStarCount(fiveStarCount);
+        return detailReviewInfoResDto;
+    }
 
-        return detailReviewResDto;
+    @Transactional
+    public DetailImageResDto getDetailPageImage(Long productId){
+
+
+        return null;
     }
 
     @Transactional
@@ -153,6 +157,7 @@ public class ProductDetailPagePageServiceImpl implements ProductDetailPageServic
             );
 
             ReviewResDto reviewResDto = new ReviewResDto();
+            reviewResDto.setReviewId(review.getId());
             reviewResDto.setStar(review.getStar());
             reviewResDto.setContent(review.getContent());
             reviewResDto.setReviewCreationDate(review.getReviewCreationDate());
@@ -165,6 +170,7 @@ public class ProductDetailPagePageServiceImpl implements ProductDetailPageServic
         return reviewResDtoList;
     }
 
+    @Transactional
     public List<FavoriteCheckedResDto> getChecked(Long productId, UserDetails userDetails){
         List<PurchaseProduct> purchaseProductList = purchaseProductRepository.findAllByProductId(productId);
         List<Review> reviewList = reviewRepository.findAllByPurchaseProductIn(purchaseProductList);
@@ -185,6 +191,30 @@ public class ProductDetailPagePageServiceImpl implements ProductDetailPageServic
                 .toList();
 
         return favoriteCheckedResDtoList;
+    }
+
+    @Transactional
+    public String clickFavorite(Long reviewId, UserDetails userDetails){
+        Member member = memberRepository.findByEmail(userDetails.getUsername());
+        Review review = reviewRepository.findById(reviewId).orElseThrow(()->new NoSuchElementException("잘못된 리뷰Id 입니다"));
+
+        Favorite favorite = Favorite.builder()
+                .review(review)
+                .member(member)
+                .build();
+
+        favoriteRepository.save(favorite);
+        return "Success";
+    }
+
+    @Transactional
+    public String cancelFavorite(Long reviewId, UserDetails userDetails){
+        Member member = memberRepository.findByEmail(userDetails.getUsername());
+        Review review = reviewRepository.findById(reviewId).orElseThrow(()->new NoSuchElementException("잘못된 리뷰Id 입니다"));
+        Favorite favorite = favoriteRepository.findByMemberAndReview(member, review);
+
+        favoriteRepository.deleteById(favorite.getId());
+        return "Cancel";
     }
 
 }

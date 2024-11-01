@@ -2,6 +2,8 @@ DELETE FROM `product_image`;
 DELETE FROM `category_brand`;
 DELETE FROM `cart_product`;
 DELETE FROM `purchase_payment`;
+DELETE FROM `favorite`;
+DELETE FROM `review`;
 DELETE FROM `purchase_product`;
 DELETE FROM `purchase`;
 DELETE FROM `payment`;
@@ -15,10 +17,13 @@ DELETE FROM `member`;
 DELETE FROM `outbox`;
 DELETE FROM `external_prepare_payment`;
 
+
 insert into member(member_id, email)
 values (1, 'qordi124@gmail.com');
 insert into member(member_id)
 values (2);
+INSERT INTO `member` (`member_id`, `account`, `ad_received`, `address`, `email`, `is_deleted`, `join_date`, `name`, `nick_name`, `phone_num`, `role`, `sns_type`, `withdraw_date`, `profile_image`, `thumbnail_image`, `addr`, `post_code`)
+VALUES (3, NULL, NULL, NULL, 'whgpals4263@nate.com', NULL, '2024-10-31', NULL, '민이♡', NULL, 'USER', 1, NULL, 'http://img1.kakaocdn.net/thumb/R640x640.q70/?fname=http://t1.kakaocdn.net/account_images/default_profile.jpeg', 'http://img1.kakaocdn.net/thumb/R110x110.q70/?fname=http://t1.kakaocdn.net/account_images/default_profile.jpeg', NULL, NULL);
 INSERT INTO `member` (`member_id`, `account`, `ad_received`, `address`, `email`, `is_deleted`, `join_date`, `name`, `nick_name`, `phone_num`, `role`, `sns_type`, `withdraw_date`, `profile_image`, `thumbnail_image`, `addr`, `post_code`)
 VALUES (4, NULL, NULL, NULL, 'kdh7313@naver.com', NULL, '2024-11-01', NULL, '강도현', NULL, 'USER', 1, NULL, 'http://k.kakaocdn.net/dn/b7yPFA/btsKquPi0Cw/BjABLmpyNB6gbKxUAX9I40/img_640x640.jpg', 'http://k.kakaocdn.net/dn/b7yPFA/btsKquPi0Cw/BjABLmpyNB6gbKxUAX9I40/img_110x110.jpg', NULL, NULL);
 
@@ -212,3 +217,15 @@ INSERT INTO `product_image` (`product_image_id`, `file_desc`, `filename`, `path`
 	(22, 'diffuser6', 'd_006.png', 'images/file/\\d_006.png', 22),
 	(23, 'diffuser7', 'd_007.png', 'images/file/\\d_007.png', 23),
 	(24, 'diffuser8', 'd_008.png', 'images/file/\\d_008.png', 24);
+
+-- purchase
+INSERT INTO purchase (purchase_id, purchase_date, purchase_status, total_price, member_id) VALUES (10000001, now(), 'COMPLETED', 730000, 3);
+
+-- purchase_product
+INSERT INTO purchase_product (purchase_product_id, product_name, product_quantity, purchase_creation_date, product_id, purchase_id) VALUES (10000001, '아쿠아 오드퍼퓸', 2, now(), 1, 10000001);
+
+-- review
+INSERT INTO review (review_id, member_id, purchase_product_id, review_creation_date, star, content) VALUES(10000001, 3, 10000001, now(), 4.0, '향이 좋아요~~');
+
+-- favorite
+INSERT INTO favorite (member_id, review_id) VALUES(3, 10000001);

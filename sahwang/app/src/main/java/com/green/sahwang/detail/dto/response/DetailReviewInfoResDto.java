@@ -2,15 +2,9 @@ package com.green.sahwang.detail.dto.response;
 
 import lombok.Data;
 
-import java.util.List;
-
 @Data
-public class DetailReviewResDto {
+public class DetailReviewInfoResDto {
 
-    String brandName;
-    String productName;
-    int productPrice;
-    int productSize;
     double starAverage;
     int oneStarCount;
     int twoStarCount;
@@ -18,6 +12,6 @@ public class DetailReviewResDto {
     int fourStarCount;
     int fiveStarCount;
     int favoriteCount;
-    List<ReviewResDto> reviewResDtoList;
+    int reviewCount;
 
 }
