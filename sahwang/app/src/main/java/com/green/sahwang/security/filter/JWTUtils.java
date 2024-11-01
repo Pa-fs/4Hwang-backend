@@ -28,7 +28,8 @@ public class JWTUtils {
                 .claim("role","ROLE_USER")
                 .claim("access_token", accessToken)
                 .issuedAt(new Date(System.currentTimeMillis())) // 현재 시간 넣기
-                .expiration(new Date(System.currentTimeMillis() + 1000)) // 1초 지나면 유효시간 없음...
+//                .expiration(new Date(System.currentTimeMillis() + 1000)) // 1초 지나면 유효시간 없음...
+//                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24)) // 1초*60*60*24 1일 유효함
                 .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24)) // 1초*60*60*24 1일 유효함
                 .signWith(SignatureAlgorithm.HS256,
                         Base64.getEncoder().encodeToString(SECRET_KEY.getBytes()))

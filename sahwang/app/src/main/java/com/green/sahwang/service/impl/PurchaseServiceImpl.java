@@ -43,11 +43,11 @@ public class PurchaseServiceImpl implements PurchaseService {
         // 2. builder
         // 3. getter setter
         // entity <-> repository
-//        Member member = memberRepository.findByEmail(userEmail);
+        Member member = memberRepository.findByEmail(userEmail);
 
         // 테스트 데이터
-        Member member = memberRepository.findById(1L)
-                .orElse(null);
+//        Member member = memberRepository.findById(1L)
+//                .orElse(null);
 
         List<Product> products = productRepository.findAllById(purchaseReqDto.getPurchaseProductDtos().stream()
                 .map(purchaseProductReqDto -> purchaseProductReqDto.getProductId())

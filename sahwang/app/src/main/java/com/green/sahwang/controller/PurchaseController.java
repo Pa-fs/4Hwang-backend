@@ -21,19 +21,12 @@ public class PurchaseController {
 
     @PostMapping("/create")
 //    public ResponseEntity<String> createPurchase(@RequestBody dto)
-    public ResponseEntity<String> createPurchase(@Valid @RequestBody PurchaseReqDto purchaseReqDto,
-                                                 @AuthenticationPrincipal UserDetails userDetails) {
+    public ResponseEntity<PurchaseResDto> createPurchase(@Valid @RequestBody PurchaseReqDto purchaseReqDto,
+                                                         @AuthenticationPrincipal UserDetails userDetails) {
 
         log.info("PurchaseReqDto : {}", purchaseReqDto);
-//        추후 인증
-//        if (userDetails.getUsername() == null) {
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-//        }
-
-        // memberId, List<Product> products.
-//        PurchaseResDto purchaseResDto = purchaseService.createPurchase(purchaseReqDto, userDetails.getUsername());
         PurchaseResDto purchaseResDto = purchaseService.createPurchase(purchaseReqDto, userDetails.getUsername());
-        return ResponseEntity.ok("purchase created");
+        return ResponseEntity.ok(purchaseResDto);
     }
 
     @GetMapping("/purchaseCompleted")
