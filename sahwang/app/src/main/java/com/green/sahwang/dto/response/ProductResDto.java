@@ -1,5 +1,6 @@
 package com.green.sahwang.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.green.sahwang.config.DateTimeUtils;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,6 +22,9 @@ public class ProductResDto {
 
     private String brandName;
 
+    @JsonProperty(value = "size")
+    private int productSize;
+
     private int price;
 
     // review Service 만들어서
@@ -37,6 +41,7 @@ public class ProductResDto {
                          String content,
                          String dtype,
                          String brandName,
+                         int productSize,
                          int price,
                          int reviewCount,
                          String registerDate,
@@ -47,6 +52,7 @@ public class ProductResDto {
         this.content = content;
         this.dtype = dtype;
         this.brandName = brandName;
+        this.productSize = productSize;
         this.price = price;
         this.reviewCount = reviewCount;
         this.registerDate = registerDate;

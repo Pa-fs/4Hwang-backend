@@ -78,6 +78,7 @@ public class ProductServiceImpl implements ProductService {
                 product.getContent(),
                 product.getDtype(),
                 product.getBrand().getName(),
+                product.getSize(),
                 product.getPrice(),
                 reviewService.reviewCount(product),
                 DateTimeUtils.format(product.getRegisterDate()),

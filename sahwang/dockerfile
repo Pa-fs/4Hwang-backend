@@ -15,13 +15,15 @@ COPY infrastructure/kafka/kafka-consumer ./infrastructure/kafka/kafka-consumer
 # app 모듈 복사
 COPY app/pom.xml ./app/
 COPY app/src ./app/src
+# local의 images 폴더를 /app/images 로 복사
+COPY ./images ./app
 
 # 전체 프로젝트 빌드 (infrastructure 모듈을 먼저 빌드해야 app에서 의존성을 찾을 수 있음)
-RUN mvn clean install -DskipTests
+RUN mvn clean install -DskipTests -T 6C
 
 # app 모듈 빌드
 WORKDIR /build/app
-RUN mvn package -DskipTests
+RUN mvn package -DskipTests -T 6C
 
 FROM openjdk:17.0-slim
 WORKDIR /app
