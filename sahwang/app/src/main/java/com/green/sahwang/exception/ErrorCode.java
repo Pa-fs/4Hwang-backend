@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 public enum ErrorCode {
 
     NO_PURCHASE_PRODUCT(HttpStatus.NOT_FOUND,"구매 내역이 없습니다"),
+    NO_REVIEW(HttpStatus.NOT_FOUND,"리뷰가 없습니다"),
     ;
 
     private final HttpStatus httpStatus;

@@ -226,6 +226,9 @@ INSERT INTO purchase_product (purchase_product_id, product_name, product_quantit
 
 -- review
 INSERT INTO review (review_id, member_id, purchase_product_id, review_creation_date, star, content) VALUES(10000001, 3, 10000001, now(), 4.0, '향이 좋아요~~');
+INSERT INTO review (review_id, member_id, purchase_product_id, review_creation_date, star, content) VALUES(10000002, 5, 10000001, now(), 5.0, '향이 좋아요~~');
 
 -- favorite
 INSERT INTO favorite (member_id, review_id) VALUES(3, 10000001);
+--INSERT INTO favorite (member_id, review_id) VALUES(5, 10000001);
+INSERT INTO favorite (member_id, review_id) VALUES(5, 10000002);

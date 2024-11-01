@@ -40,9 +40,7 @@ public class ProductDetailPagePageServiceImpl implements ProductDetailPageServic
 
         if (purchasePaymentList.isEmpty()){
             throw new BizException(ErrorCode.NO_PURCHASE_PRODUCT);
-//            return null;
         }
-
 
         List<DetailChartResDto> detailChartResDtoList = new ArrayList<>();
 
@@ -172,21 +170,20 @@ public class ProductDetailPagePageServiceImpl implements ProductDetailPageServic
 
     @Transactional
     public List<FavoriteCheckedResDto> getChecked(Long productId, UserDetails userDetails){
+        Member member = memberRepository.findByEmail(userDetails.getUsername());
         List<PurchaseProduct> purchaseProductList = purchaseProductRepository.findAllByProductId(productId);
         List<Review> reviewList = reviewRepository.findAllByPurchaseProductIn(purchaseProductList);
         List<Favorite> favoriteList = favoriteRepository.findAllByReviewIn(reviewList);
-        List<Member> memberList = memberRepository.findAllByEmail(userDetails.getUsername());
 
-        Set<Long> favoriteMemberIds = favoriteList.stream()
-                .map(favorite -> favorite.getMember().getId())
+        Set<Long> favoriteReviewIds = favoriteList.stream()
+                .filter(favorite -> favorite.getMember().getId().equals(member.getId()))
+                .map(favorite -> favorite.getReview().getId())
                 .collect(Collectors.toSet());
 
-        List<FavoriteCheckedResDto> favoriteCheckedResDtoList = memberList.stream()
-                .map(member -> {
-                    Boolean isChecked = favoriteMemberIds.contains(member.getId());
-                    FavoriteCheckedResDto favoriteCheckedResDto = new FavoriteCheckedResDto();
-                    favoriteCheckedResDto.setChecked(isChecked);
-                    return favoriteCheckedResDto;
+        List<FavoriteCheckedResDto> favoriteCheckedResDtoList = reviewList.stream()
+                .map(review -> {
+                    boolean isChecked = favoriteReviewIds.contains(review.getId());
+                    return new FavoriteCheckedResDto(isChecked);
                 })
                 .toList();
 
