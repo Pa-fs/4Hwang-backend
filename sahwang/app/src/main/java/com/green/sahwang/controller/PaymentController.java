@@ -10,6 +10,8 @@ import com.siot.IamportRestClient.response.Payment;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -38,14 +40,16 @@ public class PaymentController {
     }
 
     @PostMapping("/save-user-info")
-    public ResponseEntity<String> saveUserInfo(@RequestBody ExternalPaymentReqDto externalPaymentReqDto) {
-        paymentService.saveUserInfoForPayment(externalPaymentReqDto);
+    public ResponseEntity<String> saveUserInfo(@RequestBody ExternalPaymentReqDto externalPaymentReqDto,
+                                               @AuthenticationPrincipal UserDetails userDetails) {
+        paymentService.saveUserInfoForPayment(externalPaymentReqDto, userDetails.getUsername());
         return ResponseEntity.ok("success save user info");
     }
 
     @PostMapping("/save-purchase-info")
-    public ResponseEntity<String> savePurchaseInfo(@RequestBody ExternalPurchasePaymentReqDto externalPurchasePaymentReqDto) {
-        paymentService.savePurchaseInfoForPayment(externalPurchasePaymentReqDto);
+    public ResponseEntity<String> savePurchaseInfo(@RequestBody ExternalPurchasePaymentReqDto externalPurchasePaymentReqDto,
+                                                   @AuthenticationPrincipal UserDetails userDetails) {
+        paymentService.savePurchaseInfoForPayment(externalPurchasePaymentReqDto, userDetails.getUsername());
         return ResponseEntity.ok(externalPurchasePaymentReqDto.getMerchantUId());
     }
 

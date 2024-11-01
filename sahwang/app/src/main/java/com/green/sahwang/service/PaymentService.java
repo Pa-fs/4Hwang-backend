@@ -23,7 +23,7 @@ public interface PaymentService {
 
     Payment postValidateOrder(PaymentCompleteRequest paymentCompleteRequest) throws IamportResponseException, IOException;
 
-    void saveUserInfoForPayment(ExternalPaymentReqDto externalPaymentReqDto);
+    void saveUserInfoForPayment(ExternalPaymentReqDto externalPaymentReqDto, String email);
 
-    void savePurchaseInfoForPayment(ExternalPurchasePaymentReqDto buyerReqDto);
+    void savePurchaseInfoForPayment(ExternalPurchasePaymentReqDto buyerReqDto, String email);
 }

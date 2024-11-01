@@ -205,20 +205,11 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     @Transactional
-    public void saveUserInfoForPayment(ExternalPaymentReqDto externalPaymentReqDto) {
+    public void saveUserInfoForPayment(ExternalPaymentReqDto externalPaymentReqDto, String email) {
 
         log.info("externalPaymentReqDto {}", externalPaymentReqDto.toString());
-        /**
-         * JWT 받아서 처리해야함
-         */
-//        String email = buyerReqDto.getBuyerEmail();
-//        // 기존 회원과 구매자의 배송지는 다를 수 있음
-//        Member member = memberRepository.findByEmail(email);
-//         기존 회원과 다를 경우
-
-        // 테스트 데이터
-        Member member = memberRepository.findById(1L)
-                .orElse(null);
+//        기존 회원과 구매자의 배송지는 다를 수 있음
+        Member member = memberRepository.findByEmail(email);
 
         Payment payment = Payment.builder()
                 .member(member)
@@ -240,11 +231,13 @@ public class PaymentServiceImpl implements PaymentService {
     /**
      * 결제 완료 시 시스템 내 purchasePayment 저장 후
      * 카프카 이벤트 전송
+     *
      * @param externalPurchasePaymentReqDto
+     * @param email
      */
     @Override
     @Transactional
-    public void savePurchaseInfoForPayment(ExternalPurchasePaymentReqDto externalPurchasePaymentReqDto) {
+    public void savePurchaseInfoForPayment(ExternalPurchasePaymentReqDto externalPurchasePaymentReqDto, String email) {
         log.info("externalPurchasePaymentReqDto : {}", externalPurchasePaymentReqDto.toString());
         List<PurchaseProduct> purchaseProducts = purchaseProductRepository.findAllByProductIdIn(externalPurchasePaymentReqDto
                 .getPurchaseProductDtos().stream()
