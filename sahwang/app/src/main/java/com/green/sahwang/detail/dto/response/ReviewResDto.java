@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 public class ReviewResDto {
 
     MemberDetailReviewResDto memberDetailReviewResDto;
+    Long reviewId;
     double star;
     String content;
     LocalDateTime reviewCreationDate;

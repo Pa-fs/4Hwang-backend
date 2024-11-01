@@ -2,6 +2,7 @@ package com.green.sahwang.controller;
 
 import com.green.sahwang.dto.response.BestProductResDto;
 import com.green.sahwang.dto.response.ProductResDto;
+import com.green.sahwang.entity.Heart;
 import com.green.sahwang.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -42,4 +43,7 @@ public class ProductController {
         List<ProductResDto> products = productService.getNewProducts(pageNum, size);
         return ResponseEntity.ok(products);
     }
+
+//    @GetMapping("/heart")
+//    public ResponseEntity<List<Heart>>
 }

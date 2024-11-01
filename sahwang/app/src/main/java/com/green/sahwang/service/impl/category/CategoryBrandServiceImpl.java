@@ -1,6 +1,5 @@
 package com.green.sahwang.service.impl.category;
 
-import com.green.sahwang.config.DateTimeUtils;
 import com.green.sahwang.dto.response.*;
 import com.green.sahwang.entity.Brand;
 import com.green.sahwang.entity.Category;
@@ -8,8 +7,6 @@ import com.green.sahwang.entity.Product;
 import com.green.sahwang.entity.ProductImage;
 import com.green.sahwang.exception.CategoryDomainException;
 import com.green.sahwang.repository.*;
-import com.green.sahwang.service.ProductService;
-import com.green.sahwang.service.ReviewService;
 import com.green.sahwang.service.category.CategoryBrandService;
 import com.green.sahwang.service.impl.ProductServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -89,7 +86,7 @@ public class CategoryBrandServiceImpl implements CategoryBrandService {
             int remainingSlots = totalLimit - totalSum;
             List<ProductResInBrandDto> limitedProducts = products.stream()
                     .map(product -> {
-                        List<ProductImage> productImages = productImageRepository.findByProduct(product);
+                        List<ProductImage> productImages = productImageRepository.findAllByProduct(product);
 
                         List<ImageResDto> imageResponses = productImages.stream()
                                 .map(image -> new ImageResDto(image.getFilename(), image.getPath(), image.getFileDesc()))
