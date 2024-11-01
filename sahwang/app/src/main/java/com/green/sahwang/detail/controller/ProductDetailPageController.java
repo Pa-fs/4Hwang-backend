@@ -72,8 +72,7 @@ public class ProductDetailPageController {
     }
 
     @GetMapping("/favorite/{productId}")
-    public ResponseEntity<List<FavoriteCheckedResDto>> favoriteCheck(@PathVariable(name = "productId") Long productId,
-                                                                     @AuthenticationPrincipal UserDetails userDetails){
+    public ResponseEntity<List<FavoriteCheckedResDto>> favoriteCheck(@PathVariable(name = "productId") Long productId, @AuthenticationPrincipal UserDetails userDetails){
         List<FavoriteCheckedResDto> favoriteCheckedResDtoList = productDetailPageService.getChecked(productId, userDetails);
 
         return ResponseEntity.ok(favoriteCheckedResDtoList);
