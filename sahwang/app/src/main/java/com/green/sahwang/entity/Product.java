@@ -48,6 +48,9 @@ public abstract class Product {
 
     private Boolean usedOrNot;
 
+    @Lob
+    private byte[] detailImage;
+
     private String mainImage;
 
     private String adImage;

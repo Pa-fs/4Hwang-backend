@@ -82,8 +82,9 @@ public class ProductDetailPagePageServiceImpl implements ProductDetailPageServic
             DetailProductInfoResDto detailProductInfoResDto = new DetailProductInfoResDto();
             detailProductInfoResDto.setBrandName(product1.getBrand().getName());
             detailProductInfoResDto.setProductName(product1.getName());
-            detailProductInfoResDto.setSize(product1.getSize());
             detailProductInfoResDto.setPrice(product1.getPrice());
+            detailProductInfoResDto.setProductId(product1.getId());
+            detailProductInfoResDto.setSize(product1.getSize());
 
             detailProductInfoResDtoList.add(detailProductInfoResDto);
         }
@@ -132,10 +133,15 @@ public class ProductDetailPagePageServiceImpl implements ProductDetailPageServic
     }
 
     @Transactional
-    public DetailImageResDto getDetailPageImage(Long productId){
+    public DetailMainImageResDto getDetailMainPageImage(Long productId){
+        Product product = productRepository.findById(productId).orElseThrow();
 
+        String image = Base64.getEncoder().encodeToString(product.getDetailImage());
 
-        return null;
+        DetailMainImageResDto detailMainImageResDto = new DetailMainImageResDto();
+        detailMainImageResDto.setImage(image);
+
+        return detailMainImageResDto;
     }
 
     @Transactional
