@@ -55,11 +55,13 @@ public class ProductDetailPageController {
     }
 
     @GetMapping("/detailPageImage/{productId}")
-    public ResponseEntity<DetailImageResDto> getDetailPageImage(@PathVariable(name = "productId") Long productId){
+    public ResponseEntity<String> getDetailPageImage(@PathVariable(name = "productId") Long productId){
 
-        DetailImageResDto detailImageResDto = productDetailPageService.getDetailPageImage(productId);
+        DetailMainImageResDto detailMainImageResDto = productDetailPageService.getDetailMainPageImage(productId);
 
-        return ResponseEntity.ok(detailImageResDto);
+        String imageUrl = "data:image/jpeg;base64," + detailMainImageResDto.getImage();
+
+        return ResponseEntity.ok(imageUrl);
     }
 
     @GetMapping("/review/{productId}")
@@ -79,9 +81,9 @@ public class ProductDetailPageController {
     }
 
     @GetMapping("/favorite/click/{reviewId}")
-    public ResponseEntity<String> clickFavorite(@PathVariable(name = "reviewId") Long productId,
+    public ResponseEntity<String> clickFavorite(@PathVariable(name = "reviewId") Long reviewId,
                                               @AuthenticationPrincipal UserDetails userDetails){
-        productDetailPageService.clickFavorite(productId, userDetails);
+        productDetailPageService.clickFavorite(reviewId, userDetails);
         return ResponseEntity.ok("좋아요");
     }
 

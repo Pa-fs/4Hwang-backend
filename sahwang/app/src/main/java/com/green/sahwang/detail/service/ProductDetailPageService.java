@@ -17,7 +17,7 @@ public interface ProductDetailPageService {
 
     DetailReviewInfoResDto getDetailReviewInfo(Long productId);
 
-    DetailImageResDto getDetailPageImage(Long productId);
+    DetailMainImageResDto getDetailMainPageImage(Long productId);
 
     List<ReviewResDto> getReviewPages(Long productId, int pageNum, int size);
 

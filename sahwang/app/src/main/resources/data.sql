@@ -230,5 +230,5 @@ INSERT INTO review (review_id, member_id, purchase_product_id, review_creation_d
 
 -- favorite
 INSERT INTO favorite (member_id, review_id) VALUES(3, 10000001);
---INSERT INTO favorite (member_id, review_id) VALUES(5, 10000001);
+INSERT INTO favorite (member_id, review_id) VALUES(5, 10000001);
 INSERT INTO favorite (member_id, review_id) VALUES(5, 10000002);
