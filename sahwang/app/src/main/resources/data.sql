@@ -228,7 +228,15 @@ INSERT INTO `product_image` (`product_image_id`, `file_desc`, `filename`, `path`
 	(21, 'diffuser5', 'd_005.png', 'images/file/\\d_005.png', 21),
 	(22, 'diffuser6', 'd_006.png', 'images/file/\\d_006.png', 22),
 	(23, 'diffuser7', 'd_007.png', 'images/file/\\d_007.png', 23),
-	(24, 'diffuser8', 'd_008.png', 'images/file/\\d_008.png', 24);
+	(24, 'diffuser8', 'd_008.png', 'images/file/\\d_008.png', 24),
+    (25, 'perfume1', 'p_001.png', 'images/file/\\p_001.png', 25),
+    (26, 'perfume2', 'p_002.png', 'images/file/\\p_002.png', 26),
+    (27, 'perfume3', 'p_003.png', 'images/file/\\p_003.png', 27),
+    (28, 'perfume4', 'p_004.png', 'images/file/\\p_004.png', 28),
+    (29, 'perfume5', 'p_005.png', 'images/file/\\p_005.png', 29),
+    (30, 'perfume6', 'p_006.png', 'images/file/\\p_006.png', 30),
+    (31, 'perfume7', 'p_007.png', 'images/file/\\p_007.png', 31),
+    (32, 'perfume8', 'p_008.png', 'images/file/\\p_008.png', 32);
 
 -- purchase
 INSERT INTO purchase (purchase_id, purchase_date, purchase_status, total_price, member_id) VALUES (10000001, now(), 'COMPLETED', 730000, 3);
