@@ -26,6 +26,10 @@ spring:
     open-in-view: false
 #    defer-datasource-initialization: true
 
+  servlet:
+    multipart:
+      max-file-size: 50MB
+
 # for kafka
 # business logic service with kafka topic
 purchase-service:

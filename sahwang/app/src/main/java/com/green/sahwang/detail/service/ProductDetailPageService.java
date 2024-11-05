@@ -1,7 +1,9 @@
 package com.green.sahwang.detail.service;
 
 import com.green.sahwang.detail.dto.response.*;
+import com.green.sahwang.dto.request.ImageFileReqDto;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -16,6 +18,8 @@ public interface ProductDetailPageService {
     List<DetailProductInfoResDto> getDetailProductInfo(Long productId);
 
     DetailReviewInfoResDto getDetailReviewInfo(Long productId);
+
+    void saveDetailMainImage(MultipartFile file, ImageFileReqDto imageFileReqDto);
 
     DetailMainImageResDto getDetailMainPageImage(Long productId);
 
