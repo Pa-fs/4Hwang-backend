@@ -307,7 +307,7 @@ public class PaymentServiceImpl implements PaymentService {
                     CartProductPurchaseReadyResDto cartProductPurchaseReadyResDto = CartProductPurchaseReadyResDto.builder()
                             .productId(product.getId())
                             .productName(product.getName())
-                            .price(product.getPrice())
+                            .price(product.getPrice() * cartProductPurchaseReadyReqDto.getQuantity())
                             .size(product.getSize())
                             .mainImage(product.getMainImage())
                             .quantity(cartProductPurchaseReadyReqDto.getQuantity())
