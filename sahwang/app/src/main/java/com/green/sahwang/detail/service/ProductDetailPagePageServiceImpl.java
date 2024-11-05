@@ -30,6 +30,7 @@ public class ProductDetailPagePageServiceImpl implements ProductDetailPageServic
     private final ReviewRepository reviewRepository;
     private final MemberRepository memberRepository;
     private final FavoriteRepository favoriteRepository;
+    private final ReviewImageRepository reviewImageRepository;
 
     @Transactional
     public List<DetailChartResDto> getSaleProducts(Long productId, int size){
@@ -132,6 +133,9 @@ public class ProductDetailPagePageServiceImpl implements ProductDetailPageServic
         return detailReviewInfoResDto;
     }
 
+//    @Transactional
+//    public
+
     @Transactional
     public DetailMainImageResDto getDetailMainPageImage(Long productId){
         Product product = productRepository.findById(productId).orElseThrow();
@@ -160,6 +164,16 @@ public class ProductDetailPagePageServiceImpl implements ProductDetailPageServic
                     member.getNickName(), member.getProfileImage()
             );
 
+            ReviewImage reviewImage = reviewImageRepository.findByReview(review);
+            ReviewImageResDto reviewImageResDto = null;
+
+            if(reviewImage != null){
+                reviewImageResDto = new ReviewImageResDto();
+                reviewImageResDto.setPath(reviewImage.getPath());
+                reviewImageResDto.setFilename(reviewImage.getFilename());
+                reviewImageResDto.setFileDesc(reviewImage.getFileDesc());
+            }
+
             ReviewResDto reviewResDto = new ReviewResDto();
             reviewResDto.setReviewId(review.getId());
             reviewResDto.setStar(review.getStar());
@@ -167,11 +181,31 @@ public class ProductDetailPagePageServiceImpl implements ProductDetailPageServic
             reviewResDto.setReviewCreationDate(review.getReviewCreationDate());
             reviewResDto.setReviewModifiedDate(review.getReviewModifiedDate());
             reviewResDto.setMemberDetailReviewResDto(memberDetailReviewResDto);
+            reviewResDto.setReviewImageResDto(reviewImageResDto);
 
             reviewResDtoList.add(reviewResDto);
         }
 
         return reviewResDtoList;
+    }
+
+    @Transactional
+    public List<ReviewImageResDto> getReviewImages(Long productId){
+        List<PurchaseProduct> purchaseProductList = purchaseProductRepository.findAllByProductId(productId);
+        List<Review> reviewList = reviewRepository.findAllByPurchaseProductIn(purchaseProductList);
+        List<ReviewImage> reviewImageList = reviewImageRepository.findAllByReviewIn(reviewList);
+
+        return reviewImageList.stream()
+                .sorted((img1, img2) -> Long.compare(img2.getId(), img1.getId()))
+                .limit(20)
+                .map(img -> {
+                    ReviewImageResDto reviewImageResDto = new ReviewImageResDto();
+                    reviewImageResDto.setFileDesc(img.getFileDesc());
+                    reviewImageResDto.setPath(img.getPath());
+                    reviewImageResDto.setFilename(img.getFilename());
+                    return reviewImageResDto;
+                })
+                .toList();
     }
 
     @Transactional

@@ -9,22 +9,21 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
-public class ProductImage {
+public class ReviewImage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "product_image_id")
+    @Column(name = "review_image_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_id")
-    private Product product;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "review_id")
+    private Review review;
 
     private String path;
 
     private String filename;
 
     private String fileDesc;
-
 
 }
