@@ -18,7 +18,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -29,7 +31,7 @@ public class ProductServiceImpl implements ProductService {
     private final ReviewService reviewService;
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<ProductResDto> getBestProducts(int pageNum, int size) {
         Pageable pageable = PageRequest.of(pageNum, size);
         List<Product> bestProducts = productRepository.findBestProducts(pageable);
@@ -52,14 +54,14 @@ public class ProductServiceImpl implements ProductService {
         return getProductResDtos(products.stream().toList());
     }
 
-    @NotNull
+//    @NotNull
     private List<ProductResDto> getProductResDtos(List<Product> products) {
         return products.stream()
                 .map(product -> getProductResDto(product))
                 .toList();
     }
 
-    @NotNull
+//    @NotNull
     public ProductResDto getProductResDto(Product product) {
         List<ProductImage> productImages = productImageRepository.findAllByProduct(product);
         List<ImageResDto> images = productImages.stream()
@@ -82,7 +84,7 @@ public class ProductServiceImpl implements ProductService {
                 product.getPrice(),
                 reviewService.reviewCount(product),
                 DateTimeUtils.format(product.getRegisterDate()),
-                images.get(0),
+                !images.isEmpty() && images.get(0) != null ? images.get(0) : null,  // null 체크
                 images
         );
         return productResDto;

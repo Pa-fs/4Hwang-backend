@@ -11,5 +11,6 @@ public class CartProductPurchaseReadyResDto {
     private int price;
     private int quantity;
     private int size;
+    private String content;
     private String mainImage;
 }

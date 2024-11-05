@@ -309,6 +309,7 @@ public class PaymentServiceImpl implements PaymentService {
                             .productName(product.getName())
                             .price(product.getPrice() * cartProductPurchaseReadyReqDto.getQuantity())
                             .size(product.getSize())
+                            .content(product.getContent())
                             .mainImage(product.getMainImage())
                             .quantity(cartProductPurchaseReadyReqDto.getQuantity())
                             .build();

@@ -13,6 +13,5 @@ import lombok.*;
 public class Address {
 
     private String addr;
-    @JsonProperty(value = "post_code")
     private String postCode;
 }

@@ -9,11 +9,8 @@ import lombok.Data;
 @Builder
 public class BuyerInfoResDto {
 
-    @JsonProperty(value = "buyer_email")
     private String buyerEmail;
-    @JsonProperty(value = "buyer_name")
     private String buyerName;
-    @JsonProperty(value = "buyer_tel")
     private String buyerTel;
     private Address buyerAddress;
 }
