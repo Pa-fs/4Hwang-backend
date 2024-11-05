@@ -5,10 +5,12 @@ import com.green.sahwang.detail.service.ProductDetailPageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -54,6 +56,16 @@ public class ProductDetailPageController {
         return ResponseEntity.ok(detailReviewInfoResDto);
     }
 
+//    @PostMapping("/detailPageImage/upload",
+//            produces = MediaType.APPLICATION_JSON_VALUE,
+//            consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+//    public String uploadDetailPageImage(
+//            @RequestParam(name = "file") MultipartFile file){
+//        try {
+//
+//        }
+//    }
+
     @GetMapping("/detailPageImage/{productId}")
     public ResponseEntity<String> getDetailPageImage(@PathVariable(name = "productId") Long productId){
 
@@ -71,6 +83,14 @@ public class ProductDetailPageController {
         List<ReviewResDto> reviewResDtoList = productDetailPageService.getReviewPages(productID, pageNum, size);
 
         return ResponseEntity.ok(reviewResDtoList);
+    }
+
+    @GetMapping("/reviewImageList/{productId}")
+    public ResponseEntity<List<ReviewImageResDto>> getReviewImages(@PathVariable(name = "productId") Long productId){
+
+        List<ReviewImageResDto> reviewImageResDtoList = productDetailPageService.getReviewImages(productId);
+
+        return ResponseEntity.ok(reviewImageResDtoList);
     }
 
     @GetMapping("/favorite/{productId}")

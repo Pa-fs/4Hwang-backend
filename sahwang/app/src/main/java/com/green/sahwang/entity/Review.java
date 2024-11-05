@@ -35,4 +35,6 @@ public class Review {
 
     private double star;
 
+    private String image;
+
 }

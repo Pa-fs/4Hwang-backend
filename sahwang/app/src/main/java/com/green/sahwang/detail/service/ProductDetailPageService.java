@@ -21,6 +21,8 @@ public interface ProductDetailPageService {
 
     List<ReviewResDto> getReviewPages(Long productId, int pageNum, int size);
 
+    List<ReviewImageResDto> getReviewImages(Long productId);
+
     List<FavoriteCheckedResDto> getChecked(Long productId, UserDetails userDetails);
 
     String clickFavorite(Long reviewId, UserDetails userDetails);
