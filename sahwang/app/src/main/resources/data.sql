@@ -26,6 +26,8 @@ INSERT INTO `member` (`member_id`, `account`, `ad_received`, `addr`, `post_code`
 VALUES (3, NULL, NULL, NULL, NULL, 'whgpals4263@nate.com', NULL, '2024-10-31', NULL, '민이♡', NULL, 'USER', 1, NULL, 'http://img1.kakaocdn.net/thumb/R640x640.q70/?fname=http://t1.kakaocdn.net/account_images/default_profile.jpeg', 'http://img1.kakaocdn.net/thumb/R110x110.q70/?fname=http://t1.kakaocdn.net/account_images/default_profile.jpeg');
 INSERT INTO `member` (`member_id`, `account`, `ad_received`, `addr`, `post_code`, `email`, `is_deleted`, `join_date`, `name`, `nick_name`, `phone_num`, `role`, `sns_type`, `withdraw_date`, `profile_image`, `thumbnail_image`)
 VALUES (4, NULL, NULL, NULL, NULL, 'kdh7313@naver.com', NULL, '2024-11-01', NULL, '강도현', NULL, 'USER', 1, NULL, 'http://k.kakaocdn.net/dn/b7yPFA/btsKquPi0Cw/BjABLmpyNB6gbKxUAX9I40/img_640x640.jpg', 'http://k.kakaocdn.net/dn/b7yPFA/btsKquPi0Cw/BjABLmpyNB6gbKxUAX9I40/img_110x110.jpg');
+INSERT INTO `member` (`member_id`, `account`, `ad_received`, `addr`, `post_code`, `email`, `is_deleted`, `join_date`, `name`, `nick_name`, `phone_num`, `role`, `sns_type`, `withdraw_date`, `profile_image`, `thumbnail_image`)
+VALUES (5, NULL, NULL, NULL, NULL, 'thdghckd111@naver.com', NULL, '2024-11-01', NULL, '송호창', NULL, 'USER', 1, NULL, 'http://img1.kakaocdn.net/thumb/R640x640.q70/?fname=http://t1.kakaocdn.net/account_images/default_profile.jpeg', 'http://img1.kakaocdn.net/thumb/R110x110.q70/?fname=http://t1.kakaocdn.net/account_images/default_profile.jpeg');
 
 insert into cart(cart_id, quantities, member_id)
 values (1, 3, 1);
@@ -226,9 +228,10 @@ INSERT INTO purchase_product (purchase_product_id, product_name, product_quantit
 
 -- review
 INSERT INTO review (review_id, member_id, purchase_product_id, review_creation_date, star, content) VALUES(10000001, 3, 10000001, now(), 4.0, '향이 좋아요~~');
-INSERT INTO review (review_id, member_id, purchase_product_id, review_creation_date, star, content) VALUES(10000002, 5, 10000001, now(), 5.0, '향이 좋아요~~');
+INSERT INTO review (review_id, member_id, purchase_product_id, review_creation_date, star, content) VALUES(10000002, 4, 10000001, now(), 5.0, '향이 좋아요~~');
+INSERT INTO review (review_id, member_id, purchase_product_id, review_creation_date, star, content) VALUES(10000003, 5, 10000001, now(), 5.0, '향이 좋아요~~');
 
 -- favorite
 INSERT INTO favorite (member_id, review_id) VALUES(3, 10000001);
---INSERT INTO favorite (member_id, review_id) VALUES(5, 10000001);
+INSERT INTO favorite (member_id, review_id) VALUES(5, 10000001);
 INSERT INTO favorite (member_id, review_id) VALUES(5, 10000002);

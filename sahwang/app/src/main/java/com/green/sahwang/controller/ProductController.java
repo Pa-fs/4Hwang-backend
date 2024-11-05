@@ -1,11 +1,13 @@
 package com.green.sahwang.controller;
 
 import com.green.sahwang.dto.response.BestProductResDto;
+import com.green.sahwang.dto.response.HeartResDto;
 import com.green.sahwang.dto.response.ProductResDto;
-import com.green.sahwang.entity.Heart;
 import com.green.sahwang.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -45,5 +47,8 @@ public class ProductController {
     }
 
 //    @GetMapping("/heart")
-//    public ResponseEntity<List<Heart>>
+//    public ResponseEntity<List<HeartResDto>> checkedHeart(@AuthenticationPrincipal UserDetails userDetails){
+//
+//    }
+
 }

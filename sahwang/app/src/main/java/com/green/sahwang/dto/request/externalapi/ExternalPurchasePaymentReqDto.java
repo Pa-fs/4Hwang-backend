@@ -36,8 +36,6 @@ public class ExternalPurchasePaymentReqDto {
 
     private BigDecimal amount;
 
-    private Long cartId;
-
     @NotEmpty
     private List<PurchaseReqDto.PurchaseProductReqDto> purchaseProductDtos;
 }

@@ -17,9 +17,11 @@ public interface ProductDetailPageService {
 
     DetailReviewInfoResDto getDetailReviewInfo(Long productId);
 
-    DetailImageResDto getDetailPageImage(Long productId);
+    DetailMainImageResDto getDetailMainPageImage(Long productId);
 
     List<ReviewResDto> getReviewPages(Long productId, int pageNum, int size);
+
+    List<ReviewImageResDto> getReviewImages(Long productId);
 
     List<FavoriteCheckedResDto> getChecked(Long productId, UserDetails userDetails);
 
