@@ -8,8 +8,10 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 public enum ErrorCode {
 
+    NO_MEMBER(HttpStatus.NOT_FOUND, "회원이 존재하지 않습니다"),
     NO_PURCHASE_PRODUCT(HttpStatus.NOT_FOUND,"구매 내역이 없습니다"),
     NO_REVIEW(HttpStatus.NOT_FOUND,"리뷰가 없습니다"),
+    NO_PRODUCT(HttpStatus.NOT_FOUND, "상품이 존재하지 않습니다"),
     ;
 
     private final HttpStatus httpStatus;

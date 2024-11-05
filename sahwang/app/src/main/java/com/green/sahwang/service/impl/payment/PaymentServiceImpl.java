@@ -1,9 +1,12 @@
 package com.green.sahwang.service.impl.payment;
 
 import com.green.sahwang.config.AvroToDBSerializer;
+import com.green.sahwang.dto.request.CartProductPurchaseReadyReqDto;
 import com.green.sahwang.dto.request.PaymentCompleteRequest;
 import com.green.sahwang.dto.request.externalapi.ExternalPaymentReqDto;
 import com.green.sahwang.dto.request.externalapi.ExternalPurchasePaymentReqDto;
+import com.green.sahwang.dto.response.BuyerInfoResDto;
+import com.green.sahwang.dto.response.CartProductPurchaseReadyResDto;
 import com.green.sahwang.entity.*;
 import com.green.sahwang.entity.enumtype.OutboxStatus;
 import com.green.sahwang.entity.enumtype.PaymentType;
@@ -11,6 +14,8 @@ import com.green.sahwang.entity.enumtype.PurchaseStatus;
 import com.green.sahwang.entity.enumtype.SystemLogicType;
 import com.green.sahwang.entity.externalapi.ExternalPrePaymentReqDto;
 import com.green.sahwang.entity.externalapi.PrePaymentEntity;
+import com.green.sahwang.exception.BizException;
+import com.green.sahwang.exception.ErrorCode;
 import com.green.sahwang.exception.outbox.OutboxSerializeEventException;
 import com.green.sahwang.exception.PurchaseDomainException;
 import com.green.sahwang.exception.payment.PaymentDomainException;
@@ -40,6 +45,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @Slf4j
@@ -57,6 +63,8 @@ public class PaymentServiceImpl implements PaymentService {
     private final PaymentRepository paymentRepository;
     private final MemberRepository memberRepository;
     private final PurchasePaymentRepository purchasePaymentRepository;
+
+    private final ProductRepository productRepository;
 
     private IamportClient paymentExternalApi;
     private final ExternalPrePaymentApiRepository prePaymentApiRepository;
@@ -265,6 +273,48 @@ public class PaymentServiceImpl implements PaymentService {
         purchaseRepository.save(purchase);
         // 이벤트 준비
         createPaymentPaidOutboxMessage(purchase, payment, externalPurchasePaymentReqDto);
+    }
+
+    @Override
+    public BuyerInfoResDto getBuyerInfo(String email) {
+        Member member = memberRepository.findByEmail(email);
+
+        if (Objects.isNull(member)) {
+            throw new BizException(ErrorCode.NO_MEMBER);
+        }
+
+        return BuyerInfoResDto.builder()
+                .buyerEmail(member.getEmail())
+                .buyerName(member.getName())
+                .buyerTel(member.getPhoneNum())
+                .buyerAddress(Address.builder()
+                        .addr(member.getAddress().getAddr())
+                        .postCode(member.getAddress().getPostCode())
+                        .build())
+                .build();
+    }
+
+    @Override
+    @Transactional
+    public List<CartProductPurchaseReadyResDto> getCartProductInfo(List<CartProductPurchaseReadyReqDto>
+                                                                           cartProductPurchaseReadyReqDtos) {
+
+        return cartProductPurchaseReadyReqDtos.stream()
+                .map(cartProductPurchaseReadyReqDto -> {
+                    Product product = productRepository.findById(cartProductPurchaseReadyReqDto.getProductId())
+                            .orElseThrow(() -> new BizException(ErrorCode.NO_PRODUCT));
+
+                    CartProductPurchaseReadyResDto cartProductPurchaseReadyResDto = CartProductPurchaseReadyResDto.builder()
+                            .productId(product.getId())
+                            .productName(product.getName())
+                            .price(product.getPrice())
+                            .size(product.getSize())
+                            .mainImage(product.getMainImage())
+                            .quantity(cartProductPurchaseReadyReqDto.getQuantity())
+                            .build();
+
+                    return cartProductPurchaseReadyResDto;
+                }).toList();
     }
 
     private CancelData cancelPayment(IamportResponse<com.siot.IamportRestClient.response.Payment>
