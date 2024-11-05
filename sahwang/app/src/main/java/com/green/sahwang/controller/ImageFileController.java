@@ -2,6 +2,8 @@ package com.green.sahwang.controller;
 
 import com.green.sahwang.dto.request.ImageFileReqDto;
 import com.green.sahwang.service.ImageFileService;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -41,7 +43,7 @@ public class ImageFileController {
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public String upload(
             @RequestPart(name = "file") MultipartFile file,
-            @RequestPart(name = "fileDto") ImageFileReqDto imageFileReqDto) {
+            @RequestPart(name = "fileDto") @Parameter(schema =@Schema(type = "string", format = "binary")) ImageFileReqDto imageFileReqDto) {
 
         imageFileService.saveFile(file, imagePath, imageFileReqDto);
         return "upload";

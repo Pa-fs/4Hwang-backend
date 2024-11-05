@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.green.sahwang.dto.event.OrderNotificationPayload;
 import com.green.sahwang.entity.Member;
 import com.green.sahwang.entity.enumtype.PaymentStatus;
+import com.green.sahwang.exception.BizException;
+import com.green.sahwang.exception.ErrorCode;
 import com.green.sahwang.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +18,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -30,6 +33,10 @@ public class SseEmitterService {
     @Transactional
     public SseEmitter createEmitter(String email) {
         Member member = memberRepository.findByEmail(email);
+        if (Objects.isNull(member)) {
+            throw new BizException(ErrorCode.NO_MEMBER);
+        }
+
         SseEmitter emitter = new SseEmitter();
         String userId = "memberId:" + member.getId();
         emitters.put(userId, emitter);

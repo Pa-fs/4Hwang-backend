@@ -14,5 +14,6 @@ public class ReviewResDto {
     String content;
     LocalDateTime reviewCreationDate;
     LocalDateTime reviewModifiedDate;
+    ReviewImageResDto reviewImageResDto;
 
 }
