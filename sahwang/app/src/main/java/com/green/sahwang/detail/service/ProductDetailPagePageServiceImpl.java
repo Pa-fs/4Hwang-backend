@@ -1,12 +1,12 @@
 package com.green.sahwang.detail.service;
 
 import com.green.sahwang.detail.dto.response.*;
+import com.green.sahwang.dto.request.ImageFileReqDto;
 import com.green.sahwang.dto.response.ImageResDto;
 import com.green.sahwang.entity.*;
 import com.green.sahwang.exception.BizException;
 import com.green.sahwang.exception.ErrorCode;
 import com.green.sahwang.repository.*;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -14,13 +14,18 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 @Slf4j
-@RequiredArgsConstructor
 public class ProductDetailPagePageServiceImpl implements ProductDetailPageService {
 
     private final ProductImageRepository productImageRepository;
@@ -31,6 +36,35 @@ public class ProductDetailPagePageServiceImpl implements ProductDetailPageServic
     private final MemberRepository memberRepository;
     private final FavoriteRepository favoriteRepository;
     private final ReviewImageRepository reviewImageRepository;
+    private final DetailImageRepository detailImageRepository;
+    private final Path imagePath;
+
+    public ProductDetailPagePageServiceImpl(ProductImageRepository productImageRepository,
+                                            ProductRepository productRepository,
+                                            PurchaseProductRepository purchaseProductRepository,
+                                            PurchasePaymentRepository purchasePaymentRepository,
+                                            ReviewRepository reviewRepository,
+                                            MemberRepository memberRepository,
+                                            FavoriteRepository favoriteRepository,
+                                            ReviewImageRepository reviewImageRepository,
+                                            DetailImageRepository detailImageRepository) {
+        this.productImageRepository = productImageRepository;
+        this.productRepository = productRepository;
+        this.purchaseProductRepository = purchaseProductRepository;
+        this.purchasePaymentRepository = purchasePaymentRepository;
+        this.reviewRepository = reviewRepository;
+        this.memberRepository = memberRepository;
+        this.favoriteRepository = favoriteRepository;
+        this.reviewImageRepository = reviewImageRepository;
+        this.detailImageRepository = detailImageRepository;
+        this.imagePath = Paths.get("images/file").toAbsolutePath();
+
+        try {
+            Files.createDirectories(this.imagePath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Transactional
     public List<DetailChartResDto> getSaleProducts(Long productId, int size){
@@ -133,17 +167,39 @@ public class ProductDetailPagePageServiceImpl implements ProductDetailPageServic
         return detailReviewInfoResDto;
     }
 
-//    @Transactional
-//    public
+    @Transactional
+    public void saveDetailMainImage(MultipartFile file, ImageFileReqDto imageFileReqDto){
+        try {
+            String relativePath = "images/file/";
+            String fileName = file.getOriginalFilename();
+            String filePath = relativePath + File.separator + fileName;
+
+            String absoluteFilePath = imagePath.toString() + File.separator + fileName;
+
+            File dest = new File(absoluteFilePath);
+            file.transferTo(dest);
+
+            Product product = productRepository.findById(imageFileReqDto.getProductId()).orElseThrow();
+
+            DetailImage detailImage = DetailImage.builder()
+                    .product(product)
+                    .path(filePath)
+                    .filename(imageFileReqDto.getName())
+                    .fileDesc(imageFileReqDto.getDesc())
+                    .build();
+            detailImageRepository.save(detailImage);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
 
     @Transactional
     public DetailMainImageResDto getDetailMainPageImage(Long productId){
         Product product = productRepository.findById(productId).orElseThrow();
-
-        String image = Base64.getEncoder().encodeToString(product.getDetailImage());
-
+        DetailImage detailImage = detailImageRepository.findByProduct(product);
         DetailMainImageResDto detailMainImageResDto = new DetailMainImageResDto();
-        detailMainImageResDto.setImage(image);
+        detailMainImageResDto.setFilename(detailImage.getFilename());
 
         return detailMainImageResDto;
     }

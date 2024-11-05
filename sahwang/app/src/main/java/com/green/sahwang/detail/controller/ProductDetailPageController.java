@@ -2,6 +2,7 @@ package com.green.sahwang.detail.controller;
 
 import com.green.sahwang.detail.dto.response.*;
 import com.green.sahwang.detail.service.ProductDetailPageService;
+import com.green.sahwang.dto.request.ImageFileReqDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,24 +57,22 @@ public class ProductDetailPageController {
         return ResponseEntity.ok(detailReviewInfoResDto);
     }
 
-//    @PostMapping("/detailPageImage/upload",
-//            produces = MediaType.APPLICATION_JSON_VALUE,
-//            consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-//    public String uploadDetailPageImage(
-//            @RequestParam(name = "file") MultipartFile file){
-//        try {
-//
-//        }
-//    }
+    @PostMapping(value = "/detailPageImage/upload",
+            produces = MediaType.APPLICATION_JSON_VALUE,
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public String uploadDetailPageImage(@RequestPart(name = "file") MultipartFile file,
+                                        @RequestPart(name = "fileDto") ImageFileReqDto imageFileReqDto){
+        productDetailPageService.saveDetailMainImage(file, imageFileReqDto);
+
+        return "이미지 저장 완료되었습니다";
+    }
 
     @GetMapping("/detailPageImage/{productId}")
-    public ResponseEntity<String> getDetailPageImage(@PathVariable(name = "productId") Long productId){
+    public ResponseEntity<DetailMainImageResDto> getDetailPageImage(@PathVariable(name = "productId") Long productId){
 
         DetailMainImageResDto detailMainImageResDto = productDetailPageService.getDetailMainPageImage(productId);
 
-        String imageUrl = "data:image/jpeg;base64," + detailMainImageResDto.getImage();
-
-        return ResponseEntity.ok(imageUrl);
+        return ResponseEntity.ok(detailMainImageResDto);
     }
 
     @GetMapping("/review/{productId}")
