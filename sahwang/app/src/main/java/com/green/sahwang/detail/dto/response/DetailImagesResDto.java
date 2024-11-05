@@ -13,6 +13,5 @@ import java.util.List;
 @AllArgsConstructor
 public class DetailImagesResDto {
 
-    List<ImageResDto> images = new ArrayList<>();
-
+    private List<ImageResDto> images;
 }

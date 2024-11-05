@@ -1,8 +1,11 @@
 package com.green.sahwang.service;
 
+import com.green.sahwang.dto.request.CartProductPurchaseReadyReqDto;
 import com.green.sahwang.dto.request.PaymentCompleteRequest;
 import com.green.sahwang.dto.request.externalapi.ExternalPaymentReqDto;
 import com.green.sahwang.dto.request.externalapi.ExternalPurchasePaymentReqDto;
+import com.green.sahwang.dto.response.BuyerInfoResDto;
+import com.green.sahwang.dto.response.CartProductPurchaseReadyResDto;
 import com.green.sahwang.entity.externalapi.ExternalPrePaymentReqDto;
 import com.green.sahwang.model.purchase.avro.PurchaseCreatedEventAvroModel;
 import com.siot.IamportRestClient.exception.IamportResponseException;
@@ -26,4 +29,8 @@ public interface PaymentService {
     void saveUserInfoForPayment(ExternalPaymentReqDto externalPaymentReqDto, String email);
 
     void savePurchaseInfoForPayment(ExternalPurchasePaymentReqDto buyerReqDto, String email);
+
+    BuyerInfoResDto getBuyerInfo(String email);
+
+    List<CartProductPurchaseReadyResDto> getCartProductInfo(List<CartProductPurchaseReadyReqDto> cartProductPurchaseReadyReqDtos);
 }

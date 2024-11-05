@@ -37,17 +37,7 @@ public class PurchaseServiceImpl implements PurchaseService {
     @Override
     @Transactional
     public PurchaseResDto createPurchase(PurchaseReqDto purchaseReqDto, String userEmail) {
-
-        // dto -> entity
-        // 1. ModelMapper
-        // 2. builder
-        // 3. getter setter
-        // entity <-> repository
         Member member = memberRepository.findByEmail(userEmail);
-
-        // 테스트 데이터
-//        Member member = memberRepository.findById(1L)
-//                .orElse(null);
 
         List<Product> products = productRepository.findAllById(purchaseReqDto.getPurchaseProductDtos().stream()
                 .map(purchaseProductReqDto -> purchaseProductReqDto.getProductId())

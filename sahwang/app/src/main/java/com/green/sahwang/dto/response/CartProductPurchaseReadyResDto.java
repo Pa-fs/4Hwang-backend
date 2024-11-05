@@ -1,0 +1,15 @@
+package com.green.sahwang.dto.response;
+
+import lombok.Builder;
+import lombok.Data;
+
+@Data
+@Builder
+public class CartProductPurchaseReadyResDto {
+    private Long productId;
+    private String productName;
+    private int price;
+    private int quantity;
+    private int size;
+    private String mainImage;
+}
