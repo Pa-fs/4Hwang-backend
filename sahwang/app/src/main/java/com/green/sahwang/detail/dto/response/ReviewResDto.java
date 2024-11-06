@@ -1,6 +1,5 @@
 package com.green.sahwang.detail.dto.response;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -15,5 +14,6 @@ public class ReviewResDto {
     LocalDateTime reviewCreationDate;
     LocalDateTime reviewModifiedDate;
     ReviewImageResDto reviewImageResDto;
+    int favoriteCount;
 
 }

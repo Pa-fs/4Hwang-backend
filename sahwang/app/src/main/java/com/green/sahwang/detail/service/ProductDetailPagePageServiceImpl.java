@@ -161,7 +161,6 @@ public class ProductDetailPagePageServiceImpl implements ProductDetailPageServic
         detailReviewInfoResDto.setThreeStarCount(threeStarCount);
         detailReviewInfoResDto.setFourStarCount(fourStarCount);
         detailReviewInfoResDto.setFiveStarCount(fiveStarCount);
-        detailReviewInfoResDto.setReviewCount(reviewList.size());
         detailReviewInfoResDto.setFavoriteCount(favoriteList.size());
 
         return detailReviewInfoResDto;
@@ -220,6 +219,8 @@ public class ProductDetailPagePageServiceImpl implements ProductDetailPageServic
                     member.getNickName(), member.getProfileImage()
             );
 
+            List<Favorite> favoriteList = favoriteRepository.findAllByReview(review);
+
             ReviewImage reviewImage = reviewImageRepository.findByReview(review);
             ReviewImageResDto reviewImageResDto = null;
 
@@ -238,6 +239,7 @@ public class ProductDetailPagePageServiceImpl implements ProductDetailPageServic
             reviewResDto.setReviewModifiedDate(review.getReviewModifiedDate());
             reviewResDto.setMemberDetailReviewResDto(memberDetailReviewResDto);
             reviewResDto.setReviewImageResDto(reviewImageResDto);
+            reviewResDto.setFavoriteCount(favoriteList.size());
 
             reviewResDtoList.add(reviewResDto);
         }

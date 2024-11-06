@@ -11,5 +11,6 @@ public interface FavoriteRepository extends JpaRepository<Favorite, Long> {
 
     List<Favorite> findAllByReviewIn(List<Review> reviewList);
     Favorite findByMemberAndReview(Member member, Review review);
+    List<Favorite> findAllByReview(Review review);
 
 }

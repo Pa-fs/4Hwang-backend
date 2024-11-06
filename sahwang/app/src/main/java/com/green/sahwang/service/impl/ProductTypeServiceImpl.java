@@ -1,4 +1,4 @@
-package com.green.sahwang.service;
+package com.green.sahwang.service.impl;
 
 import com.green.sahwang.dto.response.ProductResDto;
 import com.green.sahwang.entity.Product;
@@ -8,19 +8,18 @@ import com.green.sahwang.entity.enumtype.ProductTypeGroup;
 import com.green.sahwang.repository.ProductProductTypeRepository;
 import com.green.sahwang.repository.ProductRepository;
 import com.green.sahwang.repository.ProductTypeRepository;
-import com.green.sahwang.service.impl.ProductServiceImpl;
+import com.green.sahwang.service.ProductTypeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class ProductTypeServiceImpl implements ProductTypeService{
+public class ProductTypeServiceImpl implements ProductTypeService {
 
     private final ProductTypeRepository productTypeRepository;
     private final ProductProductTypeRepository productProductTypeRepository;

@@ -24,9 +24,11 @@ public class SecurityConfig {
                 .formLogin(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth.requestMatchers("/**").permitAll())
                 .authorizeHttpRequests(auth -> auth.requestMatchers("/kakao/login").permitAll())
-                .authorizeHttpRequests(auth -> auth.requestMatchers("/kakao/msg").authenticated())
+                .authorizeHttpRequests(auth -> auth.requestMatchers("/api/**").permitAll())
                 .authorizeHttpRequests(auth -> auth.requestMatchers("/detail/**").permitAll())
                 .authorizeHttpRequests(auth -> auth.requestMatchers("/type/**").permitAll())
+                .authorizeHttpRequests(auth -> auth.requestMatchers("/kakao/msg").authenticated())
+                .authorizeHttpRequests(auth -> auth.requestMatchers("/wish/**").authenticated())
                 .addFilterBefore(new SecurityFilter(new JWTUtils()), UsernamePasswordAuthenticationFilter.class)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 

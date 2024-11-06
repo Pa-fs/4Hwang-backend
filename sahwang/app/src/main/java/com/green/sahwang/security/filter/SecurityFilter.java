@@ -18,6 +18,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
 @Component
@@ -46,17 +47,31 @@ public class SecurityFilter extends OncePerRequestFilter {
         String email = jwtUtils.getEmailFromJwt(jwt);
         String role = jwtUtils.getRoleFromJwt(jwt);
 
+
+//        if(request.getRequestURI().contains("wish")){
+//            System.out.println("wish 호출할때 role 확인 "+ role);
+//            role="USER";
+//            if(!role.equals("ADMIN")){
+//
+//            }
+//        }
+
         if (email == null) {
             throw new UserException("사용자의 이메일을 찾을 수 없습니다");
         }
         // ROLE 을 추가해야 403 에러가 안뜬다
-        Set<SimpleGrantedAuthority> roleUsers = Collections.singleton(new SimpleGrantedAuthority("ROLE_USER"));
+        Set<SimpleGrantedAuthority> roleUsers = new HashSet<>();
+        if(role.equals("USER"))
+            roleUsers.add(new SimpleGrantedAuthority("ROLE_USER"));
+        else if(role.equals("ADMIN"))
+            roleUsers.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+
         Authentication authentication = new UsernamePasswordAuthenticationToken(
                 // userDetails 지정
                 User.builder()
                         .username(email)
                         .password("")
-                        .roles("USER")
+                        .roles(role)
                         .build(), null, roleUsers
         );
 
