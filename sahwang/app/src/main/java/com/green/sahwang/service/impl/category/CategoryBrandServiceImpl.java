@@ -12,6 +12,7 @@ import com.green.sahwang.service.impl.ProductServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -33,7 +34,7 @@ public class CategoryBrandServiceImpl implements CategoryBrandService {
     private final ProductImageRepository productImageRepository;
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<ProductResDto> getProductsByCategory(Long categoryId, int pageNum, int size, String sortType) {
         Category category = categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new CategoryDomainException("해당 카테고리는 존재하지 않습니다"));
@@ -41,7 +42,7 @@ public class CategoryBrandServiceImpl implements CategoryBrandService {
         String dType = String.valueOf(category.getName().charAt(0)).toUpperCase();
 
         Pageable pageable = PageRequest.of(pageNum, size, Sort.by(Sort.Direction.DESC, sortType));
-        List<Product> products = productRepository.findProductsByDtype(pageable, dType);
+        Page<Product> products = productRepository.findAllProductsByDtype(pageable, dType);
 
         return products.stream()
                 .map(product -> productService.getProductResDto(product))

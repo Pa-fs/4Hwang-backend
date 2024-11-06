@@ -21,9 +21,9 @@ public class CategoryBrandController {
     @GetMapping("/{categoryId}")
     public ResponseEntity<List<ProductResDto>> getProducts(
             @PathVariable(name = "categoryId") Long categoryId,
-            @RequestParam(name = "pageNum", defaultValue = "0") int pageNum,
-            @RequestParam(name = "size", defaultValue = "8") int size,
-            @RequestParam(name = "sortType", defaultValue = "productionDate") String sortType) {
+            @RequestParam(name = "pageNum", defaultValue = "0", required = false) int pageNum,
+            @RequestParam(name = "size", defaultValue = "8", required = false) int size,
+            @RequestParam(name = "sortType", defaultValue = "productionDate", required = false) String sortType) {
         List<ProductResDto> productResDtoList = categoryBrandService
                 .getProductsByCategory(categoryId, pageNum, size, sortType);
 
