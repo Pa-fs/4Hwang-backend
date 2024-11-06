@@ -25,7 +25,7 @@ public class JWTUtils {
     public String createJWT(String email, String accessToken){
         String jwt = Jwts.builder()
                 .claim("email",email)
-                .claim("role","ROLE_USER")
+                .claim("role","USER")
                 .claim("access_token", accessToken)
                 .issuedAt(new Date(System.currentTimeMillis())) // 현재 시간 넣기
 //                .expiration(new Date(System.currentTimeMillis() + 1000)) // 1초 지나면 유효시간 없음...

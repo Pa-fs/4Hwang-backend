@@ -9,7 +9,7 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
-public class Heart {
+public class Wish {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

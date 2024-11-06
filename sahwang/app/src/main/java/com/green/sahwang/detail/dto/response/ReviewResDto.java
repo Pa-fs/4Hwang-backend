@@ -15,5 +15,6 @@ public class ReviewResDto {
     LocalDateTime reviewCreationDate;
     LocalDateTime reviewModifiedDate;
     ReviewImageResDto reviewImageResDto;
+    int reviewCount;
 
 }
