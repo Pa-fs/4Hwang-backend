@@ -23,7 +23,7 @@ services:
 
   # Spring Boot 애플리케이션 서비스 docker run -e
   springboot:
-    image: taeyoungk/sahwang-app  # 실제 빌드된 Spring Boot 애플리케이션 이미지
+    image: taeyoungk/sahwang-app:latest  # 실제 빌드된 Spring Boot 애플리케이션 이미지
     container_name: springboot
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql_container:3306/fourhwang?serverTimezone=Asia/Seoul
