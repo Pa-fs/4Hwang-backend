@@ -239,7 +239,7 @@ public class ProductDetailPagePageServiceImpl implements ProductDetailPageServic
             reviewResDto.setReviewModifiedDate(review.getReviewModifiedDate());
             reviewResDto.setMemberDetailReviewResDto(memberDetailReviewResDto);
             reviewResDto.setReviewImageResDto(reviewImageResDto);
-            reviewResDto.setReviewCount(favoriteList.size());
+            reviewResDto.setFavoriteCount(favoriteList.size());
 
             reviewResDtoList.add(reviewResDto);
         }
