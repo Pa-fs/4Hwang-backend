@@ -131,7 +131,6 @@ public class ProductDetailPagePageServiceImpl implements ProductDetailPageServic
     public DetailReviewInfoResDto getDetailReviewInfo(Long productId){
         List<PurchaseProduct> purchaseProductList = purchaseProductRepository.findAllByProductId(productId);
         List<Review> reviewList = reviewRepository.findAllByPurchaseProductIn(purchaseProductList);
-        List<Favorite> favoriteList = favoriteRepository.findAllByReviewIn(reviewList);
 
         int oneStarCount = 0;
         int twoStarCount = 0;
@@ -161,7 +160,7 @@ public class ProductDetailPagePageServiceImpl implements ProductDetailPageServic
         detailReviewInfoResDto.setThreeStarCount(threeStarCount);
         detailReviewInfoResDto.setFourStarCount(fourStarCount);
         detailReviewInfoResDto.setFiveStarCount(fiveStarCount);
-        detailReviewInfoResDto.setFavoriteCount(favoriteList.size());
+        detailReviewInfoResDto.setReviewCount(reviewList.size());
 
         return detailReviewInfoResDto;
     }
