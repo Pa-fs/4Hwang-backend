@@ -32,4 +32,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     Product findByNameAndSize(String name, int size);
 
+    List<Product> findAllByNameContaining(String search);
+
 }
