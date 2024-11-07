@@ -11,6 +11,6 @@ public class DetailReviewInfoResDto {
     int threeStarCount;
     int fourStarCount;
     int fiveStarCount;
-    int favoriteCount;
+    int reviewCount;
 
 }
