@@ -1,35 +1,47 @@
+# syntax=docker/dockerfile:1.4
 FROM maven:3.8.5-openjdk-17 AS builder
 WORKDIR /build
 
-# 부모 POM 복사
+# 모든 pom.xml 파일들을 올바른 위치에 복사
 COPY pom.xml ./
-
-# infrastructure와 kafka 모듈들 복사
 COPY infrastructure/pom.xml ./infrastructure/
-COPY infrastructure/kafka ./infrastructure/kafka
-COPY infrastructure/kafka/kafka-config-data ./infrastructure/kafka/kafka-config-data
-COPY infrastructure/kafka/kafka-model ./infrastructure/kafka/kafka-model
-COPY infrastructure/kafka/kafka-producer ./infrastructure/kafka/kafka-producer
-COPY infrastructure/kafka/kafka-consumer ./infrastructure/kafka/kafka-consumer
-
-# app 모듈 복사
+COPY infrastructure/kafka/pom.xml ./infrastructure/kafka/
+COPY infrastructure/kafka/kafka-config-data/pom.xml ./infrastructure/kafka/kafka-config-data/
+COPY infrastructure/kafka/kafka-model/pom.xml ./infrastructure/kafka/kafka-model/
+COPY infrastructure/kafka/kafka-producer/pom.xml ./infrastructure/kafka/kafka-producer/
+COPY infrastructure/kafka/kafka-consumer/pom.xml ./infrastructure/kafka/kafka-consumer/
 COPY app/pom.xml ./app/
+
+# 필요한 디렉토리 구조 생성
+RUN mkdir -p infrastructure/kafka/kafka-config-data/src \
+    infrastructure/kafka/kafka-model/src \
+    infrastructure/kafka/kafka-producer/src \
+    infrastructure/kafka/kafka-consumer/src \
+    app/src
+
+# 의존성 설치 (캐시 마운트 사용)
+RUN --mount=type=cache,target=/root/.m2 \
+    mvn dependency:go-offline -B
+
+# 소스 코드 복사
+COPY infrastructure/kafka/kafka-config-data/src ./infrastructure/kafka/kafka-config-data/src/
+COPY infrastructure/kafka/kafka-model/src ./infrastructure/kafka/kafka-model/src/
+COPY infrastructure/kafka/kafka-producer/src ./infrastructure/kafka/kafka-producer/src/
+COPY infrastructure/kafka/kafka-consumer/src ./infrastructure/kafka/kafka-consumer/src/
 COPY app/src ./app/src
-# local의 images 폴더를 /app/images 로 복사
 COPY ./images ./app
 
-# 전체 프로젝트 빌드 (infrastructure 모듈을 먼저 빌드해야 app에서 의존성을 찾을 수 있음)
-RUN mvn clean install -DskipTests -T 6C
+# 전체 프로젝트 빌드
+RUN --mount=type=cache,target=/root/.m2 \
+    mvn clean install -DskipTests -T 6C
 
 # app 모듈 빌드
 WORKDIR /build/app
-RUN mvn package -DskipTests -T 6C
+RUN --mount=type=cache,target=/root/.m2 \
+    mvn package -DskipTests -T 6C
 
 FROM openjdk:17.0-slim
 WORKDIR /app
-
 COPY --from=builder /build/app/target/*.jar ./app.jar
-
 EXPOSE 8080
-
 ENTRYPOINT ["java", "-jar", "-Djava.security.egd=file:/dev/./urandom", "-Dsun.net.inetaddr.ttl=0", "app.jar"]
