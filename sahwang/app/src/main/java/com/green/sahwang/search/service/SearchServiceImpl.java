@@ -26,7 +26,7 @@ public class SearchServiceImpl implements SearchService{
     @Transactional
     public List<SearchResDto> getSearchResult(String search, int pageNum, int size, String sortType){
         List<Product> productList = productRepository.findAllByNameContaining(search);
-        brandRepository
+//        brandRepository
 
 
         return null;
