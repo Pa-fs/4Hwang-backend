@@ -288,7 +288,7 @@ public class ProductDetailPagePageServiceImpl implements ProductDetailPageServic
     }
 
     @Transactional
-    public String clickFavorite(Long reviewId, UserDetails userDetails){
+    public FavoriteClickResDto clickFavorite(Long reviewId, UserDetails userDetails){
         Member member = memberRepository.findByEmail(userDetails.getUsername());
         Review review = reviewRepository.findById(reviewId).orElseThrow(()->new NoSuchElementException("잘못된 리뷰Id 입니다"));
 
@@ -298,17 +298,30 @@ public class ProductDetailPagePageServiceImpl implements ProductDetailPageServic
                 .build();
 
         favoriteRepository.save(favorite);
-        return "Success";
+
+        List<Favorite> favoriteList = favoriteRepository.findAllByReview(review);
+
+        FavoriteClickResDto favoriteClickResDto = new FavoriteClickResDto();
+        favoriteClickResDto.setFavoriteCount(favoriteList.size());
+        favoriteClickResDto.setChecked(true);
+        return favoriteClickResDto;
     }
 
     @Transactional
-    public String cancelFavorite(Long reviewId, UserDetails userDetails){
+    public FavoriteClickResDto cancelFavorite(Long reviewId, UserDetails userDetails){
         Member member = memberRepository.findByEmail(userDetails.getUsername());
         Review review = reviewRepository.findById(reviewId).orElseThrow(()->new NoSuchElementException("잘못된 리뷰Id 입니다"));
         Favorite favorite = favoriteRepository.findByMemberAndReview(member, review);
 
         favoriteRepository.deleteById(favorite.getId());
-        return "Cancel";
+
+        List<Favorite> favoriteList = favoriteRepository.findAllByReview(review);
+
+        FavoriteClickResDto favoriteClickResDto = new FavoriteClickResDto();
+        favoriteClickResDto.setFavoriteCount(favoriteList.size());
+        favoriteClickResDto.setChecked(false);
+
+        return favoriteClickResDto;
     }
 
 }

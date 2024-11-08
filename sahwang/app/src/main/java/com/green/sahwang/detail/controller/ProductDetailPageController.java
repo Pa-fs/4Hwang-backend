@@ -100,17 +100,17 @@ public class ProductDetailPageController {
     }
 
     @GetMapping("/favorite/click/{reviewId}")
-    public ResponseEntity<String> clickFavorite(@PathVariable(name = "reviewId") Long reviewId,
+    public ResponseEntity<FavoriteClickResDto> clickFavorite(@PathVariable(name = "reviewId") Long reviewId,
                                               @AuthenticationPrincipal UserDetails userDetails){
-        productDetailPageService.clickFavorite(reviewId, userDetails);
-        return ResponseEntity.ok("좋아요");
+        FavoriteClickResDto favoriteClickResDto = productDetailPageService.clickFavorite(reviewId, userDetails);
+        return ResponseEntity.ok(favoriteClickResDto);
     }
 
     @GetMapping("/favorite/cancel/{reviewId}")
-    public ResponseEntity<String> cancelFavorite(@PathVariable(name = "reviewId") Long reviewId,
+    public ResponseEntity<FavoriteClickResDto> cancelFavorite(@PathVariable(name = "reviewId") Long reviewId,
                                                @AuthenticationPrincipal UserDetails userDetails){
-        productDetailPageService.cancelFavorite(reviewId, userDetails);
-        return ResponseEntity.ok("좋아요 취소");
+        FavoriteClickResDto favoriteClickResDto = productDetailPageService.cancelFavorite(reviewId, userDetails);
+        return ResponseEntity.ok(favoriteClickResDto);
     }
 
 }

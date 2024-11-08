@@ -29,8 +29,8 @@ public interface ProductDetailPageService {
 
     List<FavoriteCheckedResDto> getChecked(Long productId, UserDetails userDetails);
 
-    String clickFavorite(Long reviewId, UserDetails userDetails);
+    FavoriteClickResDto clickFavorite(Long reviewId, UserDetails userDetails);
 
-    String cancelFavorite(Long reviewId, UserDetails userDetails);
+    FavoriteClickResDto cancelFavorite(Long reviewId, UserDetails userDetails);
 
 }
