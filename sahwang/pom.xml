@@ -23,7 +23,7 @@
 	<properties>
 		<spring-boot.version>3.0.2</spring-boot.version>
 		<java.version>17</java.version>
-		<mysql-connector-java.version>8.0.28</mysql-connector-java.version>
+		<mysql-connector-j.version>8.3.0</mysql-connector-j.version>
 		<lombok.version>1.18.34</lombok.version>
 		<spring-kafka.version>3.0.2</spring-kafka.version>
 		<kafka-avro-serializer.version>7.2.1</kafka-avro-serializer.version>
