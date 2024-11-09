@@ -1,5 +1,6 @@
 package com.green.sahwang.detail.service;
 
+import com.green.sahwang.config.DateTimeUtils;
 import com.green.sahwang.detail.dto.response.*;
 import com.green.sahwang.dto.request.ImageFileReqDto;
 import com.green.sahwang.dto.response.ImageResDto;
@@ -76,12 +77,14 @@ public class ProductDetailPagePageServiceImpl implements ProductDetailPageServic
             throw new BizException(ErrorCode.NO_PURCHASE_PRODUCT);
         }
 
+        purchasePaymentList.sort(Comparator.comparing(PurchasePayment::getCreatedDate).reversed());
+
         List<DetailChartResDto> detailChartResDtoList = new ArrayList<>();
 
         for (PurchasePayment purchasePayment : purchasePaymentList){
             DetailChartResDto detailChartResDto = new DetailChartResDto();
             detailChartResDto.setTradePrice(product.getPrice());
-            detailChartResDto.setTradeCompletedDate(purchasePayment.getCreatedDate());
+            detailChartResDto.setTradeCompletedDate(DateTimeUtils.formatWithoutSecond(purchasePayment.getCreatedDate()));
             detailChartResDto.setSize(product.getSize());
 
             detailChartResDtoList.add(detailChartResDto);

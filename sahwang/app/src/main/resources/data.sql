@@ -318,6 +318,68 @@ INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date,
 INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id) VALUES (10000017, NULL, now(), 10000001, 10000005);
 INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id) VALUES (10000018, NULL, now(), 10000001, 10000006);
 
+INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id) VALUES (10000019, NULL, NOW() - INTERVAL 7 MONTH, 10000001, 10000001);
+INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id) VALUES (10000020, NULL, NOW() - INTERVAL 7 MONTH, 10000001, 10000002);
+INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id) VALUES (10000021, NULL, NOW() - INTERVAL 7 MONTH, 10000001, 10000003);
+INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id) VALUES (10000022, NULL, NOW() - INTERVAL 7 MONTH, 10000001, 10000004);
+INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id) VALUES (10000023, NULL, NOW() - INTERVAL 7 MONTH, 10000001, 10000005);
+INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id) VALUES (10000024, NULL, NOW() - INTERVAL 7 MONTH, 10000001, 10000006);
+
+INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id) VALUES (10000025, NULL, NOW() - INTERVAL 8 MONTH, 10000001, 10000001);
+INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id) VALUES (10000026, NULL, NOW() - INTERVAL 8 MONTH, 10000001, 10000002);
+INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id) VALUES (10000027, NULL, NOW() - INTERVAL 8 MONTH, 10000001, 10000003);
+INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id) VALUES (10000028, NULL, NOW() - INTERVAL 8 MONTH, 10000001, 10000004);
+INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id) VALUES (10000029, NULL, NOW() - INTERVAL 8 MONTH, 10000001, 10000005);
+INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id) VALUES (10000030, NULL, NOW() - INTERVAL 8 MONTH, 10000001, 10000006);
+
+INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id) VALUES (10000031, NULL, NOW() - INTERVAL 8 MONTH - INTERVAL 13 DAY, 10000001, 10000001);
+INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id) VALUES (10000032, NULL, NOW() - INTERVAL 8 MONTH - INTERVAL 13 DAY, 10000001, 10000002);
+INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id) VALUES (10000033, NULL, NOW() - INTERVAL 8 MONTH - INTERVAL 13 DAY, 10000001, 10000003);
+INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id) VALUES (10000034, NULL, NOW() - INTERVAL 8 MONTH - INTERVAL 13 DAY, 10000001, 10000004);
+INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id) VALUES (10000035, NULL, NOW() - INTERVAL 8 MONTH - INTERVAL 13 DAY, 10000001, 10000005);
+INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id) VALUES (10000036, NULL, NOW() - INTERVAL 8 MONTH - INTERVAL 13 DAY, 10000001, 10000006);
+
+INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id) VALUES (10000037, NULL, NOW() - INTERVAL 8 MONTH - INTERVAL 23 DAY, 10000001, 10000001);
+INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id) VALUES (10000038, NULL, NOW() - INTERVAL 8 MONTH - INTERVAL 23 DAY, 10000001, 10000002);
+INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id) VALUES (10000039, NULL, NOW() - INTERVAL 8 MONTH - INTERVAL 23 DAY, 10000001, 10000003);
+INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id) VALUES (10000040, NULL, NOW() - INTERVAL 8 MONTH - INTERVAL 23 DAY, 10000001, 10000004);
+INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id) VALUES (10000041, NULL, NOW() - INTERVAL 8 MONTH - INTERVAL 23 DAY, 10000001, 10000005);
+INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id) VALUES (10000042, NULL, NOW() - INTERVAL 8 MONTH - INTERVAL 23 DAY, 10000001, 10000006);
+
+INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id) VALUES (10000043, NULL, NOW() - INTERVAL 9 MONTH, 10000001, 10000001);
+INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id) VALUES (10000044, NULL, NOW() - INTERVAL 9 MONTH, 10000001, 10000002);
+INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id) VALUES (10000045, NULL, NOW() - INTERVAL 9 MONTH, 10000001, 10000003);
+INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id) VALUES (10000046, NULL, NOW() - INTERVAL 9 MONTH, 10000001, 10000004);
+INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id) VALUES (10000047, NULL, NOW() - INTERVAL 9 MONTH, 10000001, 10000005);
+INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id) VALUES (10000048, NULL, NOW() - INTERVAL 9 MONTH, 10000001, 10000006);
+
+INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id) VALUES (10000049, NULL, NOW() - INTERVAL 9 MONTH - INTERVAL 13 DAY, 10000001, 10000001);
+INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id) VALUES (10000050, NULL, NOW() - INTERVAL 9 MONTH - INTERVAL 13 DAY, 10000001, 10000002);
+INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id) VALUES (10000051, NULL, NOW() - INTERVAL 9 MONTH - INTERVAL 13 DAY, 10000001, 10000003);
+INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id) VALUES (10000052, NULL, NOW() - INTERVAL 9 MONTH - INTERVAL 13 DAY, 10000001, 10000004);
+INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id) VALUES (10000053, NULL, NOW() - INTERVAL 9 MONTH - INTERVAL 13 DAY, 10000001, 10000005);
+INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id) VALUES (10000054, NULL, NOW() - INTERVAL 9 MONTH - INTERVAL 13 DAY, 10000001, 10000006);
+
+INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id) VALUES (10000055, NULL, NOW() - INTERVAL 9 MONTH - INTERVAL 23 DAY, 10000001, 10000001);
+INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id) VALUES (10000056, NULL, NOW() - INTERVAL 9 MONTH - INTERVAL 23 DAY, 10000001, 10000002);
+INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id) VALUES (10000057, NULL, NOW() - INTERVAL 9 MONTH - INTERVAL 23 DAY, 10000001, 10000003);
+INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id) VALUES (10000058, NULL, NOW() - INTERVAL 9 MONTH - INTERVAL 23 DAY, 10000001, 10000004);
+INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id) VALUES (10000059, NULL, NOW() - INTERVAL 9 MONTH - INTERVAL 23 DAY, 10000001, 10000005);
+INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id) VALUES (10000060, NULL, NOW() - INTERVAL 9 MONTH - INTERVAL 23 DAY, 10000001, 10000006);
+
+INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id) VALUES (10000061, NULL, NOW() - INTERVAL 10 MONTH - INTERVAL 8 DAY, 10000001, 10000001);
+INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id) VALUES (10000062, NULL, NOW() - INTERVAL 10 MONTH - INTERVAL 12 DAY, 10000001, 10000001);
+INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id) VALUES (10000063, NULL, NOW() - INTERVAL 10 MONTH - INTERVAL 4 DAY, 10000001, 10000001);
+INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id) VALUES (10000064, NULL, NOW() - INTERVAL 10 MONTH - INTERVAL 21 DAY, 10000001, 10000001);
+INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id) VALUES (10000065, NULL, NOW() - INTERVAL 10 MONTH - INTERVAL 23 DAY, 10000001, 10000001);
+INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id) VALUES (10000066, NULL, NOW() - INTERVAL 10 MONTH - INTERVAL 17 DAY, 10000001, 10000001);
+
+INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id) VALUES (10000067, NULL, NOW() - INTERVAL 11 MONTH - INTERVAL 8 DAY, 10000001, 10000001);
+INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id) VALUES (10000068, NULL, NOW() - INTERVAL 11 MONTH - INTERVAL 12 DAY, 10000001, 10000001);
+INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id) VALUES (10000069, NULL, NOW() - INTERVAL 11 MONTH - INTERVAL 4 DAY, 10000001, 10000001);
+INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id) VALUES (10000070, NULL, NOW() - INTERVAL 11 MONTH - INTERVAL 21 DAY, 10000001, 10000001);
+INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id) VALUES (10000071, NULL, NOW() - INTERVAL 11 MONTH - INTERVAL 23 DAY, 10000001, 10000001);
+INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id) VALUES (10000072, NULL, NOW() - INTERVAL 11 MONTH - INTERVAL 17 DAY, 10000001, 10000001);
 
 -- review
 INSERT INTO review (review_id, member_id, purchase_product_id, review_creation_date, star, content) VALUES(10000001, 3, 10000001, now(), 4.0, '향수가 정말 좋네요! 조금 강하지만 오래 지속되어 좋습니다.');
