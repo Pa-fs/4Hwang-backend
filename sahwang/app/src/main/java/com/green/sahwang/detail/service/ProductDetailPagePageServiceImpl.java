@@ -67,10 +67,9 @@ public class ProductDetailPagePageServiceImpl implements ProductDetailPageServic
     }
 
     @Transactional
-    public List<DetailChartResDto> getSaleProducts(Long productId, int size){
+    public List<DetailChartResDto> getSaleProducts(Long productId){
         Product product = productRepository.findById(productId).orElseThrow();
-        Product product1 = productRepository.findByNameAndSize(product.getName(), size);
-        List<PurchaseProduct> purchaseProductList = purchaseProductRepository.findAllByProduct(product1);
+        List<PurchaseProduct> purchaseProductList = purchaseProductRepository.findAllByProduct(product);
         List<PurchasePayment> purchasePaymentList = purchasePaymentRepository.findAllByPurchaseProductIn(purchaseProductList);
 
         if (purchasePaymentList.isEmpty()){
@@ -83,6 +82,7 @@ public class ProductDetailPagePageServiceImpl implements ProductDetailPageServic
             DetailChartResDto detailChartResDto = new DetailChartResDto();
             detailChartResDto.setTradePrice(product.getPrice());
             detailChartResDto.setTradeCompletedDate(purchasePayment.getCreatedDate());
+            detailChartResDto.setSize(product.getSize());
 
             detailChartResDtoList.add(detailChartResDto);
         }

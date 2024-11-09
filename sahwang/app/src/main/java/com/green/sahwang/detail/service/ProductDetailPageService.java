@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface ProductDetailPageService {
 
-    List<DetailChartResDto> getSaleProducts(Long productId, int size);
+    List<DetailChartResDto> getSaleProducts(Long productId);
 
     DetailImagesResDto getProductImages(Long productId);
 

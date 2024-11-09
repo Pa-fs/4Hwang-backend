@@ -33,10 +33,9 @@ public class ProductDetailPageController {
     }
 
     @GetMapping("/chart/{productId}")
-    public ResponseEntity<List<DetailChartResDto>> productDetailPageChart(@PathVariable(name = "productId") Long productId,
-                                                                          @RequestParam int size){
+    public ResponseEntity<List<DetailChartResDto>> productDetailPageChart(@PathVariable(name = "productId") Long productId){
 
-        List<DetailChartResDto> detailChartResDtoList = productDetailPageService.getSaleProducts(productId, size);
+        List<DetailChartResDto> detailChartResDtoList = productDetailPageService.getSaleProducts(productId);
 
         return ResponseEntity.ok(detailChartResDtoList);
     }

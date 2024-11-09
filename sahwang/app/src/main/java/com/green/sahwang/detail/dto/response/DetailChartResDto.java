@@ -9,5 +9,6 @@ public class DetailChartResDto {
 
     private int tradePrice;
     private LocalDateTime tradeCompletedDate;
+    int size;
 
 }
