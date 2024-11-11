@@ -1,5 +1,6 @@
 package com.green.sahwang.detail.dto.response;
 
+import com.green.sahwang.dto.response.ImageResDto;
 import lombok.Data;
 
 import java.util.List;
@@ -12,5 +13,6 @@ public class DetailProductInfoResDto {
     Long productId;
     int size;
     int price;
+    String mainImage;
 
 }

@@ -123,6 +123,7 @@ public class ProductDetailPagePageServiceImpl implements ProductDetailPageServic
             detailProductInfoResDto.setPrice(product1.getPrice());
             detailProductInfoResDto.setProductId(product1.getId());
             detailProductInfoResDto.setSize(product1.getSize());
+            detailProductInfoResDto.setMainImage(product1.getMainImage());
 
             detailProductInfoResDtoList.add(detailProductInfoResDto);
         }
