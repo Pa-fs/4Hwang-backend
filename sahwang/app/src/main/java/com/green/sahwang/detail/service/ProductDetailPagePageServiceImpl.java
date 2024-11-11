@@ -117,13 +117,18 @@ public class ProductDetailPagePageServiceImpl implements ProductDetailPageServic
         List<DetailProductInfoResDto> detailProductInfoResDtoList = new ArrayList<>();
 
         for (Product product1 : productList){
+            List<ProductImage> productImages = productImageRepository.findAllByProduct(product1);
+            ProductImage productImage = productImages.get(0);
+
+            ImageResDto imageResDto = new ImageResDto(productImage.getFilename(), productImage.getPath(), productImage.getFileDesc());
+
             DetailProductInfoResDto detailProductInfoResDto = new DetailProductInfoResDto();
             detailProductInfoResDto.setBrandName(product1.getBrand().getName());
             detailProductInfoResDto.setProductName(product1.getName());
             detailProductInfoResDto.setPrice(product1.getPrice());
             detailProductInfoResDto.setProductId(product1.getId());
             detailProductInfoResDto.setSize(product1.getSize());
-            detailProductInfoResDto.setMainImage(product1.getMainImage());
+            detailProductInfoResDto.setMainImage(imageResDto);
 
             detailProductInfoResDtoList.add(detailProductInfoResDto);
         }

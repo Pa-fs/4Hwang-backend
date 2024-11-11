@@ -13,6 +13,6 @@ public class DetailProductInfoResDto {
     Long productId;
     int size;
     int price;
-    String mainImage;
+    ImageResDto mainImage;
 
 }
