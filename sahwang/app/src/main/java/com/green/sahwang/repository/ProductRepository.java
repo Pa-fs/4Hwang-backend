@@ -21,11 +21,17 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query("SELECT p FROM Product p ORDER BY FUNCTION('RAND')")
     List<Product> findRandomProducts(Pageable pageable);
 
+//    @Query("SELECT p FROM Product p\n" +
+//            "WHERE p.id IN (\n" +
+//            "    SELECT MIN(p2.id) FROM Product p2\n" +
+//            "    GROUP BY p2.dtype\n" +
+//            ")")
     @Query("SELECT p FROM Product p\n" +
             "WHERE p.id IN (\n" +
-            "    SELECT MIN(p2.id) FROM Product p2\n" +
-            "    GROUP BY p2.dtype\n" +
-            ")")
+            "		SELECT p2.id FROM Product p2\n" +
+            "		WHERE p2.id IN(46, 73, 86)\n" +
+            "		GROUP BY p2.dtype\n" +
+            "		)")
     List<Product> findBestProducts(Pageable pageable);
 
     List<Product> findAllByName(String productName);
