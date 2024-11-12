@@ -31,4 +31,8 @@ public class PurchasePayment {
 
     private LocalDateTime cancelledDate;
 
+    private int tradePrice;
+
+    private int tradeSize;
+
 }

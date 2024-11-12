@@ -83,9 +83,9 @@ public class ProductDetailPagePageServiceImpl implements ProductDetailPageServic
 
         for (PurchasePayment purchasePayment : purchasePaymentList){
             DetailChartResDto detailChartResDto = new DetailChartResDto();
-            detailChartResDto.setTradePrice(product.getPrice());
+            detailChartResDto.setTradePrice(purchasePayment.getTradePrice());
             detailChartResDto.setTradeCompletedDate(DateTimeUtils.formatWithoutSecond(purchasePayment.getCreatedDate()));
-            detailChartResDto.setSize(product.getSize());
+            detailChartResDto.setSize(purchasePayment.getTradeSize());
 
             detailChartResDtoList.add(detailChartResDto);
         }
