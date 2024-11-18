@@ -1,5 +1,8 @@
 package com.green.sahwang;
 
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -18,4 +21,6 @@ public class SaHwangApplication {
 	public ModelMapper modelMapper() {
 		return new ModelMapper();
 	}
+
+
 }
