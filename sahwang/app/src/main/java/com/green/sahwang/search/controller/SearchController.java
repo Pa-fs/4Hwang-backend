@@ -14,8 +14,8 @@ public class SearchController {
 
     @GetMapping
     public ResponseEntity<List<SearchResDto>> search(@RequestParam String search,
-                                                     @RequestParam(name = "pagNum") int pageNum,
-                                                     @RequestParam(name = "size") int size,
+                                                     @RequestParam(name = "pagNum", defaultValue = "0", required = false) int pageNum,
+                                                     @RequestParam(name = "size", defaultValue = "8", required = false) int size,
                                                      @RequestParam(name = "sortType") String sortType){
 
 
