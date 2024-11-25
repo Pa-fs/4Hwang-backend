@@ -60,11 +60,15 @@ public class SecurityFilter extends OncePerRequestFilter {
             throw new UserException("사용자의 이메일을 찾을 수 없습니다");
         }
         // ROLE 을 추가해야 403 에러가 안뜬다
-        Set<SimpleGrantedAuthority> roleUsers = new HashSet<>();
+        Set<SimpleGrantedAuthority> roles = new HashSet<>();
         if(role.equals("USER"))
-            roleUsers.add(new SimpleGrantedAuthority("ROLE_USER"));
+            roles.add(new SimpleGrantedAuthority("ROLE_USER"));
         else if(role.equals("ADMIN"))
-            roleUsers.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+            roles.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+        else if(role.equals("SELLER"))
+            roles.add(new SimpleGrantedAuthority("ROLE_SELLER"));
+        else if(role.equals("APPRAISER"))
+            roles.add(new SimpleGrantedAuthority("ROLE_APPRAISER"));
 
         Authentication authentication = new UsernamePasswordAuthenticationToken(
                 // userDetails 지정
@@ -72,7 +76,7 @@ public class SecurityFilter extends OncePerRequestFilter {
                         .username(email)
                         .password("")
                         .roles(role)
-                        .build(), null, roleUsers
+                        .build(), null, roles
         );
 
         log.info("Authentication: {}", authentication);

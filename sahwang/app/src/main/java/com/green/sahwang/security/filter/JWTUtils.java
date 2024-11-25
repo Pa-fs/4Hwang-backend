@@ -1,5 +1,6 @@
 package com.green.sahwang.security.filter;
 
+import com.green.sahwang.entity.enumtype.MemberRole;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
@@ -22,10 +23,10 @@ public class JWTUtils {
     private String SECRET_KEY = "abcdefghijklmnopqrstuvwxyz01234567890";
 //
 //    // JWT 생성
-    public String createJWT(String email, String accessToken){
+    public String createJWT(String email, MemberRole role, String accessToken){
         String jwt = Jwts.builder()
                 .claim("email",email)
-                .claim("role","USER")
+                .claim("role",role)
                 .claim("access_token", accessToken)
                 .issuedAt(new Date(System.currentTimeMillis())) // 현재 시간 넣기
 //                .expiration(new Date(System.currentTimeMillis() + 1000)) // 1초 지나면 유효시간 없음...

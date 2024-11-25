@@ -84,7 +84,10 @@ public class KakaoServiceImpl implements KakaoService{
             Member existingMember = memberRepository.findByEmail(email);
 
             if(existingMember != null){
-                return jwtUtils.createJWT(email, kakaoTokenDto.getAccessToken());
+                if (existingMember.getEmail().equals("thdghckd111@naver.com")){
+                    existingMember.setRole(MemberRole.ADMIN);
+                }
+                return jwtUtils.createJWT(email, existingMember.getRole(), kakaoTokenDto.getAccessToken());
             } else {
 
                 Member member = new Member();
@@ -98,7 +101,7 @@ public class KakaoServiceImpl implements KakaoService{
 
                 memberRepository.save(member);
 
-                return jwtUtils.createJWT(email, kakaoTokenDto.getAccessToken());
+                return jwtUtils.createJWT(email, member.getRole(), kakaoTokenDto.getAccessToken());
             }
         }catch (Exception e){
             e.printStackTrace();
