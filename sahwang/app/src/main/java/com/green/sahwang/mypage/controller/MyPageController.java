@@ -1,16 +1,17 @@
 package com.green.sahwang.mypage.controller;
 
-import com.green.sahwang.mypage.dto.OrderProgressResDto;
-import com.green.sahwang.mypage.dto.SaleProgressResDto;
+import com.green.sahwang.mypage.dto.res.OrderListResDto;
+import com.green.sahwang.mypage.dto.res.OrderProgressResDto;
+import com.green.sahwang.mypage.dto.res.SaleProgressResDto;
+import com.green.sahwang.mypage.dto.res.WishListResDto;
 import com.green.sahwang.mypage.service.MyPageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("myPage")
@@ -35,5 +36,25 @@ public class MyPageController {
 
         return ResponseEntity.ok(saleProgressResDto);
     }
+
+    @GetMapping("orderList")
+    public ResponseEntity<List<OrderListResDto>> getOrderList(@AuthenticationPrincipal UserDetails userDetails,
+                                                              @RequestParam(name = "pageNum", defaultValue = "0", required = false) int pageNum,
+                                                              @RequestParam(name = "size", defaultValue = "5", required = false) int size){
+
+
+        return null;
+    }
+
+    @GetMapping("wishList")
+    public ResponseEntity<List<WishListResDto>> getWishList(@AuthenticationPrincipal UserDetails userDetails){
+
+        List<WishListResDto> wishList = myPageService.getWishList(userDetails);
+
+        return ResponseEntity.ok(wishList);
+    }
+
+//    @PostMapping("infoUpdate")
+//    public ResponseEntity<>
 
 }

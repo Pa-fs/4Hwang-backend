@@ -4,6 +4,8 @@ import com.green.sahwang.entity.enumtype.ShipStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 
 @Entity
 @AllArgsConstructor
@@ -28,5 +30,7 @@ public class DeliveryPurchase {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "purchase_product_id")
     private PurchaseProduct purchaseProduct;
+
+    private LocalDateTime deliveredDate;
 
 }

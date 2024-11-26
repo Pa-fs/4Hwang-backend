@@ -10,4 +10,5 @@ import java.util.List;
 public interface WishRepository extends JpaRepository<Wish, Long> {
     List<Wish> findAllByProductInAndMember(List<Product> product, Member member);
     Wish findByProductAndMember(Product product, Member member);
+    List<Wish> findAllByMemberAndIsChecked(Member member, Boolean isChecked);
 }

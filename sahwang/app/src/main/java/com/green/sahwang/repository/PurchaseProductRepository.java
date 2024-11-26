@@ -3,6 +3,8 @@ package com.green.sahwang.repository;
 import com.green.sahwang.entity.Product;
 import com.green.sahwang.entity.Purchase;
 import com.green.sahwang.entity.PurchaseProduct;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -20,4 +22,6 @@ public interface PurchaseProductRepository extends JpaRepository<PurchaseProduct
     List<PurchaseProduct> findAllByProduct(Product product);
 
     List<PurchaseProduct> findAllByPurchaseIn(List<Purchase> purchaseList);
+
+    Page<PurchaseProduct> findAllByPurchaseIn(List<Purchase> purchaseList, Pageable pageable);
 }

@@ -64,13 +64,13 @@ public class WishServiceImpl implements WishService {
             wish = new Wish();
             wish.setProduct(product);
             wish.setMember(member);
-            wish.setCheckOrNot(true);
+            wish.setIsChecked(true);
         } else {
-            wish.setCheckOrNot(!wish.getCheckOrNot());
+            wish.setIsChecked(!wish.getIsChecked());
         }
 
         wishRepository.save(wish);
-        return wish.getCheckOrNot();
+        return wish.getIsChecked();
     }
 
 }
