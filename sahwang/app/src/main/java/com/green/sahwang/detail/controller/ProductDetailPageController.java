@@ -40,6 +40,22 @@ public class ProductDetailPageController {
         return ResponseEntity.ok(detailChartResDtoList);
     }
 
+    @GetMapping("/chart/oneMonth/{productId}")
+    public ResponseEntity<List<DetailChartResDto>> productDetailPageChartOneMonth(@PathVariable(name = "productId") Long productId){
+
+        List<DetailChartResDto> detailChartResDtoList = productDetailPageService.getChartOneMonth(productId);
+
+        return ResponseEntity.ok(detailChartResDtoList);
+    }
+
+    @GetMapping("/chart/sixMonth/{productId}")
+    public ResponseEntity<List<DetailChartResDto>> productDetailPageChartSixMonth(@PathVariable(name = "productId") Long productId){
+
+        List<DetailChartResDto> detailChartResDtoList = productDetailPageService.getChartSixMonth(productId);
+
+        return ResponseEntity.ok(detailChartResDtoList);
+    }
+
     @GetMapping("/detailProductInfo/{productId}")
     public ResponseEntity<List<DetailProductInfoResDto>> getProductInfo(@PathVariable(name = "productId") Long productId){
 

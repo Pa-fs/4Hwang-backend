@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -72,6 +73,64 @@ public class ProductDetailPagePageServiceImpl implements ProductDetailPageServic
         Product product = productRepository.findById(productId).orElseThrow();
         List<PurchaseProduct> purchaseProductList = purchaseProductRepository.findAllByProduct(product);
         List<PurchasePayment> purchasePaymentList = purchasePaymentRepository.findAllByPurchaseProductIn(purchaseProductList);
+
+        if (purchasePaymentList.isEmpty()){
+            throw new BizException(ErrorCode.NO_PURCHASE_PRODUCT);
+        }
+
+        purchasePaymentList.sort(Comparator.comparing(PurchasePayment::getCreatedDate).reversed());
+
+        List<DetailChartResDto> detailChartResDtoList = new ArrayList<>();
+
+        for (PurchasePayment purchasePayment : purchasePaymentList){
+            DetailChartResDto detailChartResDto = new DetailChartResDto();
+            detailChartResDto.setTradePrice(purchasePayment.getTradePrice());
+            detailChartResDto.setTradeCompletedDate(DateTimeUtils.formatWithoutSecond(purchasePayment.getCreatedDate()));
+            detailChartResDto.setSize(purchasePayment.getTradeSize());
+
+            detailChartResDtoList.add(detailChartResDto);
+        }
+
+        return detailChartResDtoList;
+    }
+
+    @Transactional
+    public List<DetailChartResDto> getChartOneMonth(Long productId){
+        Product product = productRepository.findById(productId).orElseThrow();
+        List<PurchaseProduct> purchaseProductList = purchaseProductRepository.findAllByProduct(product);
+
+        LocalDateTime oneMonth = LocalDateTime.now().minusMonths(1);
+
+        List<PurchasePayment> purchasePaymentList = purchasePaymentRepository.findAllByPurchaseProductInAndCreatedDateAfter(purchaseProductList, oneMonth);
+
+        if (purchasePaymentList.isEmpty()){
+            throw new BizException(ErrorCode.NO_PURCHASE_PRODUCT);
+        }
+
+        purchasePaymentList.sort(Comparator.comparing(PurchasePayment::getCreatedDate).reversed());
+
+        List<DetailChartResDto> detailChartResDtoList = new ArrayList<>();
+
+        for (PurchasePayment purchasePayment : purchasePaymentList){
+            DetailChartResDto detailChartResDto = new DetailChartResDto();
+            detailChartResDto.setTradePrice(purchasePayment.getTradePrice());
+            detailChartResDto.setTradeCompletedDate(DateTimeUtils.formatWithoutSecond(purchasePayment.getCreatedDate()));
+            detailChartResDto.setSize(purchasePayment.getTradeSize());
+
+            detailChartResDtoList.add(detailChartResDto);
+        }
+
+        return detailChartResDtoList;
+    }
+
+    @Transactional
+    public List<DetailChartResDto> getChartSixMonth(Long productId){
+        Product product = productRepository.findById(productId).orElseThrow();
+        List<PurchaseProduct> purchaseProductList = purchaseProductRepository.findAllByProduct(product);
+
+        LocalDateTime oneMonth = LocalDateTime.now().minusMonths(6);
+
+        List<PurchasePayment> purchasePaymentList = purchasePaymentRepository.findAllByPurchaseProductInAndCreatedDateAfter(purchaseProductList, oneMonth);
 
         if (purchasePaymentList.isEmpty()){
             throw new BizException(ErrorCode.NO_PURCHASE_PRODUCT);
