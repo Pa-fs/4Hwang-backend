@@ -13,7 +13,7 @@ public class Wish {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "heart_id")
+    @Column(name = "wish_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -24,7 +24,7 @@ public class Wish {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    private Boolean checkOrNot;
+    private Boolean isChecked;
 
 
 }

@@ -3,6 +3,7 @@ package com.green.sahwang.repository;
 import com.green.sahwang.dto.response.ProductResDto;
 import com.green.sahwang.entity.Brand;
 import com.green.sahwang.entity.Product;
+import com.green.sahwang.entity.Wish;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
