@@ -32,6 +32,8 @@ public class Purchase {
     @Enumerated(EnumType.STRING)
     private PurchaseStatus purchaseStatus;
 
+    private Boolean status = false;
+
     public void doReadyForPay() {
         if (this.purchaseStatus != PurchaseStatus.CREATED) {
             throw new PurchaseDomainException("해당 구매번호는 " + this.getId() + " 시작 상태가 아닙니다!");
