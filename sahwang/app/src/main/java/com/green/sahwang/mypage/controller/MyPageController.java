@@ -41,9 +41,9 @@ public class MyPageController {
     public ResponseEntity<List<OrderListResDto>> getOrderList(@AuthenticationPrincipal UserDetails userDetails,
                                                               @RequestParam(name = "pageNum", defaultValue = "0", required = false) int pageNum,
                                                               @RequestParam(name = "size", defaultValue = "5", required = false) int size){
+        List<OrderListResDto> orderListResDtoList = myPageService.getOrderList(userDetails, pageNum, size);
 
-
-        return null;
+        return ResponseEntity.ok(orderListResDtoList);
     }
 
     @GetMapping("wishList")
