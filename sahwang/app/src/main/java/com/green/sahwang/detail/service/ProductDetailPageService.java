@@ -33,4 +33,8 @@ public interface ProductDetailPageService {
 
     FavoriteClickResDto cancelFavorite(Long reviewId, UserDetails userDetails);
 
+    List<DetailChartResDto> getChartOneMonth(Long productId);
+
+    List<DetailChartResDto> getChartSixMonth(Long productId);
+
 }
