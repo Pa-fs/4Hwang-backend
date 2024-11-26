@@ -31,6 +31,7 @@ public class CartServiceImpl implements CartService {
     private final CartProductRepository cartProductRepository;
     private final CartServiceHelper cartServiceHelper;
     private final PaymentRepository paymentRepository;
+    private final PurchasePaymentRepository purchasePaymentRepository;
 
     @Override
     @Transactional
@@ -119,22 +120,22 @@ public class CartServiceImpl implements CartService {
     @Override
     @Transactional
     public void clearCart(List<String> keys, List<PurchasePaidEventAvroModel> messages) {
+        log.info("after paid, clear cart");
         Payment payment = null;
         List<PurchasePaidEventAvroModel> purchasePaidEventAvroModels = messages.stream().toList();
         for (PurchasePaidEventAvroModel purchasePaidEventAvroModel : purchasePaidEventAvroModels) {
             payment = paymentRepository.findByImpUid(purchasePaidEventAvroModel.getTransactionId())
                     .orElseThrow(() -> new PaymentDomainException("No Payment TransactionId"));
 
+            log.info("paymentId : {}, status : {}", payment.getId(), payment.getStatus());
             payment.validatePaidCompletedStatus();
 
-            Long memberId = Long.parseLong(purchasePaidEventAvroModel.getMemberId().split(":")[1]);
-            Member member = memberRepository.findById(memberId)
-                    .orElseThrow(() -> new DomainException(memberId + "해당 회원을 찾을 수 없습니다"));
-
-            Cart cart = cartRepository.findByMember(member)
-                    .orElseThrow(() -> new CartDomainException("해당 회원의 장바구니를 찾을 수 없습니다"));
-
-            cartProductRepository.deleteAllByCart(cart);
+            // 결제된 제품 ID만 제거해야함
+            // paymentId -> purchasePayments -> purchaseProduct -> productIds
+            List<PurchasePayment> purchasePayments = purchasePaymentRepository.findAllByPayment(payment);
+            cartProductRepository.deleteAllByProductIdIn(purchasePayments.stream()
+                    .map(purchasePayment -> purchasePayment.getPurchaseProduct().getProduct().getId())
+                    .toList());
         }
     }
 

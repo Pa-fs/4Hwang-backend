@@ -1,5 +1,6 @@
 package com.green.sahwang.repository;
 
+import com.green.sahwang.dto.response.ProductResDto;
 import com.green.sahwang.entity.Brand;
 import com.green.sahwang.entity.Product;
 import org.springframework.data.domain.Page;
@@ -11,7 +12,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
-    Page<Product>findAllProductsByDtype(Pageable pageable, String dtype);
+    Page<Product> findAllProductsByDtype(Pageable pageable, String dtype);
 
     List<Product> findProductsByBrandAndDtype(Brand brand, Pageable pageable, String dtype);
 
@@ -38,4 +39,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     List<Product> findAllByNameContaining(String search);
 
+    @Query("SELECT p FROM Product p WHERE p.name LIKE CONCAT(:keyword, '%') ORDER BY p.name ASC LIMIT 5")
+    List<Product> findByKeyword(@Param("keyword") String keyword);
 }

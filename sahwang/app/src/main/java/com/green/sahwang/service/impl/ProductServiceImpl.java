@@ -10,7 +10,6 @@ import com.green.sahwang.repository.ProductRepository;
 import com.green.sahwang.service.ProductService;
 import com.green.sahwang.service.ReviewService;
 import lombok.RequiredArgsConstructor;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -18,9 +17,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -37,6 +35,7 @@ public class ProductServiceImpl implements ProductService {
         List<Product> bestProducts = productRepository.findBestProducts(pageable);
         return getProductResDtos(bestProducts);
     }
+
 
     @Override
     @Transactional(readOnly = true)
@@ -90,4 +89,11 @@ public class ProductServiceImpl implements ProductService {
         return productResDto;
     }
 
+    @Override
+    public List<ProductResDto> searchProducts(String keyword) {
+        if (keyword == null || keyword.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return getProductResDtos(productRepository.findByKeyword(keyword));
+    }
 }

@@ -11,4 +11,6 @@ public interface ProductService {
     List<ProductResDto> getNewProducts(int pageNum, int size);
 
     List<ProductResDto> getBestProducts(int pageNum, int size);
+
+    List<ProductResDto> searchProducts(String keyword);
 }

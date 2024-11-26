@@ -14,6 +14,8 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.util.Base64;
 import java.util.Date;
+import java.util.Objects;
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -81,7 +83,7 @@ public class JWTUtils {
 
     public String getEmailFromJwt(String jwt){
         Claims claims = decodeJwt(jwt);
-        return claims.get("email").toString();
+        return claims != null ? claims.get("email").toString() : "";
     }
 
     public String getAccessTokenFromJwt(String jwt){

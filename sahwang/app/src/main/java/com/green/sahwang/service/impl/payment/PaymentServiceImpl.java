@@ -247,10 +247,14 @@ public class PaymentServiceImpl implements PaymentService {
     @Transactional
     public void savePurchaseInfoForPayment(ExternalPurchasePaymentReqDto externalPurchasePaymentReqDto, String email) {
         log.info("externalPurchasePaymentReqDto : {}", externalPurchasePaymentReqDto.toString());
-        List<PurchaseProduct> purchaseProducts = purchaseProductRepository.findAllByProductIdIn(externalPurchasePaymentReqDto
-                .getPurchaseProductDtos().stream()
-                .map(purchaseProductReqDto -> purchaseProductReqDto.getProductId())
-                .toList());
+//        List<PurchaseProduct> purchaseProducts = purchaseProductRepository.findAllByProductIdInAndPurchase(externalPurchasePaymentReqDto
+//                .getPurchaseProductDtos().stream()
+//                .map(purchaseProductReqDto -> purchaseProductReqDto.getProductId())
+//                .toList());
+
+        Purchase resPurchase = purchaseRepository.findById(externalPurchasePaymentReqDto.getPurchaseId())
+                .orElseThrow(() -> new BizException(ErrorCode.NO_PURCHASE));
+        List<PurchaseProduct> purchaseProducts = purchaseProductRepository.findAllByPurchase(resPurchase);
 
         Payment payment = paymentRepository.findByImpUid(externalPurchasePaymentReqDto.getImpUid())
                 .orElseThrow(() -> new PaymentDomainException("해당 " + externalPurchasePaymentReqDto.getImpUid()
@@ -261,6 +265,8 @@ public class PaymentServiceImpl implements PaymentService {
             PurchasePayment purchasePayment = PurchasePayment.builder()
                     .purchaseProduct(purchaseProduct)
                     .payment(payment)
+                    .tradePrice(purchaseProduct.getProduct().getPrice())
+                    .tradeSize(purchaseProduct.getProduct().getSize())
                     .createdDate(payment.getPaidAt())
                     .build();
             purchasePaymentRepository.save(purchasePayment);

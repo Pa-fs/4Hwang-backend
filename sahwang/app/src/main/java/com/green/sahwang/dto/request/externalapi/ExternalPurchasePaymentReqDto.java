@@ -11,6 +11,7 @@ import java.util.List;
 
 @Data
 public class ExternalPurchasePaymentReqDto {
+    private Long purchaseId;
 
     private String buyerEmail;
 

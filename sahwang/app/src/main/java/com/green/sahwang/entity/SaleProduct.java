@@ -29,5 +29,13 @@ public class SaleProduct {
     private int tradePrice;
 
     private LocalDateTime tradeCompletedDate;
+//
+//    private LocalDateTime createdDate;
+//
+//    private LocalDateTime modifiedDate;
+
+    private boolean passedInspection = false;
+
+    private boolean posted = false;
 
 }

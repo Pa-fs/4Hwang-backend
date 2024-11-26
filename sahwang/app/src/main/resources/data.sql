@@ -21,8 +21,8 @@ DELETE FROM `external_prepare_payment`;
 
 
 
-insert into member(member_id, email, addr, post_code, phone_num)
-values (1, 'qordi124@gmail.com', '대구광역시 중구', '123-456', '010-1234-5678');
+INSERT INTO `member` (`member_id`, `account`, `ad_received`, `addr`, `post_code`, `email`, `is_deleted`, `join_date`, `name`, `nick_name`, `phone_num`, `role`, `sns_type`, `withdraw_date`, `profile_image`, `thumbnail_image`)
+values (1, NULL, NULL, '대구광역시 중구', '123-456', 'qordi124@gmail.com', NULL, '2024-10-24', NULL, '태영', '010-1234-5678', 'USER', 1, NULL, '', '');
 insert into member(member_id, addr, post_code, phone_num)
 values (2, '대구광역시 중구', '345-678', '010-1234-5678');
 INSERT INTO `member` (`member_id`, `account`, `ad_received`, `addr`, `post_code`, `email`, `is_deleted`, `join_date`, `name`, `nick_name`, `phone_num`, `role`, `sns_type`, `withdraw_date`, `profile_image`, `thumbnail_image`)
