@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,43 +61,56 @@ public class MyPageServiceImpl implements MyPageService{
         Pageable pageable = PageRequest.of(pageNum, size);
         Page<Purchase> purchasePage = purchaseRepository.findAllByMember(member, pageable);
 
-        List<OrderListResDto> orderListResDtoList = new ArrayList<>();
-        for (Purchase purchase : purchasePage){
+        List<Purchase> purchaseList = purchasePage.getContent();
+        List<PurchaseProduct> purchaseProductList = purchaseProductRepository.findAllByPurchaseIn(purchaseList);
+        List<DeliveryPurchase> deliveryPurchaseList = deliveryPurchasesRepository.findAllByPurchaseIn(purchaseList);
+
+        return purchaseList.stream().map(purchase -> {
             OrderListResDto orderListResDto = new OrderListResDto();
-            List<PurchaseProduct> purchaseProductList = purchaseProductRepository.findAllByPurchase(purchase);
-            List<DeliveryPurchase> deliveryPurchaseList = deliveryPurchasesRepository.findAllByPurchaseProductIn(purchaseProductList);
             orderListResDto.setOrderDate(purchase.getPurchaseDate());
             orderListResDto.setOrderId(purchase.getId());
+            LocalDateTime deliveredDate = deliveryPurchaseList.stream()
+                    .filter(deliveryPurchase -> deliveryPurchase.getPurchase().getId().equals(purchase.getId()))
+                    .map(DeliveryPurchase::getDeliveredDate)
+                    .findFirst()
+                    .orElse(null);
+            orderListResDto.setDeliveredDate(deliveredDate);
             orderListResDto.setPurchaseStatus(purchase.getPurchaseStatus());
-            if(orderListResDto.getPurchaseStatus().equals(PurchaseStatus.SHIPPED)){
-                orderListResDto.setDeliveredDate(deliveryPurchaseList.get(0).getDeliveredDate());
-            }
-            else{
-                orderListResDto.setDeliveredDate(null);
-            }
-            List<OrderDetailResDto> orderDetailResDtoList = new ArrayList<>();
-            for (PurchaseProduct purchaseProduct : purchaseProductList){
-                OrderDetailResDto orderDetailResDto = new OrderDetailResDto();
-                orderDetailResDto.setPrice(purchaseProduct.getProduct().getPrice());
-                orderDetailResDto.setQuantity(purchaseProduct.getProductQuantity());
-                orderDetailResDto.setProductName(purchaseProduct.getProductName());
-                orderDetailResDtoList.add(orderDetailResDto);
-            }
+            List<OrderDetailResDto> orderDetailResDtoList = purchaseProductList.stream()
+                    .filter(purchaseProduct -> purchaseProduct.getPurchase().getId().equals(purchase.getId()))
+                    .map(purchaseProduct -> {
+                        OrderDetailResDto orderDetailResDto = new OrderDetailResDto();
+                        orderDetailResDto.setProductName(purchaseProduct.getProductName());
+                        orderDetailResDto.setPrice(purchaseProduct.getProduct().getPrice());
+                        orderDetailResDto.setQuantity(purchaseProduct.getProductQuantity());
+                        return orderDetailResDto;
+                    })
+                    .toList();
             orderListResDto.setOrderDetailResDtoList(orderDetailResDtoList);
-            orderListResDtoList.add(orderListResDto);
-        }
+            return orderListResDto;
+        }).toList();
+    }
 
-        return orderListResDtoList;
+    @Transactional
+    public List<SaleListResDto> getSaleList(UserDetails userDetails, int pageNum, int size){
+        Member member = memberRepository.findByEmail(userDetails.getUsername());
+
+        Pageable pageable = PageRequest.of(pageNum, size);
+        Page<Sale> salePage = saleRepository.findAllByMember(member, pageable);
+
+        return null;
     }
 
     @Transactional(readOnly = true)
-    public List<WishListResDto> getWishList(UserDetails userDetails){
+    public List<WishListResDto> getWishList(UserDetails userDetails, int pageNum, int size){
         Member member = memberRepository.findByEmail(userDetails.getUsername());
-        List<Wish> wishList = wishRepository.findAllByMemberAndIsChecked(member, true);
+
+        Pageable pageable = PageRequest.of(pageNum, size);
+        Page<Wish> wishPage = wishRepository.findAllByMemberAndIsChecked(member, true, pageable);
 
         List<WishListResDto> wishListResDtoList = new ArrayList<>();
 
-        for(Wish wish : wishList){
+        for(Wish wish : wishPage){
             WishListResDto wishListResDto = new WishListResDto();
             wishListResDto.setProductName(wish.getProduct().getName());
             wishListResDto.setProductPrice(wish.getProduct().getPrice());

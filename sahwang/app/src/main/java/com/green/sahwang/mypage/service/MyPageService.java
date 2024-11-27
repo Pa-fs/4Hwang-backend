@@ -15,5 +15,5 @@ public interface MyPageService {
 
     List<OrderListResDto> getOrderList(UserDetails userDetails, int pageNum, int size);
 
-    List<WishListResDto> getWishList(UserDetails userDetails);
+    List<WishListResDto> getWishList(UserDetails userDetails, int pageNum, int size);
 }
