@@ -21,7 +21,7 @@ public interface PurchaseProductRepository extends JpaRepository<PurchaseProduct
 
     List<PurchaseProduct> findAllByProduct(Product product);
 
-    List<PurchaseProduct> findAllByPurchaseIn(List<Purchase> purchaseList);
+    List<PurchaseProduct> findAllByPurchaseIn(List<Purchase> purchasePage);
 
     Page<PurchaseProduct> findAllByPurchaseIn(List<Purchase> purchaseList, Pageable pageable);
 }
