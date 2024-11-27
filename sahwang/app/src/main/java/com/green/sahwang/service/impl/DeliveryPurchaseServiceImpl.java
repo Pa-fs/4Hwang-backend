@@ -1,6 +1,7 @@
 package com.green.sahwang.service.impl;
 
 import com.green.sahwang.config.AvroToDBSerializer;
+import com.green.sahwang.controller.NotificationService;
 import com.green.sahwang.entity.OutboxMessage;
 import com.green.sahwang.entity.Purchase;
 import com.green.sahwang.entity.enumtype.OutboxStatus;
@@ -14,6 +15,7 @@ import com.green.sahwang.repository.PurchaseRepository;
 import com.green.sahwang.service.DeliveryPurchaseService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +30,8 @@ public class DeliveryPurchaseServiceImpl implements DeliveryPurchaseService {
 
     private final PurchaseRepository purchaseRepository;
     private final OutboxRepository outboxRepository;
+
+    private final NotificationService notificationService;
 
     @Override
     @Transactional
@@ -59,11 +63,31 @@ public class DeliveryPurchaseServiceImpl implements DeliveryPurchaseService {
 
 //            createPurchaseCompletedOutboxMessage(purchase);
 
-            // 알림서비스 추가 될 곳 (주문완료)
-
             // 배송 프로세스 시작
+            log.info("주문완료 이벤트 발행, 구매번호 : {}", purchaseKeyId);
 
-//            log.info("주문완료 이벤트 발행, 구매번호 : {}", purchaseKeyId);
+            if(purchase.getStatus().equals(PurchaseStatus.SHIP_READY))
+                shippingProcess();
+            if(purchase.getStatus().equals(PurchaseStatus.SHIPPING))
+                shippedProcess();
+        }
+    }
+
+
+    @Scheduled(fixedRate = 5000)
+    public void shippingProcess() {
+        Purchase purchase = purchaseRepository.findByPurchaseStatus(PurchaseStatus.SHIP_READY);
+        if (purchase != null) {
+            purchase.setPurchaseStatus(PurchaseStatus.SHIPPING);
+            purchaseRepository.save(purchase);
+        }
+    }
+    @Scheduled(fixedRate = 15000)
+    public void shippedProcess() {
+        Purchase purchase = purchaseRepository.findByPurchaseStatus(PurchaseStatus.SHIPPING);
+        if (purchase != null) {
+            purchase.setPurchaseStatus(PurchaseStatus.SHIPPED);
+            purchaseRepository.save(purchase);
         }
     }
 

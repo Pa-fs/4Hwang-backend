@@ -97,7 +97,7 @@ public class KakaoServiceImpl implements KakaoService{
                 member.setThumbnailImage(kakaoUserInfoDto.getProperties().getThumbnailImage());
                 member.setSnsType(SnsType.KAKAO);
                 member.setJoinDate(LocalDateTime.now());
-                member.setRole(MemberRole.USER);
+                member.setRole(MemberRole.APPRAISER);
 
                 memberRepository.save(member);
 
