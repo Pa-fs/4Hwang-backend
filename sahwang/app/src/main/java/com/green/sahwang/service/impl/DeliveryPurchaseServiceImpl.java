@@ -2,14 +2,17 @@ package com.green.sahwang.service.impl;
 
 import com.green.sahwang.config.AvroToDBSerializer;
 import com.green.sahwang.controller.NotificationService;
+import com.green.sahwang.entity.DeliveryPurchase;
 import com.green.sahwang.entity.OutboxMessage;
 import com.green.sahwang.entity.Purchase;
 import com.green.sahwang.entity.enumtype.OutboxStatus;
 import com.green.sahwang.entity.enumtype.PurchaseStatus;
+import com.green.sahwang.entity.enumtype.ShipStatus;
 import com.green.sahwang.exception.PurchaseDomainException;
 import com.green.sahwang.exception.outbox.OutboxSerializeEventException;
 import com.green.sahwang.model.payment.avro.PurchasePaidEventAvroModel;
 import com.green.sahwang.model.purchase.avro.PurchaseCompletedEventAvroModel;
+import com.green.sahwang.repository.DeliveryPurchasesRepository;
 import com.green.sahwang.repository.OutboxRepository;
 import com.green.sahwang.repository.PurchaseRepository;
 import com.green.sahwang.service.DeliveryPurchaseService;
@@ -30,8 +33,8 @@ public class DeliveryPurchaseServiceImpl implements DeliveryPurchaseService {
 
     private final PurchaseRepository purchaseRepository;
     private final OutboxRepository outboxRepository;
-
     private final NotificationService notificationService;
+    private final DeliveryPurchasesRepository deliveryPurchasesRepository;
 
     @Override
     @Transactional
@@ -78,6 +81,12 @@ public class DeliveryPurchaseServiceImpl implements DeliveryPurchaseService {
     public void shippingProcess() {
         Purchase purchase = purchaseRepository.findByPurchaseStatus(PurchaseStatus.SHIP_READY);
         if (purchase != null) {
+            DeliveryPurchase deliveryPurchase = DeliveryPurchase.builder()
+                    .purchase(purchase)
+                    .status(ShipStatus.SHIPPING)
+                    .deliveredDate(LocalDateTime.now())
+                    .build();
+            deliveryPurchasesRepository.save(deliveryPurchase);
             purchase.setPurchaseStatus(PurchaseStatus.SHIPPING);
             purchaseRepository.save(purchase);
         }
@@ -86,6 +95,12 @@ public class DeliveryPurchaseServiceImpl implements DeliveryPurchaseService {
     public void shippedProcess() {
         Purchase purchase = purchaseRepository.findByPurchaseStatus(PurchaseStatus.SHIPPING);
         if (purchase != null) {
+            DeliveryPurchase deliveryPurchase = DeliveryPurchase.builder()
+                    .purchase(purchase)
+                    .status(ShipStatus.SHIPPED)
+                    .deliveredDate(LocalDateTime.now())
+                    .build();
+            deliveryPurchasesRepository.save(deliveryPurchase);
             purchase.setPurchaseStatus(PurchaseStatus.SHIPPED);
             purchaseRepository.save(purchase);
         }
