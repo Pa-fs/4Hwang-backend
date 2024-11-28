@@ -86,6 +86,7 @@ public class KakaoServiceImpl implements KakaoService{
             if(existingMember != null){
                 if (existingMember.getEmail().equals("thdghckd111@naver.com") || existingMember.getEmail().equals("whgpals4263@nate.com")){
                     existingMember.setRole(MemberRole.ADMIN);
+                    memberRepository.save(existingMember);
                 }
                 return jwtUtils.createJWT(email, existingMember.getRole(), kakaoTokenDto.getAccessToken());
             } else {
