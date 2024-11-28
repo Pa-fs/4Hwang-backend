@@ -5,10 +5,12 @@ import com.green.sahwang.entity.*;
 import com.green.sahwang.entity.enumtype.PurchaseStatus;
 import com.green.sahwang.exception.BizException;
 import com.green.sahwang.exception.ErrorCode;
+import com.green.sahwang.mypage.dto.req.MemberInfoReqDto;
 import com.green.sahwang.mypage.dto.res.*;
 import com.green.sahwang.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -31,6 +33,7 @@ public class MyPageServiceImpl implements MyPageService{
     private final WishRepository wishRepository;
     private final DeliveryPurchasesRepository deliveryPurchasesRepository;
     private final SaleProductRepository saleProductRepository;
+    private final ModelMapper modelMapper;
 
     @Transactional
     public OrderProgressResDto getOrderProgress(UserDetails userDetails){
@@ -130,6 +133,18 @@ public class MyPageServiceImpl implements MyPageService{
         return wishListResDtoList;
     }
 
+    @Transactional
+    public MemberInfoResDto updateMemberInfo(UserDetails userDetails, MemberInfoReqDto memberInfoReqDto){
+        Member member = memberRepository.findByEmail(userDetails.getUsername());
+        member.setNickName(memberInfoReqDto.getNickName());
+        member.setAddress(memberInfoReqDto.getAddress());
+        member.setName(memberInfoReqDto.getName());
+        member.setPhoneNum(memberInfoReqDto.getPhoneNum());
+        member.setEmail(memberInfoReqDto.getEmail());
+        member.setGender(memberInfoReqDto.getGender());
+        memberRepository.save(member);
 
+        return modelMapper.map(member, MemberInfoResDto.class);
+    }
 
 }

@@ -46,6 +46,8 @@ public class Member {
 
     private String account;
 
+    private Boolean gender;
+
     private Boolean isDeleted;
 
     // kakao 로그인 할때 가져옴
