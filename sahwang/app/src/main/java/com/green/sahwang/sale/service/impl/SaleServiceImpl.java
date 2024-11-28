@@ -8,6 +8,8 @@ import com.green.sahwang.entity.enumtype.SaleStatus;
 import com.green.sahwang.entity.product.Candle;
 import com.green.sahwang.entity.product.Diffuser;
 import com.green.sahwang.entity.product.Perfume;
+import com.green.sahwang.exception.BizException;
+import com.green.sahwang.exception.ErrorCode;
 import com.green.sahwang.repository.MemberRepository;
 import com.green.sahwang.repository.ProductRepository;
 import com.green.sahwang.repository.SaleProductRepository;
@@ -16,6 +18,7 @@ import com.green.sahwang.sale.dto.SaleCreateReqDto;
 import com.green.sahwang.sale.dto.SaleCreatedResDto;
 import com.green.sahwang.sale.service.SaleService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +26,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class SaleServiceImpl implements SaleService {
 
     private final ProductRepository productRepository;
@@ -32,25 +36,29 @@ public class SaleServiceImpl implements SaleService {
 
     @Override
     @Transactional
-    public SaleCreatedResDto createSale(SaleCreateReqDto saleCreatedDto, String email) {
+    public SaleCreatedResDto createSale(SaleCreateReqDto saleCreateReqDto, String email) {
 
         // 상품 디비에서 전체 검색
-        String productName = saleCreatedDto.getProductName();
-        String dtype = saleCreatedDto.getDtype();
+        String productName = saleCreateReqDto.getProductName();
+        String dtype = saleCreateReqDto.getDtype();
         List<Product> products = productRepository.findAllByName(productName);
         Member member = memberRepository.findByEmail(email);
         // 상품 없으면 상품 추가 등록
         if (products.isEmpty()) {
-            Product noProduct = getNewProduct(saleCreatedDto, dtype);
+            Product noProduct = getNewProduct(saleCreateReqDto, dtype);
 
             productRepository.save(noProduct);
 
-            saveSales(saleCreatedDto, member, noProduct);
+            saveSales(saleCreateReqDto, member, noProduct);
         } else {
             // 추후 수정
-            saveSales(saleCreatedDto, member, products.get(0));
+            saveSales(saleCreateReqDto, member, products.get(0));
         }
 
+        Product product = productRepository.findByName(productName)
+                .orElseThrow(() -> new BizException(ErrorCode.NO_PRODUCT));
+        saleCreateReqDto.getImageFileReqDto().setProductId(product.getId());
+        log.info("saleCreateReqDto.getImageFileReqDto = {}", saleCreateReqDto.getImageFileReqDto().toString());
         return null;
     }
 
@@ -83,6 +91,9 @@ public class SaleServiceImpl implements SaleService {
             case "C":
                 noProduct = new Candle();
                 break;
+            default:
+                noProduct = new Perfume();
+                break;
         }
 //            noProduct.setPrice();
         noProduct.setName(saleCreatedDto.getProductName());
@@ -90,6 +101,7 @@ public class SaleServiceImpl implements SaleService {
 //            noProduct.setBrand(saleCreatedDto.getBrandName());
         noProduct.setDtype(saleCreatedDto.getDtype());
         noProduct.setUsedOrNot(saleCreatedDto.isUsedOrNot());
+        noProduct.setContent(saleCreatedDto.getContent());
         noProduct.setMainImage(null);
         return noProduct;
     }
