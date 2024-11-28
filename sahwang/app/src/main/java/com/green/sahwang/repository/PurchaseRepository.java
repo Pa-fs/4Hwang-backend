@@ -14,11 +14,13 @@ import java.util.Optional;
 
 public interface PurchaseRepository extends JpaRepository<Purchase,Long> {
 
-    List<Purchase> findByPurchaseStatus(PurchaseStatus purchaseStatus);
+    List<Purchase> findAllByPurchaseStatus(PurchaseStatus purchaseStatus);
 
     Optional<Purchase> findTopByMemberAndStatusOrderByPurchaseDateDesc(Member member, Boolean status);
 
     List<Purchase> findAllByMember(Member member);
 
     Page<Purchase> findAllByMember(Member member, Pageable pageable);
+
+    Purchase findByPurchaseStatus(PurchaseStatus purchaseStatus);
 }

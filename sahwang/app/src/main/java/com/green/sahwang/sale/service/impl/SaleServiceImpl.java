@@ -54,7 +54,7 @@ public class SaleServiceImpl implements SaleService {
         return null;
     }
 
-    private void saveSales(SaleCreateReqDto saleCreatedDto, Member member, Product noProduct) {
+    private void saveSales(SaleCreateReqDto saleCreatedDto, Member member, Product product) {
         // 판매 등록
         Sale sale = Sale.builder()
                 .accepted(false)
@@ -65,7 +65,7 @@ public class SaleServiceImpl implements SaleService {
         saleRepository.save(sale);
 
         SaleProduct saleProduct = SaleProduct.builder()
-                .product(noProduct)
+                .product(product)
                 .sale(sale)
                 .build();
         saleProductRepository.save(saleProduct);
@@ -90,6 +90,7 @@ public class SaleServiceImpl implements SaleService {
 //            noProduct.setBrand(saleCreatedDto.getBrandName());
         noProduct.setDtype(saleCreatedDto.getDtype());
         noProduct.setUsedOrNot(saleCreatedDto.isUsedOrNot());
+        noProduct.setMainImage(null);
         return noProduct;
     }
 }

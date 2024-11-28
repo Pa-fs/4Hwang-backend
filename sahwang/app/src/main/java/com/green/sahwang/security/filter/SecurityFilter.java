@@ -81,7 +81,7 @@ public class SecurityFilter extends OncePerRequestFilter {
 
         log.info("Authentication: {}", authentication);
         log.info("role : {}", role);
-        System.out.println("이거 나오냐"+authentication.getPrincipal());
+        System.out.println("이거 나오냐" + authentication.getPrincipal());
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         userDetails.getAuthorities().stream().forEach(grantedAuthority -> System.out.println(grantedAuthority));
 //        log.info("Username : {}, Role : {}", authentication.getName(), );

@@ -14,7 +14,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity // filter 지나감
-//@EnableMethodSecurity // interceptor 지나감
+@EnableMethodSecurity(prePostEnabled = true) // interceptor 지나감
 public class SecurityConfig {
 
     @Bean
