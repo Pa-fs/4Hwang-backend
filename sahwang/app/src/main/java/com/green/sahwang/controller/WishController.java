@@ -20,16 +20,16 @@ public class WishController {
     private final WishService wishService;
 
     @PostMapping
-    @PreAuthorize(value = "ADMIN")
+//    @PreAuthorize(value = "ADMIN")
     public ResponseEntity<List<WishCheckedResDto>> wishCheck(@AuthenticationPrincipal UserDetails userDetails,
                                                              @RequestBody List<WishProductReqDto> wishProductReqDtoList){
 
-        System.out.println("권한 확인 시작");
-        userDetails.getAuthorities().stream().forEach(grantedAuthority ->
-                        System.out.println(grantedAuthority.getAuthority().toString())
-
-        );
-        System.out.println("권한 확인 끝");
+//        System.out.println("권한 확인 시작");
+//        userDetails.getAuthorities().stream().forEach(grantedAuthority ->
+//                        System.out.println(grantedAuthority.getAuthority().toString())
+//
+//        );
+//        System.out.println("권한 확인 끝");
 
         List<WishCheckedResDto> wishCheckedResDtoList = wishService.getChecked(userDetails, wishProductReqDtoList);
 

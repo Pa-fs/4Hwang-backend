@@ -90,21 +90,21 @@ public class MyPageServiceImpl implements MyPageService{
         Pageable pageable = PageRequest.of(pageNum, size);
         Page<Sale> salePage = saleRepository.findAllByMember(member, pageable);
 
-        List<SaleListResDto> saleListResDtoList = salePage.stream().map(sale -> {
-            List<SaleProduct> saleProductList = saleProductRepository.findAllBySale(sale);
-            List<SaleDetailResDto> saleDetailResDtoList = saleProductList.stream().map(saleProduct -> {
-                return new SaleDetailResDto(
-                        saleProduct.getTradeCompletedDate(),
-                        saleProduct.getProduct().getName(),
-                        saleProduct.getTradePrice()
-                        saleProduct.getQuantity()
-                );
-            }).toList();
-            return new SaleListResDto(
-                    sale.getSaleStartDate(),
-                    sale.getId(), 
-            )
-        })
+//        List<SaleListResDto> saleListResDtoList = salePage.stream().map(sale -> {
+//            List<SaleProduct> saleProductList = saleProductRepository.findAllBySale(sale);
+//            List<SaleDetailResDto> saleDetailResDtoList = saleProductList.stream().map(saleProduct -> {
+//                return new SaleDetailResDto(
+//                        saleProduct.getTradeCompletedDate(),
+//                        saleProduct.getProduct().getName(),
+//                        saleProduct.getTradePrice()
+//                        saleProduct.getQuantity()
+//                );
+//            }).toList();
+//            return new SaleListResDto(
+//                    sale.getSaleStartDate(),
+//                    sale.getId(),
+//            )
+//        })
 
         return null;
     }
