@@ -1,10 +1,10 @@
-package com.green.sahwang.mypage.dto.req;
+package com.green.sahwang.mypage.dto.res;
 
 import com.green.sahwang.entity.Address;
 import lombok.Data;
 
 @Data
-public class MemberInfoReqDto {
+public class MemberInfoResDto {
 
     String nickName;
     Address address;

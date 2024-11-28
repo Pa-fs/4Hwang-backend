@@ -1,5 +1,6 @@
 package com.green.sahwang.mypage.controller;
 
+import com.green.sahwang.mypage.dto.req.MemberInfoReqDto;
 import com.green.sahwang.mypage.dto.res.*;
 import com.green.sahwang.mypage.service.MyPageService;
 import lombok.RequiredArgsConstructor;
@@ -62,7 +63,12 @@ public class MyPageController {
         return ResponseEntity.ok(wishList);
     }
 
-//    @PostMapping("infoUpdate")
-//    public ResponseEntity<>
+    @PostMapping("infoUpdate")
+    public ResponseEntity<MemberInfoResDto> updateMemberInfo(@AuthenticationPrincipal UserDetails userDetails,
+                                                             @RequestBody MemberInfoReqDto memberInfoReqDto){
+        MemberInfoResDto memberInfoResDto = myPageService.updateMemberInfo(userDetails, memberInfoReqDto);
+
+        return ResponseEntity.ok(memberInfoResDto);
+    }
 
 }
