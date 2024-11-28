@@ -11,4 +11,6 @@ import java.util.List;
 
 public interface DeliveryPurchasesRepository extends JpaRepository<DeliveryPurchase, Long> {
     List<DeliveryPurchase> findAllByPurchaseIn(List<Purchase> purchasePage);
+    DeliveryPurchase findByPurchase(Purchase purchase);
+    DeliveryPurchase findByPurchaseProduct(PurchaseProduct purchaseProduct);
 }

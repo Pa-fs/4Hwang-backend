@@ -1,7 +1,10 @@
 package com.green.sahwang.mypage.service;
 
+import com.green.sahwang.config.DateTimeUtils;
 import com.green.sahwang.entity.*;
 import com.green.sahwang.entity.enumtype.PurchaseStatus;
+import com.green.sahwang.exception.BizException;
+import com.green.sahwang.exception.ErrorCode;
 import com.green.sahwang.mypage.dto.res.*;
 import com.green.sahwang.repository.*;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +16,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,17 +27,16 @@ public class MyPageServiceImpl implements MyPageService{
     private final MemberRepository memberRepository;
     private final PurchaseRepository purchaseRepository;
     private final PurchaseProductRepository purchaseProductRepository;
-    private final PurchasePaymentRepository purchasePaymentRepository;
     private final SaleRepository saleRepository;
     private final WishRepository wishRepository;
-    private final ProductRepository productRepository;
-    private final ProductImageRepository productImageRepository;
     private final DeliveryPurchasesRepository deliveryPurchasesRepository;
+    private final SaleProductRepository saleProductRepository;
 
-    @Transactional(readOnly = true)
+    @Transactional
     public OrderProgressResDto getOrderProgress(UserDetails userDetails){
         Member member = memberRepository.findByEmail(userDetails.getUsername());
-        Purchase purchase = purchaseRepository.findTopByMemberAndStatusOrderByPurchaseDateDesc(member, true);
+        Purchase purchase = purchaseRepository.findTopByMemberAndStatusOrderByPurchaseDateDesc(member, true)
+                .orElseThrow(() -> new BizException(ErrorCode.NO_PURCHASE));
 
         OrderProgressResDto orderProgressResDto = new OrderProgressResDto();
         orderProgressResDto.setStatus(purchase.getPurchaseStatus());
@@ -46,7 +47,8 @@ public class MyPageServiceImpl implements MyPageService{
     @Transactional(readOnly = true)
     public SaleProgressResDto getSaleProgress(UserDetails userDetails){
         Member member = memberRepository.findByEmail(userDetails.getUsername());
-        Sale sale = saleRepository.findTopByMemberOrderBySaleStartDateDesc(member);
+        Sale sale = saleRepository.findTopByMemberOrderBySaleStartDateDesc(member)
+                .orElseThrow(() -> new BizException(ErrorCode.NO_SALE));
 
         SaleProgressResDto saleProgressResDto = new SaleProgressResDto();
         saleProgressResDto.setStatus(sale.getStatus());
@@ -61,33 +63,23 @@ public class MyPageServiceImpl implements MyPageService{
         Pageable pageable = PageRequest.of(pageNum, size);
         Page<Purchase> purchasePage = purchaseRepository.findAllByMember(member, pageable);
 
-        List<Purchase> purchaseList = purchasePage.getContent();
-        List<PurchaseProduct> purchaseProductList = purchaseProductRepository.findAllByPurchaseIn(purchaseList);
-        List<DeliveryPurchase> deliveryPurchaseList = deliveryPurchasesRepository.findAllByPurchaseIn(purchaseList);
-
-        return purchaseList.stream().map(purchase -> {
-            OrderListResDto orderListResDto = new OrderListResDto();
-            orderListResDto.setOrderDate(purchase.getPurchaseDate());
-            orderListResDto.setOrderId(purchase.getId());
-            LocalDateTime deliveredDate = deliveryPurchaseList.stream()
-                    .filter(deliveryPurchase -> deliveryPurchase.getPurchase().getId().equals(purchase.getId()))
-                    .map(DeliveryPurchase::getDeliveredDate)
-                    .findFirst()
-                    .orElse(null);
-            orderListResDto.setDeliveredDate(deliveredDate);
-            orderListResDto.setPurchaseStatus(purchase.getPurchaseStatus());
-            List<OrderDetailResDto> orderDetailResDtoList = purchaseProductList.stream()
-                    .filter(purchaseProduct -> purchaseProduct.getPurchase().getId().equals(purchase.getId()))
-                    .map(purchaseProduct -> {
-                        OrderDetailResDto orderDetailResDto = new OrderDetailResDto();
-                        orderDetailResDto.setProductName(purchaseProduct.getProductName());
-                        orderDetailResDto.setPrice(purchaseProduct.getProduct().getPrice());
-                        orderDetailResDto.setQuantity(purchaseProduct.getProductQuantity());
-                        return orderDetailResDto;
-                    })
-                    .toList();
-            orderListResDto.setOrderDetailResDtoList(orderDetailResDtoList);
-            return orderListResDto;
+        return purchasePage.stream().map(purchase -> {
+            List<PurchaseProduct> purchaseProductList = purchaseProductRepository.findAllByPurchase(purchase);
+            List<OrderDetailResDto> orderDetailResDtoList = purchaseProductList.stream().map(purchaseProduct -> {
+                DeliveryPurchase deliveryPurchase = deliveryPurchasesRepository.findByPurchaseProduct(purchaseProduct);
+                return new OrderDetailResDto(
+                        deliveryPurchase != null ? deliveryPurchase.getDeliveredDate() : null,
+                        purchaseProduct.getProductName(),
+                        purchaseProduct.getProduct().getPrice() * purchaseProduct.getProductQuantity(),
+                        purchaseProduct.getProductQuantity()
+                );
+            }).toList();
+            return new OrderListResDto(
+                    purchase.getPurchaseDate(),
+                    purchase.getId().toString() + "-" + DateTimeUtils.formatOrderNumber(purchase.getPurchaseDate()),
+                    purchase.getPurchaseStatus(),
+                    orderDetailResDtoList
+            );
         }).toList();
     }
 
@@ -97,6 +89,22 @@ public class MyPageServiceImpl implements MyPageService{
 
         Pageable pageable = PageRequest.of(pageNum, size);
         Page<Sale> salePage = saleRepository.findAllByMember(member, pageable);
+
+        List<SaleListResDto> saleListResDtoList = salePage.stream().map(sale -> {
+            List<SaleProduct> saleProductList = saleProductRepository.findAllBySale(sale);
+            List<SaleDetailResDto> saleDetailResDtoList = saleProductList.stream().map(saleProduct -> {
+                return new SaleDetailResDto(
+                        saleProduct.getTradeCompletedDate(),
+                        saleProduct.getProduct().getName(),
+                        saleProduct.getTradePrice()
+                        saleProduct.getQuantity()
+                );
+            }).toList();
+            return new SaleListResDto(
+                    sale.getSaleStartDate(),
+                    sale.getId(), 
+            )
+        })
 
         return null;
     }
