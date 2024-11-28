@@ -1,5 +1,6 @@
 package com.green.sahwang.controller;
 
+import com.green.sahwang.config.ImageFilePathConfig;
 import com.green.sahwang.dto.request.ImageFileReqDto;
 import com.green.sahwang.service.ImageFileService;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -29,13 +30,7 @@ public class ImageFileController {
 
     public ImageFileController(ImageFileService imageFileService) {
         this.imageFileService = imageFileService;
-        this.imagePath = Paths.get("images/file").toAbsolutePath();
-
-        try {
-            Files.createDirectories(this.imagePath);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        this.imagePath = ImageFilePathConfig.getImageFilePath();
     }
 
     @PostMapping(value = "/upload",
@@ -48,7 +43,6 @@ public class ImageFileController {
         imageFileService.saveFile(file, imagePath, imageFileReqDto);
         return "upload";
     }
-
 
     @GetMapping("/download/{fileName}")
     public ResponseEntity<Resource> downloadFile(@PathVariable(name = "fileName") String fileName) throws IOException {

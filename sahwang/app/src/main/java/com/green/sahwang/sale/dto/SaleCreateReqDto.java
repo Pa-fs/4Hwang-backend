@@ -1,5 +1,6 @@
 package com.green.sahwang.sale.dto;
 
+import com.green.sahwang.dto.request.ImageFileReqDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,6 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class SaleCreateReqDto {
 
+    private String sellingName;
     private String productName;
     private int quantity;
     private int size;
@@ -16,4 +18,6 @@ public class SaleCreateReqDto {
     private int expectedSellingPrice;
     private String brandName;
     private boolean usedOrNot;
+    private String content;
+    private ImageFileReqDto imageFileReqDto;
 }
