@@ -47,9 +47,9 @@ public class MyPageController {
     public ResponseEntity<List<SaleListResDto>> getSaleList(@AuthenticationPrincipal UserDetails userDetails,
                                                             @RequestParam(name = "pageNum", defaultValue = "0", required = false) int pageNum,
                                                             @RequestParam(name = "size", defaultValue = "5", required = false) int size){
+        List<SaleListResDto> saleListResDtoList = myPageService.getSaleList(userDetails, pageNum, size);
 
-
-        return null;
+        return ResponseEntity.ok(saleListResDtoList);
     }
 
     @GetMapping("wishList")
