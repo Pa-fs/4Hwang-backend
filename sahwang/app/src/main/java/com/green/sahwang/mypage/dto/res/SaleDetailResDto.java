@@ -9,9 +9,9 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrderDetailResDto {
+public class SaleDetailResDto {
 
-    LocalDateTime deliveredDate;
+    LocalDateTime doneDate;
     String productName;
     int price;
     int quantity;

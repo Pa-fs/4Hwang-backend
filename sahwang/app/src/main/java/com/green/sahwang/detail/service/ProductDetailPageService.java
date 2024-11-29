@@ -27,11 +27,13 @@ public interface ProductDetailPageService {
 
     List<ReviewImageResDto> getReviewImages(Long productId);
 
-    List<FavoriteCheckedResDto> getChecked(Long productId, UserDetails userDetails);
+    List<FavoriteCheckedResDto> getChecked(Long productId, UserDetails userDetails, int pageNum, int size);
 
-    FavoriteClickResDto clickFavorite(Long reviewId, UserDetails userDetails);
+//    FavoriteClickResDto clickFavorite(Long reviewId, UserDetails userDetails);
+//
+//    FavoriteClickResDto cancelFavorite(Long reviewId, UserDetails userDetails);
 
-    FavoriteClickResDto cancelFavorite(Long reviewId, UserDetails userDetails);
+    FavoriteClickResDto clickFavorite(UserDetails userDetails, Long reviewId);
 
     List<DetailChartResDto> getChartOneMonth(Long productId);
 

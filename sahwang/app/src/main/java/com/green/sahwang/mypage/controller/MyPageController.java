@@ -1,9 +1,7 @@
 package com.green.sahwang.mypage.controller;
 
-import com.green.sahwang.mypage.dto.res.OrderListResDto;
-import com.green.sahwang.mypage.dto.res.OrderProgressResDto;
-import com.green.sahwang.mypage.dto.res.SaleProgressResDto;
-import com.green.sahwang.mypage.dto.res.WishListResDto;
+import com.green.sahwang.mypage.dto.req.MemberInfoReqDto;
+import com.green.sahwang.mypage.dto.res.*;
 import com.green.sahwang.mypage.service.MyPageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -46,15 +44,31 @@ public class MyPageController {
         return ResponseEntity.ok(orderListResDtoList);
     }
 
-    @GetMapping("wishList")
-    public ResponseEntity<List<WishListResDto>> getWishList(@AuthenticationPrincipal UserDetails userDetails){
+    @GetMapping("saleList")
+    public ResponseEntity<List<SaleListResDto>> getSaleList(@AuthenticationPrincipal UserDetails userDetails,
+                                                            @RequestParam(name = "pageNum", defaultValue = "0", required = false) int pageNum,
+                                                            @RequestParam(name = "size", defaultValue = "5", required = false) int size){
+        List<SaleListResDto> saleListResDtoList = myPageService.getSaleList(userDetails, pageNum, size);
 
-        List<WishListResDto> wishList = myPageService.getWishList(userDetails);
+        return ResponseEntity.ok(saleListResDtoList);
+    }
+
+    @GetMapping("wishList")
+    public ResponseEntity<List<WishListResDto>> getWishList(@AuthenticationPrincipal UserDetails userDetails,
+                                                            @RequestParam(name = "pageNum", defaultValue = "0", required = false) int pageNum,
+                                                            @RequestParam(name = "size", defaultValue = "10", required = false) int size){
+
+        List<WishListResDto> wishList = myPageService.getWishList(userDetails, pageNum, size);
 
         return ResponseEntity.ok(wishList);
     }
 
-//    @PostMapping("infoUpdate")
-//    public ResponseEntity<>
+    @PostMapping("infoUpdate")
+    public ResponseEntity<MemberInfoResDto> updateMemberInfo(@AuthenticationPrincipal UserDetails userDetails,
+                                                             @RequestBody MemberInfoReqDto memberInfoReqDto){
+        MemberInfoResDto memberInfoResDto = myPageService.updateMemberInfo(userDetails, memberInfoReqDto);
+
+        return ResponseEntity.ok(memberInfoResDto);
+    }
 
 }

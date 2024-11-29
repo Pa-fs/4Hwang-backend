@@ -28,6 +28,8 @@ public class SaleProduct {
 
     private int tradePrice;
 
+    private int quantity;
+
     private LocalDateTime tradeCompletedDate;
 //
 //    private LocalDateTime createdDate;

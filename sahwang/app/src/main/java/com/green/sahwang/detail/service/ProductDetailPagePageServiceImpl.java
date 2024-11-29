@@ -334,60 +334,97 @@ public class ProductDetailPagePageServiceImpl implements ProductDetailPageServic
     }
 
     @Transactional
-    public List<FavoriteCheckedResDto> getChecked(Long productId, UserDetails userDetails){
+    public List<FavoriteCheckedResDto> getChecked(Long productId, UserDetails userDetails, int pageNum, int size){
         Member member = memberRepository.findByEmail(userDetails.getUsername());
         List<PurchaseProduct> purchaseProductList = purchaseProductRepository.findAllByProductId(productId);
-        List<Review> reviewList = reviewRepository.findAllByPurchaseProductIn(purchaseProductList);
-        List<Favorite> favoriteList = favoriteRepository.findAllByReviewIn(reviewList);
 
-        Set<Long> favoriteReviewIds = favoriteList.stream()
-                .filter(favorite -> favorite.getMember().getId().equals(member.getId()))
-                .map(favorite -> favorite.getReview().getId())
-                .collect(Collectors.toSet());
+        Pageable pageable = PageRequest.of(pageNum, size);
+        Page<Review> reviewPage = reviewRepository.findAllByPurchaseProductIn(purchaseProductList, pageable);
 
-        List<FavoriteCheckedResDto> favoriteCheckedResDtoList = reviewList.stream()
-                .map(review -> {
-                    boolean isChecked = favoriteReviewIds.contains(review.getId());
-                    return new FavoriteCheckedResDto(isChecked);
-                })
-                .toList();
+        List<FavoriteCheckedResDto> favoriteCheckedResDtoList = new ArrayList<>();
+        for (Review review : reviewPage.getContent()){
+            Optional<Favorite> optionalFavorite = favoriteRepository.findByMemberAndReview(member, review);
+            FavoriteCheckedResDto favoriteCheckedResDto = new FavoriteCheckedResDto();
+            if (optionalFavorite.isPresent()){
+                favoriteCheckedResDto.setReviewId(review.getId());
+                favoriteCheckedResDto.setChecked(true);
+            }
+            else {
+                favoriteCheckedResDto.setReviewId(review.getId());
+                favoriteCheckedResDto.setChecked(false);
+            }
+            favoriteCheckedResDtoList.add(favoriteCheckedResDto);
+        }
 
         return favoriteCheckedResDtoList;
     }
 
+//    @Transactional
+//    public FavoriteClickResDto clickFavorite(Long reviewId, UserDetails userDetails){
+//        Member member = memberRepository.findByEmail(userDetails.getUsername());
+//        Review review = reviewRepository.findById(reviewId).orElseThrow(()->new NoSuchElementException("잘못된 리뷰Id 입니다"));
+//
+//        Favorite favorite = Favorite.builder()
+//                .review(review)
+//                .member(member)
+//                .build();
+//
+//        favoriteRepository.save(favorite);
+//
+//        List<Favorite> favoriteList = favoriteRepository.findAllByReview(review);
+//
+//        FavoriteClickResDto favoriteClickResDto = new FavoriteClickResDto();
+//        favoriteClickResDto.setFavoriteCount(favoriteList.size());
+//        favoriteClickResDto.setChecked(true);
+//        return favoriteClickResDto;
+//    }
+//
+//    @Transactional
+//    public FavoriteClickResDto cancelFavorite(Long reviewId, UserDetails userDetails){
+//        Member member = memberRepository.findByEmail(userDetails.getUsername());
+//        Review review = reviewRepository.findById(reviewId).orElseThrow(()->new NoSuchElementException("잘못된 리뷰Id 입니다"));
+//        Optional<Favorite> favorite = favoriteRepository.findByMemberAndReview(member, review);
+//
+//        FavoriteClickResDto favoriteClickResDto = new FavoriteClickResDto();
+//        if (favorite.isPresent()) {
+//            favoriteRepository.deleteById(favorite.get().getId());
+//
+//            List<Favorite> favoriteList = favoriteRepository.findAllByReview(review);
+//
+//
+//            favoriteClickResDto.setFavoriteCount(favoriteList.size());
+//            favoriteClickResDto.setChecked(false);
+//        }
+//        return favoriteClickResDto;
+//    }
+
     @Transactional
-    public FavoriteClickResDto clickFavorite(Long reviewId, UserDetails userDetails){
+    public FavoriteClickResDto clickFavorite(UserDetails userDetails, Long reviewId){
         Member member = memberRepository.findByEmail(userDetails.getUsername());
-        Review review = reviewRepository.findById(reviewId).orElseThrow(()->new NoSuchElementException("잘못된 리뷰Id 입니다"));
-
-        Favorite favorite = Favorite.builder()
-                .review(review)
-                .member(member)
-                .build();
-
-        favoriteRepository.save(favorite);
-
-        List<Favorite> favoriteList = favoriteRepository.findAllByReview(review);
+        Review review = reviewRepository.findById(reviewId).orElseThrow(() -> new NoSuchElementException("잘못된 리뷰Id 입니다"));
+        Optional<Favorite> optionalFavorite = favoriteRepository.findByMemberAndReview(member, review);
 
         FavoriteClickResDto favoriteClickResDto = new FavoriteClickResDto();
-        favoriteClickResDto.setFavoriteCount(favoriteList.size());
-        favoriteClickResDto.setChecked(true);
-        return favoriteClickResDto;
-    }
+        if(optionalFavorite.isEmpty()){
+            Favorite favorite = Favorite.builder()
+                    .review(review)
+                    .member(member)
+                    .build();
+            favoriteRepository.save(favorite);
 
-    @Transactional
-    public FavoriteClickResDto cancelFavorite(Long reviewId, UserDetails userDetails){
-        Member member = memberRepository.findByEmail(userDetails.getUsername());
-        Review review = reviewRepository.findById(reviewId).orElseThrow(()->new NoSuchElementException("잘못된 리뷰Id 입니다"));
-        Favorite favorite = favoriteRepository.findByMemberAndReview(member, review);
+            List<Favorite> favoriteList = favoriteRepository.findAllByReview(review);
 
-        favoriteRepository.deleteById(favorite.getId());
+            favoriteClickResDto.setChecked(true);
+            favoriteClickResDto.setFavoriteCount(favoriteList.size());
+        }
+        else {
+            favoriteRepository.deleteById(optionalFavorite.get().getId());
 
-        List<Favorite> favoriteList = favoriteRepository.findAllByReview(review);
+            List<Favorite> favoriteList = favoriteRepository.findAllByReview(review);
 
-        FavoriteClickResDto favoriteClickResDto = new FavoriteClickResDto();
-        favoriteClickResDto.setFavoriteCount(favoriteList.size());
-        favoriteClickResDto.setChecked(false);
+            favoriteClickResDto.setChecked(false);
+            favoriteClickResDto.setFavoriteCount(favoriteList.size());
+        }
 
         return favoriteClickResDto;
     }
