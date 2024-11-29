@@ -90,6 +90,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<ProductResDto> searchProducts(String keyword) {
         if (keyword == null || keyword.isEmpty()) {
             return Collections.emptyList();

@@ -52,7 +52,7 @@ public class ProductController {
 //    }
 
     @GetMapping("/search")
-    public ResponseEntity<List<ProductResDto>> search(@RequestParam("keyword") String keyword) {
+    public ResponseEntity<List<ProductResDto>> search(@RequestParam("searchQuery") String keyword) {
         List<ProductResDto> products = productService.searchProducts(keyword);
         return ResponseEntity.ok(products);
     }
