@@ -3,6 +3,8 @@ package com.green.sahwang.detail.controller;
 import com.green.sahwang.detail.dto.response.*;
 import com.green.sahwang.detail.service.ProductDetailPageService;
 import com.green.sahwang.dto.request.ImageFileReqDto;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -107,24 +109,39 @@ public class ProductDetailPageController {
         return ResponseEntity.ok(reviewImageResDtoList);
     }
 
+    @SecurityRequirement(name = "Bearer Authentication")
+    @Operation(summary = "리뷰 도움되요", description = "리뷰 도움되유 리스트")
     @GetMapping("/favorite/{productId}")
-    public ResponseEntity<List<FavoriteCheckedResDto>> favoriteCheck(@PathVariable(name = "productId") Long productId, @AuthenticationPrincipal UserDetails userDetails){
-        List<FavoriteCheckedResDto> favoriteCheckedResDtoList = productDetailPageService.getChecked(productId, userDetails);
+    public ResponseEntity<List<FavoriteCheckedResDto>> favoriteCheck(@PathVariable(name = "productId") Long productId,
+                                                                     @AuthenticationPrincipal UserDetails userDetails,
+                                                                     @RequestParam(name = "pageNum", defaultValue = "0", required = false) int pageNum,
+                                                                     @RequestParam(name = "size", defaultValue = "5", required = false) int size){
+        List<FavoriteCheckedResDto> favoriteCheckedResDtoList = productDetailPageService.getChecked(productId, userDetails, pageNum, size);
 
         return ResponseEntity.ok(favoriteCheckedResDtoList);
     }
 
-    @GetMapping("/favorite/click/{reviewId}")
-    public ResponseEntity<FavoriteClickResDto> clickFavorite(@PathVariable(name = "reviewId") Long reviewId,
-                                              @AuthenticationPrincipal UserDetails userDetails){
-        FavoriteClickResDto favoriteClickResDto = productDetailPageService.clickFavorite(reviewId, userDetails);
-        return ResponseEntity.ok(favoriteClickResDto);
-    }
+//    @GetMapping("/favorite/click/{reviewId}")
+//    public ResponseEntity<FavoriteClickResDto> clickFavorite(@PathVariable(name = "reviewId") Long reviewId,
+//                                              @AuthenticationPrincipal UserDetails userDetails){
+//        FavoriteClickResDto favoriteClickResDto = productDetailPageService.clickFavorite(reviewId, userDetails);
+//        return ResponseEntity.ok(favoriteClickResDto);
+//    }
+//
+//    @GetMapping("/favorite/cancel/{reviewId}")
+//    public ResponseEntity<FavoriteClickResDto> cancelFavorite(@PathVariable(name = "reviewId") Long reviewId,
+//                                               @AuthenticationPrincipal UserDetails userDetails){
+//        FavoriteClickResDto favoriteClickResDto = productDetailPageService.cancelFavorite(reviewId, userDetails);
+//        return ResponseEntity.ok(favoriteClickResDto);
+//    }
 
-    @GetMapping("/favorite/cancel/{reviewId}")
-    public ResponseEntity<FavoriteClickResDto> cancelFavorite(@PathVariable(name = "reviewId") Long reviewId,
-                                               @AuthenticationPrincipal UserDetails userDetails){
-        FavoriteClickResDto favoriteClickResDto = productDetailPageService.cancelFavorite(reviewId, userDetails);
+    @SecurityRequirement(name = "Bearer Authentication")
+    @Operation(summary = "리뷰 도움되요 클릭", description = "리뷰 도움되유 클릭")
+    @GetMapping("/favorite/clickFavorite/{reviewId}")
+    public ResponseEntity<FavoriteClickResDto> clickFavorite(@AuthenticationPrincipal UserDetails userDetails,
+                                                             @RequestParam(name = "reviewId") Long reviewId){
+        FavoriteClickResDto favoriteClickResDto = productDetailPageService.clickFavorite(userDetails, reviewId);
+
         return ResponseEntity.ok(favoriteClickResDto);
     }
 

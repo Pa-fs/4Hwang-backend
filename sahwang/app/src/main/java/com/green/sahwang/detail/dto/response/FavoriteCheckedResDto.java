@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class FavoriteCheckedResDto {
 
+    Long reviewId;
     Boolean checked;
 
 }

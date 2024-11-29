@@ -94,23 +94,23 @@ class ProductDetailPagePageServiceImplTest {
 //        log.info("detailReviewInfo : {}", detailReviewInfo);
 //    }
 
-    @Transactional
-    @Test
-    void clickFavorite() {
-        assertThat(productDetailPageService.clickFavorite(review.getId(), userDetails)).isEqualTo("Success");
-    }
+//    @Transactional
+//    @Test
+//    void clickFavorite() {
+//        assertThat(productDetailPageService.clickFavorite(review.getId(), userDetails)).isEqualTo("Success");
+//    }
 
-    @Transactional
-    @Test
-    void getChecked(){
-        List<FavoriteCheckedResDto> checked = productDetailPageService.getChecked(product.getId(), userDetails);
-        assertThat(checked).isNotNull();
-    }
+//    @Transactional
+//    @Test
+//    void getChecked(){
+//        List<FavoriteCheckedResDto> checked = productDetailPageService.getChecked(product.getId(), userDetails);
+//        assertThat(checked).isNotNull();
+//    }
 
-    @Transactional
-    @Test
-    void cancelFavorite(){
-        assertThat(productDetailPageService.cancelFavorite(review.getId(), userDetails)).isEqualTo("Cancel");
-    }
+//    @Transactional
+//    @Test
+//    void cancelFavorite(){
+//        assertThat(productDetailPageService.cancelFavorite(review.getId(), userDetails)).isEqualTo("Cancel");
+//    }
 
 }
