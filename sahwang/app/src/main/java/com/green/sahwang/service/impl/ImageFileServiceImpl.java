@@ -7,6 +7,13 @@ import com.green.sahwang.entity.Review;
 import com.green.sahwang.entity.ReviewImage;
 import com.green.sahwang.exception.ProductDomainException;
 import com.green.sahwang.mypage.dto.req.ReviewImageReqDto;
+import com.green.sahwang.exception.BizException;
+import com.green.sahwang.exception.ErrorCode;
+import com.green.sahwang.pendingsale.dto.request.UserSaleReqImage;
+import com.green.sahwang.pendingsale.entity.PendingSale;
+import com.green.sahwang.pendingsale.entity.UserSaleImage;
+import com.green.sahwang.pendingsale.repository.PendingSaleRepository;
+import com.green.sahwang.pendingsale.repository.UserSaleImageRepository;
 import com.green.sahwang.repository.ProductImageRepository;
 import com.green.sahwang.repository.ProductRepository;
 import com.green.sahwang.repository.ReviewImageRepository;
@@ -19,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.nio.file.Path;
+import java.util.List;
 
 
 @Service
@@ -30,6 +38,8 @@ public class ImageFileServiceImpl implements ImageFileService {
     private final ProductRepository productRepository;
     private final ReviewRepository reviewRepository;
     private final ReviewImageRepository reviewImageRepository;
+    private final PendingSaleRepository pendingSaleRepository;
+    private final UserSaleImageRepository userSaleImageRepository;
 
     public void saveFile(MultipartFile file, Path imagePath, ImageFileReqDto imageFileReqDto) {
         try {
@@ -83,5 +93,37 @@ public class ImageFileServiceImpl implements ImageFileService {
             e.printStackTrace();
         }
     }
+  
+    @Override
+    public void saveFiles(MultipartFile[] files, Path imagePath, List<UserSaleReqImage> userSaleReqImages) {
+        try {
+            String relativePath = "images/file/user/";
+            for (MultipartFile file : files) {
+                String filename = file.getOriginalFilename();
+                String filePath = relativePath + File.separator + filename;
 
+                String absoluteFilePath = imagePath.toString() + File.separator + filename;
+
+                File dest = new File(absoluteFilePath);
+                file.transferTo(dest);
+
+                for (UserSaleReqImage userSaleReqImage : userSaleReqImages) {
+                    PendingSale pendingSale = pendingSaleRepository.findById(userSaleReqImage.getPendingSaleId())
+                            .orElseThrow(() -> new BizException(ErrorCode.NO_PRODUCT));
+
+
+                    UserSaleImage userSaleImage = UserSaleImage.builder()
+                            .path(filePath)
+                            .pendingSale(pendingSale)
+                            .filename(userSaleReqImage.getName())
+                            .fileDesc(userSaleReqImage.getDesc())
+                            .build();
+
+                    userSaleImageRepository.save(userSaleImage);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

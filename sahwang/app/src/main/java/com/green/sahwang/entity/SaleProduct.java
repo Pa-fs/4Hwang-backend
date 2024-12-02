@@ -1,5 +1,7 @@
 package com.green.sahwang.entity;
 
+import com.green.sahwang.entity.enumtype.SaleStatus;
+import com.green.sahwang.inspection.enumtype.InspectionStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -31,13 +33,11 @@ public class SaleProduct {
     private int quantity;
 
     private LocalDateTime tradeCompletedDate;
-//
-//    private LocalDateTime createdDate;
-//
+
+    private LocalDateTime createdDate;
+
 //    private LocalDateTime modifiedDate;
 
-    private boolean passedInspection = false;
-
-    private boolean posted = false;
-
+    @Enumerated(EnumType.STRING)
+    private SaleStatus saleStatus;
 }

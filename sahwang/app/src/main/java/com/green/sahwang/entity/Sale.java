@@ -24,16 +24,10 @@ public class Sale {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    private LocalDateTime saleStartDate;
-
     @Enumerated(EnumType.STRING)
     private SaleStatus status;
 
-    private int expectedSellingPrice;
+    private LocalDateTime saleStartDate;
 
     private boolean accepted;
-
-    private String rejectedReason;
-
-
 }

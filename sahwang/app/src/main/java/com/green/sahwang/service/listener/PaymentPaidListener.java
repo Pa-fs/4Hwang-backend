@@ -3,7 +3,7 @@ package com.green.sahwang.service.listener;
 import com.green.sahwang.controller.NotificationService;
 import com.green.sahwang.kafka.consumer.service.KafkaConsumer;
 import com.green.sahwang.model.payment.avro.PurchasePaidEventAvroModel;
-import com.green.sahwang.sale.service.SaleService;
+import com.green.sahwang.pendingsale.service.PendingSaleService;
 import com.green.sahwang.service.DeliveryPurchaseService;
 import com.green.sahwang.service.cart.CartService;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +12,6 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Payload;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 
@@ -24,7 +23,7 @@ public class PaymentPaidListener implements KafkaConsumer<PurchasePaidEventAvroM
     private final DeliveryPurchaseService deliveryPurchaseService;
     private final NotificationService notificationService;
     private final CartService cartService;
-    private final SaleService saleService;
+    private final PendingSaleService pendingSaleService;
 
     @KafkaListener(id = "${kafka-consumer-config.payment-consumer-group-id}",
             topics = "${payment-service.payment-paid-topic-name}")
