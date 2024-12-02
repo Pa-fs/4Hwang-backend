@@ -6,5 +6,5 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PendingSaleRepository extends JpaRepository<PendingSale, Long> {
-    Page<PendingSale> findAllPendingSales(Pageable pageable);
+    Page<PendingSale> findAll(Pageable pageable);
 }

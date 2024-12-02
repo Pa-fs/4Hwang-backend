@@ -47,6 +47,8 @@ public class PendingSaleController {
 
         pendingSaleService.createPendingSale(pendingSaleCreateReqDto, userDetails.getUsername());
         imageFileService.saveFiles(files, imagePath, pendingSaleCreateReqDto.getUserSaleReqImages());
+
+        // 배송 서비스 로직
         return ResponseEntity.status(HttpStatus.CREATED).body("A pendingSale was created");
     }
 }

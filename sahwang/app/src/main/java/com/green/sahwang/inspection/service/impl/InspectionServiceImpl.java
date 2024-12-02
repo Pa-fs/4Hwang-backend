@@ -2,7 +2,8 @@ package com.green.sahwang.inspection.service.impl;
 
 import com.green.sahwang.exception.BizException;
 import com.green.sahwang.exception.ErrorCode;
-import com.green.sahwang.inspection.dto.InspectionResDto;
+import com.green.sahwang.inspection.dto.request.InspectionPassReqDto;
+import com.green.sahwang.inspection.dto.response.InspectionPassResDto;
 import com.green.sahwang.inspection.dto.response.UserSaleResImage;
 import com.green.sahwang.inspection.dto.response.WaitingInspectionResDto;
 import com.green.sahwang.inspection.service.InspectionService;
@@ -26,15 +27,15 @@ import java.util.stream.Collectors;
 @Slf4j
 @RequiredArgsConstructor
 public class InspectionServiceImpl implements InspectionService {
-    private PendingSaleRepository pendingSaleRepository;
-    private UserSaleImageRepository userSaleImageRepository;
-    private MemberRepository memberRepository;
+    private final PendingSaleRepository pendingSaleRepository;
+    private final UserSaleImageRepository userSaleImageRepository;
+    private final MemberRepository memberRepository;
 
     @Override
     @Transactional
     public List<WaitingInspectionResDto> getWaitingInspections(int pageNum, int size, String sortType) {
         Pageable pageable = PageRequest.of(pageNum, size, Sort.by(Sort.Direction.DESC, sortType));
-        Page<PendingSale> pendingSales = pendingSaleRepository.findAllPendingSales(pageable);
+        Page<PendingSale> pendingSales = pendingSaleRepository.findAll(pageable);
 
         return pendingSales.stream()
                 .map(pendingSale -> WaitingInspectionResDto.builder()
@@ -63,7 +64,8 @@ public class InspectionServiceImpl implements InspectionService {
     }
 
     @Override
-    public InspectionResDto inspectProduct() {
+    @Transactional
+    public InspectionPassResDto inspectProduct(InspectionPassReqDto inspectionPassReqDto) {
         return null;
     }
 }
