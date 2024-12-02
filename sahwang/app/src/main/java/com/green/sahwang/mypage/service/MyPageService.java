@@ -1,8 +1,12 @@
 package com.green.sahwang.mypage.service;
 
 import com.green.sahwang.mypage.dto.req.MemberInfoReqDto;
+import com.green.sahwang.mypage.dto.req.ReviewCreateReqDto;
+import com.green.sahwang.mypage.dto.req.ReviewImageReqDto;
+import com.green.sahwang.mypage.dto.req.ReviewUpdateReqDto;
 import com.green.sahwang.mypage.dto.res.*;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -16,6 +20,14 @@ public interface MyPageService {
     List<SaleListResDto> getSaleList(UserDetails userDetails, int pageNum, int size);
 
     List<WishListResDto> getWishList(UserDetails userDetails, int pageNum, int size);
+
+    List<MyReviewResDto> getReviewList(UserDetails userDetails, int pageNum, int size);
+
+    void reviewCreate(UserDetails userDetails, MultipartFile file, ReviewCreateReqDto reviewCreateReqDto);
+
+    void reviewUpdate(UserDetails userDetails, ReviewUpdateReqDto reviewUpdateReqDto);
+
+    void reviewDelete(UserDetails userDetails, Long reviewId);
 
     MemberInfoResDto updateMemberInfo(UserDetails userDetails, MemberInfoReqDto memberInfoReqDto);
 }
