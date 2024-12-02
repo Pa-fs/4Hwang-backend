@@ -3,14 +3,17 @@ package com.green.sahwang.inspection.dto.response;
 import com.green.sahwang.entity.enumtype.ShipStatus;
 import com.green.sahwang.inspection.enumtype.InspectionStatus;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class WaitingInspectionResDto {
 
     private String saleApplicationId;
@@ -25,5 +28,5 @@ public class WaitingInspectionResDto {
     private ShipStatus shipStatus;
     private InspectionStatus inspectionStatus;
     private LocalDateTime shippedDate;
-
+    private List<UserSaleResImage> userSaleResImageList;
 }
