@@ -1,7 +1,7 @@
 package com.green.sahwang.service.impl.category;
 
 import com.green.sahwang.dto.response.*;
-import com.green.sahwang.entity.Brand;
+import com.green.sahwang.brand.entity.Brand;
 import com.green.sahwang.entity.Category;
 import com.green.sahwang.entity.Product;
 import com.green.sahwang.entity.ProductImage;

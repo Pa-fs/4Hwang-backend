@@ -1,13 +1,16 @@
 package com.green.sahwang.inspection.controller;
 
+import com.green.sahwang.brand.dto.response.BrandResDto;
+import com.green.sahwang.brand.service.BrandService;
+import com.green.sahwang.dto.response.BrandProductResDto;
+import com.green.sahwang.dto.response.ProductResDto;
 import com.green.sahwang.inspection.dto.InspectionReqDto;
 import com.green.sahwang.inspection.dto.response.WaitingInspectionResDto;
 import com.green.sahwang.inspection.service.InspectionService;
+import com.green.sahwang.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,6 +21,8 @@ import java.util.List;
 public class InspectionController {
 
     private final InspectionService inspectionService;
+    private final ProductService productService;
+    private final BrandService brandService;
 
     @GetMapping("/list")
     @PreAuthorize(("hasRole('ROLE_APPRAISER')"))
@@ -34,4 +39,15 @@ public class InspectionController {
         inspectionService.inspectProduct();
         return ResponseEntity.ok("appraiser success");
     }
+
+    @GetMapping("/search-products")
+    public ResponseEntity<List<ProductResDto>> searchInspectionProducts(@RequestParam String keyword) {
+        return ResponseEntity.ok(productService.searchProducts(keyword));
+    }
+
+    @GetMapping("/search-brands")
+    public ResponseEntity<List<BrandResDto>> searchInspectionBrands(@RequestParam String keyword) {
+        return ResponseEntity.ok(brandService.searchBrands(keyword));
+    }
+
 }

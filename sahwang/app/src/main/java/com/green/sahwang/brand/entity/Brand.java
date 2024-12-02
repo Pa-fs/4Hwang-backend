@@ -1,4 +1,4 @@
-package com.green.sahwang.entity;
+package com.green.sahwang.brand.entity;
 
 import jakarta.persistence.*;
 import lombok.*;

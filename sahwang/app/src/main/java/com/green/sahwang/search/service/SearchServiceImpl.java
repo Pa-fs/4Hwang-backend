@@ -1,7 +1,6 @@
 package com.green.sahwang.search.service;
 
-import com.green.sahwang.entity.Product;
-import com.green.sahwang.repository.BrandRepository;
+import com.green.sahwang.brand.repository.BrandRepository;
 import com.green.sahwang.repository.CategoryRepository;
 import com.green.sahwang.repository.ProductImageRepository;
 import com.green.sahwang.repository.ProductRepository;

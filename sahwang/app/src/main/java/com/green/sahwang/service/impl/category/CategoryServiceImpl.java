@@ -1,10 +1,12 @@
 package com.green.sahwang.service.impl.category;
 
-import com.green.sahwang.entity.Brand;
+import com.green.sahwang.brand.entity.Brand;
 import com.green.sahwang.entity.Category;
 import com.green.sahwang.entity.CategoryBrand;
+import com.green.sahwang.exception.BizException;
 import com.green.sahwang.exception.CategoryDomainException;
-import com.green.sahwang.repository.BrandRepository;
+import com.green.sahwang.brand.repository.BrandRepository;
+import com.green.sahwang.exception.ErrorCode;
 import com.green.sahwang.repository.CategoryBrandRepository;
 import com.green.sahwang.repository.CategoryRepository;
 import com.green.sahwang.service.category.CategoryService;
@@ -26,10 +28,10 @@ public class CategoryServiceImpl implements CategoryService {
     @Transactional
     public Category addBrandToCategory(Long categoryId, Long brandId) {
         Category category = categoryRepository.findById(categoryId)
-                .orElseThrow(() -> new CategoryDomainException("카테고리가 없습니다"));
+                .orElseThrow(() -> new BizException(ErrorCode.NO_CATEGORY));
 
         Brand brand = brandRepository.findById(brandId)
-                .orElseThrow(() -> new CategoryDomainException("브랜드가 없습니다"));
+                .orElseThrow(() -> new BizException(ErrorCode.NO_BRAND));
 
         boolean exists = categoryBrandRepository.existsByCategoryAndBrand(category, brand);
         if (!exists) {

@@ -1,6 +1,6 @@
 package com.green.sahwang.repository;
 
-import com.green.sahwang.entity.Brand;
+import com.green.sahwang.brand.entity.Brand;
 import com.green.sahwang.entity.Category;
 import com.green.sahwang.entity.CategoryBrand;
 import org.springframework.data.jpa.repository.JpaRepository;

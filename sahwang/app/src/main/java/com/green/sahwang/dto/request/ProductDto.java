@@ -1,7 +1,6 @@
 package com.green.sahwang.dto.request;
 
-import com.green.sahwang.entity.Brand;
-import jakarta.persistence.*;
+import com.green.sahwang.brand.entity.Brand;
 import lombok.Data;
 
 import java.time.LocalDateTime;
