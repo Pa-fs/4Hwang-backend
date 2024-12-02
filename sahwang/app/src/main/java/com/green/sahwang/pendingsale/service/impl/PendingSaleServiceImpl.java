@@ -3,7 +3,6 @@ package com.green.sahwang.pendingsale.service.impl;
 import com.green.sahwang.entity.Member;
 import com.green.sahwang.pendingsale.entity.PendingSale;
 import com.green.sahwang.pendingsale.repository.PendingSaleRepository;
-import com.green.sahwang.pendingsale.repository.UserSaleImageRepository;
 import com.green.sahwang.repository.MemberRepository;
 import com.green.sahwang.pendingsale.dto.request.PendingSaleCreateReqDto;
 import com.green.sahwang.pendingsale.service.PendingSaleService;
@@ -40,7 +39,7 @@ public class PendingSaleServiceImpl implements PendingSaleService {
                 .build();
 
         PendingSale savedPendingSale = pendingSaleRepository.save(pendingSale);
-        pendingSaleCreateReqDto.getUserSaleReqImages().forEach(userSaleReqImage ->
+        pendingSaleCreateReqDto.getUserSaleReqImageDtos().forEach(userSaleReqImage ->
                 userSaleReqImage.setPendingSaleId(savedPendingSale.getId()));
     }
 }

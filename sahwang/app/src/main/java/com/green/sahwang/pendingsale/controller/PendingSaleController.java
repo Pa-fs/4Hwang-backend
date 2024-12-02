@@ -46,7 +46,7 @@ public class PendingSaleController {
             @AuthenticationPrincipal UserDetails userDetails) {
 
         pendingSaleService.createPendingSale(pendingSaleCreateReqDto, userDetails.getUsername());
-        imageFileService.saveFiles(files, imagePath, pendingSaleCreateReqDto.getUserSaleReqImages());
+        imageFileService.saveFiles(files, imagePath, pendingSaleCreateReqDto.getUserSaleReqImageDtos());
 
         // 배송 서비스 로직
         return ResponseEntity.status(HttpStatus.CREATED).body("A pendingSale was created");

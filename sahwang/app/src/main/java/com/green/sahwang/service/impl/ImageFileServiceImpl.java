@@ -9,7 +9,7 @@ import com.green.sahwang.exception.ProductDomainException;
 import com.green.sahwang.mypage.dto.req.ReviewImageReqDto;
 import com.green.sahwang.exception.BizException;
 import com.green.sahwang.exception.ErrorCode;
-import com.green.sahwang.pendingsale.dto.request.UserSaleReqImage;
+import com.green.sahwang.pendingsale.dto.request.UserSaleReqImageDto;
 import com.green.sahwang.pendingsale.entity.PendingSale;
 import com.green.sahwang.pendingsale.entity.UserSaleImage;
 import com.green.sahwang.pendingsale.repository.PendingSaleRepository;
@@ -95,7 +95,7 @@ public class ImageFileServiceImpl implements ImageFileService {
     }
   
     @Override
-    public void saveFiles(MultipartFile[] files, Path imagePath, List<UserSaleReqImage> userSaleReqImages) {
+    public void saveFiles(MultipartFile[] files, Path imagePath, List<UserSaleReqImageDto> userSaleReqImageDtos) {
         try {
             String relativePath = "images/file/user/";
             for (MultipartFile file : files) {
@@ -107,16 +107,16 @@ public class ImageFileServiceImpl implements ImageFileService {
                 File dest = new File(absoluteFilePath);
                 file.transferTo(dest);
 
-                for (UserSaleReqImage userSaleReqImage : userSaleReqImages) {
-                    PendingSale pendingSale = pendingSaleRepository.findById(userSaleReqImage.getPendingSaleId())
+                for (UserSaleReqImageDto userSaleReqImageDto : userSaleReqImageDtos) {
+                    PendingSale pendingSale = pendingSaleRepository.findById(userSaleReqImageDto.getPendingSaleId())
                             .orElseThrow(() -> new BizException(ErrorCode.NO_PRODUCT));
 
 
                     UserSaleImage userSaleImage = UserSaleImage.builder()
                             .path(filePath)
                             .pendingSale(pendingSale)
-                            .filename(userSaleReqImage.getName())
-                            .fileDesc(userSaleReqImage.getDesc())
+                            .filename(userSaleReqImageDto.getName())
+                            .fileDesc(userSaleReqImageDto.getDesc())
                             .build();
 
                     userSaleImageRepository.save(userSaleImage);
