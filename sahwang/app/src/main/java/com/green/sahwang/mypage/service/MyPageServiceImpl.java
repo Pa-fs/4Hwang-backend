@@ -6,6 +6,9 @@ import com.green.sahwang.entity.enumtype.PurchaseStatus;
 import com.green.sahwang.exception.BizException;
 import com.green.sahwang.exception.ErrorCode;
 import com.green.sahwang.mypage.dto.req.MemberInfoReqDto;
+import com.green.sahwang.mypage.dto.req.ReviewCreateReqDto;
+import com.green.sahwang.mypage.dto.req.ReviewImageReqDto;
+import com.green.sahwang.mypage.dto.req.ReviewUpdateReqDto;
 import com.green.sahwang.mypage.dto.res.*;
 import com.green.sahwang.repository.*;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +20,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +39,7 @@ public class MyPageServiceImpl implements MyPageService{
     private final DeliveryPurchasesRepository deliveryPurchasesRepository;
     private final SaleProductRepository saleProductRepository;
     private final ModelMapper modelMapper;
+    private final ReviewRepository reviewRepository;
 
     @Transactional
     public OrderProgressResDto getOrderProgress(UserDetails userDetails){
@@ -131,6 +137,57 @@ public class MyPageServiceImpl implements MyPageService{
         }
 
         return wishListResDtoList;
+    }
+
+    @Transactional(readOnly = true)
+    public List<MyReviewResDto> getReviewList(UserDetails userDetails, int pageNum, int size){
+        Member member = memberRepository.findByEmail(userDetails.getUsername());
+
+        Pageable pageable = PageRequest.of(pageNum, size);
+        Page<Review> reviewPage = reviewRepository.findAllByMember(member, pageable);
+
+        return reviewPage.getContent().stream()
+                .map(review -> new MyReviewResDto(
+                        review.getId(),
+                        review.getContent(),
+                        review.getImage(),
+                        review.getReviewCreationDate(),
+                        review.getReviewModifiedDate(),
+                        review.getStar(),
+                        review.getMember().getId(),
+                        review.getPurchaseProduct().getId()
+                ))
+                .toList();
+    }
+
+    @Transactional
+    public void reviewCreate(UserDetails userDetails, MultipartFile file, ReviewCreateReqDto reviewCreateReqDto){
+        Member member = memberRepository.findByEmail(userDetails.getUsername());
+        PurchaseProduct purchaseProduct = purchaseProductRepository.findById(reviewCreateReqDto.getPurchaseProductId()).orElseThrow(() -> new BizException(ErrorCode.NO_PURCHASE_PRODUCT));
+        Review review = new Review();
+        review.setPurchaseProduct(purchaseProduct);
+        review.setContent(reviewCreateReqDto.getContent());
+        review.setReviewCreationDate(LocalDateTime.now());
+        review.setImage(file.getOriginalFilename());
+        review.setStar(reviewCreateReqDto.getStar());
+        review.setMember(member);
+        Review saved = reviewRepository.save(review);
+
+        reviewCreateReqDto.getReviewImageReqDto().setReviewId(saved.getId());
+    }
+
+    @Transactional
+    public void reviewUpdate(UserDetails userDetails, ReviewUpdateReqDto reviewUpdateReqDto){
+        Review review = reviewRepository.findById(reviewUpdateReqDto.getReviewId()).orElseThrow();
+        review.setReviewModifiedDate(LocalDateTime.now());
+        review.setContent(reviewUpdateReqDto.getContent());
+        review.setStar(reviewUpdateReqDto.getStar());
+        reviewRepository.save(review);
+    }
+
+    @Transactional
+    public void reviewDelete(UserDetails userDetails, Long reviewId){
+        reviewRepository.deleteById(reviewId);
     }
 
     @Transactional
