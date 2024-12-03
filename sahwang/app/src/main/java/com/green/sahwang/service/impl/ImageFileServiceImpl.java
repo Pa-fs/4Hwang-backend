@@ -22,6 +22,7 @@ import com.green.sahwang.service.ImageFileService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -41,6 +42,7 @@ public class ImageFileServiceImpl implements ImageFileService {
     private final PendingSaleRepository pendingSaleRepository;
     private final UserSaleImageRepository userSaleImageRepository;
 
+    @Transactional
     public void saveFile(MultipartFile file, Path imagePath, ImageFileReqDto imageFileReqDto) {
         try {
             String relativePath = "images/file/";
@@ -69,6 +71,7 @@ public class ImageFileServiceImpl implements ImageFileService {
         }
     }
 
+    @Transactional
     public void saveReviewImage(MultipartFile file, Path imagePath, ReviewImageReqDto reviewImageReqDto){
         try {
             String relativePath = "images/file/";
@@ -95,32 +98,38 @@ public class ImageFileServiceImpl implements ImageFileService {
     }
   
     @Override
+    @Transactional
     public void saveFiles(MultipartFile[] files, Path imagePath, List<UserSaleReqImageDto> userSaleReqImageDtos) {
         try {
             String relativePath = "images/file/user/";
-            for (MultipartFile file : files) {
+            // 파일과 DTO 리스트의 크기가 동일한지 확인
+            if (files.length != userSaleReqImageDtos.size()) {
+                throw new IllegalArgumentException("파일 수와 DTO 수가 일치하지 않습니다.");
+            }
+
+            for (int i = 0; i < files.length; i++) {
+                MultipartFile file = files[i];
+                UserSaleReqImageDto userSaleReqImageDto = userSaleReqImageDtos.get(i);
+
                 String filename = file.getOriginalFilename();
                 String filePath = relativePath + File.separator + filename;
-
                 String absoluteFilePath = imagePath.toString() + File.separator + filename;
 
+                // 파일을 지정된 경로로 저장
                 File dest = new File(absoluteFilePath);
                 file.transferTo(dest);
 
-                for (UserSaleReqImageDto userSaleReqImageDto : userSaleReqImageDtos) {
-                    PendingSale pendingSale = pendingSaleRepository.findById(userSaleReqImageDto.getPendingSaleId())
-                            .orElseThrow(() -> new BizException(ErrorCode.NO_PRODUCT));
+                PendingSale pendingSale = pendingSaleRepository.findById(userSaleReqImageDto.getPendingSaleId())
+                        .orElseThrow(() -> new BizException(ErrorCode.NO_PRODUCT));
 
+                UserSaleImage userSaleImage = UserSaleImage.builder()
+                        .path(filePath)
+                        .pendingSale(pendingSale)
+                        .filename(userSaleReqImageDto.getName())
+                        .fileDesc(userSaleReqImageDto.getDesc())
+                        .build();
 
-                    UserSaleImage userSaleImage = UserSaleImage.builder()
-                            .path(filePath)
-                            .pendingSale(pendingSale)
-                            .filename(userSaleReqImageDto.getName())
-                            .fileDesc(userSaleReqImageDto.getDesc())
-                            .build();
-
-                    userSaleImageRepository.save(userSaleImage);
-                }
+                userSaleImageRepository.save(userSaleImage);
             }
         } catch (Exception e) {
             e.printStackTrace();
