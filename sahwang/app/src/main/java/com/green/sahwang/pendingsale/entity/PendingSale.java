@@ -44,4 +44,6 @@ public class PendingSale {
     private LocalDateTime createdDate;
 
     private LocalDateTime updatedDate;
+
+    private String rejectedReason;
 }

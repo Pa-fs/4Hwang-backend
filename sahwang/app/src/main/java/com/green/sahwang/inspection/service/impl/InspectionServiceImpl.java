@@ -143,6 +143,7 @@ public class InspectionServiceImpl implements InspectionService {
         verifiedSaleRepository.save(verifiedSale);
 
         pendingSale.setInspectionStatus(InspectionStatus.REJECTED);
+        pendingSale.setRejectedReason(rejectionReason.getReason());
         pendingSaleRepository.save(pendingSale);
     }
 }

@@ -943,3 +943,23 @@ VALUES
 (3, 'Candle', 'Bath & Body Works', '시나몬 스틱 캔들', 'Bath & Body Works 시나몬 스틱 캔들, 사용한 흔적 있음, 90% 남음', 200, 'WAITING', 25000, TRUE, NULL, NOW(), NOW()),
 (1, 'Perfume', 'Dior', '디올 Sauvage 향수', '디올 Sauvage 향수, 100ml, 새 제품', 100, 'WAITING', 130000, FALSE, NULL, NOW(), NOW()),
 (2, 'Candle', 'IKEA', '레드 캔들', 'IKEA 레드 향초, 새 제품', 150, 'WAITING', 15000, FALSE, NULL, NOW(), NOW());
+
+
+-- sale_grade
+INSERT INTO sale_grade (grade_description, grade_type)
+VALUES
+  ('새상품과 거의 동일한 상태', 'A'),
+  ('새상품이나 박스가 훼손된 상태', 'B'),
+  ('사용한 흔적이 있거나 상품에 흠집이나 스크래치가 있는 상태', 'C'),
+  ('사용한 흔적이 많고 상품에 흠집이나 스크래치, 약간의 파손이 있는 상태', 'D'),
+  ('사용한 흔적이 많고 상품에 흠집이나 스크래치, 파손, 훼손이 있지만 사용하기엔 문제가 없는 상태', 'E');
+
+-- rejection_reason
+INSERT INTO rejection_reason (reason)
+VALUES
+  ('파손 또는 훼손이 심해 판매할 수 없는 상태입니다.'),
+  ('정품이 아닙니다.'),
+  ('유통기한이 지났습니다.'),
+  ('유통기한은 문제가 없으나 내용물 변질이 일어났습니다.'),
+  ('판매 기준 용량 미달입니다.'),
+  ('향수, 캔들, 디퓨저에 해당하지 않는 제품입니다.');
