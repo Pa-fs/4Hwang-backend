@@ -25,6 +25,9 @@ public class PendingSaleServiceImpl implements PendingSaleService {
     @Transactional
     public void createPendingSale(PendingSaleCreateReqDto pendingSaleCreateReqDto, String email) {
         Member member = memberRepository.findByEmail(email);
+        member.setBankName(pendingSaleCreateReqDto.getBankName());
+        member.setAccount(pendingSaleCreateReqDto.getAccountNumber());
+        memberRepository.save(member);
 
         PendingSale pendingSale = PendingSale.builder()
                 .productDescription(pendingSaleCreateReqDto.getProductContent())

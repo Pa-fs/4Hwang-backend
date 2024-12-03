@@ -44,6 +44,8 @@ public class Member {
 
     private Boolean adReceived;
 
+    private String bankName;
+
     private String account;
 
     private Boolean gender;

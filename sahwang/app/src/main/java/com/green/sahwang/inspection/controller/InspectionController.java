@@ -28,7 +28,7 @@ public class InspectionController {
     @GetMapping("/list")
     @SecurityRequirement(name = "Bearer Authentication")
     @Operation(summary = "검수대기 리스트", description = "검수자만 조회 가능, 기본값 5개씩 데이터 출력, 기본 정렬: 데이터 생성날짜 기준 최신순")
-    @PreAuthorize(("hasAnyRole('ROLE_APPRAISER', 'ROLE_ADMIN')"))
+//    @PreAuthorize(("hasAnyRole('ROLE_APPRAISER', 'ROLE_ADMIN')"))
     public ResponseEntity<List<WaitingInspectionResDto>> getWaitingInspections(
             @RequestParam(name = "pageNum", defaultValue = "0") int pageNum,
             @RequestParam(name = "size", defaultValue = "5") int size,
@@ -38,7 +38,7 @@ public class InspectionController {
 
     @PostMapping("/pass")
     @SecurityRequirement(name = "Bearer Authentication")
-    @PreAuthorize("hasAnyRole('ROLE_APPRAISER', 'ROLE_ADMIN')")
+//    @PreAuthorize("hasAnyRole('ROLE_APPRAISER', 'ROLE_ADMIN')")
     public ResponseEntity<?> passInspection(@RequestBody InspectionPassReqDto inspectionPassReqDto) {
         inspectionService.inspectProduct(inspectionPassReqDto);
         return ResponseEntity.ok("appraiser success");
@@ -46,14 +46,14 @@ public class InspectionController {
 
     @GetMapping("/search-products")
     @Operation(summary = "검수 시 필요한 제품 검색", description = "검수 페이지에서 제품 검색")
-    @PreAuthorize(("hasAnyRole('ROLE_APPRAISER', 'ROLE_ADMIN')"))
+//    @PreAuthorize(("hasAnyRole('ROLE_APPRAISER', 'ROLE_ADMIN')"))
     public ResponseEntity<List<ProductResDto>> searchInspectionProducts(@RequestParam String keyword) {
         return ResponseEntity.ok(productService.searchProducts(keyword));
     }
 
     @GetMapping("/search-brands")
     @Operation(summary = "검수 시 필요한 브랜드 검색", description = "검수 페이지에서 브랜드 검색")
-    @PreAuthorize(("hasAnyRole('ROLE_APPRAISER', 'ROLE_ADMIN')"))
+//    @PreAuthorize(("hasAnyRole('ROLE_APPRAISER', 'ROLE_ADMIN')"))
     public ResponseEntity<List<BrandResDto>> searchInspectionBrands(@RequestParam String keyword) {
         return ResponseEntity.ok(brandService.searchBrands(keyword));
     }

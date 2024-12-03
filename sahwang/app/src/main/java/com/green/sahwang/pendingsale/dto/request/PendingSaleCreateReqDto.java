@@ -14,6 +14,8 @@ import java.util.List;
 public class PendingSaleCreateReqDto {
 
     private String seller;
+    private String bankName;
+    private String accountNumber;
     private String productName;
     private String categoryName;
     private int productSize;
