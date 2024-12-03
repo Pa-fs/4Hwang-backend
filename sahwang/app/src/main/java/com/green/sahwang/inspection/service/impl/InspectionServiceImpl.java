@@ -61,7 +61,7 @@ public class InspectionServiceImpl implements InspectionService {
     @Override
     @Transactional
     public List<WaitingInspectionResDto> getWaitingInspections(int pageNum, int size, String sortType) {
-        Pageable pageable = PageRequest.of(pageNum, size, Sort.by(Sort.Direction.DESC, sortType));
+        Pageable pageable = PageRequest.of(pageNum, size, Sort.by(Sort.Direction.ASC, sortType));
         Page<PendingSale> pendingSales = pendingSaleRepository.findAll(pageable);
 
         return pendingSales.stream()
