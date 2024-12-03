@@ -28,7 +28,7 @@ public class WaitingInspectionResDto {
     private LocalDateTime saleApplicationDate;
     private ShipStatus shipStatus;
     private InspectionStatus inspectionStatus;
-    private LocalDateTime pendingSaleDate;
-    private LocalDateTime shippedDate;
+    private String pendingSaleDate;
+    private String shippedDate;
     private List<UserSaleResImage> userSaleResImageList;
 }

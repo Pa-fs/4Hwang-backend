@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface InspectionService {
 
+    Long getTotalCount();
     List<WaitingInspectionResDto> getWaitingInspections(int pageNum, int size, String sortType);
     void inspectPassProduct(InspectionPassReqDto inspectionPassReqDto);
     void inspectRejectProduct(InspectionRejectReqDto inspectionRejectReqDto);

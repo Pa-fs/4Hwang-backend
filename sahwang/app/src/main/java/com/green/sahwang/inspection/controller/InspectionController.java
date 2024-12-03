@@ -26,9 +26,17 @@ public class InspectionController {
     private final ProductService productService;
     private final BrandService brandService;
 
+    @GetMapping("/pending-sale/total-count")
+    @SecurityRequirement(name = "Bearer Authentication")
+    @Operation(summary = "검수대기 리스트 총 개수", description = "페이지네이션을 위한 총 개수 주기")
+    public ResponseEntity<Long> getWaitingInspectionsCount() {
+        Long totalCount = inspectionService.getTotalCount();
+        return ResponseEntity.ok(totalCount);
+    }
+
     @GetMapping("/list")
     @SecurityRequirement(name = "Bearer Authentication")
-    @Operation(summary = "검수대기 리스트", description = "검수자만 조회 가능, 기본값 5개씩 데이터 출력, 기본 정렬: 데이터 생성날짜 기준 최신순")
+    @Operation(summary = "검수대기 리스트", description = "검수자만 조회 가능, 기본값 5개씩 데이터 출력, 기본 정렬: 데이터 생성날짜 기준 오래된 순")
 //    @PreAuthorize(("hasAnyRole('ROLE_APPRAISER', 'ROLE_ADMIN')"))
     public ResponseEntity<List<WaitingInspectionResDto>> getWaitingInspections(
             @RequestParam(name = "pageNum", defaultValue = "0") int pageNum,

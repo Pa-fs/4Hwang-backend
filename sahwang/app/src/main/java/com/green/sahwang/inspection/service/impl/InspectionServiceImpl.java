@@ -1,6 +1,7 @@
 package com.green.sahwang.inspection.service.impl;
 
 import com.green.sahwang.brand.repository.BrandRepository;
+import com.green.sahwang.config.DateTimeUtils;
 import com.green.sahwang.exception.BizException;
 import com.green.sahwang.exception.ErrorCode;
 import com.green.sahwang.inspection.dto.request.InspectionPassReqDto;
@@ -53,6 +54,12 @@ public class InspectionServiceImpl implements InspectionService {
 
     @Override
     @Transactional
+    public Long getTotalCount() {
+        return pendingSaleRepository.count();
+    }
+
+    @Override
+    @Transactional
     public List<WaitingInspectionResDto> getWaitingInspections(int pageNum, int size, String sortType) {
         Pageable pageable = PageRequest.of(pageNum, size, Sort.by(Sort.Direction.DESC, sortType));
         Page<PendingSale> pendingSales = pendingSaleRepository.findAll(pageable);
@@ -67,8 +74,8 @@ public class InspectionServiceImpl implements InspectionService {
                         .productName(pendingSale.getProductName())
                         .userContent(pendingSale.getProductDescription())
                         .expectedSellingPrice(pendingSale.getExceptedSellingPrice())
-                        .shippedDate(pendingSale.getCreatedDate().plusDays(3))
-                        .pendingSaleDate(pendingSale.getCreatedDate())
+                        .shippedDate(DateTimeUtils.formatWithoutSecond(pendingSale.getCreatedDate().plusDays(3)))
+                        .pendingSaleDate(DateTimeUtils.formatWithoutSecond(pendingSale.getCreatedDate()))
                         .category(pendingSale.getCategoryName())
                         .size(pendingSale.getProductSize())
                         .userSaleResImageList(
