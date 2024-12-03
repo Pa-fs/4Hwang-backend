@@ -4,6 +4,7 @@ import com.green.sahwang.brand.dto.response.BrandResDto;
 import com.green.sahwang.brand.service.BrandService;
 import com.green.sahwang.dto.response.ProductResDto;
 import com.green.sahwang.inspection.dto.request.InspectionPassReqDto;
+import com.green.sahwang.inspection.dto.request.InspectionRejectReqDto;
 import com.green.sahwang.inspection.dto.response.WaitingInspectionResDto;
 import com.green.sahwang.inspection.service.InspectionService;
 import com.green.sahwang.service.ProductService;
@@ -38,9 +39,27 @@ public class InspectionController {
 
     @PostMapping("/pass")
     @SecurityRequirement(name = "Bearer Authentication")
+    @Operation(summary = "검수 승인", description = "검수 승인 후 처리")
 //    @PreAuthorize("hasAnyRole('ROLE_APPRAISER', 'ROLE_ADMIN')")
     public ResponseEntity<?> passInspection(@RequestBody InspectionPassReqDto inspectionPassReqDto) {
-        inspectionService.inspectProduct(inspectionPassReqDto);
+        if (inspectionPassReqDto.isInspectionResult()) {
+            inspectionService.inspectPassProduct(inspectionPassReqDto);
+        } else {
+            return ResponseEntity.badRequest().body("Invalid inspection");
+        }
+        return ResponseEntity.ok("appraiser success");
+    }
+
+    @PostMapping("/reject")
+    @SecurityRequirement(name = "Bearer Authentication")
+    @Operation(summary = "검수 반려", description = "검수 반려 처리")
+//    @PreAuthorize("hasAnyRole('ROLE_APPRAISER', 'ROLE_ADMIN')")
+    public ResponseEntity<?> rejectInspection(@RequestBody InspectionRejectReqDto inspectionRejectReqDto) {
+        if (!inspectionRejectReqDto.isInspectionResult()) {
+            inspectionService.inspectRejectProduct(inspectionRejectReqDto);
+        } else {
+            return ResponseEntity.badRequest().body("Invalid inspection");
+        }
         return ResponseEntity.ok("appraiser success");
     }
 

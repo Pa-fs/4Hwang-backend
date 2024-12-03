@@ -41,8 +41,6 @@ public class PendingSale {
 
     private boolean usedOrNot;
 
-    private String rejectedReason;
-
     private LocalDateTime createdDate;
 
     private LocalDateTime updatedDate;
