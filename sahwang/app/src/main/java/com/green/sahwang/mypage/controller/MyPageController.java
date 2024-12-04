@@ -33,7 +33,7 @@ public class MyPageController {
     public MyPageController(MyPageService myPageService, ImageFileService imageFileService, Path imagePath) {
         this.myPageService = myPageService;
         this.imageFileService = imageFileService;
-        this.imagePath = ImageFilePathConfig.getImageFilePath();
+        this.imagePath = ImageFilePathConfig.getImageFilePath("images/file");
     }
 
     @GetMapping("/orderProgress")

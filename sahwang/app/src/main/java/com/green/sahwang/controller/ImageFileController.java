@@ -30,7 +30,7 @@ public class ImageFileController {
 
     public ImageFileController(ImageFileService imageFileService) {
         this.imageFileService = imageFileService;
-        this.imagePath = ImageFilePathConfig.getImageFilePath();
+        this.imagePath = ImageFilePathConfig.getImageFilePath("images/file");
     }
 
     @PostMapping(value = "/upload",

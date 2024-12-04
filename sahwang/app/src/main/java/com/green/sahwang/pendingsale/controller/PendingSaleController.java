@@ -31,7 +31,7 @@ public class PendingSaleController {
     public PendingSaleController(PendingSaleService pendingSaleService, ImageFileService imageFileService) {
         this.pendingSaleService = pendingSaleService;
         this.imageFileService = imageFileService;
-        this.imagePath = ImageFilePathConfig.getImageFilePath();
+        this.imagePath = ImageFilePathConfig.getImageFilePath("images/file/user/");
     }
 
     @SecurityRequirement(name = "Bearer Authentication")

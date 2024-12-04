@@ -936,14 +936,25 @@ INSERT INTO favorite (member_id, review_id) VALUES(5, 10000002);
 
 
 -- pending_sale
-INSERT INTO pending_sale (member_id, category_name, brand_name, product_name, product_description, product_size, inspection_status, excepted_selling_price, used_or_not, rejected_reason, created_date, updated_date)
+INSERT INTO pending_sale (member_id, pending_sale_id, category_name, brand_name, product_name, product_description, product_size, inspection_status, excepted_selling_price, used_or_not, rejected_reason, created_date, updated_date)
 VALUES
-(1, 'Perfume', 'Chanel', '샤넬 No.5 향수', '샤넬 No.5 향수, 50ml, 새 제품, 박스 포함', 50, 'WAITING', 150000, FALSE, NULL, NOW(), NOW()),
-(2, 'Diffuser', 'Yankee Candle', '라벤더 디퓨저', 'Yankee Candle 라벤더 향 디퓨저, 새 제품', 100, 'WAITING', 30000, FALSE, NULL, NOW(), NOW()),
-(3, 'Candle', 'Bath & Body Works', '시나몬 스틱 캔들', 'Bath & Body Works 시나몬 스틱 캔들, 사용한 흔적 있음, 90% 남음', 200, 'WAITING', 25000, TRUE, NULL, NOW(), NOW()),
-(1, 'Perfume', 'Dior', '디올 Sauvage 향수', '디올 Sauvage 향수, 100ml, 새 제품', 100, 'WAITING', 130000, FALSE, NULL, NOW(), NOW()),
-(2, 'Candle', 'IKEA', '레드 캔들', 'IKEA 레드 향초, 새 제품', 150, 'WAITING', 15000, FALSE, NULL, NOW(), NOW());
+(1, 40, 'Perfume', 'Chanel', '샤넬 No.5 향수', '샤넬 No.5 향수, 50ml, 새 제품, 박스 포함', 50, 'WAITING', 150000, FALSE, NULL, NOW(), NOW()),
+(2, 41, 'Diffuser', 'Yankee Candle', '라벤더 디퓨저', 'Yankee Candle 라벤더 향 디퓨저, 새 제품', 100, 'WAITING', 30000, FALSE, NULL, NOW(), NOW()),
+(3, 42, 'Candle', 'Bath & Body Works', '시나몬 스틱 캔들', 'Bath & Body Works 시나몬 스틱 캔들, 사용한 흔적 있음, 90% 남음', 200, 'WAITING', 25000, TRUE, NULL, NOW(), NOW()),
+(1, 43, 'Perfume', 'Dior', '디올 Sauvage 향수', '디올 Sauvage 향수, 100ml, 새 제품', 100, 'WAITING', 130000, FALSE, NULL, NOW(), NOW()),
+(2, 44, 'Candle', 'IKEA', '레드 캔들', 'IKEA 레드 향초, 새 제품', 150, 'WAITING', 15000, FALSE, NULL, NOW(), NOW());
 
+INSERT INTO user_sale_image(user_sale_image_id, file_desc, filename, path, pending_sale_id)
+VALUES
+(1, 'image-1', 'p_001.png', 'images/file/user/\p_001.jpg', 40)
+(2, 'image-2', 'p_002.png', 'images/file/user/\p_002.jpg', 40)
+(3, 'image-3', 'p_003.png', 'images/file/user/\p_003.jpg', 40)
+(4, 'image-1', 'p_004.png', 'images/file/user/\p_004.jpg', 41)
+(5, 'image-2', 'p_005.png', 'images/file/user/\p_005.jpg', 41)
+(6, 'image-3', 'p_006.png', 'images/file/user/\p_006.jpg', 41)
+(7, 'image-1', 'p_007.png', 'images/file/user/\p_007.jpg', 42)
+(8, 'image-1', 'p_008.png', 'images/file/user/\p_008.jpg', 43)
+(9, 'image-1', 'p_009.png', 'images/file/user/\p_009.jpg', 44)
 
 -- sale_grade
 INSERT INTO sale_grade (grade_description, grade_type)

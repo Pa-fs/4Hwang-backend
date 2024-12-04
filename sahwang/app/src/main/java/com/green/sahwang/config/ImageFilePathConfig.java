@@ -12,8 +12,8 @@ import java.nio.file.Paths;
 public class ImageFilePathConfig {
 
     @Bean
-    public static Path getImageFilePath() {
-        Path absolutePath = Paths.get("images/file").toAbsolutePath();
+    public static Path getImageFilePath(String relativePath) {
+        Path absolutePath = Paths.get(relativePath).toAbsolutePath();
         try {
             Files.createDirectories(absolutePath);
         } catch (IOException e) {

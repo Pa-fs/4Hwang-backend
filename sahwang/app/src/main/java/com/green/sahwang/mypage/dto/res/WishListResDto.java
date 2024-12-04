@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class WishListResDto {
 
+    Long productId;
+
     String productName;
 
     int productPrice;
