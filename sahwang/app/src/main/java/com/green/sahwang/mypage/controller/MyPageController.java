@@ -1,7 +1,6 @@
 package com.green.sahwang.mypage.controller;
 
-import com.green.sahwang.config.ImageFilePathConfig;
-import com.green.sahwang.detail.dto.response.ReviewResDto;
+import com.green.sahwang.config.filepath.ImageFilePathConfig;
 import com.green.sahwang.mypage.dto.req.MemberInfoReqDto;
 import com.green.sahwang.mypage.dto.req.ReviewCreateReqDto;
 import com.green.sahwang.mypage.dto.req.ReviewUpdateReqDto;
@@ -10,7 +9,6 @@ import com.green.sahwang.mypage.service.MyPageService;
 import com.green.sahwang.service.ImageFileService;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -30,10 +28,10 @@ public class MyPageController {
     private final ImageFileService imageFileService;
     private final Path imagePath;
 
-    public MyPageController(MyPageService myPageService, ImageFileService imageFileService, Path imagePath) {
+    public MyPageController(MyPageService myPageService, ImageFileService imageFileService, ImageFilePathConfig imageFilePathConfig) {
         this.myPageService = myPageService;
         this.imageFileService = imageFileService;
-        this.imagePath = ImageFilePathConfig.getImageFilePath("images/file");
+        this.imagePath = imageFilePathConfig.getImageFilePath("/images/file");
     }
 
     @GetMapping("/orderProgress")

@@ -1,6 +1,6 @@
 package com.green.sahwang.controller;
 
-import com.green.sahwang.config.ImageFilePathConfig;
+import com.green.sahwang.config.filepath.ImageFilePathConfig;
 import com.green.sahwang.dto.request.ImageFileReqDto;
 import com.green.sahwang.service.ImageFileService;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -18,7 +18,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
 @RestController
 @RequestMapping("/api/file")
@@ -28,9 +27,9 @@ public class ImageFileController {
     private final Path imagePath;
     private final ImageFileService imageFileService;
 
-    public ImageFileController(ImageFileService imageFileService) {
+    public ImageFileController(ImageFileService imageFileService, ImageFilePathConfig imageFilePathConfig) {
         this.imageFileService = imageFileService;
-        this.imagePath = ImageFilePathConfig.getImageFilePath("images/file");
+        this.imagePath = imageFilePathConfig.getImageFilePath("/images/file");
     }
 
     @PostMapping(value = "/upload",

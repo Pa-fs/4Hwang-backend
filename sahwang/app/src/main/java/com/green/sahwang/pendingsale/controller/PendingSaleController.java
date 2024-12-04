@@ -1,6 +1,6 @@
 package com.green.sahwang.pendingsale.controller;
 
-import com.green.sahwang.config.ImageFilePathConfig;
+import com.green.sahwang.config.filepath.ImageFilePathConfig;
 import com.green.sahwang.pendingsale.dto.request.PendingSaleCreateReqDto;
 import com.green.sahwang.pendingsale.service.PendingSaleService;
 import com.green.sahwang.service.ImageFileService;
@@ -28,10 +28,10 @@ public class PendingSaleController {
     private final ImageFileService imageFileService;
     private final Path imagePath;
 
-    public PendingSaleController(PendingSaleService pendingSaleService, ImageFileService imageFileService) {
+    public PendingSaleController(PendingSaleService pendingSaleService, ImageFileService imageFileService, ImageFilePathConfig imageFilePathConfig) {
         this.pendingSaleService = pendingSaleService;
         this.imageFileService = imageFileService;
-        this.imagePath = ImageFilePathConfig.getImageFilePath("images/file/user/");
+        this.imagePath = imageFilePathConfig.getImageFilePath("/images/file/user");
     }
 
     @SecurityRequirement(name = "Bearer Authentication")

@@ -1,4 +1,4 @@
-package com.green.sahwang.config;
+package com.green.sahwang.config.filepath;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,7 +12,7 @@ import java.nio.file.Paths;
 public class ImageFilePathConfig {
 
     @Bean
-    public static Path getImageFilePath(String relativePath) {
+    public Path getImageFilePath(String relativePath) {
         Path absolutePath = Paths.get(relativePath).toAbsolutePath();
         try {
             Files.createDirectories(absolutePath);
