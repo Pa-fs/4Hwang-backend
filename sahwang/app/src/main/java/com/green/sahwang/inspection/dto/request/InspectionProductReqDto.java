@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 public class InspectionProductReqDto {
     private String productName;
     private int productSize;
-    private String productContent;
     private int verifiedSellingPrice;
     private int quantity;
 }

@@ -15,7 +15,9 @@ public enum ErrorCode {
     NO_PURCHASE(HttpStatus.NOT_FOUND, "주문번호가 존재하지 않습니다"),
     NO_SALE(HttpStatus.NOT_FOUND, "판매번호가 존재하지 않습니다"),
     NO_PENDINGSALE(HttpStatus.NOT_FOUND, "판매대기가 존재하지 않습니다"),
-    NO_BRAND(HttpStatus.NOT_FOUND, "브랜드가 존재하지 않습니다");
+    NO_BRAND(HttpStatus.NOT_FOUND, "브랜드가 존재하지 않습니다"),
+    NO_REJECTION_REASON(HttpStatus.NOT_FOUND, "반려사유가 존재하지 않습니다"),
+    NO_SALE_GRADE(HttpStatus.NOT_FOUND, "판매등급이 존재하지 않습니다");
 
     private final HttpStatus httpStatus;
     private final String message;

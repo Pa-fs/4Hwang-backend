@@ -33,6 +33,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -105,9 +106,9 @@ public class InspectionServiceImpl implements InspectionService {
                 .productName(inspectionPassReqDto.getInspectionProductReqDto().getProductName())
                 .productSize(inspectionPassReqDto.getInspectionProductReqDto().getProductSize())
                 .verifiedSellingPrice(inspectionPassReqDto.getInspectionProductReqDto().getVerifiedSellingPrice())
-                .inspectionDescription(inspectionPassReqDto.getInspectionProductReqDto().getProductContent())
-                .saleGrade(saleGradeRepository.findByGradeType(inspectionPassReqDto.getGradeType()))
+                .saleGrade(saleGradeRepository.findById(inspectionPassReqDto.getGradeId()).orElseThrow(() -> new BizException(ErrorCode.NO_SALE_GRADE)))
                 .inspectionResult(true)
+                .inspectionDescription(inspectionPassReqDto.getInspectionContent())
                 .posted(false)
                 .createdDate(LocalDateTime.now())
                 .build();
@@ -124,14 +125,15 @@ public class InspectionServiceImpl implements InspectionService {
         PendingSale pendingSale = pendingSaleRepository.findById(inspectionRejectReqDto.getPendingSaleId())
                 .orElseThrow(() -> new BizException(ErrorCode.NO_PENDINGSALE));
 
-        RejectionReason rejectionReason = rejectionReasonRepository.findByReason(inspectionRejectReqDto.getRejectionReason())
-                .orElse(null);
-
-        if(rejectionReason == null) {
+        RejectionReason rejectionReason = null;
+        if (Objects.isNull(inspectionRejectReqDto.getRejectionReasonId())) {
             RejectionReason newReason = RejectionReason.builder()
                     .reason(inspectionRejectReqDto.getRejectionReason())
                     .build();
             rejectionReason = rejectionReasonRepository.save(newReason);
+        } else {
+            rejectionReason = rejectionReasonRepository.findById(inspectionRejectReqDto.getRejectionReasonId())
+                    .orElseThrow(() -> new BizException(ErrorCode.NO_REJECTION_REASON));
         }
 
         VerifiedSale verifiedSale = VerifiedSale.builder()
@@ -140,9 +142,9 @@ public class InspectionServiceImpl implements InspectionService {
                 .brandName(inspectionRejectReqDto.getInspectionBrandReqDto().getBrandName())
                 .productName(inspectionRejectReqDto.getInspectionProductReqDto().getProductName())
                 .productSize(inspectionRejectReqDto.getInspectionProductReqDto().getProductSize())
-//                .verifiedSellingPrice(inspectionRejectReqDto.getInspectionProductReqDto().getVerifiedSellingPrice())
-                .inspectionDescription(inspectionRejectReqDto.getInspectionProductReqDto().getProductContent())
+                .verifiedSellingPrice(inspectionRejectReqDto.getInspectionProductReqDto().getVerifiedSellingPrice())
                 .inspectionResult(inspectionRejectReqDto.isInspectionResult())
+                .inspectionDescription(inspectionRejectReqDto.getInspectionContent())
                 .posted(false)
                 .createdDate(LocalDateTime.now())
                 .rejectionReason(rejectionReason)

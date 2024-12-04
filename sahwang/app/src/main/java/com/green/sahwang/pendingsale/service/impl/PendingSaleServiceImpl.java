@@ -1,6 +1,7 @@
 package com.green.sahwang.pendingsale.service.impl;
 
 import com.green.sahwang.entity.Member;
+import com.green.sahwang.inspection.enumtype.InspectionStatus;
 import com.green.sahwang.pendingsale.entity.PendingSale;
 import com.green.sahwang.pendingsale.repository.PendingSaleRepository;
 import com.green.sahwang.repository.MemberRepository;
@@ -38,6 +39,7 @@ public class PendingSaleServiceImpl implements PendingSaleService {
                 .categoryName(pendingSaleCreateReqDto.getCategoryName())
                 .createdDate(LocalDateTime.now())
                 .usedOrNot(pendingSaleCreateReqDto.isUsedOrNot())
+                .inspectionStatus(InspectionStatus.WAITING)
                 .member(member)
                 .build();
 
