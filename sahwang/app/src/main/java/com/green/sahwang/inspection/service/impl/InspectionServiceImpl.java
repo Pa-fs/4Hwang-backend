@@ -6,9 +6,7 @@ import com.green.sahwang.exception.BizException;
 import com.green.sahwang.exception.ErrorCode;
 import com.green.sahwang.inspection.dto.request.InspectionPassReqDto;
 import com.green.sahwang.inspection.dto.request.InspectionRejectReqDto;
-import com.green.sahwang.inspection.dto.response.InspectionPassResDto;
-import com.green.sahwang.inspection.dto.response.UserSaleResImage;
-import com.green.sahwang.inspection.dto.response.WaitingInspectionResDto;
+import com.green.sahwang.inspection.dto.response.*;
 import com.green.sahwang.inspection.enumtype.InspectionStatus;
 import com.green.sahwang.inspection.service.InspectionService;
 import com.green.sahwang.pendingsale.entity.PendingSale;
@@ -19,6 +17,7 @@ import com.green.sahwang.repository.CategoryRepository;
 import com.green.sahwang.repository.MemberRepository;
 import com.green.sahwang.repository.ProductRepository;
 import com.green.sahwang.verifiedsale.entity.RejectionReason;
+import com.green.sahwang.verifiedsale.entity.SaleGrade;
 import com.green.sahwang.verifiedsale.entity.VerifiedSale;
 import com.green.sahwang.verifiedsale.repository.RejectionReasonRepository;
 import com.green.sahwang.verifiedsale.repository.SaleGradeRepository;
@@ -154,5 +153,28 @@ public class InspectionServiceImpl implements InspectionService {
         pendingSale.setInspectionStatus(InspectionStatus.REJECTED);
         pendingSale.setRejectedReason(rejectionReason.getReason());
         pendingSaleRepository.save(pendingSale);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<InspectionGradeResDto> getProductGrade() {
+        return saleGradeRepository.findAll().stream()
+                .map(saleGrade -> InspectionGradeResDto.builder()
+                        .gradeId(saleGrade.getId())
+                        .gradeType(saleGrade.getGradeType())
+                        .gradeDescription(saleGrade.getGradeDescription())
+                        .build())
+                .toList();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<InspectionRejectionReasonResDto> getFailReason() {
+        return rejectionReasonRepository.findAll().stream()
+                .map(rejectionReason -> InspectionRejectionReasonResDto.builder()
+                        .rejectionReasonId(rejectionReason.getId())
+                        .rejectionReason(rejectionReason.getReason())
+                        .build())
+                .toList();
     }
 }

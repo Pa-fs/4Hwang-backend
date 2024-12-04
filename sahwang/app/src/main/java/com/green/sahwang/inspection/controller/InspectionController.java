@@ -5,6 +5,8 @@ import com.green.sahwang.brand.service.BrandService;
 import com.green.sahwang.dto.response.ProductResDto;
 import com.green.sahwang.inspection.dto.request.InspectionPassReqDto;
 import com.green.sahwang.inspection.dto.request.InspectionRejectReqDto;
+import com.green.sahwang.inspection.dto.response.InspectionGradeResDto;
+import com.green.sahwang.inspection.dto.response.InspectionRejectionReasonResDto;
 import com.green.sahwang.inspection.dto.response.WaitingInspectionResDto;
 import com.green.sahwang.inspection.service.InspectionService;
 import com.green.sahwang.service.ProductService;
@@ -83,6 +85,18 @@ public class InspectionController {
 //    @PreAuthorize(("hasAnyRole('ROLE_APPRAISER', 'ROLE_ADMIN')"))
     public ResponseEntity<List<BrandResDto>> searchInspectionBrands(@RequestParam String keyword) {
         return ResponseEntity.ok(brandService.searchBrands(keyword));
+    }
+
+    @GetMapping("/pass/grade")
+    @Operation(summary = "검수 합격 시 등급 목록", description = "검수 페이지에서 합격 시 등급 목록")
+    public ResponseEntity<List<InspectionGradeResDto>> getProductGrade() {
+        return ResponseEntity.ok(inspectionService.getProductGrade());
+    }
+
+    @GetMapping("/fail/reason")
+    @Operation(summary = "검수 실패 시 반려사유 목록", description = "검수 페이지에서 반려사유 목록")
+    public ResponseEntity<List<InspectionRejectionReasonResDto>> getFailReason() {
+        return ResponseEntity.ok(inspectionService.getFailReason());
     }
 
 }
