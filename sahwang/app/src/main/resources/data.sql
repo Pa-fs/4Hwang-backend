@@ -946,15 +946,15 @@ VALUES
 
 INSERT INTO user_sale_image(user_sale_image_id, file_desc, filename, path, pending_sale_id)
 VALUES
-(1, 'image-1', 'p_001.png', 'images/file/user/\p_001.jpg', 40)
-(2, 'image-2', 'p_002.png', 'images/file/user/\p_002.jpg', 40)
-(3, 'image-3', 'p_003.png', 'images/file/user/\p_003.jpg', 40)
-(4, 'image-1', 'p_004.png', 'images/file/user/\p_004.jpg', 41)
-(5, 'image-2', 'p_005.png', 'images/file/user/\p_005.jpg', 41)
-(6, 'image-3', 'p_006.png', 'images/file/user/\p_006.jpg', 41)
-(7, 'image-1', 'p_007.png', 'images/file/user/\p_007.jpg', 42)
-(8, 'image-1', 'p_008.png', 'images/file/user/\p_008.jpg', 43)
-(9, 'image-1', 'p_009.png', 'images/file/user/\p_009.jpg', 44)
+(1, 'image-1', 'p_001.png', 'images/file/user/\p_001.jpg', 40),
+(2, 'image-2', 'p_002.png', 'images/file/user/\p_002.jpg', 40),
+(3, 'image-3', 'p_003.png', 'images/file/user/\p_003.jpg', 40),
+(4, 'image-1', 'p_004.png', 'images/file/user/\p_004.jpg', 41),
+(5, 'image-2', 'p_005.png', 'images/file/user/\p_005.jpg', 41),
+(6, 'image-3', 'p_006.png', 'images/file/user/\p_006.jpg', 41),
+(7, 'image-1', 'p_007.png', 'images/file/user/\p_007.jpg', 42),
+(8, 'image-1', 'p_008.png', 'images/file/user/\p_008.jpg', 43),
+(9, 'image-1', 'p_009.png', 'images/file/user/\p_009.jpg', 44);
 
 -- sale_grade
 INSERT INTO sale_grade (grade_description, grade_type)
