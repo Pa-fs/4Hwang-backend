@@ -25,10 +25,9 @@ public class WaitingInspectionResDto {
     private int size;
     private int expectedSellingPrice;
     private String userContent;
-    private LocalDateTime saleApplicationDate;
+    private String saleApplicationDate;
     private ShipStatus shipStatus;
     private InspectionStatus inspectionStatus;
-    private String pendingSaleDate;
     private String shippedDate;
     private List<UserSaleResImage> userSaleResImageList;
 }

@@ -75,7 +75,7 @@ public class InspectionServiceImpl implements InspectionService {
                         .userContent(pendingSale.getProductDescription())
                         .expectedSellingPrice(pendingSale.getExceptedSellingPrice())
                         .shippedDate(DateTimeUtils.formatWithoutSecond(pendingSale.getCreatedDate().plusDays(3)))
-                        .pendingSaleDate(DateTimeUtils.formatWithoutSecond(pendingSale.getCreatedDate()))
+                        .saleApplicationDate(DateTimeUtils.formatWithoutSecond(pendingSale.getCreatedDate()))
                         .category(pendingSale.getCategoryName())
                         .size(pendingSale.getProductSize())
                         .userSaleResImageList(
