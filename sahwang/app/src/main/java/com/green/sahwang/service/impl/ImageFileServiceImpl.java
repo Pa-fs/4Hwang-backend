@@ -101,7 +101,7 @@ public class ImageFileServiceImpl implements ImageFileService {
     @Transactional
     public void saveFiles(MultipartFile[] files, Path imagePath, List<UserSaleReqImageDto> userSaleReqImageDtos) {
         try {
-            String relativePath = "images/file/user/";
+            String relativePath = "images/file/";
             // 파일과 DTO 리스트의 크기가 동일한지 확인
             if (files.length != userSaleReqImageDtos.size()) {
                 throw new IllegalArgumentException("파일 수와 DTO 수가 일치하지 않습니다.");

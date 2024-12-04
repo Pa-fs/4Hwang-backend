@@ -29,7 +29,7 @@ public class ImageFileController {
 
     public ImageFileController(ImageFileService imageFileService, ImageFilePathConfig imageFilePathConfig) {
         this.imageFileService = imageFileService;
-        this.imagePath = imageFilePathConfig.getImageFilePath("/images/file");
+        this.imagePath = imageFilePathConfig.getImageFilePath();
     }
 
     @PostMapping(value = "/upload",
@@ -46,7 +46,9 @@ public class ImageFileController {
     @GetMapping("/download/{fileName}")
     public ResponseEntity<Resource> downloadFile(@PathVariable(name = "fileName") String fileName) throws IOException {
         // 파일이 저장된 경로
+        log.info(imagePath.toString());
         Path filePath = imagePath.resolve(fileName);
+        log.info(String.valueOf(filePath.toUri()));
         Resource resource = new UrlResource(filePath.toUri());
 
         if (!resource.exists()) {
