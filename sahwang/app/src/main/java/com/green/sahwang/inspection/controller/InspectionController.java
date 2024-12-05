@@ -3,7 +3,9 @@ package com.green.sahwang.inspection.controller;
 import com.green.sahwang.brand.dto.response.BrandResDto;
 import com.green.sahwang.brand.service.BrandService;
 import com.green.sahwang.dto.response.ProductResDto;
+import com.green.sahwang.inspection.dto.request.InspectionBrandReqDto;
 import com.green.sahwang.inspection.dto.request.InspectionPassReqDto;
+import com.green.sahwang.inspection.dto.request.InspectionProductReqDto;
 import com.green.sahwang.inspection.dto.request.InspectionRejectReqDto;
 import com.green.sahwang.inspection.dto.response.InspectionGradeResDto;
 import com.green.sahwang.inspection.dto.response.InspectionRejectionReasonResDto;
@@ -25,7 +27,6 @@ import java.util.List;
 public class InspectionController {
 
     private final InspectionService inspectionService;
-    private final ProductService productService;
     private final BrandService brandService;
 
     @GetMapping("/pending-sale/total-count")
@@ -76,8 +77,8 @@ public class InspectionController {
     @GetMapping("/search-products")
     @Operation(summary = "검수 시 필요한 제품 검색", description = "검수 페이지에서 제품 검색")
 //    @PreAuthorize(("hasAnyRole('ROLE_APPRAISER', 'ROLE_ADMIN')"))
-    public ResponseEntity<List<ProductResDto>> searchInspectionProducts(@RequestParam String keyword) {
-        return ResponseEntity.ok(productService.searchProducts(keyword));
+    public ResponseEntity<List<ProductResDto>> searchInspectionProducts(@RequestParam Long brandId) {
+        return ResponseEntity.ok(inspectionService.searchInspectionProducts(brandId));
     }
 
     @GetMapping("/search-brands")

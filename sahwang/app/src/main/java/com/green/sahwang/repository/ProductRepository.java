@@ -42,5 +42,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query("SELECT p FROM Product p WHERE p.name LIKE CONCAT(:keyword, '%') ORDER BY p.name ASC LIMIT 5")
     List<Product> findByKeyword(@Param("keyword") String keyword);
 
+    List<Product> findAllByBrandId(Long brandId);
+
     Optional<Product> findByName(String productName);
+
 }

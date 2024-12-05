@@ -54,7 +54,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
 //    @NotNull
-    private List<ProductResDto> getProductResDtos(List<Product> products) {
+public List<ProductResDto> getProductResDtos(List<Product> products) {
         return products.stream()
                 .map(product -> getProductResDto(product))
                 .toList();

@@ -2,8 +2,10 @@ package com.green.sahwang.inspection.service.impl;
 
 import com.green.sahwang.brand.repository.BrandRepository;
 import com.green.sahwang.config.DateTimeUtils;
+import com.green.sahwang.dto.response.ProductResDto;
 import com.green.sahwang.exception.BizException;
 import com.green.sahwang.exception.ErrorCode;
+import com.green.sahwang.inspection.dto.request.InspectionBrandReqDto;
 import com.green.sahwang.inspection.dto.request.InspectionPassReqDto;
 import com.green.sahwang.inspection.dto.request.InspectionRejectReqDto;
 import com.green.sahwang.inspection.dto.response.*;
@@ -16,6 +18,8 @@ import com.green.sahwang.repository.CategoryBrandRepository;
 import com.green.sahwang.repository.CategoryRepository;
 import com.green.sahwang.repository.MemberRepository;
 import com.green.sahwang.repository.ProductRepository;
+import com.green.sahwang.service.ProductService;
+import com.green.sahwang.service.impl.ProductServiceImpl;
 import com.green.sahwang.verifiedsale.entity.RejectionReason;
 import com.green.sahwang.verifiedsale.entity.SaleGrade;
 import com.green.sahwang.verifiedsale.entity.VerifiedSale;
@@ -32,6 +36,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -51,6 +56,9 @@ public class InspectionServiceImpl implements InspectionService {
     private final VerifiedSaleRepository verifiedSaleRepository;
     private final SaleGradeRepository saleGradeRepository;
     private final RejectionReasonRepository rejectionReasonRepository;
+
+    private final ProductServiceImpl productService;
+    private final ProductRepository productRepository;
 
     @Override
     @Transactional
@@ -178,5 +186,14 @@ public class InspectionServiceImpl implements InspectionService {
                         .rejectionReason(rejectionReason.getReason())
                         .build())
                 .toList();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<ProductResDto> searchInspectionProducts(Long brandId) {
+        if (brandId == null) {
+            return Collections.emptyList();
+        }
+        return productService.getProductResDtos(productRepository.findAllByBrandId(brandId));
     }
 }

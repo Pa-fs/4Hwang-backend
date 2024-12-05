@@ -1,9 +1,9 @@
 package com.green.sahwang.inspection.service;
 
+import com.green.sahwang.dto.response.ProductResDto;
 import com.green.sahwang.inspection.dto.request.InspectionPassReqDto;
 import com.green.sahwang.inspection.dto.request.InspectionRejectReqDto;
 import com.green.sahwang.inspection.dto.response.InspectionGradeResDto;
-import com.green.sahwang.inspection.dto.response.InspectionPassResDto;
 import com.green.sahwang.inspection.dto.response.InspectionRejectionReasonResDto;
 import com.green.sahwang.inspection.dto.response.WaitingInspectionResDto;
 
@@ -18,4 +18,6 @@ public interface InspectionService {
 
     List<InspectionGradeResDto> getProductGrade();
     List<InspectionRejectionReasonResDto> getFailReason();
+
+    List<ProductResDto> searchInspectionProducts(Long brandId);
 }
