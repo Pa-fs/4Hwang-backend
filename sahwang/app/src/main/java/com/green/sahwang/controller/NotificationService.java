@@ -1,10 +1,14 @@
 package com.green.sahwang.controller;
 
+import com.green.sahwang.entity.Member;
 import com.green.sahwang.entity.Payment;
 import com.green.sahwang.entity.Purchase;
+import com.green.sahwang.exception.BizException;
+import com.green.sahwang.exception.ErrorCode;
 import com.green.sahwang.exception.PurchaseDomainException;
 import com.green.sahwang.exception.payment.PaymentDomainException;
 import com.green.sahwang.model.payment.avro.PurchasePaidEventAvroModel;
+import com.green.sahwang.repository.MemberRepository;
 import com.green.sahwang.repository.PaymentRepository;
 import com.green.sahwang.repository.PurchaseRepository;
 import com.green.sahwang.service.SseEmitterService;
@@ -19,19 +23,16 @@ import java.util.List;
 @Slf4j
 public class NotificationService {
 
-    private final PurchaseRepository purchaseRepository;
+    private final MemberRepository memberRepository;
     private final SseEmitterService sseEmitterService;
     private final PaymentRepository paymentRepository;
 
-    public void paymentCompletedUniCast(List<String> purchaseIds, List<PurchasePaidEventAvroModel> messages) {
-        for (String purchaseId : purchaseIds) {
-            String purchaseKeyId = purchaseId.split(":")[1];
-            log.info("purchaseKeyId = {}", purchaseKeyId);
-            Purchase purchase = purchaseRepository.findById(Long.valueOf(purchaseKeyId))
-                    .orElseThrow(() -> new PurchaseDomainException("해당 구매번호가 없습니다"));
-
-            // Idempotency
-            purchase.validatePaidCompletedStatus();
+    public void paymentCompletedUniCast(List<String> memberIds, List<PurchasePaidEventAvroModel> messages) {
+        for (String memberId : memberIds) {
+            String memberKeyId = memberId.split(":")[1];
+            log.info("memberKeyId = {}", memberKeyId);
+            Member member = memberRepository.findById(Long.valueOf(memberKeyId))
+                    .orElseThrow(() -> new BizException(ErrorCode.NO_MEMBER));
 
             int totalAmount = 0;
             Long orderId = 0L;
@@ -43,8 +44,8 @@ public class NotificationService {
                 payment = paymentRepository.findByImpUid(purchasePaidEventAvroModel.getTransactionId())
                         .orElseThrow(() -> new PaymentDomainException("No paymentId"));
             }
-            String userId = "memberId:" + purchase.getMember().getId();
-            sseEmitterService.sendPaymentCompletedEventToUser(userId,
+
+            sseEmitterService.sendPaymentCompletedEventToUser(String.valueOf(member.getId()),
                     "주문이 성공적으로 완료되었습니다!", orderId, totalAmount, payment.getStatus());
         }
     }

@@ -12,8 +12,10 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 //@Component
 @RequiredArgsConstructor
@@ -38,8 +40,8 @@ public class PaymentPaidListener implements KafkaConsumer<PurchasePaidEventAvroM
                 partitions.toString(),
                 offsets.toString());
 
-        cartService.clearCart(keys, messages);
-        notificationService.paymentCompletedUniCast(keys, messages);
-        deliveryPurchaseService.processDeliveryPurchase(keys, messages);
+        CompletableFuture.runAsync(() -> cartService.clearCart(keys, messages));
+        CompletableFuture.runAsync(() -> notificationService.paymentCompletedUniCast(keys, messages));
+        CompletableFuture.runAsync(() -> deliveryPurchaseService.processDeliveryPurchase(keys, messages));
     }
 }

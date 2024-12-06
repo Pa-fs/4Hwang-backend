@@ -329,18 +329,6 @@ public class PaymentServiceImpl implements PaymentService {
         return new CancelData(response.getResponse().getImpUid(), true);
     }
 
-    // Todo : 현재 사용 안함
-    private String modifyOutboxStatusToSendPaidEvent(String purchaseId) {
-//        String aggregateId = PURCHASE_PREFIX + purchaseId;
-//        OutboxMessage outboxMessage = outboxRepository.findByAggregateId(aggregateId)
-//                .orElseThrow(() -> new PurchaseDomainException("No outbox purchase event"));
-//        outboxMessage.setStatus(OutboxStatus.PENDING);
-//        outboxRepository.save(outboxMessage);
-//        return aggregateId;
-
-        return null;
-    }
-
     @Transactional
     private void createPaymentPaidOutboxMessage(Purchase purchase, Payment payment,
                                                   ExternalPurchasePaymentReqDto externalPurchasePaymentReqDto) {
@@ -367,7 +355,8 @@ public class PaymentServiceImpl implements PaymentService {
         OutboxMessage outboxMessage;
         try {
             outboxMessage = OutboxMessage.builder()
-                    .aggregateId(PURCHASE_PREFIX + purchase.getId())
+//                    .aggregateId(PURCHASE_PREFIX + purchase.getId())
+                    .aggregateId(MEMBER_PREFIX + purchase.getMember().getId())
                     .avroModel(purchasePaidEventAvroModel.getClass().getName())
                     .eventType("Payment")
                     .topicName("payment-paid")
