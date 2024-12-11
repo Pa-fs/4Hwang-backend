@@ -11,7 +11,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 import java.util.Optional;
 
-public interface ProductRepository extends JpaRepository<Product, Long> {
+public interface ProductRepository extends JpaRepository<Product, Long>, ProductRepositoryCustom {
     Page<Product> findAllProductsByDtype(Pageable pageable, String dtype);
 
     List<Product> findProductsByBrandAndDtype(Brand brand, Pageable pageable, String dtype);
@@ -45,5 +45,4 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findAllByBrandId(Long brandId);
 
     Optional<Product> findByName(String productName);
-
 }

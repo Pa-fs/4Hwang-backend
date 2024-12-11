@@ -30,6 +30,11 @@ spring:
     multipart:
       max-file-size: 50MB
 
+  redis:
+    host: localhost
+    port: 6379
+
+
 # for kafka
 # business logic service with kafka topic
 purchase-service:

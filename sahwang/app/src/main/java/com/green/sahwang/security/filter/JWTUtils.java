@@ -1,80 +1,54 @@
 package com.green.sahwang.security.filter;
 
 import com.green.sahwang.entity.enumtype.MemberRole;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
+import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
-import java.util.Base64;
-import java.util.Date;
-import java.util.Objects;
-import java.util.Optional;
+import java.nio.charset.StandardCharsets;
+import java.security.NoSuchAlgorithmException;
+import java.util.*;
 
 @Component
 @RequiredArgsConstructor
 @Slf4j
 public class JWTUtils {
 
-    private String SECRET_KEY = "abcdefghijklmnopqrstuvwxyz01234567890";
+    private static final String SECRET_KEY = "abcdefghijklmnopqrstuvwxyz01234567890";
+    private static final SecretKey SECRET_KEY_SPEC = new SecretKeySpec(
+            Base64.getEncoder().encode(SECRET_KEY.getBytes()),
+            SignatureAlgorithm.HS256.getJcaName()
+    );
+//    private static final SecretKey SECRET_KEY_SPEC = Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
+    private static final long ACCESS_TOKEN_VALIDITY = 1000 * 60 * 60 * 24;
+    private static final long REFRESH_TOKEN_VALIDITY = 1000 * 60 * 60 * 24 * 7;
 //
 //    // JWT 생성
-    public String createJWT(String email, MemberRole role, String accessToken){
-        String jwt = Jwts.builder()
+    public String createJWT(String email, MemberRole role){
+        return Jwts.builder()
                 .claim("email",email)
                 .claim("role",role)
-                .claim("access_token", accessToken)
                 .issuedAt(new Date(System.currentTimeMillis())) // 현재 시간 넣기
-//                .expiration(new Date(System.currentTimeMillis() + 1000)) // 1초 지나면 유효시간 없음...
-//                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24)) // 1초*60*60*24 1일 유효함
-                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24)) // 1초*60*60*24 1일 유효함
-                .signWith(SignatureAlgorithm.HS256,
-                        Base64.getEncoder().encodeToString(SECRET_KEY.getBytes()))
+                .expiration(new Date(System.currentTimeMillis() + ACCESS_TOKEN_VALIDITY)) // 1초*60*60*24 1일 유효함
+                .signWith(SECRET_KEY_SPEC)
                 .compact();
-        return jwt;
     }
 
-    public String createRefreshToken(String jwt){
-        Claims claims = decodeJwt(jwt);
-
-//        String subject = claims.getSubject(); // Extract the subject from the original JWT
-//
-//        String refreshToken = Jwts.builder()
-//                .setSubject(subject) // Set the subject in the refresh token
-//                .claim("email", claims.get("email"))
-//                .claim("role", claims.get("role"))
-//                .claim("access_token", claims.get("access_token"))
-//                .issuedAt(new Date(System.currentTimeMillis()))
-//                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 7))
-//                .signWith(SignatureAlgorithm.HS256,
-//                        Base64.getEncoder().encodeToString(SECRET_KEY.getBytes()))
-//                .compact();
-
-                String refreshToken = Jwts.builder()
-                .claim("email", claims.get("email"))
-                .claim("role", claims.get("role"))
-                .claim("access_token", claims.get("access_token"))
-                .issuedAt(new Date(System.currentTimeMillis())) // 현재 시간 넣기
-                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 7)) // 1초*60*60*24*7 7일 유효함
-                .signWith(SignatureAlgorithm.HS256,
-                        Base64.getEncoder().encodeToString(SECRET_KEY.getBytes()))
+    public String createRefreshToken(){
+        return Jwts.builder()
+                .issuedAt(new Date(System.currentTimeMillis()))
+                .expiration(new Date(System.currentTimeMillis() + REFRESH_TOKEN_VALIDITY))
+                .signWith(SECRET_KEY_SPEC)
                 .compact();
-
-        return refreshToken;
     }
 
     public Claims decodeJwt(String jwt){
-        SecretKey secretKey
-                = new SecretKeySpec(SECRET_KEY.getBytes(),
-                Jwts.SIG.HS256.key().build().getAlgorithm());
         Jws<Claims> claims = Jwts.parser()
-                .verifyWith(secretKey)
+                .verifyWith(SECRET_KEY_SPEC)
                 .build()
                 .parseSignedClaims(jwt);
 
@@ -86,13 +60,30 @@ public class JWTUtils {
         return claims != null ? claims.get("email").toString() : "";
     }
 
-    public String getAccessTokenFromJwt(String jwt){
-        Claims claims = decodeJwt(jwt);
-        return claims.get("access_token").toString();
-    }
-
     public String getRoleFromJwt(String jwt){
         Claims claims = decodeJwt(jwt);
         return claims.get("role").toString();
     }
+
+    public boolean isValidToken(String token){
+        try {
+            Jwts.parser()
+                    .setSigningKey(SECRET_KEY_SPEC)
+                    .build()
+                    .parseClaimsJws(token);
+            return true; // 유효한 경우
+        } catch (Exception e) {
+            log.warn("Invalid token: {}", e.getMessage());
+            return false; // 유효하지 않은 경우
+        }
+    }
+
+    public boolean isValidAccessToken(String token){
+        return isValidToken(token);
+    }
+
+    public boolean isValidRefreshToken(String token){
+        return isValidToken(token);
+    }
+
 }
