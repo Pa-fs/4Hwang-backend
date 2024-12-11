@@ -1,5 +1,6 @@
 package com.green.sahwang.entity;
 
+import com.green.sahwang.brand.entity.Brand;
 import jakarta.persistence.*;
 import lombok.*;
 

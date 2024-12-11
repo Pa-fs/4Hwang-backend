@@ -1,9 +1,9 @@
 package com.green.sahwang.pendingsale.service.impl;
 
 import com.green.sahwang.entity.Member;
+import com.green.sahwang.inspection.enumtype.InspectionStatus;
 import com.green.sahwang.pendingsale.entity.PendingSale;
 import com.green.sahwang.pendingsale.repository.PendingSaleRepository;
-import com.green.sahwang.pendingsale.repository.UserSaleImageRepository;
 import com.green.sahwang.repository.MemberRepository;
 import com.green.sahwang.pendingsale.dto.request.PendingSaleCreateReqDto;
 import com.green.sahwang.pendingsale.service.PendingSaleService;
@@ -26,6 +26,9 @@ public class PendingSaleServiceImpl implements PendingSaleService {
     @Transactional
     public void createPendingSale(PendingSaleCreateReqDto pendingSaleCreateReqDto, String email) {
         Member member = memberRepository.findByEmail(email);
+        member.setBankName(pendingSaleCreateReqDto.getBankName());
+        member.setAccount(pendingSaleCreateReqDto.getAccountNumber());
+        memberRepository.save(member);
 
         PendingSale pendingSale = PendingSale.builder()
                 .productDescription(pendingSaleCreateReqDto.getProductContent())
@@ -36,11 +39,12 @@ public class PendingSaleServiceImpl implements PendingSaleService {
                 .categoryName(pendingSaleCreateReqDto.getCategoryName())
                 .createdDate(LocalDateTime.now())
                 .usedOrNot(pendingSaleCreateReqDto.isUsedOrNot())
+                .inspectionStatus(InspectionStatus.WAITING)
                 .member(member)
                 .build();
 
         PendingSale savedPendingSale = pendingSaleRepository.save(pendingSale);
-        pendingSaleCreateReqDto.getUserSaleReqImages().forEach(userSaleReqImage ->
+        pendingSaleCreateReqDto.getUserSaleReqImageDtos().forEach(userSaleReqImage ->
                 userSaleReqImage.setPendingSaleId(savedPendingSale.getId()));
     }
 }

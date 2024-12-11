@@ -11,7 +11,11 @@ DELETE FROM `payment`;
 DELETE FROM `product_product_type`;
 DELETE FROM `product_type`;
 DELETE FROM `detail_image`;
+DELETE FROM `wish`;
 DELETE FROM `user_sale_image`;
+DELETE FROM `verified_sale`;
+DELETE FROM `sale_grade`;
+DELETE FROM `rejection_reason`;
 DELETE FROM `pending_sale`;
 DELETE FROM `sale_product`;
 DELETE FROM `sale`;
@@ -932,3 +936,44 @@ INSERT INTO review_image (review_image_id, review_id, file_desc, filename, path)
 INSERT INTO favorite (member_id, review_id) VALUES(3, 10000001);
 INSERT INTO favorite (member_id, review_id) VALUES(5, 10000001);
 INSERT INTO favorite (member_id, review_id) VALUES(5, 10000002);
+
+
+-- pending_sale
+INSERT INTO pending_sale (member_id, pending_sale_id, category_name, brand_name, product_name, product_description, product_size, inspection_status, excepted_selling_price, used_or_not, rejected_reason, created_date, updated_date)
+VALUES
+(1, 40, 'Perfume', 'Chanel', '샤넬 No.5 향수', '샤넬 No.5 향수, 50ml, 새 제품, 박스 포함', 50, 'WAITING', 150000, FALSE, NULL, NOW(), NOW()),
+(2, 41, 'Diffuser', 'Yankee Candle', '라벤더 디퓨저', 'Yankee Candle 라벤더 향 디퓨저, 새 제품', 100, 'WAITING', 30000, FALSE, NULL, NOW(), NOW()),
+(3, 42, 'Candle', 'Bath & Body Works', '시나몬 스틱 캔들', 'Bath & Body Works 시나몬 스틱 캔들, 사용한 흔적 있음, 90% 남음', 200, 'WAITING', 25000, TRUE, NULL, NOW(), NOW()),
+(1, 43, 'Perfume', 'Dior', '디올 Sauvage 향수', '디올 Sauvage 향수, 100ml, 새 제품', 100, 'WAITING', 130000, FALSE, NULL, NOW(), NOW()),
+(2, 44, 'Candle', 'IKEA', '레드 캔들', 'IKEA 레드 향초, 새 제품', 150, 'WAITING', 15000, FALSE, NULL, NOW(), NOW());
+
+INSERT INTO user_sale_image(user_sale_image_id, file_desc, filename, path, pending_sale_id)
+VALUES
+(1, 'image-1', 'p_001.png', 'images/file/\\p_001.jpg', 40),
+(2, 'image-2', 'p_002.png', 'images/file/\\p_002.jpg', 40),
+(3, 'image-3', 'p_003.png', 'images/file/\\p_003.jpg', 40),
+(4, 'image-1', 'p_004.png', 'images/file/\\p_004.jpg', 41),
+(5, 'image-2', 'p_005.png', 'images/file/\\p_005.jpg', 41),
+(6, 'image-3', 'p_006.png', 'images/file/\\p_006.jpg', 41),
+(7, 'image-1', 'p_007.png', 'images/file/\\p_007.jpg', 42),
+(8, 'image-1', 'p_008.png', 'images/file/\\p_008.jpg', 43),
+(9, 'image-1', 'p_009.png', 'images/file/\\p_009.jpg', 44);
+
+-- sale_grade
+INSERT INTO sale_grade (sale_grade_id, grade_description, grade_type)
+VALUES
+  (1, '새상품과 거의 동일한 상태', 'A'),
+  (2, '새상품이나 박스가 훼손된 상태', 'B'),
+  (3, '사용한 흔적이 있거나 상품에 흠집이나 스크래치가 있는 상태', 'C'),
+  (4, '사용한 흔적이 많고 상품에 흠집이나 스크래치, 약간의 파손이 있는 상태', 'D'),
+  (5, '사용한 흔적이 많고 상품에 흠집이나 스크래치, 파손, 훼손이 있지만 사용하기엔 문제가 없는 상태', 'E');
+
+-- rejection_reason
+INSERT INTO rejection_reason (rejection_reason_id, reason)
+VALUES
+  (1, '파손 또는 훼손이 심해 판매할 수 없는 상태입니다.'),
+  (2, '정품이 아닙니다.'),
+  (3, '유통기한이 지났습니다.'),
+  (4, '유통기한은 문제가 없으나 내용물 변질이 일어났습니다.'),
+  (5, '판매 기준 용량 미달입니다.'),
+  (6, '향수, 캔들, 디퓨저에 해당하지 않는 제품입니다.');

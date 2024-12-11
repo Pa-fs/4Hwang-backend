@@ -1,19 +1,21 @@
 package com.green.sahwang.pendingsale.dto.request;
 
-import com.green.sahwang.dto.request.ImageFileReqDto;
-import com.green.sahwang.pendingsale.dto.request.UserSaleReqImage;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+@Schema(description = "판매신청 정보")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class PendingSaleCreateReqDto {
 
     private String seller;
+    private String bankName;
+    private String accountNumber;
     private String productName;
     private String categoryName;
     private int productSize;
@@ -22,5 +24,5 @@ public class PendingSaleCreateReqDto {
     private boolean usedOrNot;
     private String productContent;
     private int quantity;
-    private List<UserSaleReqImage> userSaleReqImages;
+    private List<UserSaleReqImageDto> userSaleReqImageDtos;
 }

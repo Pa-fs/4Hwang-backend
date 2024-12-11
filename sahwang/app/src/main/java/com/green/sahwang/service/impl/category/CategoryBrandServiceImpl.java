@@ -1,11 +1,13 @@
 package com.green.sahwang.service.impl.category;
 
 import com.green.sahwang.dto.response.*;
-import com.green.sahwang.entity.Brand;
+import com.green.sahwang.brand.entity.Brand;
 import com.green.sahwang.entity.Category;
 import com.green.sahwang.entity.Product;
 import com.green.sahwang.entity.ProductImage;
+import com.green.sahwang.exception.BizException;
 import com.green.sahwang.exception.CategoryDomainException;
+import com.green.sahwang.exception.ErrorCode;
 import com.green.sahwang.repository.*;
 import com.green.sahwang.service.category.CategoryBrandService;
 import com.green.sahwang.service.impl.ProductServiceImpl;
@@ -37,7 +39,7 @@ public class CategoryBrandServiceImpl implements CategoryBrandService {
     @Transactional(readOnly = true)
     public List<ProductResDto> getProductsByCategory(Long categoryId, int pageNum, int size, String sortType) {
         Category category = categoryRepository.findById(categoryId)
-                .orElseThrow(() -> new CategoryDomainException("해당 카테고리는 존재하지 않습니다"));
+                .orElseThrow(() -> new BizException(ErrorCode.NO_CATEGORY));
         // 개선 여지 코드
         String dType = String.valueOf(category.getName().charAt(0)).toUpperCase();
 

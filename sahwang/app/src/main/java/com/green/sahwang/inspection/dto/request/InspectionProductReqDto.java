@@ -1,4 +1,4 @@
-package com.green.sahwang.inspection.dto;
+package com.green.sahwang.inspection.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,8 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class InspectionReqDto {
+public class InspectionProductReqDto {
     private String productName;
-    private String size;
+    private int productSize;
+    private int verifiedSellingPrice;
     private int quantity;
 }

@@ -1,6 +1,6 @@
 package com.green.sahwang.pendingsale.controller;
 
-import com.green.sahwang.config.ImageFilePathConfig;
+import com.green.sahwang.config.filepath.ImageFilePathConfig;
 import com.green.sahwang.pendingsale.dto.request.PendingSaleCreateReqDto;
 import com.green.sahwang.pendingsale.service.PendingSaleService;
 import com.green.sahwang.service.ImageFileService;
@@ -28,10 +28,10 @@ public class PendingSaleController {
     private final ImageFileService imageFileService;
     private final Path imagePath;
 
-    public PendingSaleController(PendingSaleService pendingSaleService, ImageFileService imageFileService) {
+    public PendingSaleController(PendingSaleService pendingSaleService, ImageFileService imageFileService, ImageFilePathConfig imageFilePathConfig) {
         this.pendingSaleService = pendingSaleService;
         this.imageFileService = imageFileService;
-        this.imagePath = ImageFilePathConfig.getImageFilePath();
+        this.imagePath = imageFilePathConfig.getImageFilePath();
     }
 
     @SecurityRequirement(name = "Bearer Authentication")
@@ -46,7 +46,9 @@ public class PendingSaleController {
             @AuthenticationPrincipal UserDetails userDetails) {
 
         pendingSaleService.createPendingSale(pendingSaleCreateReqDto, userDetails.getUsername());
-        imageFileService.saveFiles(files, imagePath, pendingSaleCreateReqDto.getUserSaleReqImages());
+        imageFileService.saveFiles(files, imagePath, pendingSaleCreateReqDto.getUserSaleReqImageDtos());
+
+        // 배송 서비스 로직
         return ResponseEntity.status(HttpStatus.CREATED).body("A pendingSale was created");
     }
 }

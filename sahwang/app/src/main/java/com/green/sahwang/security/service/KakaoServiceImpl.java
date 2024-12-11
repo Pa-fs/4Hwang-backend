@@ -88,12 +88,9 @@ public class KakaoServiceImpl implements KakaoService{
             Member existingMember = memberRepository.findByEmail(email);
 
             if(existingMember != null){
-                if (existingMember.getEmail().equals("thdghckd111@naver.com") || existingMember.getEmail().equals("whgpals4263@nate.com")
-                || existingMember.getEmail().equals("kdh7313@naver.com")){
+                if (existingMember.getEmail().equals("thdghckd111@naver.com") || existingMember.getEmail().equals("kdh7313@naver.com")){
                     existingMember.setRole(MemberRole.ADMIN);
-                    memberRepository.save(existingMember);
                 }
-
                 KakaoAccessToken accessToken = kakaoAccessTokenRepository.findByMemberId(existingMember.getId());
                 if (accessToken != null) kakaoAccessTokenRepository.delete(accessToken);
 

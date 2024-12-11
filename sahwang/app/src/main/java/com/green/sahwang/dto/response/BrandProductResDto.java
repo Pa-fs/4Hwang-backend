@@ -1,6 +1,6 @@
 package com.green.sahwang.dto.response;
 
-import com.green.sahwang.entity.Brand;
+import com.green.sahwang.brand.entity.Brand;
 import lombok.Getter;
 import lombok.Setter;
 

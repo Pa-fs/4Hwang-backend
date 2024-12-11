@@ -77,7 +77,7 @@ class SaleTest {
     @DisplayName("판매 테스트(서비스 계층 X)")
     void testSellingWithoutService() {
         Sale sale = new Sale();
-        sale.setExpectedSellingPrice(30000);
+//        sale.setExpectedSellingPrice(30000);
         sale.setStatus(SaleStatus.LISTED);
         sale.setAccepted(true);
         sale.setMember(memberRepository.findById(1L).orElse(null));
