@@ -116,4 +116,6 @@ public class CategoryBrandServiceImpl implements CategoryBrandService {
 
         return new CategoryBrandResDto(brandProductResponses);
     }
+
+
 }

@@ -129,6 +129,7 @@ public class MyPageServiceImpl implements MyPageService{
 
         for(Wish wish : wishPage){
             WishListResDto wishListResDto = new WishListResDto();
+            wishListResDto.setProductId(wish.getProduct().getId());
             wishListResDto.setProductName(wish.getProduct().getName());
             wishListResDto.setProductPrice(wish.getProduct().getPrice());
             wishListResDto.setSize(wishListResDto.getSize());

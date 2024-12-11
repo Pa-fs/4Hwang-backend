@@ -3,11 +3,19 @@ package com.green.sahwang.security.service;
 import com.green.sahwang.entity.Member;
 import com.green.sahwang.entity.enumtype.MemberRole;
 import com.green.sahwang.entity.enumtype.SnsType;
+import com.green.sahwang.repository.BrandRepository;
 import com.green.sahwang.repository.MemberRepository;
 import com.green.sahwang.security.dto.KakaoTokenDto;
 import com.green.sahwang.security.dto.KakaoUserInfoDto;
+import com.green.sahwang.security.entity.JWTRefreshToken;
+import com.green.sahwang.security.entity.KakaoAccessToken;
+import com.green.sahwang.security.entity.KakaoRefreshToken;
 import com.green.sahwang.security.filter.JWTUtils;
+import com.green.sahwang.security.repository.JWTRefreshTokenRepository;
+import com.green.sahwang.security.repository.KakaoAccessTokenRepository;
+import com.green.sahwang.security.repository.KakaoRefreshTokenRepository;
 import com.green.sahwang.security.util.KakaoUtils;
+import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.env.Environment;
@@ -22,6 +30,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Optional;
 
 @Service
@@ -33,6 +42,9 @@ public class KakaoServiceImpl implements KakaoService{
     private final MemberRepository memberRepository;
     private final Environment environment;
     private final JWTUtils jwtUtils;
+    private final KakaoAccessTokenRepository kakaoAccessTokenRepository;
+    private final KakaoRefreshTokenRepository kakaoRefreshTokenRepository;
+    private final JWTRefreshTokenRepository jwtRefreshTokenRepository;
 
     /*
      1. 카카오 https://kauth.kakao.com/oauth/token -> accessToken 발급
@@ -71,16 +83,6 @@ public class KakaoServiceImpl implements KakaoService{
                     KakaoUserInfoDto.class);
             KakaoUserInfoDto kakaoUserInfoDto = res.getBody();
 
-//            Kakao Entity는 DB 저장 필요가 없어서...
-//            Kakao kakao = new ModelMapper().map(kakaoTokenDto, Kakao.class);
-//
-//            kakao.setEmail(kakaoUserInfoDto.getKakaoAccount().getEmail());
-//            kakao.setNickname(kakaoUserInfoDto.getKakaoAccount().getProfile().getNickname());
-//            kakao.setProfileImage(kakaoUserInfoDto.getProperties().getProfileImage());
-//            kakao.setThumbnailImage(kakaoUserInfoDto.getProperties().getThumbnailImage());
-//
-//            kakaoRepository.save(kakao); // kakaorepository는 삭제했음
-
             String email = kakaoUserInfoDto.getKakaoAccount().getEmail();
 
             Member existingMember = memberRepository.findByEmail(email);
@@ -91,7 +93,27 @@ public class KakaoServiceImpl implements KakaoService{
                     existingMember.setRole(MemberRole.ADMIN);
                     memberRepository.save(existingMember);
                 }
-                return jwtUtils.createJWT(email, existingMember.getRole(), kakaoTokenDto.getAccessToken());
+
+                KakaoAccessToken accessToken = kakaoAccessTokenRepository.findByMemberId(existingMember.getId());
+                if (accessToken != null) kakaoAccessTokenRepository.delete(accessToken);
+
+                KakaoRefreshToken refreshToken = kakaoRefreshTokenRepository.findByMemberId(existingMember.getId());
+                if (refreshToken != null) kakaoRefreshTokenRepository.delete(refreshToken);
+
+                JWTRefreshToken rfToken = jwtRefreshTokenRepository.findByMemberId(existingMember.getId());
+                if (rfToken != null) jwtRefreshTokenRepository.delete(rfToken);
+
+                KakaoAccessToken kakaoAccessToken = new KakaoAccessToken(kakaoTokenDto.getAccessToken(), existingMember.getId(), kakaoTokenDto.getExpiresIn());
+                kakaoAccessTokenRepository.save(kakaoAccessToken);
+                KakaoRefreshToken kakaoRefreshToken = new KakaoRefreshToken(kakaoTokenDto.getRefreshToken(), existingMember.getId(), kakaoTokenDto.getRefreshTokenExpiresIn());
+                kakaoRefreshTokenRepository.save(kakaoRefreshToken);
+
+                String jwtRefreshToken = jwtUtils.createRefreshToken();
+                long ttl = calcTtlFromJwt(jwtRefreshToken);
+                JWTRefreshToken JwtRefreshToken = new JWTRefreshToken(jwtRefreshToken, existingMember.getId(), ttl);
+                jwtRefreshTokenRepository.save(JwtRefreshToken);
+
+                return jwtUtils.createJWT(email, existingMember.getRole());
             } else {
 
                 Member member = new Member();
@@ -105,7 +127,17 @@ public class KakaoServiceImpl implements KakaoService{
 
                 memberRepository.save(member);
 
-                return jwtUtils.createJWT(email, member.getRole(), kakaoTokenDto.getAccessToken());
+                KakaoAccessToken kakaoAccessToken = new KakaoAccessToken(kakaoTokenDto.getAccessToken(), member.getId(), kakaoTokenDto.getExpiresIn());
+                kakaoAccessTokenRepository.save(kakaoAccessToken);
+                KakaoRefreshToken kakaoRefreshToken = new KakaoRefreshToken(kakaoTokenDto.getRefreshToken(), member.getId(), kakaoTokenDto.getRefreshTokenExpiresIn());
+                kakaoRefreshTokenRepository.save(kakaoRefreshToken);
+
+                String jwtRefreshToken = jwtUtils.createRefreshToken();
+                long ttl = calcTtlFromJwt(jwtRefreshToken);
+                JWTRefreshToken JwtRefreshToken = new JWTRefreshToken(jwtRefreshToken, member.getId(), ttl);
+                jwtRefreshTokenRepository.save(JwtRefreshToken);
+
+                return jwtUtils.createJWT(email, member.getRole());
             }
         }catch (Exception e){
             e.printStackTrace();
@@ -124,7 +156,9 @@ public class KakaoServiceImpl implements KakaoService{
     public void messageSend(String jwt, String message){
         String email = jwtUtils.getEmailFromJwt(jwt);
         log.info("email {}", email);
-        String accessToken = jwtUtils.getAccessTokenFromJwt(jwt);
+        Member member = memberRepository.findByEmail(jwtUtils.getEmailFromJwt(jwt));
+        KakaoAccessToken kakaoAccessToken = kakaoAccessTokenRepository.findByMemberId(member.getId());
+        String accessToken = kakaoAccessToken.getKakaoAccessToken();
         log.info("accessToken {}", accessToken);
 
         RestTemplate restTemplate = new RestTemplate();
@@ -143,5 +177,17 @@ public class KakaoServiceImpl implements KakaoService{
         ResponseEntity<String> result = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
 
         log.info("msg 카카오 메시지 전송 성공");
+    }
+
+    public long calcTtlFromJwt(String jwt){
+
+        Claims claims = jwtUtils.decodeJwt(jwt);
+        Date expiration = claims.getExpiration();
+        Date issuedAt = claims.getIssuedAt();
+
+        long issuedAtTime = issuedAt.getTime();
+        long expirationTime = expiration.getTime();
+
+        return (expirationTime - issuedAtTime) / 1000;
     }
 }

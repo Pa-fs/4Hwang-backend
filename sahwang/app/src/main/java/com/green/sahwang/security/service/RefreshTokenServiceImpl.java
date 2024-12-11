@@ -18,19 +18,6 @@ public class RefreshTokenServiceImpl implements RefreshTokenService{
 
     public String remakeAccessTokenInJwt(String jwt){
 
-        Claims claims = jwtUtils.decodeJwt(jwt);
-
-        String accessToken = claims.get("access_token").toString();
-
-        String email = claims.get("email").toString();
-
-        String code = claims.get("code").toString();
-
-        String token = "";
-        if(accessToken == null){
-            token = kakaoService.getToken(code);
-        }
-        log.info("refreshAccessToken {}", token);
         return null;
     }
 
