@@ -3,6 +3,8 @@ package com.green.sahwang.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 
 @Entity
 @AllArgsConstructor
@@ -18,4 +20,7 @@ public class Category {
     private Long id;
 
     private String name;
+
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CategoryBrand> categoryBrands;
 }

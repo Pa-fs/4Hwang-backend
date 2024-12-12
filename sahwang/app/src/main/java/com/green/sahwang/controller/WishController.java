@@ -3,6 +3,7 @@ package com.green.sahwang.controller;
 import com.green.sahwang.dto.request.WishProductReqDto;
 import com.green.sahwang.dto.response.WishCheckedResDto;
 import com.green.sahwang.service.WishService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -19,8 +20,8 @@ public class WishController {
 
     private final WishService wishService;
 
+    @SecurityRequirement(name = "Bearer Authentication")
     @PostMapping
-//    @PreAuthorize(value = "ADMIN")
     public ResponseEntity<List<WishCheckedResDto>> wishCheck(@AuthenticationPrincipal UserDetails userDetails,
                                                              @RequestBody List<WishProductReqDto> wishProductReqDtoList){
 
