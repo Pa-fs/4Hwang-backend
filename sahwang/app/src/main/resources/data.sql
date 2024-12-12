@@ -5,6 +5,7 @@ DELETE FROM `purchase_payment`;
 DELETE FROM `favorite`;
 DELETE FROM `review_image`;
 DELETE FROM `review`;
+DELETE FROM `delivery_purchase`;
 DELETE FROM `purchase_product`;
 DELETE FROM `purchase`;
 DELETE FROM `payment`;
