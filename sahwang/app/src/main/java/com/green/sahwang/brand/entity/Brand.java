@@ -1,9 +1,12 @@
 package com.green.sahwang.brand.entity;
 
+import com.green.sahwang.entity.CategoryBrand;
+import com.green.sahwang.entity.Product;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -19,4 +22,10 @@ public class Brand {
     private Long id;
 
     private String name;
+
+    @OneToMany(mappedBy = "brand", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Product> products;
+
+    @OneToMany(mappedBy = "brand", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CategoryBrand> categoryBrands;
 }

@@ -52,11 +52,11 @@ public class SecurityFilter extends OncePerRequestFilter {
                                  HttpServletResponse response,
                                  FilterChain filterChain) throws ServletException, IOException {
 
-        log.info("Security Filter");
-        log.info("response : {}", response);
+//        log.info("Security Filter");
+//        log.info("response : {}", response);
 
         String authorization = request.getHeader("Authorization");
-        log.info("Security Filter " + authorization);
+        log.info("Security Filter : {}", authorization);
 
         if (authorization == null || !authorization.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);

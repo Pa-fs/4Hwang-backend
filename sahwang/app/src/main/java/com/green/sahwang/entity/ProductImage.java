@@ -1,5 +1,6 @@
 package com.green.sahwang.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -16,7 +17,8 @@ public class ProductImage {
     @Column(name = "product_image_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "product_id")
     private Product product;
 

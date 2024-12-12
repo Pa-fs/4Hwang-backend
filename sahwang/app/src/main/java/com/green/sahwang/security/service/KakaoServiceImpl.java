@@ -3,7 +3,6 @@ package com.green.sahwang.security.service;
 import com.green.sahwang.entity.Member;
 import com.green.sahwang.entity.enumtype.MemberRole;
 import com.green.sahwang.entity.enumtype.SnsType;
-import com.green.sahwang.repository.BrandRepository;
 import com.green.sahwang.repository.MemberRepository;
 import com.green.sahwang.security.dto.KakaoTokenDto;
 import com.green.sahwang.security.dto.KakaoUserInfoDto;

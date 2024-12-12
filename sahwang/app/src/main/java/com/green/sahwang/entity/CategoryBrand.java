@@ -1,5 +1,6 @@
 package com.green.sahwang.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.green.sahwang.brand.entity.Brand;
 import jakarta.persistence.*;
 import lombok.*;
@@ -19,11 +20,13 @@ public class CategoryBrand {
     @Column(name = "category_brand_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "category_id")
     private Category category;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "brand_id")
     private Brand brand;
 
