@@ -1,10 +1,12 @@
 package com.green.sahwang.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.green.sahwang.brand.entity.Brand;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -27,7 +29,8 @@ public abstract class Product {
 
     private int price;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "brand_id")
     private Brand brand;
 
@@ -46,6 +49,9 @@ public abstract class Product {
     private LocalDateTime expirationPeriod;
 
     private Boolean usedOrNot;
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ProductImage> productImages;
 
     private String detailImage;
 

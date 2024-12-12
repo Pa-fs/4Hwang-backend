@@ -45,4 +45,7 @@ public interface ProductRepository extends JpaRepository<Product, Long>, Product
     List<Product> findAllByBrandId(Long brandId);
 
     Optional<Product> findByName(String productName);
+
+    @Query(value = "SELECT * FROM Product ORDER BY RAND() LIMIT 5", nativeQuery = true)
+    List<Product> findByRandom();
 }
