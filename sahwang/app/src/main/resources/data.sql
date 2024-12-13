@@ -29,16 +29,16 @@ DELETE FROM `external_prepare_payment`;
 
 
 
-INSERT INTO `member` (`member_id`, `account`, `ad_received`, `addr`, `post_code`, `email`, `is_deleted`, `join_date`, `name`, `nick_name`, `phone_num`, `role`, `sns_type`, `withdraw_date`, `profile_image`, `thumbnail_image`)
-values (1, NULL, NULL, '대구광역시 중구', '123-456', 'qordi124@gmail.com', NULL, '2024-10-24', NULL, '태영', '010-1234-5678', 'USER', 1, NULL, '', '');
-insert into member(member_id, addr, post_code, phone_num)
-values (2, '대구광역시 중구', '345-678', '010-1234-5678');
-INSERT INTO `member` (`member_id`, `account`, `ad_received`, `addr`, `post_code`, `email`, `is_deleted`, `join_date`, `name`, `nick_name`, `phone_num`, `role`, `sns_type`, `withdraw_date`, `profile_image`, `thumbnail_image`)
-VALUES (3, NULL, NULL, '대구광역시 중구', '234-567', 'whgpals4263@nate.com', NULL, '2024-10-31', NULL, '민이♡', '010-1234-5678', 'USER', 1, NULL, 'http://img1.kakaocdn.net/thumb/R640x640.q70/?fname=http://t1.kakaocdn.net/account_images/default_profile.jpeg', 'http://img1.kakaocdn.net/thumb/R110x110.q70/?fname=http://t1.kakaocdn.net/account_images/default_profile.jpeg');
-INSERT INTO `member` (`member_id`, `account`, `ad_received`, `addr`, `post_code`, `email`, `is_deleted`, `join_date`, `name`, `nick_name`, `phone_num`, `role`, `sns_type`, `withdraw_date`, `profile_image`, `thumbnail_image`)
-VALUES (4, NULL, NULL, '대구광역시 중구', '567-988', 'kdh7313@naver.com', NULL, '2024-11-01', NULL, '강도현', '010-1234-5678', 'USER', 1, NULL, 'http://k.kakaocdn.net/dn/b7yPFA/btsKquPi0Cw/BjABLmpyNB6gbKxUAX9I40/img_640x640.jpg', 'http://k.kakaocdn.net/dn/b7yPFA/btsKquPi0Cw/BjABLmpyNB6gbKxUAX9I40/img_110x110.jpg');
-INSERT INTO `member` (`member_id`, `account`, `ad_received`, `addr`, `post_code`, `email`, `is_deleted`, `join_date`, `name`, `nick_name`, `phone_num`, `role`, `sns_type`, `withdraw_date`, `profile_image`, `thumbnail_image`)
-VALUES (5, NULL, NULL, '대구광역시 중구', '999-100', 'thdghckd111@naver.com', NULL, '2024-11-01', NULL, '송호창', '010-1234-5678', 'USER', 1, NULL, 'http://img1.kakaocdn.net/thumb/R640x640.q70/?fname=http://t1.kakaocdn.net/account_images/default_profile.jpeg', 'http://img1.kakaocdn.net/thumb/R110x110.q70/?fname=http://t1.kakaocdn.net/account_images/default_profile.jpeg');
+INSERT INTO `member` (`member_id`, `account`, `ad_received`, `addr`, `post_code`, `email`, `is_deleted`, `join_date`, `name`, `nick_name`, `phone_num`, `role`, `sns_type`, `withdraw_date`, `profile_image`, `thumbnail_image`, `warn_count`)
+values (1, NULL, NULL, '대구광역시 중구', '123-456', 'qordi124@gmail.com', NULL, '2024-10-24', NULL, '태영', '010-1234-5678', 'USER', 1, NULL, '', '',0);
+insert into member(member_id, addr, post_code, phone_num, `warn_count`)
+values (2, '대구광역시 중구', '345-678', '010-1234-5678', 0);
+INSERT INTO `member` (`member_id`, `account`, `ad_received`, `addr`, `post_code`, `email`, `is_deleted`, `join_date`, `name`, `nick_name`, `phone_num`, `role`, `sns_type`, `withdraw_date`, `profile_image`, `thumbnail_image`, `warn_count`)
+VALUES (3, NULL, NULL, '대구광역시 중구', '234-567', 'whgpals4263@nate.com', NULL, '2024-10-31', NULL, '민이♡', '010-1234-5678', 'USER', 1, NULL, 'http://img1.kakaocdn.net/thumb/R640x640.q70/?fname=http://t1.kakaocdn.net/account_images/default_profile.jpeg', 'http://img1.kakaocdn.net/thumb/R110x110.q70/?fname=http://t1.kakaocdn.net/account_images/default_profile.jpeg', 0);
+INSERT INTO `member` (`member_id`, `account`, `ad_received`, `addr`, `post_code`, `email`, `is_deleted`, `join_date`, `name`, `nick_name`, `phone_num`, `role`, `sns_type`, `withdraw_date`, `profile_image`, `thumbnail_image`, `warn_count`)
+VALUES (4, NULL, NULL, '대구광역시 중구', '567-988', 'kdh7313@naver.com', NULL, '2024-11-01', NULL, '강도현', '010-1234-5678', 'USER', 1, NULL, 'http://k.kakaocdn.net/dn/b7yPFA/btsKquPi0Cw/BjABLmpyNB6gbKxUAX9I40/img_640x640.jpg', 'http://k.kakaocdn.net/dn/b7yPFA/btsKquPi0Cw/BjABLmpyNB6gbKxUAX9I40/img_110x110.jpg', 0);
+INSERT INTO `member` (`member_id`, `account`, `ad_received`, `addr`, `post_code`, `email`, `is_deleted`, `join_date`, `name`, `nick_name`, `phone_num`, `role`, `sns_type`, `withdraw_date`, `profile_image`, `thumbnail_image`, `warn_count`)
+VALUES (5, NULL, NULL, '대구광역시 중구', '999-100', 'thdghckd111@naver.com', NULL, '2024-11-01', NULL, '송호창', '010-1234-5678', 'USER', 1, NULL, 'http://img1.kakaocdn.net/thumb/R640x640.q70/?fname=http://t1.kakaocdn.net/account_images/default_profile.jpeg', 'http://img1.kakaocdn.net/thumb/R110x110.q70/?fname=http://t1.kakaocdn.net/account_images/default_profile.jpeg', 0);
 
 insert into cart(cart_id, quantities, member_id)
 values (1, 3, 1);
