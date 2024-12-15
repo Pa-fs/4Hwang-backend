@@ -20,4 +20,6 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
 
     @EntityGraph(attributePaths = {"member", "purchaseProduct"})
     Page<Review> findAllByMember(Member member, Pageable pageable);
+
+    List<Review> findAllByMember(Member member);
 }

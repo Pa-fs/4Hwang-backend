@@ -4,6 +4,7 @@ import com.green.sahwang.config.filepath.ImageFilePathConfig;
 import com.green.sahwang.mainpage.dto.EditorPickResDto;
 import com.green.sahwang.mainpage.service.MainPageService;
 import com.green.sahwang.service.ImageFileService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,6 +29,7 @@ public class MainPageController {
         this.imagePath = imageFilePathConfig.getImageFilePath();
     }
 
+    @Operation(summary = "에디터 픽", description = "에디터 픽 리스트")
     @GetMapping("/editorPick")
     public ResponseEntity<List<EditorPickResDto>> getEditorPickInfo(){
         List<EditorPickResDto> editorPickResDtoList = mainPageService.getEditorPickInfo();
