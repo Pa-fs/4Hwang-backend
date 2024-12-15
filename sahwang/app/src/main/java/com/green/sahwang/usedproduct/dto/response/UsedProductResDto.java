@@ -20,5 +20,6 @@ public class UsedProductResDto {
     private String verifiedSaleGradeType;
     private int sellingPrice;
     private int productSize;
+    private boolean usedOrNot;
     private List<ImageResDto> userSaleImages;
 }

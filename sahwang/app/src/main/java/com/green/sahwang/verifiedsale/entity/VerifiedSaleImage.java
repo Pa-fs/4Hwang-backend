@@ -1,6 +1,7 @@
-package com.green.sahwang.verifiedsale;
+package com.green.sahwang.verifiedsale.entity;
 
 import com.green.sahwang.verifiedsale.entity.VerifiedSale;
+import com.green.sahwang.verifiedsale.entity.enumtype.VerifiedImageType;
 import jakarta.persistence.*;
 import lombok.*;
 @Entity
@@ -25,4 +26,6 @@ public class VerifiedSaleImage {
     private String filename;
 
     private String fileDesc;
+
+    private VerifiedImageType verifiedImageType;
 }

@@ -3,31 +3,40 @@ package com.green.sahwang.inspection.controller;
 import com.green.sahwang.brand.dto.response.BrandResDto;
 import com.green.sahwang.brand.service.BrandService;
 import com.green.sahwang.dto.response.ProductResDto;
-import com.green.sahwang.inspection.dto.request.InspectionBrandReqDto;
+import com.green.sahwang.exception.BizException;
+import com.green.sahwang.exception.ErrorCode;
 import com.green.sahwang.inspection.dto.request.InspectionPassReqDto;
-import com.green.sahwang.inspection.dto.request.InspectionProductReqDto;
 import com.green.sahwang.inspection.dto.request.InspectionRejectReqDto;
 import com.green.sahwang.inspection.dto.response.InspectionGradeResDto;
 import com.green.sahwang.inspection.dto.response.InspectionRejectionReasonResDto;
 import com.green.sahwang.inspection.dto.response.WaitingInspectionResDto;
 import com.green.sahwang.inspection.service.InspectionService;
-import com.green.sahwang.service.ProductService;
+import com.green.sahwang.service.ImageFileService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/inspection")
+@Slf4j
 @RequiredArgsConstructor
 public class InspectionController {
 
     private final InspectionService inspectionService;
     private final BrandService brandService;
+    private final ImageFileService imageFileService;
 
     @GetMapping("/pending-sale/total-count")
     @SecurityRequirement(name = "Bearer Authentication")
@@ -48,28 +57,69 @@ public class InspectionController {
         return ResponseEntity.ok(inspectionService.getWaitingInspections(pageNum, size, sortType));
     }
 
-    @PostMapping("/pass")
+    @PostMapping(value = "/pass",
+            produces = MediaType.APPLICATION_JSON_VALUE,
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @SecurityRequirement(name = "Bearer Authentication")
     @Operation(summary = "검수 승인", description = "검수 승인 후 처리")
 //    @PreAuthorize("hasAnyRole('ROLE_APPRAISER', 'ROLE_ADMIN')")
-    public ResponseEntity<?> passInspection(@RequestBody InspectionPassReqDto inspectionPassReqDto) {
-        if (inspectionPassReqDto.isInspectionResult()) {
-            inspectionService.inspectPassProduct(inspectionPassReqDto);
-        } else {
-            return ResponseEntity.badRequest().body("Invalid inspection");
+    public ResponseEntity<?> passInspection(
+            @RequestPart(name = "userImageFiles") MultipartFile[] userImageFiles,
+            @RequestPart(name = "passImageFiles") MultipartFile[] passImageFiles,
+            @RequestPart(name = "inspectionPassReqDto") @Parameter(schema = @Schema(type = "string", format = "binary"))
+            InspectionPassReqDto inspectionPassReqDto) {
+
+        validateFiles(userImageFiles);
+        validateFiles(passImageFiles);
+
+        try {
+            if (inspectionPassReqDto.isInspectionResult()) {
+                Path userImagePath = Paths.get("images/user-files");
+                Path passImagePath = Paths.get("images/pass-files");
+
+                inspectionService.inspectPassProduct(inspectionPassReqDto);
+                imageFileService.saveUserImageFiles(userImageFiles, userImagePath, inspectionPassReqDto.getUserSaleReqImageDtos());
+                imageFileService.savePassSaleImageFiles(passImageFiles, passImagePath, inspectionPassReqDto.getPassSaleReqImageDtos());
+            } else {
+                return ResponseEntity.badRequest().body("권한이 없습니다");
+            }
+        } catch (Exception e) {
+            log.info("{}", e.getMessage());
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Inspection Failed: " + e.getMessage());
         }
         return ResponseEntity.ok("appraiser success");
     }
 
-    @PostMapping("/reject")
+
+
+    @PostMapping(value = "/reject",
+            produces = MediaType.APPLICATION_JSON_VALUE,
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @SecurityRequirement(name = "Bearer Authentication")
     @Operation(summary = "검수 반려", description = "검수 반려 처리")
 //    @PreAuthorize("hasAnyRole('ROLE_APPRAISER', 'ROLE_ADMIN')")
-    public ResponseEntity<?> rejectInspection(@RequestBody InspectionRejectReqDto inspectionRejectReqDto) {
-        if (!inspectionRejectReqDto.isInspectionResult()) {
-            inspectionService.inspectRejectProduct(inspectionRejectReqDto);
-        } else {
-            return ResponseEntity.badRequest().body("Invalid inspection");
+    public ResponseEntity<?> rejectInspection(
+            @RequestPart(name = "userImageFiles") MultipartFile[] userImageFiles,
+            @RequestPart(name = "failImageFiles") MultipartFile[] failImageFiles,
+            @RequestPart(name = "inspectionPassReqDto") @Parameter(schema = @Schema(type = "string", format = "binary"))
+            InspectionRejectReqDto inspectionRejectReqDto) {
+
+        try {
+            if (!inspectionRejectReqDto.isInspectionResult()) {
+                Path userImagePath = Paths.get("images/user-files");
+                Path failImagePath = Paths.get("images/fail-files");
+
+                inspectionService.inspectRejectProduct(inspectionRejectReqDto);
+                imageFileService.saveUserImageFiles(userImageFiles, userImagePath, inspectionRejectReqDto.getUserSaleReqImageDtos());
+                imageFileService.saveFailSaleImageFiles(failImageFiles, failImagePath, inspectionRejectReqDto.getFailSaleReqImageDtos());
+            } else {
+                return ResponseEntity.badRequest().body("권한이 없습니다");
+            }
+        } catch (Exception e) {
+            log.info("{}", e.getMessage());
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Inspection Failed: " + e.getMessage());
         }
         return ResponseEntity.ok("appraiser success");
     }
@@ -98,6 +148,25 @@ public class InspectionController {
     @Operation(summary = "검수 실패 시 반려사유 목록", description = "검수 페이지에서 반려사유 목록")
     public ResponseEntity<List<InspectionRejectionReasonResDto>> getFailReason() {
         return ResponseEntity.ok(inspectionService.getFailReason());
+    }
+    private void validateFiles(MultipartFile[] files) {
+        for (MultipartFile file : files) {
+            if (file.isEmpty()) {
+                throw new BizException(ErrorCode.NO_FILE);
+            }
+//            if (file.getSize() > 10 * 1024 * 1024) {
+//                throw new IllegalArgumentException("파일 사이즈가 10MB를 초과했습니다.")
+//            }
+            if (!isAllowedFileType(file)) {
+                throw new BizException(ErrorCode.NO_IMAGE_FILE);
+            }
+        }
+    }
+
+    private boolean isAllowedFileType(MultipartFile file) {
+        String contentType = file.getContentType();
+        return contentType != null &&
+                (contentType.equals("image/jpeg") || contentType.equals("image/png"));
     }
 
 }

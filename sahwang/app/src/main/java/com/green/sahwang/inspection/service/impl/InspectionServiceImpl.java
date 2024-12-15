@@ -1,27 +1,23 @@
 package com.green.sahwang.inspection.service.impl;
 
-import com.green.sahwang.brand.repository.BrandRepository;
 import com.green.sahwang.config.DateTimeUtils;
 import com.green.sahwang.dto.response.ProductResDto;
+import com.green.sahwang.entity.Member;
 import com.green.sahwang.exception.BizException;
 import com.green.sahwang.exception.ErrorCode;
-import com.green.sahwang.inspection.dto.request.InspectionBrandReqDto;
 import com.green.sahwang.inspection.dto.request.InspectionPassReqDto;
 import com.green.sahwang.inspection.dto.request.InspectionRejectReqDto;
+import com.green.sahwang.inspection.dto.request.PassSaleReqImageDto;
 import com.green.sahwang.inspection.dto.response.*;
 import com.green.sahwang.inspection.enumtype.InspectionStatus;
 import com.green.sahwang.inspection.service.InspectionService;
 import com.green.sahwang.pendingsale.entity.PendingSale;
 import com.green.sahwang.pendingsale.repository.PendingSaleRepository;
 import com.green.sahwang.pendingsale.repository.UserSaleImageRepository;
-import com.green.sahwang.repository.CategoryBrandRepository;
-import com.green.sahwang.repository.CategoryRepository;
 import com.green.sahwang.repository.MemberRepository;
 import com.green.sahwang.repository.ProductRepository;
-import com.green.sahwang.service.ProductService;
 import com.green.sahwang.service.impl.ProductServiceImpl;
 import com.green.sahwang.verifiedsale.entity.RejectionReason;
-import com.green.sahwang.verifiedsale.entity.SaleGrade;
 import com.green.sahwang.verifiedsale.entity.VerifiedSale;
 import com.green.sahwang.verifiedsale.repository.RejectionReasonRepository;
 import com.green.sahwang.verifiedsale.repository.SaleGradeRepository;
@@ -103,9 +99,8 @@ public class InspectionServiceImpl implements InspectionService {
     @Override
     @Transactional
     public void inspectPassProduct(InspectionPassReqDto inspectionPassReqDto) {
-
         PendingSale pendingSale = pendingSaleRepository.findById(inspectionPassReqDto.getPendingSaleId())
-                .orElseThrow(() -> new BizException(ErrorCode.NO_PENDINGSALE));
+                .orElseThrow(() -> new BizException(ErrorCode.NO_PENDING_SALE));
 
         VerifiedSale verifiedSale = VerifiedSale.builder()
                 .pendingSale(pendingSale)
@@ -113,6 +108,7 @@ public class InspectionServiceImpl implements InspectionService {
                 .brandName(inspectionPassReqDto.getInspectionBrandReqDto().getBrandName())
                 .productName(inspectionPassReqDto.getInspectionProductReqDto().getProductName())
                 .productSize(inspectionPassReqDto.getInspectionProductReqDto().getProductSize())
+                .usedOrNot(inspectionPassReqDto.isUsedOrNot())
                 .verifiedSellingPrice(inspectionPassReqDto.getInspectionProductReqDto().getVerifiedSellingPrice())
                 .saleGrade(saleGradeRepository.findById(inspectionPassReqDto.getGradeId()).orElseThrow(() -> new BizException(ErrorCode.NO_SALE_GRADE)))
                 .inspectionResult(true)
@@ -121,7 +117,9 @@ public class InspectionServiceImpl implements InspectionService {
                 .createdDate(LocalDateTime.now())
                 .build();
 
-        verifiedSaleRepository.save(verifiedSale);
+        VerifiedSale savedVerifiedSale = verifiedSaleRepository.save(verifiedSale);
+        inspectionPassReqDto.getPassSaleReqImageDtos().forEach(passSaleReqImageDto ->
+                passSaleReqImageDto.setVerifiedSaleId(savedVerifiedSale.getId()));
 
         pendingSale.setInspectionStatus(InspectionStatus.ACCEPTED);
         pendingSaleRepository.save(pendingSale);
@@ -131,7 +129,7 @@ public class InspectionServiceImpl implements InspectionService {
     @Transactional
     public void inspectRejectProduct(InspectionRejectReqDto inspectionRejectReqDto) {
         PendingSale pendingSale = pendingSaleRepository.findById(inspectionRejectReqDto.getPendingSaleId())
-                .orElseThrow(() -> new BizException(ErrorCode.NO_PENDINGSALE));
+                .orElseThrow(() -> new BizException(ErrorCode.NO_PENDING_SALE));
 
         RejectionReason rejectionReason = null;
         if (Objects.isNull(inspectionRejectReqDto.getRejectionReasonId())) {
@@ -158,7 +156,9 @@ public class InspectionServiceImpl implements InspectionService {
                 .rejectionReason(rejectionReason)
                 .build();
 
-        verifiedSaleRepository.save(verifiedSale);
+        VerifiedSale savedVerifiedSale = verifiedSaleRepository.save(verifiedSale);
+        inspectionRejectReqDto.getFailSaleReqImageDtos().forEach(failSaleReqImageDto ->
+                failSaleReqImageDto.setVerifiedSaleId(savedVerifiedSale.getId()));
 
         pendingSale.setInspectionStatus(InspectionStatus.REJECTED);
         pendingSale.setRejectedReason(rejectionReason.getReason());

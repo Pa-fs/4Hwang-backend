@@ -36,6 +36,7 @@ public class UsedProductServiceImpl implements UsedProductService {
                         .brandName(up.getVerifiedSale().getBrandName())
                         .nickName(up.getVerifiedSale().getPendingSale().getMember().getNickName())
                         .verifiedSaleGradeType(up.getVerifiedSale().getSaleGrade().getGradeType().toString())
+                        .usedOrNot(up.getVerifiedSale().isUsedOrNot())
                         .userSaleImages(
                                 up.getVerifiedSale().getPendingSale().getUserSaleImages()
                                         .stream().map(image -> ImageResDto.builder()

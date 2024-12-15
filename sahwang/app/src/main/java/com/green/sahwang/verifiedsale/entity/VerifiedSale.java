@@ -57,6 +57,8 @@ public class VerifiedSale {
 
     private LocalDateTime createdDate;
 
+    private boolean usedOrNot;
+
     public void setPendingSale(PendingSale pendingSale) {
         this.pendingSale = pendingSale;
         pendingSale.setVerifiedSale(this);

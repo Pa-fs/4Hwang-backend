@@ -985,13 +985,13 @@ VALUES
 INSERT INTO verified_sale(
 verified_sale_id, category_name, brand_name, product_name, inspection_description,
 product_size, inspection_result, verified_selling_price,
-pending_sale_id, rejected_sale_id, sale_grade_id, created_date, posted)
+pending_sale_id, rejected_sale_id, sale_grade_id, created_date, posted, used_or_not)
 values
-    (1, 'Perfume', 'Chanel', '샤넬 No.5 향수', '샤넬 No.5 향수, 50ml, 새 제품, 박스 포함', 50, 1, 120000, 40, NULL, 1, NOW(), 0),
-    (2, 'Diffuser', 'Yankee Candle', '라벤더 디퓨저', 'Yankee Candle 라벤더 향 디퓨저, 새 제품', 100, 1, 40000, 41, NULL, 1, NOW(), 0),
-    (3, 'Candle', 'Bath & Body Works', '시나몬 스틱 캔들', 'Bath & Body Works 시나몬 스틱 캔들, 사용한 흔적 있음, 90% 남음', 185, 1, 25000, 42, NULL, 2, NOW(), 0),
-    (4, 'Perfume', 'Dior', '디올 Sauvage 향수', '디올 Sauvage 향수, 100ml, 새 제품', 100, 1, 110000, 43, NULL, 1, NOW(), 0),
-    (5, 'Candle', 'IKEA', '레드 캔들', 'IKEA 레드 향초, 결과참조바람', 150, 0, 0, 44, 4, NULL, NOW(), 0);
+    (1, 'Perfume', 'Chanel', '샤넬 No.5 향수', '샤넬 No.5 향수, 50ml, 새 제품, 박스 포함', 50, 1, 120000, 40, NULL, 1, NOW(), 0, 0),
+    (2, 'Diffuser', 'Yankee Candle', '라벤더 디퓨저', 'Yankee Candle 라벤더 향 디퓨저, 새 제품', 100, 1, 40000, 41, NULL, 1, NOW(), 0, 0),
+    (3, 'Candle', 'Bath & Body Works', '시나몬 스틱 캔들', 'Bath & Body Works 시나몬 스틱 캔들, 사용한 흔적 있음, 90% 남음', 185, 1, 25000, 42, NULL, 2, NOW(), 0, 1),
+    (4, 'Perfume', 'Dior', '디올 Sauvage 향수', '디올 Sauvage 향수, 100ml, 새 제품', 100, 1, 110000, 43, NULL, 1, NOW(), 0, 0),
+    (5, 'Candle', 'IKEA', '레드 캔들', 'IKEA 레드 향초, 결과참조바람', 150, 0, 0, 44, 4, NULL, NOW(), 0, 1);
 
 -- used_product
 INSERT INTO used_product(used_product_id, created_date, used_product_type, verified_sale_id)
