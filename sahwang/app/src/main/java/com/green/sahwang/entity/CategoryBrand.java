@@ -20,15 +20,23 @@ public class CategoryBrand {
     @Column(name = "category_brand_id")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
     @JoinColumn(name = "category_id")
     private Category category;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
     @JoinColumn(name = "brand_id")
     private Brand brand;
 
     private LocalDateTime createdDate;
+
+    // 연관관계 메서드
+    public void setCategory(Category category) {
+        if (this.category != null) {
+            this.category.getCategoryBrands().remove(this);
+        }
+        this.category = category;
+    }
 }

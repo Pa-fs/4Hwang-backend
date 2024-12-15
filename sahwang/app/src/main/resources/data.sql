@@ -12,6 +12,7 @@ DELETE FROM `product_product_type`;
 DELETE FROM `product_type`;
 DELETE FROM `detail_image`;
 DELETE FROM `wish`;
+DELETE FROM `used_product`;
 DELETE FROM `user_sale_image`;
 DELETE FROM `verified_sale`;
 DELETE FROM `sale_grade`;
@@ -939,13 +940,13 @@ INSERT INTO favorite (member_id, review_id) VALUES(5, 10000002);
 
 
 -- pending_sale
-INSERT INTO pending_sale (member_id, pending_sale_id, category_name, brand_name, product_name, product_description, product_size, inspection_status, excepted_selling_price, used_or_not, rejected_reason, created_date, updated_date)
+INSERT INTO pending_sale (member_id, product_id, pending_sale_id, category_name, brand_name, product_name, product_description, product_size, inspection_status, excepted_selling_price, used_or_not, rejected_reason, created_date, updated_date)
 VALUES
-(1, 40, 'Perfume', 'Chanel', '샤넬 No.5 향수', '샤넬 No.5 향수, 50ml, 새 제품, 박스 포함', 50, 'WAITING', 150000, FALSE, NULL, NOW(), NOW()),
-(2, 41, 'Diffuser', 'Yankee Candle', '라벤더 디퓨저', 'Yankee Candle 라벤더 향 디퓨저, 새 제품', 100, 'WAITING', 30000, FALSE, NULL, NOW(), NOW()),
-(3, 42, 'Candle', 'Bath & Body Works', '시나몬 스틱 캔들', 'Bath & Body Works 시나몬 스틱 캔들, 사용한 흔적 있음, 90% 남음', 200, 'WAITING', 25000, TRUE, NULL, NOW(), NOW()),
-(1, 43, 'Perfume', 'Dior', '디올 Sauvage 향수', '디올 Sauvage 향수, 100ml, 새 제품', 100, 'WAITING', 130000, FALSE, NULL, NOW(), NOW()),
-(2, 44, 'Candle', 'IKEA', '레드 캔들', 'IKEA 레드 향초, 새 제품', 150, 'WAITING', 15000, FALSE, NULL, NOW(), NOW());
+(1, 1, 40, 'Perfume', 'Chanel', '샤넬 No.5 향수', '샤넬 No.5 향수, 50ml, 새 제품, 박스 포함', 50, 'WAITING', 150000, FALSE, NULL, NOW(), NOW()),
+(2, 9, 41, 'Diffuser', 'Yankee Candle', '라벤더 디퓨저', 'Yankee Candle 라벤더 향 디퓨저, 새 제품', 100, 'WAITING', 30000, FALSE, NULL, NOW(), NOW()),
+(3, 17, 42, 'Candle', 'Bath & Body Works', '시나몬 스틱 캔들', 'Bath & Body Works 시나몬 스틱 캔들, 사용한 흔적 있음, 90% 남음', 200, 'WAITING', 25000, TRUE, NULL, NOW(), NOW()),
+(1, 1, 43, 'Perfume', 'Dior', '디올 Sauvage 향수', '디올 Sauvage 향수, 100ml, 새 제품', 100, 'WAITING', 130000, FALSE, NULL, NOW(), NOW()),
+(2, 17, 44, 'Candle', 'IKEA', '레드 캔들', 'IKEA 레드 향초, 새 제품', 150, 'WAITING', 15000, FALSE, NULL, NOW(), NOW());
 
 INSERT INTO user_sale_image(user_sale_image_id, file_desc, filename, path, pending_sale_id)
 VALUES
@@ -977,3 +978,26 @@ VALUES
   (4, '유통기한은 문제가 없으나 내용물 변질이 일어났습니다.'),
   (5, '판매 기준 용량 미달입니다.'),
   (6, '향수, 캔들, 디퓨저에 해당하지 않는 제품입니다.');
+
+-- verified_sale_image
+
+-- verified_sale
+INSERT INTO verified_sale(
+verified_sale_id, category_name, brand_name, product_name, inspection_description,
+product_size, inspection_result, verified_selling_price,
+pending_sale_id, rejected_sale_id, sale_grade_id, created_date, posted)
+values
+    (1, 'Perfume', 'Chanel', '샤넬 No.5 향수', '샤넬 No.5 향수, 50ml, 새 제품, 박스 포함', 50, 1, 120000, 40, NULL, 1, NOW(), 0),
+    (2, 'Diffuser', 'Yankee Candle', '라벤더 디퓨저', 'Yankee Candle 라벤더 향 디퓨저, 새 제품', 100, 1, 40000, 41, NULL, 1, NOW(), 0),
+    (3, 'Candle', 'Bath & Body Works', '시나몬 스틱 캔들', 'Bath & Body Works 시나몬 스틱 캔들, 사용한 흔적 있음, 90% 남음', 185, 1, 25000, 42, NULL, 2, NOW(), 0),
+    (4, 'Perfume', 'Dior', '디올 Sauvage 향수', '디올 Sauvage 향수, 100ml, 새 제품', 100, 1, 110000, 43, NULL, 1, NOW(), 0),
+    (5, 'Candle', 'IKEA', '레드 캔들', 'IKEA 레드 향초, 결과참조바람', 150, 0, 0, 44, 4, NULL, NOW(), 0);
+
+-- used_product
+INSERT INTO used_product(used_product_id, created_date, used_product_type, verified_sale_id)
+values
+    (1, now(), 'USER_ACCEPT', 1),
+    (2, now(), 'USER_ACCEPT', 2),
+    (3, now(), 'USER_ACCEPT', 3),
+    (4, now(), 'USER_ACCEPT', 4),
+    (5, now(), 'USER_ACCEPT', 5);
