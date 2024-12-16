@@ -65,7 +65,7 @@ public class Member {
     // kakao 로그인 할때 가져옴
     private String thumbnailImage;
 
-
-    private int warnCount;
+    @Column(nullable = false, columnDefinition = "int default 0")
+    private Integer warnCount = 0;
 
 }
