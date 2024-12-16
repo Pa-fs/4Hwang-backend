@@ -13,6 +13,7 @@ DELETE FROM `product_product_type`;
 DELETE FROM `product_type`;
 DELETE FROM `detail_image`;
 DELETE FROM `wish`;
+DELETE FROM `used_product`;
 DELETE FROM `user_sale_image`;
 DELETE FROM `verified_sale`;
 DELETE FROM `sale_grade`;
@@ -30,16 +31,16 @@ DELETE FROM `external_prepare_payment`;
 
 
 
-INSERT INTO `member` (`member_id`, `account`, `ad_received`, `addr`, `post_code`, `email`, `is_deleted`, `join_date`, `name`, `nick_name`, `phone_num`, `role`, `sns_type`, `withdraw_date`, `profile_image`, `thumbnail_image`)
-values (1, NULL, NULL, '대구광역시 중구', '123-456', 'qordi124@gmail.com', NULL, '2024-10-24', NULL, '태영', '010-1234-5678', 'USER', 1, NULL, '', '');
-insert into member(member_id, addr, post_code, phone_num)
-values (2, '대구광역시 중구', '345-678', '010-1234-5678');
-INSERT INTO `member` (`member_id`, `account`, `ad_received`, `addr`, `post_code`, `email`, `is_deleted`, `join_date`, `name`, `nick_name`, `phone_num`, `role`, `sns_type`, `withdraw_date`, `profile_image`, `thumbnail_image`)
-VALUES (3, NULL, NULL, '대구광역시 중구', '234-567', 'whgpals4263@nate.com', NULL, '2024-10-31', NULL, '민이♡', '010-1234-5678', 'USER', 1, NULL, 'http://img1.kakaocdn.net/thumb/R640x640.q70/?fname=http://t1.kakaocdn.net/account_images/default_profile.jpeg', 'http://img1.kakaocdn.net/thumb/R110x110.q70/?fname=http://t1.kakaocdn.net/account_images/default_profile.jpeg');
-INSERT INTO `member` (`member_id`, `account`, `ad_received`, `addr`, `post_code`, `email`, `is_deleted`, `join_date`, `name`, `nick_name`, `phone_num`, `role`, `sns_type`, `withdraw_date`, `profile_image`, `thumbnail_image`)
-VALUES (4, NULL, NULL, '대구광역시 중구', '567-988', 'kdh7313@naver.com', NULL, '2024-11-01', NULL, '강도현', '010-1234-5678', 'USER', 1, NULL, 'http://k.kakaocdn.net/dn/b7yPFA/btsKquPi0Cw/BjABLmpyNB6gbKxUAX9I40/img_640x640.jpg', 'http://k.kakaocdn.net/dn/b7yPFA/btsKquPi0Cw/BjABLmpyNB6gbKxUAX9I40/img_110x110.jpg');
-INSERT INTO `member` (`member_id`, `account`, `ad_received`, `addr`, `post_code`, `email`, `is_deleted`, `join_date`, `name`, `nick_name`, `phone_num`, `role`, `sns_type`, `withdraw_date`, `profile_image`, `thumbnail_image`)
-VALUES (5, NULL, NULL, '대구광역시 중구', '999-100', 'thdghckd111@naver.com', NULL, '2024-11-01', NULL, '송호창', '010-1234-5678', 'USER', 1, NULL, 'http://img1.kakaocdn.net/thumb/R640x640.q70/?fname=http://t1.kakaocdn.net/account_images/default_profile.jpeg', 'http://img1.kakaocdn.net/thumb/R110x110.q70/?fname=http://t1.kakaocdn.net/account_images/default_profile.jpeg');
+INSERT INTO `member` (`member_id`, `account`, `ad_received`, `addr`, `post_code`, `email`, `is_deleted`, `join_date`, `name`, `nick_name`, `phone_num`, `role`, `sns_type`, `withdraw_date`, `profile_image`, `thumbnail_image`, `warn_count`)
+values (1, NULL, NULL, '대구광역시 중구', '123-456', 'qordi124@gmail.com', NULL, '2024-10-24', NULL, '태영', '010-1234-5678', 'USER', 1, NULL, '', '',0);
+insert into member(member_id, addr, post_code, phone_num, `warn_count`)
+values (2, '대구광역시 중구', '345-678', '010-1234-5678', 0);
+INSERT INTO `member` (`member_id`, `account`, `ad_received`, `addr`, `post_code`, `email`, `is_deleted`, `join_date`, `name`, `nick_name`, `phone_num`, `role`, `sns_type`, `withdraw_date`, `profile_image`, `thumbnail_image`, `warn_count`)
+VALUES (3, NULL, NULL, '대구광역시 중구', '234-567', 'whgpals4263@nate.com', NULL, '2024-10-31', NULL, '민이♡', '010-1234-5678', 'USER', 1, NULL, 'http://img1.kakaocdn.net/thumb/R640x640.q70/?fname=http://t1.kakaocdn.net/account_images/default_profile.jpeg', 'http://img1.kakaocdn.net/thumb/R110x110.q70/?fname=http://t1.kakaocdn.net/account_images/default_profile.jpeg', 0);
+INSERT INTO `member` (`member_id`, `account`, `ad_received`, `addr`, `post_code`, `email`, `is_deleted`, `join_date`, `name`, `nick_name`, `phone_num`, `role`, `sns_type`, `withdraw_date`, `profile_image`, `thumbnail_image`, `warn_count`)
+VALUES (4, NULL, NULL, '대구광역시 중구', '567-988', 'kdh7313@naver.com', NULL, '2024-11-01', NULL, '강도현', '010-1234-5678', 'USER', 1, NULL, 'http://k.kakaocdn.net/dn/b7yPFA/btsKquPi0Cw/BjABLmpyNB6gbKxUAX9I40/img_640x640.jpg', 'http://k.kakaocdn.net/dn/b7yPFA/btsKquPi0Cw/BjABLmpyNB6gbKxUAX9I40/img_110x110.jpg', 0);
+INSERT INTO `member` (`member_id`, `account`, `ad_received`, `addr`, `post_code`, `email`, `is_deleted`, `join_date`, `name`, `nick_name`, `phone_num`, `role`, `sns_type`, `withdraw_date`, `profile_image`, `thumbnail_image`, `warn_count`)
+VALUES (5, NULL, NULL, '대구광역시 중구', '999-100', 'thdghckd111@naver.com', NULL, '2024-11-01', NULL, '송호창', '010-1234-5678', 'USER', 1, NULL, 'http://img1.kakaocdn.net/thumb/R640x640.q70/?fname=http://t1.kakaocdn.net/account_images/default_profile.jpeg', 'http://img1.kakaocdn.net/thumb/R110x110.q70/?fname=http://t1.kakaocdn.net/account_images/default_profile.jpeg', 0);
 
 insert into cart(cart_id, quantities, member_id)
 values (1, 3, 1);
@@ -940,13 +941,13 @@ INSERT INTO favorite (member_id, review_id) VALUES(5, 10000002);
 
 
 -- pending_sale
-INSERT INTO pending_sale (member_id, pending_sale_id, category_name, brand_name, product_name, product_description, product_size, inspection_status, excepted_selling_price, used_or_not, rejected_reason, created_date, updated_date)
+INSERT INTO pending_sale (member_id, product_id, pending_sale_id, category_name, brand_name, product_name, product_description, product_size, inspection_status, excepted_selling_price, used_or_not, rejected_reason, created_date, updated_date)
 VALUES
-(1, 40, 'Perfume', 'Chanel', '샤넬 No.5 향수', '샤넬 No.5 향수, 50ml, 새 제품, 박스 포함', 50, 'WAITING', 150000, FALSE, NULL, NOW(), NOW()),
-(2, 41, 'Diffuser', 'Yankee Candle', '라벤더 디퓨저', 'Yankee Candle 라벤더 향 디퓨저, 새 제품', 100, 'WAITING', 30000, FALSE, NULL, NOW(), NOW()),
-(3, 42, 'Candle', 'Bath & Body Works', '시나몬 스틱 캔들', 'Bath & Body Works 시나몬 스틱 캔들, 사용한 흔적 있음, 90% 남음', 200, 'WAITING', 25000, TRUE, NULL, NOW(), NOW()),
-(1, 43, 'Perfume', 'Dior', '디올 Sauvage 향수', '디올 Sauvage 향수, 100ml, 새 제품', 100, 'WAITING', 130000, FALSE, NULL, NOW(), NOW()),
-(2, 44, 'Candle', 'IKEA', '레드 캔들', 'IKEA 레드 향초, 새 제품', 150, 'WAITING', 15000, FALSE, NULL, NOW(), NOW());
+(1, 1, 40, 'Perfume', 'Chanel', '샤넬 No.5 향수', '샤넬 No.5 향수, 50ml, 새 제품, 박스 포함', 50, 'WAITING', 150000, FALSE, NULL, NOW(), NOW()),
+(2, 9, 41, 'Diffuser', 'Yankee Candle', '라벤더 디퓨저', 'Yankee Candle 라벤더 향 디퓨저, 새 제품', 100, 'WAITING', 30000, FALSE, NULL, NOW(), NOW()),
+(3, 17, 42, 'Candle', 'Bath & Body Works', '시나몬 스틱 캔들', 'Bath & Body Works 시나몬 스틱 캔들, 사용한 흔적 있음, 90% 남음', 200, 'WAITING', 25000, TRUE, NULL, NOW(), NOW()),
+(1, 1, 43, 'Perfume', 'Dior', '디올 Sauvage 향수', '디올 Sauvage 향수, 100ml, 새 제품', 100, 'WAITING', 130000, FALSE, NULL, NOW(), NOW()),
+(2, 17, 44, 'Candle', 'IKEA', '레드 캔들', 'IKEA 레드 향초, 새 제품', 150, 'WAITING', 15000, FALSE, NULL, NOW(), NOW());
 
 INSERT INTO user_sale_image(user_sale_image_id, file_desc, filename, path, pending_sale_id)
 VALUES
@@ -978,3 +979,26 @@ VALUES
   (4, '유통기한은 문제가 없으나 내용물 변질이 일어났습니다.'),
   (5, '판매 기준 용량 미달입니다.'),
   (6, '향수, 캔들, 디퓨저에 해당하지 않는 제품입니다.');
+
+-- verified_sale_image
+
+-- verified_sale
+INSERT INTO verified_sale(
+verified_sale_id, category_name, brand_name, product_name, inspection_description,
+product_size, inspection_result, verified_selling_price,
+pending_sale_id, rejected_sale_id, sale_grade_id, created_date, posted, used_or_not)
+values
+    (1, 'Perfume', 'Chanel', '샤넬 No.5 향수', '샤넬 No.5 향수, 50ml, 새 제품, 박스 포함', 50, 1, 120000, 40, NULL, 1, NOW(), 0, 0),
+    (2, 'Diffuser', 'Yankee Candle', '라벤더 디퓨저', 'Yankee Candle 라벤더 향 디퓨저, 새 제품', 100, 1, 40000, 41, NULL, 1, NOW(), 0, 0),
+    (3, 'Candle', 'Bath & Body Works', '시나몬 스틱 캔들', 'Bath & Body Works 시나몬 스틱 캔들, 사용한 흔적 있음, 90% 남음', 185, 1, 25000, 42, NULL, 2, NOW(), 0, 1),
+    (4, 'Perfume', 'Dior', '디올 Sauvage 향수', '디올 Sauvage 향수, 100ml, 새 제품', 100, 1, 110000, 43, NULL, 1, NOW(), 0, 0),
+    (5, 'Candle', 'IKEA', '레드 캔들', 'IKEA 레드 향초, 결과참조바람', 150, 0, 0, 44, 4, NULL, NOW(), 0, 1);
+
+-- used_product
+INSERT INTO used_product(used_product_id, created_date, used_product_type, verified_sale_id)
+values
+    (1, now(), 'USER_ACCEPT', 1),
+    (2, now(), 'USER_ACCEPT', 2),
+    (3, now(), 'USER_ACCEPT', 3),
+    (4, now(), 'USER_ACCEPT', 4),
+    (5, now(), 'USER_ACCEPT', 5);

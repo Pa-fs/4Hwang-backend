@@ -90,6 +90,10 @@ public class KakaoServiceImpl implements KakaoService{
                 if (existingMember.getEmail().equals("thdghckd111@naver.com") || existingMember.getEmail().equals("kdh7313@naver.com")){
                     existingMember.setRole(MemberRole.ADMIN);
                 }
+
+                existingMember.setLastLoginDate(LocalDateTime.now());
+                memberRepository.save(existingMember);
+
                 KakaoAccessToken accessToken = kakaoAccessTokenRepository.findByMemberId(existingMember.getId());
                 if (accessToken != null) kakaoAccessTokenRepository.delete(accessToken);
 
@@ -119,6 +123,7 @@ public class KakaoServiceImpl implements KakaoService{
                 member.setThumbnailImage(kakaoUserInfoDto.getProperties().getThumbnailImage());
                 member.setSnsType(SnsType.KAKAO);
                 member.setJoinDate(LocalDateTime.now());
+                member.setLastLoginDate(LocalDateTime.now());
                 member.setRole(MemberRole.USER);
 
                 memberRepository.save(member);

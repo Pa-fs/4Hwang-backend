@@ -3,6 +3,7 @@ package com.green.sahwang.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -22,5 +23,5 @@ public class Category {
     private String name;
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<CategoryBrand> categoryBrands;
+    private List<CategoryBrand> categoryBrands = new ArrayList<>();
 }

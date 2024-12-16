@@ -2,10 +2,12 @@ package com.green.sahwang.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.green.sahwang.brand.entity.Brand;
+import com.green.sahwang.pendingsale.entity.PendingSale;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -50,8 +52,8 @@ public abstract class Product {
 
     private Boolean usedOrNot;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ProductImage> productImages;
+//    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<ProductImage> productImages;
 
     private String detailImage;
 
@@ -63,4 +65,15 @@ public abstract class Product {
     private LocalDateTime registerDate;
 
     private LocalDateTime modifyDate;
+
+    @OneToMany(mappedBy = "product")
+    private List<PendingSale> pendingSales = new ArrayList<>();
+
+    // 연관관계 메서드
+    public void setBrand(Brand brand) {
+        if (this.brand != null) {
+            this.brand.getProducts().remove(this);
+        }
+        this.brand = brand;
+    }
 }

@@ -57,10 +57,15 @@ public class Member {
 
     private LocalDateTime withdrawDate;
 
+    private LocalDateTime lastLoginDate;
+
     // kakao 로그인 할때 가져옴
     private String profileImage;
 
     // kakao 로그인 할때 가져옴
     private String thumbnailImage;
+
+    @Column(nullable = false, columnDefinition = "int default 0")
+    private Integer warnCount = 0;
 
 }
