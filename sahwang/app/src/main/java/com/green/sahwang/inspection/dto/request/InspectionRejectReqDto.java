@@ -1,8 +1,11 @@
 package com.green.sahwang.inspection.dto.request;
 
+import com.green.sahwang.pendingsale.dto.request.UserSaleReqImageDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -17,4 +20,6 @@ public class InspectionRejectReqDto {
     private String inspectionContent;
     private String rejectionReason;
     private boolean inspectionResult;
+    private List<UserSaleReqImageDto> userSaleReqImageDtos;
+    private List<FailSaleReqImageDto> failSaleReqImageDtos;
 }

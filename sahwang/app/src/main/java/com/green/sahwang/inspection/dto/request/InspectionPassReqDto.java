@@ -1,5 +1,6 @@
 package com.green.sahwang.inspection.dto.request;
 
+import com.green.sahwang.pendingsale.dto.request.UserSaleReqImageDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,5 +18,8 @@ public class InspectionPassReqDto {
     private InspectionProductReqDto inspectionProductReqDto;
     private String seller;
     private String inspectionContent;
+    private boolean usedOrNot;
     private boolean inspectionResult;
+    private List<UserSaleReqImageDto> userSaleReqImageDtos;
+    private List<PassSaleReqImageDto> passSaleReqImageDtos;
 }
