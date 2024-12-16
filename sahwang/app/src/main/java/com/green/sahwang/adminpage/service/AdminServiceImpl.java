@@ -10,16 +10,18 @@ import com.green.sahwang.entity.enumtype.PurchaseStatus;
 import com.green.sahwang.repository.MemberRepository;
 import com.green.sahwang.repository.PurchaseRepository;
 import com.green.sahwang.repository.ReviewRepository;
-import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Stream;
 
 @Service
 @Slf4j
@@ -31,8 +33,9 @@ public class AdminServiceImpl implements AdminService{
     private final PurchaseRepository purchaseRepository;
 
     @Transactional
-    public List<MemberManageResDto> getMembers(){
-        List<Member> memberList = memberRepository.findAll();
+    public List<MemberManageResDto> getMembers(int pageNum, int size){
+        Pageable pageable = PageRequest.of(pageNum, size);
+        Page<Member> memberList = memberRepository.findAll(pageable);
 
         List<MemberManageResDto> memberManageResDtoList = new ArrayList<>();
         for (Member member : memberList){
@@ -58,8 +61,10 @@ public class AdminServiceImpl implements AdminService{
     }
 
     @Transactional
-    public List<MemberManageResDto> getMembersByRole(MemberRole role){
-        List<Member> memberList = memberRepository.findAllByRole(role);
+    public List<MemberManageResDto> getMembersByRole(String role, int pageNum, int size){
+        MemberRole memberRole = MemberRole.valueOf(role.toUpperCase());
+        Pageable pageable = PageRequest.of(pageNum, size);
+        Page<Member> memberList = memberRepository.findAllByRole(memberRole, pageable);
 
         List<MemberManageResDto> memberManageResDtoList = new ArrayList<>();
         for (Member member : memberList){
@@ -96,11 +101,27 @@ public class AdminServiceImpl implements AdminService{
     }
 
     @Transactional
-    public List<ReviewManageResDto> getReviews(String sort){
-        List<Review> reviewList = reviewRepository.findAll();
+    public Page<ReviewManageResDto> getReviews(int pageNum, int size){
+        Pageable pageable = PageRequest.of(pageNum, size);
 
-        Stream<Review> reviewStream = reviewList.stream();
+        return reviewRepository.findReviews(pageable);
+    }
 
+    @Transactional
+    public Page<ReviewManageResDto> getReviewsBySort(String sort, int pageNum, int size){
+        if (sort.equalsIgnoreCase("category")){
+            Pageable pageable = PageRequest.of(pageNum, size, Sort.by("p.dtype").ascending());
+            return reviewRepository.findReviews(pageable);
+        } else if (sort.equalsIgnoreCase("productName")) {
+            Pageable pageable = PageRequest.of(pageNum, size, Sort.by("pp.productName").ascending());
+            return reviewRepository.findReviews(pageable);
+        } else if (sort.equalsIgnoreCase("starAsc")) {
+            Pageable pageable = PageRequest.of(pageNum, size, Sort.by("star").ascending());
+            return reviewRepository.findReviews(pageable);
+        } else if (sort.equalsIgnoreCase("starDesc")) {
+            Pageable pageable = PageRequest.of(pageNum, size, Sort.by("star").descending());
+            return reviewRepository.findReviews(pageable);
+        }
         return null;
     }
 

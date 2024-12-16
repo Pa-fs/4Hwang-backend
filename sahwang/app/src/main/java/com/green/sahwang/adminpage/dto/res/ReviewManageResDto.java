@@ -1,14 +1,14 @@
 package com.green.sahwang.adminpage.dto.res;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Data
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class ReviewManageResDto {
 
     private String reviewImage;

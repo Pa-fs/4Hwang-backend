@@ -7,6 +7,7 @@ import com.green.sahwang.adminpage.service.AdminService;
 import com.green.sahwang.entity.enumtype.MemberRole;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,13 +24,15 @@ public class AdminController {
     private final AdminService adminService;
 
     @GetMapping("/member/management")
-    public ResponseEntity<List<MemberManageResDto>> getMembers(@RequestParam(value = "role", required = false) String role){
+    public ResponseEntity<List<MemberManageResDto>> getMembers(@RequestParam(value = "role", required = false) String role,
+                                                               @RequestParam(name = "pageNum", defaultValue = "0", required = false) int pageNum,
+                                                               @RequestParam(name = "size", defaultValue = "20", required = false) int size){
         if (role == null) {
-            List<MemberManageResDto> memberManageResDtoList = adminService.getMembers();
+            List<MemberManageResDto> memberManageResDtoList = adminService.getMembers(pageNum, size);
             return ResponseEntity.ok(memberManageResDtoList);
         }
         else {
-            List<MemberManageResDto> memberManageResDtoList = adminService.getMembersByRole(MemberRole.valueOf(role));
+            List<MemberManageResDto> memberManageResDtoList = adminService.getMembersByRole(role, pageNum, size);
             return ResponseEntity.ok(memberManageResDtoList);
         }
     }
@@ -41,8 +44,22 @@ public class AdminController {
         return ResponseEntity.ok("사용자의 권한이 수정되었습니다");
     }
 
+    @Operation(summary = "리뷰 관리", description = "sort 값 = 카테고리 : category / 상품명 : productName / 별점 높은순 : starDesc / 별점 낮은순 : starAsc / 기본 : null")
     @GetMapping("/review/management")
-    public ResponseEntity<List<ReviewManageResDto>> getReviews(@RequestParam(value = "sort", required = false) String sort){
+    public ResponseEntity<Page<ReviewManageResDto>> getReviews(@RequestParam(value = "sort", required = false) String sort,
+                                                               @RequestParam(name = "pageNum", defaultValue = "0", required = false) int pageNum,
+                                                               @RequestParam(name = "size", defaultValue = "20", required = false) int size){
+        if (sort == null){
+            Page<ReviewManageResDto> reviewManageResDtoPage = adminService.getReviews(pageNum, size);
+            return ResponseEntity.ok(reviewManageResDtoPage);
+        }else {
+            Page<ReviewManageResDto> reviewManageResDtoList = adminService.getReviewsBySort(sort, pageNum, size);
+            return ResponseEntity.ok(reviewManageResDtoList);
+        }
+    }
+
+    @GetMapping("/review/management/search")
+    public ResponseEntity<List<ReviewManageResDto>> getSearchReviews(@RequestParam(value = "productName", required = false) String productName){
 
         return ResponseEntity.ok(null);
     }
