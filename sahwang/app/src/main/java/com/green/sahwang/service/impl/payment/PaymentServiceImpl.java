@@ -19,8 +19,8 @@ import com.green.sahwang.exception.ErrorCode;
 import com.green.sahwang.exception.outbox.OutboxSerializeEventException;
 import com.green.sahwang.exception.PurchaseDomainException;
 import com.green.sahwang.exception.payment.PaymentDomainException;
-import com.green.sahwang.model.payment.avro.PaymentMethod;
-import com.green.sahwang.model.payment.avro.PaymentStatus;
+import com.green.sahwang.model.payment.avro.PaymentAvroMethod;
+import com.green.sahwang.model.payment.avro.PaymentAvroStatus;
 import com.green.sahwang.model.payment.avro.PurchasePaidEventAvroModel;
 import com.green.sahwang.model.purchase.avro.PurchaseAvroModel;
 import com.green.sahwang.model.purchase.avro.PurchaseCreatedEventAvroModel;
@@ -341,8 +341,8 @@ public class PaymentServiceImpl implements PaymentService {
         PurchasePaidEventAvroModel purchasePaidEventAvroModel = PurchasePaidEventAvroModel.newBuilder()
                 .setPurchaseId(String.valueOf(purchase.getId()))
                 .setMemberId(MEMBER_PREFIX + purchase.getMember().getId())
-                .setPaymentStatus(PaymentStatus.valueOf(payment.getStatus().toString().toUpperCase()))
-                .setPaymentMethod(PaymentMethod.CREDIT_CARD)
+                .setPaymentAvroStatus(PaymentAvroStatus.valueOf(payment.getStatus().toString().toUpperCase()))
+                .setPaymentAvroMethod(PaymentAvroMethod.CREDIT_CARD)
                 .setTransactionId(payment.getImpUid())
                 .setTimestamp(System.currentTimeMillis())
                 .setAmount(payment.getTotalPrice())

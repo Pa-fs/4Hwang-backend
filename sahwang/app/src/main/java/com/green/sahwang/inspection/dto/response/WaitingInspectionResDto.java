@@ -29,5 +29,6 @@ public class WaitingInspectionResDto {
     private ShipStatus shipStatus;
     private InspectionStatus inspectionStatus;
     private String shippedDate;
+    private boolean usedOrNot;
     private List<UserSaleResImage> userSaleResImageList;
 }
