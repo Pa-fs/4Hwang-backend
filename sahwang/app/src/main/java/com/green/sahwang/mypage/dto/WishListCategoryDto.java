@@ -9,12 +9,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class WishListCategoryDto {
 
+    private Boolean isChecked;
+
     private Long id;
 
     private String name;
 
     private String mainImage;
-
-    private Boolean isChecked;
 
 }

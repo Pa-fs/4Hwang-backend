@@ -8,8 +8,10 @@ import com.green.sahwang.mypage.dto.req.ReviewUpdateReqDto;
 import com.green.sahwang.mypage.dto.res.*;
 import com.green.sahwang.mypage.service.MyPageService;
 import com.green.sahwang.service.ImageFileService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -69,6 +71,8 @@ public class MyPageController {
         return ResponseEntity.ok(saleListResDtoList);
     }
 
+    @SecurityRequirement(name = "Bearer Authentication")
+    @Operation(summary = "카테고리 찜하기", description = "카테고리 찜하기 리스트")
     @GetMapping("/wishList/category")
     public ResponseEntity<List<WishListCategoryResDto>> getWishListCategory(@AuthenticationPrincipal UserDetails userDetails,
                                                                          @RequestParam(name = "pageNum", defaultValue = "0", required = false) int pageNum,
