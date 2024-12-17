@@ -1,6 +1,7 @@
 package com.green.sahwang.mypage.controller;
 
 import com.green.sahwang.config.filepath.ImageFilePathConfig;
+import com.green.sahwang.mypage.dto.WishListCategoryDto;
 import com.green.sahwang.mypage.dto.req.MemberInfoReqDto;
 import com.green.sahwang.mypage.dto.req.ReviewCreateReqDto;
 import com.green.sahwang.mypage.dto.req.ReviewUpdateReqDto;
@@ -68,14 +69,22 @@ public class MyPageController {
         return ResponseEntity.ok(saleListResDtoList);
     }
 
-    @GetMapping("/wishList")
-    public ResponseEntity<List<WishListResDto>> getWishList(@AuthenticationPrincipal UserDetails userDetails,
-                                                            @RequestParam(name = "pageNum", defaultValue = "0", required = false) int pageNum,
-                                                            @RequestParam(name = "size", defaultValue = "10", required = false) int size){
+    @GetMapping("/wishList/category")
+    public ResponseEntity<List<WishListCategoryResDto>> getWishListCategory(@AuthenticationPrincipal UserDetails userDetails,
+                                                                         @RequestParam(name = "pageNum", defaultValue = "0", required = false) int pageNum,
+                                                                         @RequestParam(name = "size", defaultValue = "10", required = false) int size){
 
-        List<WishListResDto> wishList = myPageService.getWishList(userDetails, pageNum, size);
+        List<WishListCategoryResDto> wishList = myPageService.getWishCategoryList(userDetails, pageNum, size);
 
         return ResponseEntity.ok(wishList);
+    }
+
+    @GetMapping("/wishList/product")
+    public ResponseEntity<List<WishListProductResDto>> getWishListProduct(@AuthenticationPrincipal UserDetails userDetails,
+                                                                          @RequestParam(name = "pageNum", defaultValue = "0", required = false) int pageNum,
+                                                                          @RequestParam(name = "size", defaultValue = "10", required = false) int size){
+
+        return null;
     }
 
     @GetMapping("/reviewList")

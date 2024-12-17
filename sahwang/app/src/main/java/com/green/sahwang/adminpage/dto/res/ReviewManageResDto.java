@@ -1,8 +1,7 @@
 package com.green.sahwang.adminpage.dto.res;
 
+import com.green.sahwang.adminpage.dto.ReviewManageDto;
 import lombok.*;
-
-import java.time.LocalDateTime;
 
 @Data
 @Getter
@@ -11,20 +10,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class ReviewManageResDto {
 
-    private String reviewImage;
+    private ReviewManageDto reviewManageDto;
 
-    private String productName;
-
-    private int size;
-
-    private String dtype;
-
-    private String content;
-
-    private double star;
-
-    private String nickName;
-
-    private LocalDateTime reviewCreationDate;
+    private int favoriteCount;
 
 }

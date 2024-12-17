@@ -1,12 +1,15 @@
 package com.green.sahwang.adminpage.service;
 
 import com.green.sahwang.adminpage.dto.res.MemberManageResDto;
+import com.green.sahwang.adminpage.dto.ReviewManageDto;
 import com.green.sahwang.adminpage.dto.res.ReviewManageResDto;
+import com.green.sahwang.entity.Favorite;
 import com.green.sahwang.entity.Member;
 import com.green.sahwang.entity.Purchase;
 import com.green.sahwang.entity.Review;
 import com.green.sahwang.entity.enumtype.MemberRole;
 import com.green.sahwang.entity.enumtype.PurchaseStatus;
+import com.green.sahwang.repository.FavoriteRepository;
 import com.green.sahwang.repository.MemberRepository;
 import com.green.sahwang.repository.PurchaseRepository;
 import com.green.sahwang.repository.ReviewRepository;
@@ -20,7 +23,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -31,6 +33,7 @@ public class AdminServiceImpl implements AdminService{
     private final MemberRepository memberRepository;
     private final ReviewRepository reviewRepository;
     private final PurchaseRepository purchaseRepository;
+    private final FavoriteRepository favoriteRepository;
 
     @Transactional
     public List<MemberManageResDto> getMembers(int pageNum, int size){
@@ -101,28 +104,39 @@ public class AdminServiceImpl implements AdminService{
     }
 
     @Transactional
-    public Page<ReviewManageResDto> getReviews(int pageNum, int size){
+    public List<ReviewManageResDto> getReviews(int pageNum, int size){
         Pageable pageable = PageRequest.of(pageNum, size);
+        Page<ReviewManageDto> reviewManageDtoPage = reviewRepository.findReviews(pageable);
 
-        return reviewRepository.findReviews(pageable);
+        return reviewManageDtoPage.stream()
+                .map(reviewManageDto -> {
+                    List<Favorite> favoriteList = favoriteRepository.findAllByReviewId(reviewManageDto.getReviewId());
+                    return new ReviewManageResDto(reviewManageDto, favoriteList.size());
+                }).toList();
     }
 
     @Transactional
-    public Page<ReviewManageResDto> getReviewsBySort(String sort, int pageNum, int size){
-        if (sort.equalsIgnoreCase("category")){
-            Pageable pageable = PageRequest.of(pageNum, size, Sort.by("p.dtype").ascending());
-            return reviewRepository.findReviews(pageable);
-        } else if (sort.equalsIgnoreCase("productName")) {
-            Pageable pageable = PageRequest.of(pageNum, size, Sort.by("pp.productName").ascending());
-            return reviewRepository.findReviews(pageable);
-        } else if (sort.equalsIgnoreCase("starAsc")) {
-            Pageable pageable = PageRequest.of(pageNum, size, Sort.by("star").ascending());
-            return reviewRepository.findReviews(pageable);
-        } else if (sort.equalsIgnoreCase("starDesc")) {
-            Pageable pageable = PageRequest.of(pageNum, size, Sort.by("star").descending());
-            return reviewRepository.findReviews(pageable);
-        }
-        return null;
+    public List<ReviewManageResDto> getReviewsBySort(String sort, int pageNum, int size){
+        Sort sortByOptions = getSortByOptions(sort);
+
+        Pageable pageable = PageRequest.of(pageNum, size, sortByOptions);
+        Page<ReviewManageDto> reviewManageDtoPage = reviewRepository.findReviews(pageable);
+
+        return reviewManageDtoPage.stream()
+                .map(reviewManageDto -> {
+                    List<Favorite> favoriteList = favoriteRepository.findAllByReviewId(reviewManageDto.getReviewId());
+                    return new ReviewManageResDto(reviewManageDto, favoriteList.size());
+                }).toList();
+    }
+
+    private Sort getSortByOptions(String sort){
+        return switch (sort.toLowerCase()) {
+            case "category" -> Sort.by("p.dtype").ascending();
+            case "productname" -> Sort.by("pp.productName").ascending();
+            case "starasc" -> Sort.by("star").ascending();
+            case "stardesc" -> Sort.by("star").descending();
+            default -> null;
+        };
     }
 
 }
