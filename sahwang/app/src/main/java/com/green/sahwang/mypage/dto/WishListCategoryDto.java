@@ -1,20 +1,20 @@
 package com.green.sahwang.mypage.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 public class WishListCategoryDto {
+
+    private Boolean isChecked;
 
     private Long id;
 
     private String name;
 
     private String mainImage;
-
-    private Boolean isChecked;
 
 }
