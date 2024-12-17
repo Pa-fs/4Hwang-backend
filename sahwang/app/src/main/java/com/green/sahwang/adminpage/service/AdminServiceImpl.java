@@ -1,25 +1,29 @@
 package com.green.sahwang.adminpage.service;
 
 import com.green.sahwang.adminpage.dto.res.MemberManageResDto;
+import com.green.sahwang.adminpage.dto.ReviewManageDto;
 import com.green.sahwang.adminpage.dto.res.ReviewManageResDto;
+import com.green.sahwang.entity.Favorite;
 import com.green.sahwang.entity.Member;
 import com.green.sahwang.entity.Purchase;
 import com.green.sahwang.entity.Review;
 import com.green.sahwang.entity.enumtype.MemberRole;
 import com.green.sahwang.entity.enumtype.PurchaseStatus;
+import com.green.sahwang.repository.FavoriteRepository;
 import com.green.sahwang.repository.MemberRepository;
 import com.green.sahwang.repository.PurchaseRepository;
 import com.green.sahwang.repository.ReviewRepository;
-import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
 @Service
 @Slf4j
@@ -29,10 +33,12 @@ public class AdminServiceImpl implements AdminService{
     private final MemberRepository memberRepository;
     private final ReviewRepository reviewRepository;
     private final PurchaseRepository purchaseRepository;
+    private final FavoriteRepository favoriteRepository;
 
     @Transactional
-    public List<MemberManageResDto> getMembers(){
-        List<Member> memberList = memberRepository.findAll();
+    public List<MemberManageResDto> getMembers(int pageNum, int size){
+        Pageable pageable = PageRequest.of(pageNum, size);
+        Page<Member> memberList = memberRepository.findAll(pageable);
 
         List<MemberManageResDto> memberManageResDtoList = new ArrayList<>();
         for (Member member : memberList){
@@ -58,8 +64,10 @@ public class AdminServiceImpl implements AdminService{
     }
 
     @Transactional
-    public List<MemberManageResDto> getMembersByRole(MemberRole role){
-        List<Member> memberList = memberRepository.findAllByRole(role);
+    public List<MemberManageResDto> getMembersByRole(String role, int pageNum, int size){
+        MemberRole memberRole = MemberRole.valueOf(role.toUpperCase());
+        Pageable pageable = PageRequest.of(pageNum, size);
+        Page<Member> memberList = memberRepository.findAllByRole(memberRole, pageable);
 
         List<MemberManageResDto> memberManageResDtoList = new ArrayList<>();
         for (Member member : memberList){
@@ -96,12 +104,39 @@ public class AdminServiceImpl implements AdminService{
     }
 
     @Transactional
-    public List<ReviewManageResDto> getReviews(String sort){
-        List<Review> reviewList = reviewRepository.findAll();
+    public List<ReviewManageResDto> getReviews(int pageNum, int size){
+        Pageable pageable = PageRequest.of(pageNum, size);
+        Page<ReviewManageDto> reviewManageDtoPage = reviewRepository.findReviews(pageable);
 
-        Stream<Review> reviewStream = reviewList.stream();
+        return reviewManageDtoPage.stream()
+                .map(reviewManageDto -> {
+                    List<Favorite> favoriteList = favoriteRepository.findAllByReviewId(reviewManageDto.getReviewId());
+                    return new ReviewManageResDto(reviewManageDto, favoriteList.size());
+                }).toList();
+    }
 
-        return null;
+    @Transactional
+    public List<ReviewManageResDto> getReviewsBySort(String sort, int pageNum, int size){
+        Sort sortByOptions = getSortByOptions(sort);
+
+        Pageable pageable = PageRequest.of(pageNum, size, sortByOptions);
+        Page<ReviewManageDto> reviewManageDtoPage = reviewRepository.findReviews(pageable);
+
+        return reviewManageDtoPage.stream()
+                .map(reviewManageDto -> {
+                    List<Favorite> favoriteList = favoriteRepository.findAllByReviewId(reviewManageDto.getReviewId());
+                    return new ReviewManageResDto(reviewManageDto, favoriteList.size());
+                }).toList();
+    }
+
+    private Sort getSortByOptions(String sort){
+        return switch (sort.toLowerCase()) {
+            case "category" -> Sort.by("p.dtype").ascending();
+            case "productname" -> Sort.by("pp.productName").ascending();
+            case "starasc" -> Sort.by("star").ascending();
+            case "stardesc" -> Sort.by("star").descending();
+            default -> null;
+        };
     }
 
 }

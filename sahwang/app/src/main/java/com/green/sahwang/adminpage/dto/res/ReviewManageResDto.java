@@ -1,30 +1,17 @@
 package com.green.sahwang.adminpage.dto.res;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-
-import java.time.LocalDateTime;
+import com.green.sahwang.adminpage.dto.ReviewManageDto;
+import lombok.*;
 
 @Data
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class ReviewManageResDto {
 
-    private String reviewImage;
+    private ReviewManageDto reviewManageDto;
 
-    private String productName;
-
-    private int size;
-
-    private String dtype;
-
-    private String content;
-
-    private double star;
-
-    private String nickName;
-
-    private LocalDateTime reviewCreationDate;
+    private int favoriteCount;
 
 }

@@ -1,8 +1,8 @@
 package com.green.sahwang.mypage.service;
 
+import com.green.sahwang.mypage.dto.WishListCategoryDto;
 import com.green.sahwang.mypage.dto.req.MemberInfoReqDto;
 import com.green.sahwang.mypage.dto.req.ReviewCreateReqDto;
-import com.green.sahwang.mypage.dto.req.ReviewImageReqDto;
 import com.green.sahwang.mypage.dto.req.ReviewUpdateReqDto;
 import com.green.sahwang.mypage.dto.res.*;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,7 +19,7 @@ public interface MyPageService {
 
     List<SaleListResDto> getSaleList(UserDetails userDetails, int pageNum, int size);
 
-    List<WishListResDto> getWishList(UserDetails userDetails, int pageNum, int size);
+    List<WishListCategoryResDto> getWishCategoryList(UserDetails userDetails, int pageNum, int size);
 
     List<MyReviewResDto> getReviewList(UserDetails userDetails, int pageNum, int size);
 
