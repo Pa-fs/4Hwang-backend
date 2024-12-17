@@ -6,9 +6,9 @@ spring:
     name: SaHwang
   profiles:
     include: API-KEY
-#  sql:
-#    init:
-#      mode: always
+  sql:
+    init:
+      mode: always
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -24,7 +24,7 @@ spring:
       hibernate.format_sql: true
     show-sql: true
     open-in-view: false
-#    defer-datasource-initialization: true
+    defer-datasource-initialization: true
 
   servlet:
     multipart:
@@ -48,7 +48,7 @@ payment-service:
 kafka-config:
   bootstrap-servers: localhost:19092, localhost:29092, localhost:39092
   schema-registry-url-key: schema.registry.url
-  schema-registry-url: http://localhost:8081
+  schema-registry-url: http://localhost:8082
   num-of-partitions: 3
   replication-factor: 3
 

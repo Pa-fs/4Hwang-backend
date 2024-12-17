@@ -9,7 +9,13 @@ import com.green.sahwang.mypage.dto.req.MemberInfoReqDto;
 import com.green.sahwang.mypage.dto.req.ReviewCreateReqDto;
 import com.green.sahwang.mypage.dto.req.ReviewUpdateReqDto;
 import com.green.sahwang.mypage.dto.res.*;
+import com.green.sahwang.pendingsale.entity.PendingSale;
+import com.green.sahwang.pendingsale.repository.PendingSaleRepository;
 import com.green.sahwang.repository.*;
+import com.green.sahwang.usedproduct.entity.UsedProduct;
+import com.green.sahwang.usedproduct.repository.UsedProductRepository;
+import com.green.sahwang.verifiedsale.entity.VerifiedSale;
+import com.green.sahwang.verifiedsale.repository.VerifiedSaleRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -40,6 +46,10 @@ public class MyPageServiceImpl implements MyPageService{
     private final ModelMapper modelMapper;
     private final ReviewRepository reviewRepository;
     private final ReviewImageRepository reviewImageRepository;
+    private final ProductRepository productRepository;
+    private final PendingSaleRepository pendingSaleRepository;
+    private final VerifiedSaleRepository verifiedSaleRepository;
+    private final UsedProductRepository usedProductRepository;
 
     @Transactional
     public OrderProgressResDto getOrderProgress(UserDetails userDetails){
@@ -124,14 +134,20 @@ public class MyPageServiceImpl implements MyPageService{
         Pageable pageable = PageRequest.of(pageNum, size);
         Page<WishListCategoryDto> wishListCategoryDtoPage = wishRepository.findWishes(member, pageable);
 
+
         List<WishListCategoryResDto> wishListCategoryResDtoList = new ArrayList<>();
         for (WishListCategoryDto wishListCategoryDto : wishListCategoryDtoPage){
+            Product product = productRepository.findById(wishListCategoryDto.getId()).orElseThrow();
+            List<PendingSale> pendingSaleList = pendingSaleRepository.findAllByProduct(product);
+            List<VerifiedSale> verifiedSaleList = verifiedSaleRepository.findAllByPendingSaleIn(pendingSaleList);
+            List<UsedProduct> usedProductList = usedProductRepository.findAllByVerifiedSaleIn(verifiedSaleList);
             WishListCategoryResDto wishListCategoryResDto = new WishListCategoryResDto();
             wishListCategoryResDto.setWishListCategoryDto(wishListCategoryDto);
-//            wishListCategoryResDto.setProductCount();
+            wishListCategoryResDto.setProductCount(usedProductList.size());
+            wishListCategoryResDtoList.add(wishListCategoryResDto);
         }
 
-        return null;
+        return wishListCategoryResDtoList;
     }
 
     @Transactional(readOnly = true)
