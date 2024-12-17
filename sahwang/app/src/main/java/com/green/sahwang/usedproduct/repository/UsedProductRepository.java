@@ -2,11 +2,14 @@ package com.green.sahwang.usedproduct.repository;
 
 import com.green.sahwang.usedproduct.entity.UsedProduct;
 import com.green.sahwang.usedproduct.entity.enumtype.UsedProductType;
+import com.green.sahwang.verifiedsale.entity.VerifiedSale;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+
+import java.util.List;
 
 public interface UsedProductRepository extends JpaRepository<UsedProduct, Long> {
 
@@ -31,5 +34,5 @@ public interface UsedProductRepository extends JpaRepository<UsedProduct, Long> 
             """)
     Page<UsedProduct> findUsedProductsByProductId(@Param("productId") Long productId, @Param("usedProductType") UsedProductType usedProductType, Pageable pageable);
 
-
+    List<UsedProduct> findAllByVerifiedSaleIn(List<VerifiedSale> verifiedSaleList);
 }
