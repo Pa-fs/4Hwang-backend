@@ -1,9 +1,13 @@
 package com.green.sahwang.dto.response;
 
 import com.green.sahwang.entity.Product;
+import com.green.sahwang.verifiedsale.entity.enumtype.GradeType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -15,4 +19,5 @@ public class ProductWithSaleInfoDto {
     private int maxPrice;
     private int minSize;
     private int maxSize;
+    private String gradeTypes;
 }

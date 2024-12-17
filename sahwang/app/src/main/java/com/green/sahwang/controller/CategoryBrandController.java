@@ -26,7 +26,7 @@ public class CategoryBrandController {
             @PathVariable(name = "categoryId") Long categoryId,
             @RequestParam(name = "pageNum", defaultValue = "0", required = false) int pageNum,
             @RequestParam(name = "size", defaultValue = "8", required = false) int size,
-            @RequestParam(name = "sortType", defaultValue = "production_date", required = false) String sortType) {
+            @RequestParam(name = "sortType", defaultValue = "register_date", required = false) String sortType) {
         List<ProductForUsedResDto> productResDtoList = categoryBrandService
                 .getProductsByCategory(categoryId, pageNum, size, sortType);
 
