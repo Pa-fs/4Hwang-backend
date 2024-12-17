@@ -2,12 +2,11 @@ package com.green.sahwang.mypage.service;
 
 import com.green.sahwang.config.DateTimeUtils;
 import com.green.sahwang.entity.*;
-import com.green.sahwang.entity.enumtype.PurchaseStatus;
 import com.green.sahwang.exception.BizException;
 import com.green.sahwang.exception.ErrorCode;
+import com.green.sahwang.mypage.dto.WishListCategoryDto;
 import com.green.sahwang.mypage.dto.req.MemberInfoReqDto;
 import com.green.sahwang.mypage.dto.req.ReviewCreateReqDto;
-import com.green.sahwang.mypage.dto.req.ReviewImageReqDto;
 import com.green.sahwang.mypage.dto.req.ReviewUpdateReqDto;
 import com.green.sahwang.mypage.dto.res.*;
 import com.green.sahwang.repository.*;
@@ -40,6 +39,7 @@ public class MyPageServiceImpl implements MyPageService{
     private final SaleProductRepository saleProductRepository;
     private final ModelMapper modelMapper;
     private final ReviewRepository reviewRepository;
+    private final ReviewImageRepository reviewImageRepository;
 
     @Transactional
     public OrderProgressResDto getOrderProgress(UserDetails userDetails){
@@ -119,25 +119,19 @@ public class MyPageServiceImpl implements MyPageService{
     }
 
     @Transactional(readOnly = true)
-    public List<WishListResDto> getWishList(UserDetails userDetails, int pageNum, int size){
+    public List<WishListCategoryResDto> getWishCategoryList(UserDetails userDetails, int pageNum, int size){
         Member member = memberRepository.findByEmail(userDetails.getUsername());
-
         Pageable pageable = PageRequest.of(pageNum, size);
-        Page<Wish> wishPage = wishRepository.findAllByMemberAndIsChecked(member, true, pageable);
+        Page<WishListCategoryDto> wishListCategoryDtoPage = wishRepository.findWishes(member, pageable);
 
-        List<WishListResDto> wishListResDtoList = new ArrayList<>();
-
-        for(Wish wish : wishPage){
-            WishListResDto wishListResDto = new WishListResDto();
-            wishListResDto.setProductId(wish.getProduct().getId());
-            wishListResDto.setProductName(wish.getProduct().getName());
-            wishListResDto.setProductPrice(wish.getProduct().getPrice());
-            wishListResDto.setSize(wishListResDto.getSize());
-            wishListResDto.setMainImage(wish.getProduct().getMainImage());
-            wishListResDtoList.add(wishListResDto);
+        List<WishListCategoryResDto> wishListCategoryResDtoList = new ArrayList<>();
+        for (WishListCategoryDto wishListCategoryDto : wishListCategoryDtoPage){
+            WishListCategoryResDto wishListCategoryResDto = new WishListCategoryResDto();
+            wishListCategoryResDto.setWishListCategoryDto(wishListCategoryDto);
+//            wishListCategoryResDto.setProductCount();
         }
 
-        return wishListResDtoList;
+        return null;
     }
 
     @Transactional(readOnly = true)
@@ -156,7 +150,9 @@ public class MyPageServiceImpl implements MyPageService{
                         review.getReviewModifiedDate(),
                         review.getStar(),
                         review.getMember().getId(),
-                        review.getPurchaseProduct().getId()
+                        review.getPurchaseProduct().getId(),
+                        review.getPurchaseProduct().getProductName(),
+                        review.getPurchaseProduct().getProduct().getSize()
                 ))
                 .toList();
     }
@@ -188,6 +184,8 @@ public class MyPageServiceImpl implements MyPageService{
 
     @Transactional
     public void reviewDelete(UserDetails userDetails, Long reviewId){
+        Review review = reviewRepository.findById(reviewId).orElseThrow();
+        reviewImageRepository.deleteById(review.getId());
         reviewRepository.deleteById(reviewId);
     }
 

@@ -11,20 +11,24 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class MyReviewResDto {
 
-    Long reviewId;
+    private Long reviewId;
 
-    String content;
+    private String content;
 
-    String reviewImage;
+    private String reviewImage;
 
-    LocalDateTime createDate;
+    private LocalDateTime createDate;
 
-    LocalDateTime modifiedDate;
+    private LocalDateTime modifiedDate;
 
-    double star;
+    private double star;
 
-    Long memberId;
+    private Long memberId;
 
-    Long purchaseProductId;
+    private Long purchaseProductId;
+
+    private String productName;
+
+    private int size;
 
 }

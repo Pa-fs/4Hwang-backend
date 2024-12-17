@@ -4,7 +4,7 @@ import com.green.sahwang.dto.request.WishProductReqDto;
 import com.green.sahwang.dto.response.WishCheckedResDto;
 import com.green.sahwang.entity.Member;
 import com.green.sahwang.entity.Product;
-import com.green.sahwang.entity.Wish;
+import com.green.sahwang.entity.WishCategory;
 import com.green.sahwang.repository.MemberRepository;
 import com.green.sahwang.repository.ProductRepository;
 import com.green.sahwang.repository.WishRepository;
@@ -39,10 +39,10 @@ public class WishServiceImpl implements WishService {
 
         List<Product> productList = productRepository.findAllById(productIdlist);
 
-        List<Wish> wishList = wishRepository.findAllByProductInAndMember(productList, member);
+        List<WishCategory> wishCategoryList = wishRepository.findAllByProductInAndMember(productList, member);
 
-        Map<Long, Wish> wishMap = wishList.stream()
-                .collect(Collectors.toMap(wish -> wish.getProduct().getId(), wish -> wish));
+        Map<Long, WishCategory> wishMap = wishCategoryList.stream()
+                .collect(Collectors.toMap(wishCategory -> wishCategory.getProduct().getId(), wishCategory -> wishCategory));
 
         List<WishCheckedResDto> wishCheckedResDtoList = new ArrayList<>();
 
@@ -60,20 +60,20 @@ public class WishServiceImpl implements WishService {
     public Boolean clickWish(UserDetails userDetails, Long productId){
         Member member = memberRepository.findByEmail(userDetails.getUsername());
         Product product = productRepository.findById(productId).orElseThrow();
-        Wish wish = wishRepository.findByProductAndMember(product, member);
+        WishCategory wishCategory = wishRepository.findByProductAndMember(product, member);
 
-        if (wish == null){
-            wish = new Wish();
-            wish.setProduct(product);
-            wish.setMember(member);
-            wish.setIsChecked(true);
+        if (wishCategory == null){
+            wishCategory = new WishCategory();
+            wishCategory.setProduct(product);
+            wishCategory.setMember(member);
+            wishCategory.setIsChecked(true);
         } else {
-            wish.setIsChecked(!wish.getIsChecked());
+            wishCategory.setIsChecked(!wishCategory.getIsChecked());
         }
 
-        wishRepository.save(wish);
-        log.info("wish : {}", wish);
-        return wish.getIsChecked();
+        wishRepository.save(wishCategory);
+        log.info("wish : {}", wishCategory);
+        return wishCategory.getIsChecked();
     }
 
 }
