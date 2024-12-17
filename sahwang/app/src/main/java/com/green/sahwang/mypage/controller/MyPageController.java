@@ -72,7 +72,7 @@ public class MyPageController {
     }
 
     @SecurityRequirement(name = "Bearer Authentication")
-    @Operation(summary = "카테고리 찜하기", description = "리뷰 도움되유 리스트")
+    @Operation(summary = "카테고리 찜하기", description = "카테고리 찜하기 리스트")
     @GetMapping("/wishList/category")
     public ResponseEntity<List<WishListCategoryResDto>> getWishListCategory(@AuthenticationPrincipal UserDetails userDetails,
                                                                          @RequestParam(name = "pageNum", defaultValue = "0", required = false) int pageNum,
