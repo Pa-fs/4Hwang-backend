@@ -32,7 +32,7 @@ public abstract class Product {
     private int price;
 
     @ManyToOne
-    @JsonIgnore
+//    @JsonIgnore
     @JoinColumn(name = "brand_id")
     private Brand brand;
 

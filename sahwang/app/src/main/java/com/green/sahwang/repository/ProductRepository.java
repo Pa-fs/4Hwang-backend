@@ -1,6 +1,7 @@
 package com.green.sahwang.repository;
 
 import com.green.sahwang.brand.entity.Brand;
+import com.green.sahwang.dto.response.ProductWithSaleInfoDto;
 import com.green.sahwang.entity.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ProductRepository extends JpaRepository<Product, Long>, ProductRepositoryCustom {
+
     Page<Product> findAllProductsByDtype(Pageable pageable, String dtype);
 
     List<Product> findProductsByBrandAndDtype(Brand brand, Pageable pageable, String dtype);
