@@ -124,7 +124,8 @@ public class ProductServiceImpl implements ProductService {
                 productWithSaleInfoDto.getMinPrice(),
                 productWithSaleInfoDto.getMaxPrice(),
                 productWithSaleInfoDto.getMinSize(),
-                productWithSaleInfoDto.getMaxSize()
+                productWithSaleInfoDto.getMaxSize(),
+                productWithSaleInfoDto.getGradeTypes()
         );
         return productForUsedResDto;
     }
