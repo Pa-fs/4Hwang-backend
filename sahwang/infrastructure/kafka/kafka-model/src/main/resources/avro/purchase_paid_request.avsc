@@ -6,12 +6,12 @@
     { "name": "purchaseId", "type": "string" },
     { "name": "memberId", "type": "string" },
     { "name": "transactionId", "type":  "string" },
-    { "name": "paymentStatus", "type": {
-        "type": "enum", "name": "PaymentStatus", "symbols": ["PAYING", "PAID", "COMPLETED"]
+    { "name": "paymentAvroStatus", "type": {
+        "type": "enum", "name": "PaymentAvroStatus", "symbols": ["PAYING", "PAID", "COMPLETED"]
       }
     },
-    { "name": "paymentMethod", "type": {
-        "type": "enum", "name": "PaymentMethod", "symbols": ["CREDIT_CARD", "ACCOUNT_TRANSFER"]
+    { "name": "PaymentAvroMethod", "type": {
+        "type": "enum", "name": "PaymentAvroMethod", "symbols": ["CREDIT_CARD", "ACCOUNT_TRANSFER"]
       }
     },
     { "name": "amount", "type":  "int" },

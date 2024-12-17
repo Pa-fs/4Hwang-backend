@@ -2,7 +2,9 @@ package com.green.sahwang.service.impl;
 
 import com.green.sahwang.config.DateTimeUtils;
 import com.green.sahwang.dto.response.ImageResDto;
+import com.green.sahwang.dto.response.ProductForUsedResDto;
 import com.green.sahwang.dto.response.ProductResDto;
+import com.green.sahwang.dto.response.ProductWithSaleInfoDto;
 import com.green.sahwang.entity.Product;
 import com.green.sahwang.entity.ProductImage;
 import com.green.sahwang.repository.ProductImageRepository;
@@ -54,7 +56,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
 //    @NotNull
-public List<ProductResDto> getProductResDtos(List<Product> products) {
+    public List<ProductResDto> getProductResDtos(List<Product> products) {
         return products.stream()
                 .map(product -> getProductResDto(product))
                 .toList();
@@ -87,6 +89,45 @@ public List<ProductResDto> getProductResDtos(List<Product> products) {
                 images
         );
         return productResDto;
+    }
+
+    /**
+     * 중간페이지를 위한 제품서비스
+     * @param
+     * @return
+     */
+    public ProductForUsedResDto getProductForUsedResDto(ProductWithSaleInfoDto productWithSaleInfoDto) {
+        Product product = productWithSaleInfoDto.getProduct();
+        List<ProductImage> productImages = productImageRepository.findAllByProduct(product);
+        List<ImageResDto> images = productImages.stream()
+                .map(productImage -> {
+                    ImageResDto imageResDto = new ImageResDto(
+                            productImage.getFilename(),
+                            productImage.getPath(),
+                            productImage.getFileDesc()
+                    );
+                    return imageResDto;
+                }).toList();
+
+        ProductForUsedResDto productForUsedResDto = new ProductForUsedResDto(
+                product.getId(),
+                product.getName(),
+                product.getContent(),
+                product.getDtype(),
+                product.getBrand().getName(),
+                product.getSize(),
+                product.getPrice(),
+                reviewService.reviewCount(product),
+                product.getRegisterDate() != null ? DateTimeUtils.format(product.getRegisterDate()) : null,
+                !images.isEmpty() && images.get(0) != null ? images.get(0) : null,  // null 체크
+                images,
+                productWithSaleInfoDto.getMinPrice(),
+                productWithSaleInfoDto.getMaxPrice(),
+                productWithSaleInfoDto.getMinSize(),
+                productWithSaleInfoDto.getMaxSize(),
+                productWithSaleInfoDto.getGradeTypes()
+        );
+        return productForUsedResDto;
     }
 
     @Override

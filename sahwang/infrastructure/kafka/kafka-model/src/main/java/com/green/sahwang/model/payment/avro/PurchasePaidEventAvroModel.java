@@ -14,10 +14,10 @@ import org.apache.avro.message.SchemaStore;
 
 @org.apache.avro.specific.AvroGenerated
 public class PurchasePaidEventAvroModel extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = -3796832107767195849L;
+  private static final long serialVersionUID = 9105522458628964754L;
 
 
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"PurchasePaidEventAvroModel\",\"namespace\":\"com.green.sahwang.model.payment.avro\",\"fields\":[{\"name\":\"purchaseId\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"memberId\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"transactionId\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"paymentStatus\",\"type\":{\"type\":\"enum\",\"name\":\"PaymentStatus\",\"symbols\":[\"PAYING\",\"PAID\",\"COMPLETED\"]}},{\"name\":\"paymentMethod\",\"type\":{\"type\":\"enum\",\"name\":\"PaymentMethod\",\"symbols\":[\"CREDIT_CARD\",\"ACCOUNT_TRANSFER\"]}},{\"name\":\"amount\",\"type\":\"int\"},{\"name\":\"timestamp\",\"type\":\"long\"},{\"name\":\"shippingAddress\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}}]}");
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"PurchasePaidEventAvroModel\",\"namespace\":\"com.green.sahwang.model.payment.avro\",\"fields\":[{\"name\":\"purchaseId\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"memberId\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"transactionId\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"paymentAvroStatus\",\"type\":{\"type\":\"enum\",\"name\":\"PaymentAvroStatus\",\"symbols\":[\"PAYING\",\"PAID\",\"COMPLETED\"]}},{\"name\":\"PaymentAvroMethod\",\"type\":{\"type\":\"enum\",\"name\":\"PaymentAvroMethod\",\"symbols\":[\"CREDIT_CARD\",\"ACCOUNT_TRANSFER\"]}},{\"name\":\"amount\",\"type\":\"int\"},{\"name\":\"timestamp\",\"type\":\"long\"},{\"name\":\"shippingAddress\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static final SpecificData MODEL$ = new SpecificData();
@@ -76,8 +76,8 @@ public class PurchasePaidEventAvroModel extends org.apache.avro.specific.Specifi
   private java.lang.String purchaseId;
   private java.lang.String memberId;
   private java.lang.String transactionId;
-  private com.green.sahwang.model.payment.avro.PaymentStatus paymentStatus;
-  private com.green.sahwang.model.payment.avro.PaymentMethod paymentMethod;
+  private com.green.sahwang.model.payment.avro.PaymentAvroStatus paymentAvroStatus;
+  private com.green.sahwang.model.payment.avro.PaymentAvroMethod PaymentAvroMethod;
   private int amount;
   private long timestamp;
   private java.lang.String shippingAddress;
@@ -94,18 +94,18 @@ public class PurchasePaidEventAvroModel extends org.apache.avro.specific.Specifi
    * @param purchaseId The new value for purchaseId
    * @param memberId The new value for memberId
    * @param transactionId The new value for transactionId
-   * @param paymentStatus The new value for paymentStatus
-   * @param paymentMethod The new value for paymentMethod
+   * @param paymentAvroStatus The new value for paymentAvroStatus
+   * @param PaymentAvroMethod The new value for PaymentAvroMethod
    * @param amount The new value for amount
    * @param timestamp The new value for timestamp
    * @param shippingAddress The new value for shippingAddress
    */
-  public PurchasePaidEventAvroModel(java.lang.String purchaseId, java.lang.String memberId, java.lang.String transactionId, com.green.sahwang.model.payment.avro.PaymentStatus paymentStatus, com.green.sahwang.model.payment.avro.PaymentMethod paymentMethod, java.lang.Integer amount, java.lang.Long timestamp, java.lang.String shippingAddress) {
+  public PurchasePaidEventAvroModel(java.lang.String purchaseId, java.lang.String memberId, java.lang.String transactionId, com.green.sahwang.model.payment.avro.PaymentAvroStatus paymentAvroStatus, com.green.sahwang.model.payment.avro.PaymentAvroMethod PaymentAvroMethod, java.lang.Integer amount, java.lang.Long timestamp, java.lang.String shippingAddress) {
     this.purchaseId = purchaseId;
     this.memberId = memberId;
     this.transactionId = transactionId;
-    this.paymentStatus = paymentStatus;
-    this.paymentMethod = paymentMethod;
+    this.paymentAvroStatus = paymentAvroStatus;
+    this.PaymentAvroMethod = PaymentAvroMethod;
     this.amount = amount;
     this.timestamp = timestamp;
     this.shippingAddress = shippingAddress;
@@ -124,8 +124,8 @@ public class PurchasePaidEventAvroModel extends org.apache.avro.specific.Specifi
     case 0: return purchaseId;
     case 1: return memberId;
     case 2: return transactionId;
-    case 3: return paymentStatus;
-    case 4: return paymentMethod;
+    case 3: return paymentAvroStatus;
+    case 4: return PaymentAvroMethod;
     case 5: return amount;
     case 6: return timestamp;
     case 7: return shippingAddress;
@@ -141,8 +141,8 @@ public class PurchasePaidEventAvroModel extends org.apache.avro.specific.Specifi
     case 0: purchaseId = value$ != null ? value$.toString() : null; break;
     case 1: memberId = value$ != null ? value$.toString() : null; break;
     case 2: transactionId = value$ != null ? value$.toString() : null; break;
-    case 3: paymentStatus = (com.green.sahwang.model.payment.avro.PaymentStatus)value$; break;
-    case 4: paymentMethod = (com.green.sahwang.model.payment.avro.PaymentMethod)value$; break;
+    case 3: paymentAvroStatus = (com.green.sahwang.model.payment.avro.PaymentAvroStatus)value$; break;
+    case 4: PaymentAvroMethod = (com.green.sahwang.model.payment.avro.PaymentAvroMethod)value$; break;
     case 5: amount = (java.lang.Integer)value$; break;
     case 6: timestamp = (java.lang.Long)value$; break;
     case 7: shippingAddress = value$ != null ? value$.toString() : null; break;
@@ -202,37 +202,37 @@ public class PurchasePaidEventAvroModel extends org.apache.avro.specific.Specifi
   }
 
   /**
-   * Gets the value of the 'paymentStatus' field.
-   * @return The value of the 'paymentStatus' field.
+   * Gets the value of the 'paymentAvroStatus' field.
+   * @return The value of the 'paymentAvroStatus' field.
    */
-  public com.green.sahwang.model.payment.avro.PaymentStatus getPaymentStatus() {
-    return paymentStatus;
+  public com.green.sahwang.model.payment.avro.PaymentAvroStatus getPaymentAvroStatus() {
+    return paymentAvroStatus;
   }
 
 
   /**
-   * Sets the value of the 'paymentStatus' field.
+   * Sets the value of the 'paymentAvroStatus' field.
    * @param value the value to set.
    */
-  public void setPaymentStatus(com.green.sahwang.model.payment.avro.PaymentStatus value) {
-    this.paymentStatus = value;
+  public void setPaymentAvroStatus(com.green.sahwang.model.payment.avro.PaymentAvroStatus value) {
+    this.paymentAvroStatus = value;
   }
 
   /**
-   * Gets the value of the 'paymentMethod' field.
-   * @return The value of the 'paymentMethod' field.
+   * Gets the value of the 'PaymentAvroMethod' field.
+   * @return The value of the 'PaymentAvroMethod' field.
    */
-  public com.green.sahwang.model.payment.avro.PaymentMethod getPaymentMethod() {
-    return paymentMethod;
+  public com.green.sahwang.model.payment.avro.PaymentAvroMethod getPaymentAvroMethod() {
+    return PaymentAvroMethod;
   }
 
 
   /**
-   * Sets the value of the 'paymentMethod' field.
+   * Sets the value of the 'PaymentAvroMethod' field.
    * @param value the value to set.
    */
-  public void setPaymentMethod(com.green.sahwang.model.payment.avro.PaymentMethod value) {
-    this.paymentMethod = value;
+  public void setPaymentAvroMethod(com.green.sahwang.model.payment.avro.PaymentAvroMethod value) {
+    this.PaymentAvroMethod = value;
   }
 
   /**
@@ -330,8 +330,8 @@ public class PurchasePaidEventAvroModel extends org.apache.avro.specific.Specifi
     private java.lang.String purchaseId;
     private java.lang.String memberId;
     private java.lang.String transactionId;
-    private com.green.sahwang.model.payment.avro.PaymentStatus paymentStatus;
-    private com.green.sahwang.model.payment.avro.PaymentMethod paymentMethod;
+    private com.green.sahwang.model.payment.avro.PaymentAvroStatus paymentAvroStatus;
+    private com.green.sahwang.model.payment.avro.PaymentAvroMethod PaymentAvroMethod;
     private int amount;
     private long timestamp;
     private java.lang.String shippingAddress;
@@ -359,12 +359,12 @@ public class PurchasePaidEventAvroModel extends org.apache.avro.specific.Specifi
         this.transactionId = data().deepCopy(fields()[2].schema(), other.transactionId);
         fieldSetFlags()[2] = other.fieldSetFlags()[2];
       }
-      if (isValidValue(fields()[3], other.paymentStatus)) {
-        this.paymentStatus = data().deepCopy(fields()[3].schema(), other.paymentStatus);
+      if (isValidValue(fields()[3], other.paymentAvroStatus)) {
+        this.paymentAvroStatus = data().deepCopy(fields()[3].schema(), other.paymentAvroStatus);
         fieldSetFlags()[3] = other.fieldSetFlags()[3];
       }
-      if (isValidValue(fields()[4], other.paymentMethod)) {
-        this.paymentMethod = data().deepCopy(fields()[4].schema(), other.paymentMethod);
+      if (isValidValue(fields()[4], other.PaymentAvroMethod)) {
+        this.PaymentAvroMethod = data().deepCopy(fields()[4].schema(), other.PaymentAvroMethod);
         fieldSetFlags()[4] = other.fieldSetFlags()[4];
       }
       if (isValidValue(fields()[5], other.amount)) {
@@ -399,12 +399,12 @@ public class PurchasePaidEventAvroModel extends org.apache.avro.specific.Specifi
         this.transactionId = data().deepCopy(fields()[2].schema(), other.transactionId);
         fieldSetFlags()[2] = true;
       }
-      if (isValidValue(fields()[3], other.paymentStatus)) {
-        this.paymentStatus = data().deepCopy(fields()[3].schema(), other.paymentStatus);
+      if (isValidValue(fields()[3], other.paymentAvroStatus)) {
+        this.paymentAvroStatus = data().deepCopy(fields()[3].schema(), other.paymentAvroStatus);
         fieldSetFlags()[3] = true;
       }
-      if (isValidValue(fields()[4], other.paymentMethod)) {
-        this.paymentMethod = data().deepCopy(fields()[4].schema(), other.paymentMethod);
+      if (isValidValue(fields()[4], other.PaymentAvroMethod)) {
+        this.PaymentAvroMethod = data().deepCopy(fields()[4].schema(), other.PaymentAvroMethod);
         fieldSetFlags()[4] = true;
       }
       if (isValidValue(fields()[5], other.amount)) {
@@ -542,81 +542,81 @@ public class PurchasePaidEventAvroModel extends org.apache.avro.specific.Specifi
     }
 
     /**
-      * Gets the value of the 'paymentStatus' field.
+      * Gets the value of the 'paymentAvroStatus' field.
       * @return The value.
       */
-    public com.green.sahwang.model.payment.avro.PaymentStatus getPaymentStatus() {
-      return paymentStatus;
+    public com.green.sahwang.model.payment.avro.PaymentAvroStatus getPaymentAvroStatus() {
+      return paymentAvroStatus;
     }
 
 
     /**
-      * Sets the value of the 'paymentStatus' field.
-      * @param value The value of 'paymentStatus'.
+      * Sets the value of the 'paymentAvroStatus' field.
+      * @param value The value of 'paymentAvroStatus'.
       * @return This builder.
       */
-    public com.green.sahwang.model.payment.avro.PurchasePaidEventAvroModel.Builder setPaymentStatus(com.green.sahwang.model.payment.avro.PaymentStatus value) {
+    public com.green.sahwang.model.payment.avro.PurchasePaidEventAvroModel.Builder setPaymentAvroStatus(com.green.sahwang.model.payment.avro.PaymentAvroStatus value) {
       validate(fields()[3], value);
-      this.paymentStatus = value;
+      this.paymentAvroStatus = value;
       fieldSetFlags()[3] = true;
       return this;
     }
 
     /**
-      * Checks whether the 'paymentStatus' field has been set.
-      * @return True if the 'paymentStatus' field has been set, false otherwise.
+      * Checks whether the 'paymentAvroStatus' field has been set.
+      * @return True if the 'paymentAvroStatus' field has been set, false otherwise.
       */
-    public boolean hasPaymentStatus() {
+    public boolean hasPaymentAvroStatus() {
       return fieldSetFlags()[3];
     }
 
 
     /**
-      * Clears the value of the 'paymentStatus' field.
+      * Clears the value of the 'paymentAvroStatus' field.
       * @return This builder.
       */
-    public com.green.sahwang.model.payment.avro.PurchasePaidEventAvroModel.Builder clearPaymentStatus() {
-      paymentStatus = null;
+    public com.green.sahwang.model.payment.avro.PurchasePaidEventAvroModel.Builder clearPaymentAvroStatus() {
+      paymentAvroStatus = null;
       fieldSetFlags()[3] = false;
       return this;
     }
 
     /**
-      * Gets the value of the 'paymentMethod' field.
+      * Gets the value of the 'PaymentAvroMethod' field.
       * @return The value.
       */
-    public com.green.sahwang.model.payment.avro.PaymentMethod getPaymentMethod() {
-      return paymentMethod;
+    public com.green.sahwang.model.payment.avro.PaymentAvroMethod getPaymentAvroMethod() {
+      return PaymentAvroMethod;
     }
 
 
     /**
-      * Sets the value of the 'paymentMethod' field.
-      * @param value The value of 'paymentMethod'.
+      * Sets the value of the 'PaymentAvroMethod' field.
+      * @param value The value of 'PaymentAvroMethod'.
       * @return This builder.
       */
-    public com.green.sahwang.model.payment.avro.PurchasePaidEventAvroModel.Builder setPaymentMethod(com.green.sahwang.model.payment.avro.PaymentMethod value) {
+    public com.green.sahwang.model.payment.avro.PurchasePaidEventAvroModel.Builder setPaymentAvroMethod(com.green.sahwang.model.payment.avro.PaymentAvroMethod value) {
       validate(fields()[4], value);
-      this.paymentMethod = value;
+      this.PaymentAvroMethod = value;
       fieldSetFlags()[4] = true;
       return this;
     }
 
     /**
-      * Checks whether the 'paymentMethod' field has been set.
-      * @return True if the 'paymentMethod' field has been set, false otherwise.
+      * Checks whether the 'PaymentAvroMethod' field has been set.
+      * @return True if the 'PaymentAvroMethod' field has been set, false otherwise.
       */
-    public boolean hasPaymentMethod() {
+    public boolean hasPaymentAvroMethod() {
       return fieldSetFlags()[4];
     }
 
 
     /**
-      * Clears the value of the 'paymentMethod' field.
+      * Clears the value of the 'PaymentAvroMethod' field.
       * @return This builder.
       */
-    public com.green.sahwang.model.payment.avro.PurchasePaidEventAvroModel.Builder clearPaymentMethod() {
-      paymentMethod = null;
+    public com.green.sahwang.model.payment.avro.PurchasePaidEventAvroModel.Builder clearPaymentAvroMethod() {
+      PaymentAvroMethod = null;
       fieldSetFlags()[4] = false;
       return this;
     }
@@ -747,8 +747,8 @@ public class PurchasePaidEventAvroModel extends org.apache.avro.specific.Specifi
         record.purchaseId = fieldSetFlags()[0] ? this.purchaseId : (java.lang.String) defaultValue(fields()[0]);
         record.memberId = fieldSetFlags()[1] ? this.memberId : (java.lang.String) defaultValue(fields()[1]);
         record.transactionId = fieldSetFlags()[2] ? this.transactionId : (java.lang.String) defaultValue(fields()[2]);
-        record.paymentStatus = fieldSetFlags()[3] ? this.paymentStatus : (com.green.sahwang.model.payment.avro.PaymentStatus) defaultValue(fields()[3]);
-        record.paymentMethod = fieldSetFlags()[4] ? this.paymentMethod : (com.green.sahwang.model.payment.avro.PaymentMethod) defaultValue(fields()[4]);
+        record.paymentAvroStatus = fieldSetFlags()[3] ? this.paymentAvroStatus : (com.green.sahwang.model.payment.avro.PaymentAvroStatus) defaultValue(fields()[3]);
+        record.PaymentAvroMethod = fieldSetFlags()[4] ? this.PaymentAvroMethod : (com.green.sahwang.model.payment.avro.PaymentAvroMethod) defaultValue(fields()[4]);
         record.amount = fieldSetFlags()[5] ? this.amount : (java.lang.Integer) defaultValue(fields()[5]);
         record.timestamp = fieldSetFlags()[6] ? this.timestamp : (java.lang.Long) defaultValue(fields()[6]);
         record.shippingAddress = fieldSetFlags()[7] ? this.shippingAddress : (java.lang.String) defaultValue(fields()[7]);
@@ -790,9 +790,9 @@ public class PurchasePaidEventAvroModel extends org.apache.avro.specific.Specifi
 
     out.writeString(this.transactionId);
 
-    out.writeEnum(this.paymentStatus.ordinal());
+    out.writeEnum(this.paymentAvroStatus.ordinal());
 
-    out.writeEnum(this.paymentMethod.ordinal());
+    out.writeEnum(this.PaymentAvroMethod.ordinal());
 
     out.writeInt(this.amount);
 
@@ -813,9 +813,9 @@ public class PurchasePaidEventAvroModel extends org.apache.avro.specific.Specifi
 
       this.transactionId = in.readString();
 
-      this.paymentStatus = com.green.sahwang.model.payment.avro.PaymentStatus.values()[in.readEnum()];
+      this.paymentAvroStatus = com.green.sahwang.model.payment.avro.PaymentAvroStatus.values()[in.readEnum()];
 
-      this.paymentMethod = com.green.sahwang.model.payment.avro.PaymentMethod.values()[in.readEnum()];
+      this.PaymentAvroMethod = com.green.sahwang.model.payment.avro.PaymentAvroMethod.values()[in.readEnum()];
 
       this.amount = in.readInt();
 
@@ -839,11 +839,11 @@ public class PurchasePaidEventAvroModel extends org.apache.avro.specific.Specifi
           break;
 
         case 3:
-          this.paymentStatus = com.green.sahwang.model.payment.avro.PaymentStatus.values()[in.readEnum()];
+          this.paymentAvroStatus = com.green.sahwang.model.payment.avro.PaymentAvroStatus.values()[in.readEnum()];
           break;
 
         case 4:
-          this.paymentMethod = com.green.sahwang.model.payment.avro.PaymentMethod.values()[in.readEnum()];
+          this.PaymentAvroMethod = com.green.sahwang.model.payment.avro.PaymentAvroMethod.values()[in.readEnum()];
           break;
 
         case 5:

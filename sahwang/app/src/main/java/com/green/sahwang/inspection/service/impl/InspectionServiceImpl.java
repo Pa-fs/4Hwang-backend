@@ -82,6 +82,7 @@ public class InspectionServiceImpl implements InspectionService {
                         .saleApplicationDate(DateTimeUtils.formatWithoutSecond(pendingSale.getCreatedDate()))
                         .category(pendingSale.getCategoryName())
                         .size(pendingSale.getProductSize())
+                        .usedOrNot(pendingSale.isUsedOrNot())
                         .userSaleResImageList(
                                 userSaleImageRepository.findAllByPendingSale(pendingSale).stream()
                                         .map(userSaleImage -> UserSaleResImage.builder()

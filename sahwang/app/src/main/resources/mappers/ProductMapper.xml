@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.green.sahwang.product.mapper.ProductMapper">
+
+    <!-- ResultMap 정의 -->
+    <resultMap id="ProductWithSaleInfoDtoResultMap" type="com.green.sahwang.dto.response.ProductWithSaleInfoDto">
+        <result property="minPrice" column="minPrice" />
+        <result property="maxPrice" column="maxPrice" />
+        <result property="minSize" column="minSize" />
+        <result property="maxSize" column="maxSize" />
+        <result property="gradeTypes" column="gradeTypes" />
+        <association property="product" column="productId" javaType="com.green.sahwang.entity.Product"
+                     select="com.green.sahwang.product.mapper.ProductMapper.findProductById"/>
+    </resultMap>
+
+    <!-- 쿼리 정의 -->
+    <select id="findProductsWithInUsedSaleInfo" resultMap="ProductWithSaleInfoDtoResultMap">
+        SELECT
+        p.product_id AS productId,
+        p.name AS name,
+        p.content AS content,
+        p.dtype AS dtype,
+        p.brand_id AS brandId,
+        p.size AS size,
+        p.price AS price,
+        MIN(pp.minPrice) AS minPrice,
+        MAX(pp.maxPrice) AS maxPrice,
+        MIN(pp.minSize) AS minSize,
+        MAX(pp.maxSize) AS maxSize,
+        GROUP_CONCAT(DISTINCT pp.grade_type ORDER BY pp.grade_type SEPARATOR ', ') AS gradeTypes
+        FROM product p
+            LEFT OUTER JOIN (
+            SELECT
+            ps.product_id,
+            sg.grade_type AS grade_type,
+            MIN(ps.excepted_selling_price) AS minPrice,
+            MAX(ps.excepted_selling_price) AS maxPrice,
+            MIN(vs.product_size) AS minSize,
+            MAX(vs.product_size) AS maxSize
+            FROM pending_sale ps
+            JOIN verified_sale vs ON ps.pending_sale_id = vs.pending_sale_id
+            JOIN used_product up ON vs.verified_sale_id = up.verified_sale_id
+            JOIN sale_grade sg ON vs.sale_grade_id = sg.sale_grade_id
+            WHERE up.used_product_type = 'USER_ACCEPT'
+            GROUP BY ps.product_id, sg.sale_grade_id
+            ) pp ON p.product_id = pp.product_id
+        WHERE p.dtype = #{dtype}
+        GROUP BY p.product_id, p.name, p.content, p.dtype, p.brand_id, p.size, p.price
+        <if test="pageable != null">
+            ORDER BY
+            <choose>
+                <when test="pageable.sort != null">
+                    <foreach collection="pageable.sort" item="sort" separator=",">
+                        ${sort.property} ${sort.direction.name()}
+                    </foreach>
+                </when>
+                <otherwise>
+                    <!-- 생산날짜 순 -->
+                    p.register_date DESC
+                </otherwise>
+            </choose>
+        </if>
+        <!-- 페이징 처리 -->
+        LIMIT #{pageable.offset}, #{pageable.pageSize}
+    </select>
+
+
+    <resultMap id="ProductResultMap" type="com.green.sahwang.entity.Product">
+        <id property="id" column="product_id" />
+        <result property="name" column="name" />
+        <result property="content" column="content" />
+        <result property="dtype" column="dtype" />
+        <association property="brand" column="brand_id" javaType="com.green.sahwang.brand.entity.Brand"
+                     select="com.green.sahwang.brand.mapper.BrandMapper.findBrandById"/>
+        <discriminator javaType="string" column="dtype">
+            <case value="P" resultType="com.green.sahwang.entity.product.Perfume" />
+            <case value="C" resultType="com.green.sahwang.entity.product.Candle" />
+            <case value="D" resultType="com.green.sahwang.entity.product.Diffuser" />
+        </discriminator>
+    </resultMap>
+    <!-- 별도의 Product 조회 쿼리 -->
+    <select id="findProductById" resultMap="ProductResultMap">
+        SELECT * FROM product WHERE product_id = #{productId}
+    </select>
+
+</mapper>

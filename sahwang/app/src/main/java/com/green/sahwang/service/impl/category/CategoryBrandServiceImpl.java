@@ -8,6 +8,7 @@ import com.green.sahwang.entity.ProductImage;
 import com.green.sahwang.exception.BizException;
 import com.green.sahwang.exception.CategoryDomainException;
 import com.green.sahwang.exception.ErrorCode;
+import com.green.sahwang.product.mapper.ProductMapper;
 import com.green.sahwang.repository.*;
 import com.green.sahwang.service.category.CategoryBrandService;
 import com.green.sahwang.service.impl.ProductServiceImpl;
@@ -35,19 +36,21 @@ public class CategoryBrandServiceImpl implements CategoryBrandService {
     private final ProductRepository productRepository;
     private final ProductImageRepository productImageRepository;
 
+    private final ProductMapper productMapper;
+
     @Override
     @Transactional(readOnly = true)
-    public List<ProductResDto> getProductsByCategory(Long categoryId, int pageNum, int size, String sortType) {
+    public List<ProductForUsedResDto> getProductsByCategory(Long categoryId, int pageNum, int size, String sortType) {
         Category category = categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new BizException(ErrorCode.NO_CATEGORY));
         // 개선 여지 코드
         String dType = String.valueOf(category.getName().charAt(0)).toUpperCase();
 
         Pageable pageable = PageRequest.of(pageNum, size, Sort.by(Sort.Direction.DESC, sortType));
-        Page<Product> products = productRepository.findAllProductsByDtype(pageable, dType);
+        List<ProductWithSaleInfoDto> productWithSaleInfoDtos = productMapper.findProductsWithInUsedSaleInfo(pageable, dType);
 
-        return products.stream()
-                .map(product -> productService.getProductResDto(product))
+        return productWithSaleInfoDtos.stream()
+                .map(productWithSaleInfoDto -> productService.getProductForUsedResDto(productWithSaleInfoDto))
                 .toList();
     }
 
