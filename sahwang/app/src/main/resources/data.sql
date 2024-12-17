@@ -1,5 +1,6 @@
 DELETE FROM `product_image`;
 DELETE FROM `category_brand`;
+DELETE FROM `cart_used_product`;
 DELETE FROM `cart_product`;
 DELETE FROM `purchase_payment`;
 DELETE FROM `favorite`;

@@ -1,8 +1,11 @@
 package com.green.sahwang.controller;
 
-import com.green.sahwang.dto.request.cart.CartProductsRemoveReqDto;
-import com.green.sahwang.dto.request.cart.CartProductsReqDto;
+import com.green.sahwang.cart.dto.request.cart.CartProductsRemoveReqDto;
+import com.green.sahwang.cart.dto.request.cart.CartProductsReqDto;
+import com.green.sahwang.cart.dto.request.cart.CartUsedProductReqDto;
 import com.green.sahwang.service.cart.CartService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -37,17 +40,33 @@ public class CartController {
         return ResponseEntity.ok("delete products in cart");
     }
 
-    @PostMapping("merge")
-    public ResponseEntity<String> mergeProducts(@RequestBody List<CartProductsReqDto> cartProductsReqDtos,
+//    @PostMapping("merge")
+    public ResponseEntity<String> mergeProducts(@RequestBody List<CartProductsReqDto> cartUsedProductsReqDtos,
                                                 @AuthenticationPrincipal UserDetails userDetails) {
         if (userDetails.getUsername() == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-        if (cartProductsReqDtos.isEmpty()) {
+        if (cartUsedProductsReqDtos.isEmpty()) {
             return ResponseEntity.ok("요청 데이터가 비어있습니다.");
         }
-        cartService.mergeProductsInCartWithUserLogin(cartProductsReqDtos, userDetails.getUsername());
+        cartService.mergeProductsInCartWithUserLogin(cartUsedProductsReqDtos, userDetails.getUsername());
+        return ResponseEntity.ok("success merge");
+    }
+
+    @PostMapping("merge")
+    @SecurityRequirement(name = "Bearer Authentication")
+    @Operation(summary = "중고상품 합치기 API", description = "로컬스토리지 -> DB로 데이터 합치기")
+    public ResponseEntity<String> mergeUsedProducts(@RequestBody List<CartUsedProductReqDto> cartUsedProductReqDtos,
+                                                @AuthenticationPrincipal UserDetails userDetails) {
+        if (userDetails.getUsername() == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        if (cartUsedProductReqDtos.isEmpty()) {
+            return ResponseEntity.ok("요청 데이터가 비어있습니다.");
+        }
+        cartService.mergeUsedProductsInCartWithUserLogin(cartUsedProductReqDtos, userDetails.getUsername());
         return ResponseEntity.ok("success merge");
     }
 }

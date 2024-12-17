@@ -1,5 +1,6 @@
-package com.green.sahwang.entity;
+package com.green.sahwang.cart.entity;
 
+import com.green.sahwang.entity.Product;
 import jakarta.persistence.*;
 import lombok.*;
 

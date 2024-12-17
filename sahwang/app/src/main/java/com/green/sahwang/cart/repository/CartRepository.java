@@ -1,6 +1,6 @@
-package com.green.sahwang.repository;
+package com.green.sahwang.cart.repository;
 
-import com.green.sahwang.entity.Cart;
+import com.green.sahwang.cart.entity.Cart;
 import com.green.sahwang.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 

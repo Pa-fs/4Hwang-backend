@@ -1,9 +1,11 @@
 package com.green.sahwang.entity;
 
+import com.green.sahwang.cart.entity.Cart;
+import com.green.sahwang.cart.entity.CartProduct;
 import com.green.sahwang.entity.product.Candle;
 import com.green.sahwang.entity.product.Perfume;
-import com.green.sahwang.repository.CartProductRepository;
-import com.green.sahwang.repository.CartRepository;
+import com.green.sahwang.cart.repository.CartProductRepository;
+import com.green.sahwang.cart.repository.CartRepository;
 import com.green.sahwang.repository.MemberRepository;
 import com.green.sahwang.repository.ProductRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,7 +19,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)

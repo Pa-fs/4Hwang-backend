@@ -1,16 +1,15 @@
 package com.green.sahwang.service.impl.cart;
 
-import com.green.sahwang.dto.request.cart.CartProductsReqDto;
-import com.green.sahwang.entity.Cart;
-import com.green.sahwang.entity.CartProduct;
+import com.green.sahwang.cart.entity.Cart;
+import com.green.sahwang.cart.entity.CartProduct;
 import com.green.sahwang.entity.Member;
 import com.green.sahwang.entity.Product;
 import com.green.sahwang.entity.product.Candle;
-import com.green.sahwang.repository.CartProductRepository;
+import com.green.sahwang.cart.repository.CartProductRepository;
 import com.green.sahwang.repository.MemberRepository;
 import com.green.sahwang.repository.ProductRepository;
 import com.green.sahwang.service.cart.CartService;
-import com.green.sahwang.service.impl.cart.helper.CartServiceHelper;
+import com.green.sahwang.cart.service.cart.helper.CartServiceHelper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,9 +17,6 @@ import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

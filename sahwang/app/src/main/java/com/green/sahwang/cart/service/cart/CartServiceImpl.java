@@ -1,17 +1,26 @@
-package com.green.sahwang.service.impl.cart;
+package com.green.sahwang.cart.service.cart;
 
-import com.green.sahwang.dto.request.cart.CartProductsRemoveReqDto;
-import com.green.sahwang.dto.request.cart.CartProductsReqDto;
+import com.green.sahwang.cart.dto.request.cart.CartProductsRemoveReqDto;
+import com.green.sahwang.cart.dto.request.cart.CartProductsReqDto;
+import com.green.sahwang.cart.dto.request.cart.CartUsedProductReqDto;
+import com.green.sahwang.cart.entity.Cart;
+import com.green.sahwang.cart.entity.CartProduct;
+import com.green.sahwang.cart.entity.CartUsedProduct;
+import com.green.sahwang.cart.repository.CartProductRepository;
+import com.green.sahwang.cart.repository.CartRepository;
+import com.green.sahwang.cart.repository.CartUsedProductRepository;
 import com.green.sahwang.entity.*;
+import com.green.sahwang.exception.BizException;
 import com.green.sahwang.exception.CartDomainException;
-import com.green.sahwang.exception.DomainException;
+import com.green.sahwang.exception.ErrorCode;
 import com.green.sahwang.exception.ProductDomainException;
-import com.green.sahwang.exception.PurchaseDomainException;
 import com.green.sahwang.exception.payment.PaymentDomainException;
 import com.green.sahwang.model.payment.avro.PurchasePaidEventAvroModel;
 import com.green.sahwang.repository.*;
 import com.green.sahwang.service.cart.CartService;
-import com.green.sahwang.service.impl.cart.helper.CartServiceHelper;
+import com.green.sahwang.cart.service.cart.helper.CartServiceHelper;
+import com.green.sahwang.usedproduct.entity.UsedProduct;
+import com.green.sahwang.usedproduct.repository.UsedProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -29,6 +38,9 @@ public class CartServiceImpl implements CartService {
     private final MemberRepository memberRepository;
     private final ProductRepository productRepository;
     private final CartProductRepository cartProductRepository;
+
+    private final UsedProductRepository usedProductRepository;
+    private final CartUsedProductRepository cartUsedProductRepository;
     private final CartServiceHelper cartServiceHelper;
     private final PaymentRepository paymentRepository;
     private final PurchasePaymentRepository purchasePaymentRepository;
@@ -119,6 +131,40 @@ public class CartServiceImpl implements CartService {
 
     @Override
     @Transactional
+    public void mergeUsedProductsInCartWithUserLogin(List<CartUsedProductReqDto> cartUsedProductReqDtos, String userEmail) {
+        Member member = getMemberByEmail(userEmail);
+        Cart cart = getCartForMember(member.getId());
+
+        List<CartUsedProduct> localUsedProducts = cartServiceHelper.getLocalUsedProducts(cart, cartUsedProductReqDtos);
+
+        List<CartUsedProduct> existingUsedProducts = cartUsedProductRepository.findByCart(cart);
+
+        for (CartUsedProduct localUsedProduct : localUsedProducts) {
+            CartUsedProduct existingCartUsedProduct = existingUsedProducts.stream()
+                    .filter(cartUsedProduct -> cartUsedProduct.getUsedProduct().getId().equals(localUsedProduct.getUsedProduct().getId()))
+                    .findFirst()
+                    .orElse(null);
+
+
+            // 재고수량은 뺐기 때문에 항상 수량은 1로 고정
+            if (existingCartUsedProduct != null) {
+//                existingCartUsedProduct.setQuantity(existingCartUsedProduct.getQuantity() + localUsedProduct.getQuantity());
+                existingCartUsedProduct.setQuantity(1);
+                cartUsedProductRepository.save(existingCartUsedProduct);
+            } else {
+                UsedProduct usedProduct = getUsedProduct(localUsedProduct.getUsedProduct().getId());
+                CartUsedProduct cartUsedProduct = CartUsedProduct.builder()
+                        .cart(cart)
+                        .usedProduct(usedProduct)
+                        .quantity(localUsedProduct.getQuantity())
+                        .build();
+                cartUsedProductRepository.save(cartUsedProduct);
+            }
+        }
+    }
+
+    @Override
+    @Transactional
     public void clearCart(List<String> keys, List<PurchasePaidEventAvroModel> messages) {
         log.info("after paid, clear cart");
         Payment payment = null;
@@ -157,5 +203,10 @@ public class CartServiceImpl implements CartService {
     private Product getProduct(Long productId) {
         return productRepository.findById(productId)
                 .orElseThrow(() -> new ProductDomainException("productId " + productId + " 해당 제품이 존재하지 않습니다"));
+    }
+
+    private UsedProduct getUsedProduct(Long usedProductId) {
+        return usedProductRepository.findById(usedProductId)
+                .orElseThrow(() -> new BizException(ErrorCode.NO_USED_PRODUCT));
     }
 }

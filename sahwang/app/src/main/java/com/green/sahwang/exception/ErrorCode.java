@@ -20,7 +20,8 @@ public enum ErrorCode {
     NO_SALE_GRADE(HttpStatus.NOT_FOUND, "판매등급이 존재하지 않습니다"),
     NO_FILE(HttpStatus.NO_CONTENT, "파일이 존재하지 않습니다"),
     NO_IMAGE_FILE(HttpStatus.BAD_REQUEST, "이미지파일이 아닙니다"),
-    NO_VERIFIED_SALE(HttpStatus.NOT_FOUND, "판매검수가 존재하지 않습니다");
+    NO_VERIFIED_SALE(HttpStatus.NOT_FOUND, "판매검수가 존재하지 않습니다"),
+    NO_USED_PRODUCT(HttpStatus.NOT_FOUND, "해당 중고상품이 존재하지 않습니다");
 
     private final HttpStatus httpStatus;
     private final String message;
