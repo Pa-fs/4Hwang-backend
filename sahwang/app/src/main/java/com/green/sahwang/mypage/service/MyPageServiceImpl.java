@@ -52,6 +52,7 @@ public class MyPageServiceImpl implements MyPageService{
     private final PendingSaleRepository pendingSaleRepository;
     private final VerifiedSaleRepository verifiedSaleRepository;
     private final UsedProductRepository usedProductRepository;
+    private final FavoriteRepository favoriteRepository;
 
     @Transactional
     public OrderProgressResDto getOrderProgress(UserDetails userDetails){
@@ -164,6 +165,7 @@ public class MyPageServiceImpl implements MyPageService{
                         .price(wp.getUsedProduct().getVerifiedSale().getVerifiedSellingPrice())
                         .size(wp.getUsedProduct().getVerifiedSale().getProductSize())
                         .gradeType(wp.getUsedProduct().getVerifiedSale().getSaleGrade().getGradeType())
+                        .brandName(wp.getUsedProduct().getVerifiedSale().getBrandName())
                         .userSaleImages(wp.getUsedProduct().getVerifiedSale().getPendingSale().getUserSaleImages()
                                 .stream().map(image -> ImageResDto.builder()
                                 .path(image.getPath())
@@ -226,6 +228,7 @@ public class MyPageServiceImpl implements MyPageService{
     @Transactional
     public void reviewDelete(UserDetails userDetails, Long reviewId){
         Review review = reviewRepository.findById(reviewId).orElseThrow();
+        favoriteRepository.deleteAllByReview(review);
         reviewImageRepository.deleteById(review.getId());
         reviewRepository.deleteById(reviewId);
     }
