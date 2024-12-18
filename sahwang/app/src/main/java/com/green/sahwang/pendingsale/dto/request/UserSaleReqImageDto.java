@@ -13,4 +13,5 @@ public class UserSaleReqImageDto {
     private String name;
     private String path;
     private String desc;
+    private boolean isUsed;
 }
