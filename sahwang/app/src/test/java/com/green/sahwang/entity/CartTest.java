@@ -1,6 +1,7 @@
 package com.green.sahwang.entity;
 
-import com.green.sahwang.repository.CartRepository;
+import com.green.sahwang.cart.entity.Cart;
+import com.green.sahwang.cart.repository.CartRepository;
 import com.green.sahwang.repository.MemberRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -11,7 +12,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)

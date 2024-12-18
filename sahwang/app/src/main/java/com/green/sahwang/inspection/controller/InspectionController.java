@@ -64,12 +64,12 @@ public class InspectionController {
     @Operation(summary = "검수 승인", description = "검수 승인 후 처리")
 //    @PreAuthorize("hasAnyRole('ROLE_APPRAISER', 'ROLE_ADMIN')")
     public ResponseEntity<?> passInspection(
-            @RequestPart(name = "userImageFiles") MultipartFile[] userImageFiles,
+            @RequestPart(name = "userImageFiles", required = false) MultipartFile[] userImageFiles,
             @RequestPart(name = "passImageFiles") MultipartFile[] passImageFiles,
             @RequestPart(name = "inspectionPassReqDto") @Parameter(schema = @Schema(type = "string", format = "binary"))
             InspectionPassReqDto inspectionPassReqDto) {
 
-        validateFiles(userImageFiles);
+//        validateFiles(userImageFiles);
         validateFiles(passImageFiles);
 
         try {
@@ -78,7 +78,7 @@ public class InspectionController {
                 Path passImagePath = Paths.get("images/pass-files");
 
                 inspectionService.inspectPassProduct(inspectionPassReqDto);
-                imageFileService.saveUserImageFiles(userImageFiles, userImagePath, inspectionPassReqDto.getUserSaleReqImageDtos());
+//                imageFileService.saveUserImageFiles(userImageFiles, userImagePath, inspectionPassReqDto.getUserSaleReqImageDtos());
                 imageFileService.savePassSaleImageFiles(passImageFiles, passImagePath, inspectionPassReqDto.getPassSaleReqImageDtos());
             } else {
                 return ResponseEntity.badRequest().body("권한이 없습니다");
@@ -100,7 +100,7 @@ public class InspectionController {
     @Operation(summary = "검수 반려", description = "검수 반려 처리")
 //    @PreAuthorize("hasAnyRole('ROLE_APPRAISER', 'ROLE_ADMIN')")
     public ResponseEntity<?> rejectInspection(
-            @RequestPart(name = "userImageFiles") MultipartFile[] userImageFiles,
+            @RequestPart(name = "userImageFiles", required = false) MultipartFile[] userImageFiles,
             @RequestPart(name = "failImageFiles") MultipartFile[] failImageFiles,
             @RequestPart(name = "inspectionPassReqDto") @Parameter(schema = @Schema(type = "string", format = "binary"))
             InspectionRejectReqDto inspectionRejectReqDto) {
@@ -111,7 +111,7 @@ public class InspectionController {
                 Path failImagePath = Paths.get("images/fail-files");
 
                 inspectionService.inspectRejectProduct(inspectionRejectReqDto);
-                imageFileService.saveUserImageFiles(userImageFiles, userImagePath, inspectionRejectReqDto.getUserSaleReqImageDtos());
+//                imageFileService.saveUserImageFiles(userImageFiles, userImagePath, inspectionRejectReqDto.getUserSaleReqImageDtos());
                 imageFileService.saveFailSaleImageFiles(failImageFiles, failImagePath, inspectionRejectReqDto.getFailSaleReqImageDtos());
             } else {
                 return ResponseEntity.badRequest().body("권한이 없습니다");
@@ -157,16 +157,16 @@ public class InspectionController {
 //            if (file.getSize() > 10 * 1024 * 1024) {
 //                throw new IllegalArgumentException("파일 사이즈가 10MB를 초과했습니다.")
 //            }
-            if (!isAllowedFileType(file)) {
-                throw new BizException(ErrorCode.NO_IMAGE_FILE);
-            }
+//            if (!isAllowedFileType(file)) {
+//                throw new BizException(ErrorCode.NO_IMAGE_FILE);
+//            }
         }
     }
 
-    private boolean isAllowedFileType(MultipartFile file) {
-        String contentType = file.getContentType();
-        return contentType != null &&
-                (contentType.equals("image/jpeg") || contentType.equals("image/png"));
-    }
+//    private boolean isAllowedFileType(MultipartFile file) {
+//        String contentType = file.getContentType();
+//        return contentType != null &&
+//                (contentType.equals("image/jpeg") || contentType.equals("image/png"));
+//    }
 
 }
