@@ -5,10 +5,14 @@ import com.green.sahwang.dto.response.WishCheckedResDto;
 import com.green.sahwang.entity.Member;
 import com.green.sahwang.entity.Product;
 import com.green.sahwang.entity.WishCategory;
+import com.green.sahwang.entity.WishProduct;
 import com.green.sahwang.repository.MemberRepository;
 import com.green.sahwang.repository.ProductRepository;
 import com.green.sahwang.repository.WishCategoryRepository;
+import com.green.sahwang.repository.WishProductRepository;
 import com.green.sahwang.service.WishService;
+import com.green.sahwang.usedproduct.entity.UsedProduct;
+import com.green.sahwang.usedproduct.repository.UsedProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -27,10 +31,12 @@ public class WishServiceImpl implements WishService {
 
     private final MemberRepository memberRepository;
     private final ProductRepository productRepository;
+    private final UsedProductRepository usedProductRepository;
     private final WishCategoryRepository wishCategoryRepository;
+    private final WishProductRepository wishProductRepository;
 
     @Transactional
-    public List<WishCheckedResDto> getChecked(UserDetails userDetails, List<WishProductReqDto> wishProductReqDtoList){
+    public List<WishCheckedResDto> getCheckedCategory(UserDetails userDetails, List<WishProductReqDto> wishProductReqDtoList){
         Member member = memberRepository.findByEmail(userDetails.getUsername());
 
         List<Long> productIdlist = wishProductReqDtoList.stream()
@@ -57,7 +63,34 @@ public class WishServiceImpl implements WishService {
     }
 
     @Transactional
-    public Boolean clickWish(UserDetails userDetails, Long productId){
+    public List<WishCheckedResDto> getCheckedProduct(UserDetails userDetails, List<WishProductReqDto> wishProductReqDtoList){
+        Member member = memberRepository.findByEmail(userDetails.getUsername());
+
+        List<Long> productIdlist = wishProductReqDtoList.stream()
+                .map(WishProductReqDto::getProductId)
+                .toList();
+
+        List<UsedProduct> usedProductList = usedProductRepository.findAllById(productIdlist);
+
+        List<WishProduct> wishProductList = wishProductRepository.findAllByUsedProductInAndMember(usedProductList, member);
+
+        Map<Long, WishProduct> wishMap = wishProductList.stream()
+                .collect(Collectors.toMap(WishProduct -> WishProduct.getUsedProduct().getId(), wishProduct -> wishProduct));
+
+        List<WishCheckedResDto> wishCheckedResDtoList = new ArrayList<>();
+
+        for (UsedProduct usedProduct : usedProductList){
+            WishCheckedResDto wishCheckedResDto = new WishCheckedResDto();
+            wishCheckedResDto.setProductId(usedProduct.getId());
+            wishCheckedResDto.setChecked(wishMap.containsKey(usedProduct.getId()));
+            wishCheckedResDtoList.add(wishCheckedResDto);
+        }
+
+        return wishCheckedResDtoList;
+    }
+
+    @Transactional
+    public Boolean clickWishCategory(UserDetails userDetails, Long productId){
         Member member = memberRepository.findByEmail(userDetails.getUsername());
         Product product = productRepository.findById(productId).orElseThrow();
         WishCategory wishCategory = wishCategoryRepository.findByProductAndMember(product, member);
@@ -74,6 +107,25 @@ public class WishServiceImpl implements WishService {
         wishCategoryRepository.save(wishCategory);
         log.info("wish : {}", wishCategory);
         return wishCategory.getIsChecked();
+    }
+
+    @Transactional
+    public Boolean clickWishProduct(UserDetails userDetails, Long productId){
+        Member member = memberRepository.findByEmail(userDetails.getUsername());
+        UsedProduct usedProduct = usedProductRepository.findById(productId).orElseThrow();
+        WishProduct wishProduct = wishProductRepository.findByMemberAndUsedProduct(member, usedProduct);
+
+        if (wishProduct == null){
+            wishProduct = new WishProduct();
+            wishProduct.setUsedProduct(usedProduct);
+            wishProduct.setMember(member);
+            wishProduct.setIsChecked(true);
+        }else {
+            wishProduct.setIsChecked(!wishProduct.getIsChecked());
+        }
+
+        wishProductRepository.save(wishProduct);
+        return wishProduct.getIsChecked();
     }
 
 }
