@@ -83,12 +83,15 @@ public class MyPageController {
         return ResponseEntity.ok(wishList);
     }
 
+    @SecurityRequirement(name = "Bearer Authentication")
+    @Operation(summary = "상품 찜하기", description = "상품 찜하기 리스트")
     @GetMapping("/wishList/product")
     public ResponseEntity<List<WishListProductResDto>> getWishListProduct(@AuthenticationPrincipal UserDetails userDetails,
                                                                           @RequestParam(name = "pageNum", defaultValue = "0", required = false) int pageNum,
                                                                           @RequestParam(name = "size", defaultValue = "10", required = false) int size){
+        List<WishListProductResDto> wishProductList = myPageService.getWishProductList(userDetails, pageNum, size);
 
-        return null;
+        return ResponseEntity.ok(wishProductList);
     }
 
     @GetMapping("/reviewList")

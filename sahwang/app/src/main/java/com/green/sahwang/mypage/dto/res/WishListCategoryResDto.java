@@ -14,4 +14,6 @@ public class WishListCategoryResDto {
 
     private int productCount;
 
+    private String brandName;
+
 }

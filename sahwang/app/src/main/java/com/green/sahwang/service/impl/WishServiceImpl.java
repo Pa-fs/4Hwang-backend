@@ -7,7 +7,7 @@ import com.green.sahwang.entity.Product;
 import com.green.sahwang.entity.WishCategory;
 import com.green.sahwang.repository.MemberRepository;
 import com.green.sahwang.repository.ProductRepository;
-import com.green.sahwang.repository.WishRepository;
+import com.green.sahwang.repository.WishCategoryRepository;
 import com.green.sahwang.service.WishService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,7 +27,7 @@ public class WishServiceImpl implements WishService {
 
     private final MemberRepository memberRepository;
     private final ProductRepository productRepository;
-    private final WishRepository wishRepository;
+    private final WishCategoryRepository wishCategoryRepository;
 
     @Transactional
     public List<WishCheckedResDto> getChecked(UserDetails userDetails, List<WishProductReqDto> wishProductReqDtoList){
@@ -39,7 +39,7 @@ public class WishServiceImpl implements WishService {
 
         List<Product> productList = productRepository.findAllById(productIdlist);
 
-        List<WishCategory> wishCategoryList = wishRepository.findAllByProductInAndMember(productList, member);
+        List<WishCategory> wishCategoryList = wishCategoryRepository.findAllByProductInAndMember(productList, member);
 
         Map<Long, WishCategory> wishMap = wishCategoryList.stream()
                 .collect(Collectors.toMap(wishCategory -> wishCategory.getProduct().getId(), wishCategory -> wishCategory));
@@ -60,7 +60,7 @@ public class WishServiceImpl implements WishService {
     public Boolean clickWish(UserDetails userDetails, Long productId){
         Member member = memberRepository.findByEmail(userDetails.getUsername());
         Product product = productRepository.findById(productId).orElseThrow();
-        WishCategory wishCategory = wishRepository.findByProductAndMember(product, member);
+        WishCategory wishCategory = wishCategoryRepository.findByProductAndMember(product, member);
 
         if (wishCategory == null){
             wishCategory = new WishCategory();
@@ -71,7 +71,7 @@ public class WishServiceImpl implements WishService {
             wishCategory.setIsChecked(!wishCategory.getIsChecked());
         }
 
-        wishRepository.save(wishCategory);
+        wishCategoryRepository.save(wishCategory);
         log.info("wish : {}", wishCategory);
         return wishCategory.getIsChecked();
     }

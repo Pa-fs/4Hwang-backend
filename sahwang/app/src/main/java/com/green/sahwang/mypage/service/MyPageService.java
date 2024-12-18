@@ -21,6 +21,8 @@ public interface MyPageService {
 
     List<WishListCategoryResDto> getWishCategoryList(UserDetails userDetails, int pageNum, int size);
 
+    List<WishListProductResDto> getWishProductList(UserDetails userDetails, int pageNum, int size);
+
     List<MyReviewResDto> getReviewList(UserDetails userDetails, int pageNum, int size);
 
     void reviewCreate(UserDetails userDetails, MultipartFile file, ReviewCreateReqDto reviewCreateReqDto);
