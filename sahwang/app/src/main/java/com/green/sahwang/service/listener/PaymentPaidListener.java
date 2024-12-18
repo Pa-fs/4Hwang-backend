@@ -5,14 +5,13 @@ import com.green.sahwang.kafka.consumer.service.KafkaConsumer;
 import com.green.sahwang.model.payment.avro.PurchasePaidEventAvroModel;
 import com.green.sahwang.pendingsale.service.PendingSaleService;
 import com.green.sahwang.service.DeliveryPurchaseService;
-import com.green.sahwang.service.cart.CartService;
+import com.green.sahwang.cart.service.cart.CartService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Payload;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;

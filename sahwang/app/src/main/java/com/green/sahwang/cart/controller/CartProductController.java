@@ -1,8 +1,8 @@
-package com.green.sahwang.controller;
+package com.green.sahwang.cart.controller;
 
-import com.green.sahwang.cart.dto.request.cart.ProductQuantityReqDto;
+import com.green.sahwang.cart.dto.request.ProductQuantityReqDto;
 import com.green.sahwang.dto.response.CartProductsResDto;
-import com.green.sahwang.service.cart.CartProductService;
+import com.green.sahwang.cart.service.cart.CartProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

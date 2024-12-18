@@ -8,7 +8,7 @@ import com.green.sahwang.entity.product.Candle;
 import com.green.sahwang.cart.repository.CartProductRepository;
 import com.green.sahwang.repository.MemberRepository;
 import com.green.sahwang.repository.ProductRepository;
-import com.green.sahwang.service.cart.CartService;
+import com.green.sahwang.cart.service.cart.CartService;
 import com.green.sahwang.cart.service.cart.helper.CartServiceHelper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

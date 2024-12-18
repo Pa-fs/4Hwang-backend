@@ -1,9 +1,10 @@
-package com.green.sahwang.controller;
+package com.green.sahwang.cart.controller;
 
-import com.green.sahwang.cart.dto.request.cart.CartProductsRemoveReqDto;
-import com.green.sahwang.cart.dto.request.cart.CartProductsReqDto;
-import com.green.sahwang.cart.dto.request.cart.CartUsedProductReqDto;
-import com.green.sahwang.service.cart.CartService;
+import com.green.sahwang.cart.dto.request.CartProductsRemoveReqDto;
+import com.green.sahwang.cart.dto.request.CartProductsReqDto;
+import com.green.sahwang.cart.dto.request.CartUsedProductRemoveReqDto;
+import com.green.sahwang.cart.dto.request.CartUsedProductReqDto;
+import com.green.sahwang.cart.service.cart.CartService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
@@ -32,12 +33,20 @@ public class CartController {
         return ResponseEntity.ok("insert products in cart");
     }
 
+//    @DeleteMapping("remove")
+//    public ResponseEntity<String> removeProducts(
+//            @AuthenticationPrincipal UserDetails userDetails,
+//            @RequestBody List<CartProductsRemoveReqDto> cartProductsRemoveReqDtos) {
+//        cartService.removeProductFromCart(userDetails.getUsername(), cartProductsRemoveReqDtos);
+//        return ResponseEntity.ok("delete products in cart");
+//    }
+
     @DeleteMapping("remove")
-    public ResponseEntity<String> removeProducts(
+    public ResponseEntity<String> removeUsedProducts(
             @AuthenticationPrincipal UserDetails userDetails,
-            @RequestBody List<CartProductsRemoveReqDto> cartProductsRemoveReqDtos) {
-        cartService.removeProductFromCart(userDetails.getUsername(), cartProductsRemoveReqDtos);
-        return ResponseEntity.ok("delete products in cart");
+            @RequestBody List<CartUsedProductRemoveReqDto> cartUsedProductRemoveReqDtos) {
+        cartService.removeUsedProductFromCart(userDetails.getUsername(), cartUsedProductRemoveReqDtos);
+        return ResponseEntity.ok("delete usedProducts in cart");
     }
 
 //    @PostMapping("merge")

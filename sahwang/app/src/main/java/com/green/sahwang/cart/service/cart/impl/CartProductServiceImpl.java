@@ -1,6 +1,6 @@
-package com.green.sahwang.cart.service.cart;
+package com.green.sahwang.cart.service.cart.impl;
 
-import com.green.sahwang.cart.dto.request.cart.ProductQuantityReqDto;
+import com.green.sahwang.cart.dto.request.ProductQuantityReqDto;
 import com.green.sahwang.dto.response.CartProductsResDto;
 import com.green.sahwang.dto.response.ProductResDto;
 import com.green.sahwang.cart.entity.Cart;
@@ -15,8 +15,8 @@ import com.green.sahwang.cart.repository.CartProductRepository;
 import com.green.sahwang.cart.repository.CartRepository;
 import com.green.sahwang.repository.MemberRepository;
 import com.green.sahwang.repository.ProductRepository;
-import com.green.sahwang.service.cart.CartProductService;
-import com.green.sahwang.service.cart.CartService;
+import com.green.sahwang.cart.service.cart.CartProductService;
+import com.green.sahwang.cart.service.cart.CartService;
 import com.green.sahwang.service.impl.ProductServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

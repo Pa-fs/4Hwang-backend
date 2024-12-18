@@ -1,4 +1,4 @@
-package com.green.sahwang.cart.dto.request.cart;
+package com.green.sahwang.cart.dto.request;
 
 import lombok.Data;
 

@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -20,9 +22,8 @@ public class VerifiedSale {
     @Column(name = "verified_sale_id")
     private Long id;
 
-//    @OneToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "pending_sale_id")
-//    private PendingSale pendingSale;
+    @OneToMany(mappedBy = "verifiedSale")
+    private List<VerifiedSaleImage> verifiedSaleImages = new ArrayList<>();
 
     @OneToOne
     @JoinColumn(name = "pending_sale_id")

@@ -1,6 +1,6 @@
-package com.green.sahwang.service.cart;
+package com.green.sahwang.cart.service.cart;
 
-import com.green.sahwang.cart.dto.request.cart.ProductQuantityReqDto;
+import com.green.sahwang.cart.dto.request.ProductQuantityReqDto;
 import com.green.sahwang.dto.response.CartProductsResDto;
 import com.green.sahwang.cart.entity.CartProduct;
 

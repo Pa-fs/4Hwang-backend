@@ -1,5 +1,6 @@
 package com.green.sahwang.pendingsale.entity;
 
+import com.green.sahwang.usedproduct.entity.ImageEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -9,7 +10,7 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
-public class UserSaleImage {
+public class UserSaleImage implements ImageEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,4 +26,15 @@ public class UserSaleImage {
     private String filename;
 
     private String fileDesc;
+
+    private boolean isUsed = false;
+
+    // 연관관계 메서드
+    public void setPendingSale(PendingSale pendingSale) {
+        if (this.pendingSale != null) {
+            this.pendingSale.getUserSaleImages().remove(this);
+        }
+        this.pendingSale = pendingSale;
+        pendingSale.getUserSaleImages().add(this);
+    }
 }

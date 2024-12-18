@@ -1,5 +1,6 @@
 package com.green.sahwang.verifiedsale.entity;
 
+import com.green.sahwang.usedproduct.entity.ImageEntity;
 import com.green.sahwang.verifiedsale.entity.VerifiedSale;
 import com.green.sahwang.verifiedsale.entity.enumtype.VerifiedImageType;
 import jakarta.persistence.*;
@@ -10,7 +11,7 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
-public class VerifiedSaleImage {
+public class VerifiedSaleImage implements ImageEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,4 +29,13 @@ public class VerifiedSaleImage {
     private String fileDesc;
 
     private VerifiedImageType verifiedImageType;
+
+    // 연관관계 메서드
+    public void setVerifiedSale(VerifiedSale verifiedSale) {
+        if (this.verifiedSale != null) {
+            this.verifiedSale.getVerifiedSaleImages().remove(this);
+        }
+        this.verifiedSale = verifiedSale;
+        verifiedSale.getVerifiedSaleImages().add(this);
+    }
 }
