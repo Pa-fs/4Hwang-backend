@@ -1,19 +1,14 @@
-package com.green.sahwang.mypage.dto.res;
+package com.green.sahwang.mypage.dto;
 
-import com.green.sahwang.dto.response.ImageResDto;
-import com.green.sahwang.pendingsale.entity.UserSaleImage;
 import com.green.sahwang.verifiedsale.entity.enumtype.GradeType;
 import lombok.*;
-
-import java.util.List;
 
 @Data
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class WishListProductResDto {
+public class WishListProductDto {
 
     private Long productId;
 
@@ -25,6 +20,6 @@ public class WishListProductResDto {
 
     private GradeType gradeType;
 
-    private List<ImageResDto> userSaleImages;
+    private String image;
 
 }
