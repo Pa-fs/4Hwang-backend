@@ -25,6 +25,6 @@ public class WishListProductResDto {
 
     private GradeType gradeType;
 
-    private List<UserSaleImage> userSaleImages;
+    private List<ImageResDto> userSaleImages;
 
 }
