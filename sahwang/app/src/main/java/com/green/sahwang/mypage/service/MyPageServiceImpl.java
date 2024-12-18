@@ -164,6 +164,7 @@ public class MyPageServiceImpl implements MyPageService{
                         .price(wp.getUsedProduct().getVerifiedSale().getVerifiedSellingPrice())
                         .size(wp.getUsedProduct().getVerifiedSale().getProductSize())
                         .gradeType(wp.getUsedProduct().getVerifiedSale().getSaleGrade().getGradeType())
+                        .brandName(wp.getUsedProduct().getVerifiedSale().getBrandName())
                         .userSaleImages(wp.getUsedProduct().getVerifiedSale().getPendingSale().getUserSaleImages()
                                 .stream().map(image -> ImageResDto.builder()
                                 .path(image.getPath())

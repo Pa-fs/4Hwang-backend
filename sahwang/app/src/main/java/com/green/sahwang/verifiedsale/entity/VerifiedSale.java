@@ -15,7 +15,7 @@ import java.util.List;
 @Getter
 @Setter
 @Builder
-public class  VerifiedSale {
+public class VerifiedSale {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
