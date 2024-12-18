@@ -52,6 +52,7 @@ public class MyPageServiceImpl implements MyPageService{
     private final PendingSaleRepository pendingSaleRepository;
     private final VerifiedSaleRepository verifiedSaleRepository;
     private final UsedProductRepository usedProductRepository;
+    private final FavoriteRepository favoriteRepository;
 
     @Transactional
     public OrderProgressResDto getOrderProgress(UserDetails userDetails){
@@ -227,6 +228,7 @@ public class MyPageServiceImpl implements MyPageService{
     @Transactional
     public void reviewDelete(UserDetails userDetails, Long reviewId){
         Review review = reviewRepository.findById(reviewId).orElseThrow();
+        favoriteRepository.deleteAllByReview(review);
         reviewImageRepository.deleteById(review.getId());
         reviewRepository.deleteById(reviewId);
     }
