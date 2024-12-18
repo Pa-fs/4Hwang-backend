@@ -90,6 +90,7 @@ public class InspectionServiceImpl implements InspectionService {
                                                 .path(userSaleImage.getPath())
                                                 .name(userSaleImage.getFilename())
                                                 .desc(userSaleImage.getFileDesc())
+                                                .isUsed(userSaleImage.isUsed())
                                                 .build())
                                         .collect(Collectors.toList())
                         )

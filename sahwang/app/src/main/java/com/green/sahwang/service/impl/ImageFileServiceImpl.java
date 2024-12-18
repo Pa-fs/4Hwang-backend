@@ -139,6 +139,7 @@ public class ImageFileServiceImpl implements ImageFileService {
                         .pendingSale(pendingSale)
                         .filename(userSaleReqImageDto.getName())
                         .fileDesc(userSaleReqImageDto.getDesc())
+                        .isUsed(false)
                         .build();
 
                 userSaleImageRepository.save(userSaleImage);
