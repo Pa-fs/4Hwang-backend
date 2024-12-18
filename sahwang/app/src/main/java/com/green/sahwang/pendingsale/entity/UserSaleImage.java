@@ -25,4 +25,13 @@ public class UserSaleImage {
     private String filename;
 
     private String fileDesc;
+
+    // 연관관계 메서드
+    public void setPendingSale(PendingSale pendingSale){
+        if (this.pendingSale != null){
+            this.pendingSale.getUserSaleImages().remove(this);
+        }
+        this.pendingSale = pendingSale;
+        pendingSale.getUserSaleImages().add(this);
+    }
 }

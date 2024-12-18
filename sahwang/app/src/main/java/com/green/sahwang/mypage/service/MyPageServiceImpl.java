@@ -1,6 +1,7 @@
 package com.green.sahwang.mypage.service;
 
 import com.green.sahwang.config.DateTimeUtils;
+import com.green.sahwang.dto.response.ImageResDto;
 import com.green.sahwang.entity.*;
 import com.green.sahwang.exception.BizException;
 import com.green.sahwang.exception.ErrorCode;
@@ -40,7 +41,8 @@ public class MyPageServiceImpl implements MyPageService{
     private final PurchaseRepository purchaseRepository;
     private final PurchaseProductRepository purchaseProductRepository;
     private final SaleRepository saleRepository;
-    private final WishRepository wishRepository;
+    private final WishCategoryRepository wishCategoryRepository;
+    private final WishProductRepository wishProductRepository;
     private final DeliveryPurchasesRepository deliveryPurchasesRepository;
     private final SaleProductRepository saleProductRepository;
     private final ModelMapper modelMapper;
@@ -132,8 +134,7 @@ public class MyPageServiceImpl implements MyPageService{
     public List<WishListCategoryResDto> getWishCategoryList(UserDetails userDetails, int pageNum, int size){
         Member member = memberRepository.findByEmail(userDetails.getUsername());
         Pageable pageable = PageRequest.of(pageNum, size);
-        Page<WishListCategoryDto> wishListCategoryDtoPage = wishRepository.findWishes(member, pageable);
-
+        Page<WishListCategoryDto> wishListCategoryDtoPage = wishCategoryRepository.findWishes(member, pageable);
 
         List<WishListCategoryResDto> wishListCategoryResDtoList = new ArrayList<>();
         for (WishListCategoryDto wishListCategoryDto : wishListCategoryDtoPage){
@@ -144,10 +145,28 @@ public class MyPageServiceImpl implements MyPageService{
             WishListCategoryResDto wishListCategoryResDto = new WishListCategoryResDto();
             wishListCategoryResDto.setWishListCategoryDto(wishListCategoryDto);
             wishListCategoryResDto.setProductCount(usedProductList.size());
+            wishListCategoryResDto.setBrandName(product.getBrand().getName());
             wishListCategoryResDtoList.add(wishListCategoryResDto);
         }
-
         return wishListCategoryResDtoList;
+    }
+
+    @Transactional
+    public List<WishListProductResDto> getWishProductList(UserDetails userDetails, int pageNum, int size){
+        Member member = memberRepository.findByEmail(userDetails.getUsername());
+        Pageable pageable = PageRequest.of(pageNum, size);
+        Page<WishProduct> wishProductPage = wishProductRepository.findWishProductByMemberId(member.getId(), pageable);
+
+        return wishProductPage.stream()
+                .map(wp -> WishListProductResDto.builder()
+                        .productId(wp.getUsedProduct().getId())
+                        .productName(wp.getUsedProduct().getVerifiedSale().getProductName())
+                        .price(wp.getUsedProduct().getVerifiedSale().getVerifiedSellingPrice())
+                        .size(wp.getUsedProduct().getVerifiedSale().getProductSize())
+                        .gradeType(wp.getUsedProduct().getVerifiedSale().getSaleGrade().getGradeType())
+                        .userSaleImages(wp.getUsedProduct().getVerifiedSale().getPendingSale().getUserSaleImages())
+                        .build())
+                .toList();
     }
 
     @Transactional(readOnly = true)

@@ -12,7 +12,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface WishRepository extends JpaRepository<WishCategory, Long> {
+public interface WishCategoryRepository extends JpaRepository<WishCategory, Long> {
     List<WishCategory> findAllByProductInAndMember(List<Product> product, Member member);
     WishCategory findByProductAndMember(Product product, Member member);
     List<WishCategory> findAllByMemberAndIsChecked(Member member, Boolean isChecked);
