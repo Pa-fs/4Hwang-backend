@@ -1,6 +1,7 @@
 package com.green.sahwang.cart.service.cart.impl;
 
 import com.green.sahwang.cart.dto.request.ProductQuantityReqDto;
+import com.green.sahwang.cart.dto.request.UsedProductQuantityReqDto;
 import com.green.sahwang.cart.dto.response.CartUsedProductsResDto;
 import com.green.sahwang.cart.entity.Cart;
 import com.green.sahwang.cart.entity.CartProduct;
@@ -52,8 +53,6 @@ public class CartUsedProductServiceImpl implements CartUsedProductService {
                     UsedProduct usedProduct = usedProductRepository.findById(cartUsedProduct.getUsedProduct().getId())
                             .orElseThrow(() -> new BizException(ErrorCode.NO_USED_PRODUCT));
 
-
-                    // 수정해야함 1218
                     GeneralUsedProductResDto generalUsedProductResDto = productService.getUsedProductResDto(usedProduct);
 
                     return new CartUsedProductsResDto(generalUsedProductResDto, cartUsedProduct.getQuantity());
@@ -70,34 +69,65 @@ public class CartUsedProductServiceImpl implements CartUsedProductService {
         return cartUsedProductRepository.save(cartUsedProduct);
     }
 
+//    @Override
+//    @Transactional
+//    public void incrementQuantity(String email, ProductQuantityReqDto productQuantityReqDto) {
+//
+//        UsedProduct usedProduct = getUsedProduct(productQuantityReqDto.getProductId());
+//        Member member = getMemberForEmail(email);
+//        Cart cart = getCart(member);
+//
+//
+//        CartUsedProduct cartUsedProduct = getCartUsedProduct(cart, usedProduct);
+//
+//        cartUsedProduct.setQuantity(cartUsedProduct.getQuantity() + productQuantityReqDto.getQuantity());
+//        cartUsedProductRepository.save(cartUsedProduct);
+//    }
     @Override
     @Transactional
-    public void incrementQuantity(String email, ProductQuantityReqDto productQuantityReqDto) {
+    public void incrementQuantity(String email, UsedProductQuantityReqDto usedProductQuantityReqDto) {
 
-        UsedProduct usedProduct = getUsedProduct(productQuantityReqDto.getProductId());
+        UsedProduct usedProduct = getUsedProduct(usedProductQuantityReqDto.getUsedProductId());
         Member member = getMemberForEmail(email);
         Cart cart = getCart(member);
 
 
         CartUsedProduct cartUsedProduct = getCartUsedProduct(cart, usedProduct);
 
-        cartUsedProduct.setQuantity(cartUsedProduct.getQuantity() + productQuantityReqDto.getQuantity());
+        cartUsedProduct.setQuantity(cartUsedProduct.getQuantity() + usedProductQuantityReqDto.getQuantity());
         cartUsedProductRepository.save(cartUsedProduct);
     }
 
+//    @Override
+//    @Transactional
+//    public void decrementQuantity(String email, ProductQuantityReqDto productQuantityReqDto) {
+//        UsedProduct usedProduct = getUsedProduct(productQuantityReqDto.getProductId());
+//        Member member = getMemberForEmail(email);
+//        Cart cart = getCart(member);
+//
+//        CartUsedProduct cartUsedProduct = getCartUsedProduct(cart, usedProduct);
+//
+//        if(cartUsedProduct.getQuantity() - productQuantityReqDto.getQuantity() < 1) {
+//            throw new CartProductDomainException("해당 제품 수량을 줄일 수 없습니다");
+//        }
+//        int newQuantity = cartUsedProduct.getQuantity() - productQuantityReqDto.getQuantity();
+//        cartUsedProduct.setQuantity(newQuantity);
+//
+//        cartUsedProductRepository.save(cartUsedProduct);
+//    }
     @Override
     @Transactional
-    public void decrementQuantity(String email, ProductQuantityReqDto productQuantityReqDto) {
-        UsedProduct usedProduct = getUsedProduct(productQuantityReqDto.getProductId());
+    public void decrementQuantity(String email, UsedProductQuantityReqDto usedProductQuantityReqDto) {
+        UsedProduct usedProduct = getUsedProduct(usedProductQuantityReqDto.getUsedProductId());
         Member member = getMemberForEmail(email);
         Cart cart = getCart(member);
 
         CartUsedProduct cartUsedProduct = getCartUsedProduct(cart, usedProduct);
 
-        if(cartUsedProduct.getQuantity() - productQuantityReqDto.getQuantity() < 1) {
+        if(cartUsedProduct.getQuantity() - usedProductQuantityReqDto.getQuantity() < 1) {
             throw new CartProductDomainException("해당 제품 수량을 줄일 수 없습니다");
         }
-        int newQuantity = cartUsedProduct.getQuantity() - productQuantityReqDto.getQuantity();
+        int newQuantity = cartUsedProduct.getQuantity() - usedProductQuantityReqDto.getQuantity();
         cartUsedProduct.setQuantity(newQuantity);
 
         cartUsedProductRepository.save(cartUsedProduct);

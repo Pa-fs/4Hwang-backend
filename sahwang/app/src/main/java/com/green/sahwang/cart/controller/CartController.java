@@ -25,13 +25,13 @@ public class CartController {
 
     private final CartService cartService;
 
-    @PostMapping("add")
-    public ResponseEntity<String> addProducts(
-            @AuthenticationPrincipal UserDetails userDetails,
-            @RequestBody CartProductsReqDto cartProductsReqDto) {
-        cartService.addProductToCart(userDetails.getUsername(), cartProductsReqDto.getProductId(), cartProductsReqDto.getQuantity());
-        return ResponseEntity.ok("insert products in cart");
-    }
+//    @PostMapping("add")
+//    public ResponseEntity<String> addProducts(
+//            @AuthenticationPrincipal UserDetails userDetails,
+//            @RequestBody CartProductsReqDto cartProductsReqDto) {
+//        cartService.addProductToCart(userDetails.getUsername(), cartProductsReqDto.getProductId(), cartProductsReqDto.getQuantity());
+//        return ResponseEntity.ok("insert products in cart");
+//    }
 
 //    @DeleteMapping("remove")
 //    public ResponseEntity<String> removeProducts(
@@ -40,6 +40,14 @@ public class CartController {
 //        cartService.removeProductFromCart(userDetails.getUsername(), cartProductsRemoveReqDtos);
 //        return ResponseEntity.ok("delete products in cart");
 //    }
+
+    @PostMapping("add")
+    public ResponseEntity<String> addProducts(
+            @AuthenticationPrincipal UserDetails userDetails,
+            @RequestBody CartUsedProductReqDto cartUsedProductReqDto) {
+        cartService.addUsedProductToCart(userDetails.getUsername(), cartUsedProductReqDto.getUsedProductId(), cartUsedProductReqDto.getQuantity());
+        return ResponseEntity.ok("insert usedProducts in cart");
+    }
 
     @DeleteMapping("remove")
     public ResponseEntity<String> removeUsedProducts(
@@ -50,18 +58,18 @@ public class CartController {
     }
 
 //    @PostMapping("merge")
-    public ResponseEntity<String> mergeProducts(@RequestBody List<CartProductsReqDto> cartUsedProductsReqDtos,
-                                                @AuthenticationPrincipal UserDetails userDetails) {
-        if (userDetails.getUsername() == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-
-        if (cartUsedProductsReqDtos.isEmpty()) {
-            return ResponseEntity.ok("요청 데이터가 비어있습니다.");
-        }
-        cartService.mergeProductsInCartWithUserLogin(cartUsedProductsReqDtos, userDetails.getUsername());
-        return ResponseEntity.ok("success merge");
-    }
+//    public ResponseEntity<String> mergeProducts(@RequestBody List<CartProductsReqDto> cartUsedProductsReqDtos,
+//                                                @AuthenticationPrincipal UserDetails userDetails) {
+//        if (userDetails.getUsername() == null) {
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+//        }
+//
+//        if (cartUsedProductsReqDtos.isEmpty()) {
+//            return ResponseEntity.ok("요청 데이터가 비어있습니다.");
+//        }
+//        cartService.mergeProductsInCartWithUserLogin(cartUsedProductsReqDtos, userDetails.getUsername());
+//        return ResponseEntity.ok("success merge");
+//    }
 
     @PostMapping("merge")
     @SecurityRequirement(name = "Bearer Authentication")
