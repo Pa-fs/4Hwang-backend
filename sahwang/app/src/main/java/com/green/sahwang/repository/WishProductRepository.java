@@ -1,11 +1,16 @@
 package com.green.sahwang.repository;
 
+import com.green.sahwang.entity.Member;
+import com.green.sahwang.entity.Product;
 import com.green.sahwang.entity.WishProduct;
+import com.green.sahwang.usedproduct.entity.UsedProduct;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+
+import java.util.List;
 
 public interface WishProductRepository extends JpaRepository<WishProduct, Long> {
 
@@ -31,5 +36,9 @@ public interface WishProductRepository extends JpaRepository<WishProduct, Long> 
             WHERE m.id = :memberId
             """)
     Page<WishProduct> findWishProductByMemberId(@Param("memberId") Long memberId, Pageable pageable);
+
+    List<WishProduct> findAllByUsedProductInAndMember(List<UsedProduct> usedProductList, Member member);
+
+    WishProduct findByMemberAndUsedProduct(Member member, UsedProduct usedProduct);
 
 }
