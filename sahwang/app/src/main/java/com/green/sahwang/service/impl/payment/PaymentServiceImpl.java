@@ -28,6 +28,8 @@ import com.green.sahwang.repository.*;
 import com.green.sahwang.repository.externalapi.ExternalPrePaymentApiRepository;
 import com.green.sahwang.service.PaymentService;
 import com.green.sahwang.service.impl.payment.helper.PaymentServiceHelper;
+import com.green.sahwang.usedproduct.entity.UsedProduct;
+import com.green.sahwang.usedproduct.repository.UsedProductRepository;
 import com.siot.IamportRestClient.IamportClient;
 import com.siot.IamportRestClient.exception.IamportResponseException;
 import com.siot.IamportRestClient.request.CancelData;
@@ -65,6 +67,7 @@ public class PaymentServiceImpl implements PaymentService {
     private final PurchasePaymentRepository purchasePaymentRepository;
 
     private final ProductRepository productRepository;
+    private final UsedProductRepository usedProductRepository;
 
     private IamportClient paymentExternalApi;
     private final ExternalPrePaymentApiRepository prePaymentApiRepository;
@@ -307,20 +310,19 @@ public class PaymentServiceImpl implements PaymentService {
 
         return cartProductPurchaseReadyReqDtos.stream()
                 .map(cartProductPurchaseReadyReqDto -> {
-                    Product product = productRepository.findById(cartProductPurchaseReadyReqDto.getProductId())
-                            .orElseThrow(() -> new BizException(ErrorCode.NO_PRODUCT));
+                    UsedProduct usedProduct = usedProductRepository.findById(cartProductPurchaseReadyReqDto.getUsedProductId())
+                            .orElseThrow(() -> new BizException(ErrorCode.NO_USED_PRODUCT));
 
-                    CartProductPurchaseReadyResDto cartProductPurchaseReadyResDto = CartProductPurchaseReadyResDto.builder()
-                            .productId(product.getId())
-                            .productName(product.getName())
-                            .price(product.getPrice() * cartProductPurchaseReadyReqDto.getQuantity())
-                            .size(product.getSize())
-                            .content(product.getContent())
-                            .mainImage(product.getMainImage())
+                    return CartProductPurchaseReadyResDto.builder()
+                            .usedProductId(usedProduct.getId())
+                            .productName(usedProduct.getVerifiedSale().getProductName())
+                            .price(usedProduct.getVerifiedSale().getPendingSale().getExceptedSellingPrice() * cartProductPurchaseReadyReqDto.getQuantity())
+                            .size(usedProduct.getVerifiedSale().getPendingSale().getProductSize())
+                            .content(usedProduct.getVerifiedSale().getPendingSale().getProduct().getContent())
+                            .mainImage(usedProduct.getVerifiedSale().getPendingSale().getUserSaleImages() != null ?
+                                    usedProduct.getVerifiedSale().getPendingSale().getUserSaleImages().get(0).getFilename() : null)
                             .quantity(cartProductPurchaseReadyReqDto.getQuantity())
                             .build();
-
-                    return cartProductPurchaseReadyResDto;
                 }).toList();
     }
 

@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 @Builder
 public class CartProductPurchaseReadyResDto {
-    private Long productId;
+    private Long usedProductId;
     private String productName;
     private int price;
     private int quantity;
