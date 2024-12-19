@@ -16,9 +16,9 @@ import java.util.List;
 
 public interface PaymentService {
 
-    void processPayment(List<String> purchaseIds, List<PurchaseCreatedEventAvroModel> messages);
-
-    void processAsyncPayment(PaymentCompleteRequest paymentCompleteRequest);
+//    void processPayment(List<String> purchaseIds, List<PurchaseCreatedEventAvroModel> messages);
+//
+//    void processAsyncPayment(PaymentCompleteRequest paymentCompleteRequest);
 
 //    void postValidateOrder(List<String> purchaseIds, List<PurchaseCreatedEventAvroModel> messages);
 

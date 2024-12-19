@@ -100,6 +100,24 @@ public class AdminServiceImpl implements AdminService{
         memberManageResDto.setMemberManageDtos(memberManageDtoList);
         memberManageResDto.setMemberCount(memberManageDtoList.size());
         return memberManageResDto;
+            MemberManageResDto memberManageResDto = new MemberManageResDto();
+            memberManageResDto.setMemberId(member.getId());
+            memberManageResDto.setProfileImage(member.getProfileImage());
+            memberManageResDto.setName(member.getName());
+            memberManageResDto.setPhoneNum(member.getPhoneNum());
+            memberManageResDto.setEmail(member.getEmail());
+            memberManageResDto.setRole(member.getRole());
+            memberManageResDto.setJoinDate(member.getJoinDate());
+            memberManageResDto.setWithdrawDate(member.getWithdrawDate());
+            memberManageResDto.setLastLoginDate(member.getLastLoginDate());
+            memberManageResDto.setNickName(member.getNickName());
+            memberManageResDto.setAdReceived(member.getAdReceived());
+            memberManageResDto.setWarnCount(member.getWarnCount());
+            memberManageResDto.setPurchaseCount(purchaseList.size());
+            memberManageResDto.setReviewCount(reviewList.size());
+            memberManageResDtoList.add(memberManageResDto);
+        }
+        return memberManageResDtoList;
     }
 
     @Transactional

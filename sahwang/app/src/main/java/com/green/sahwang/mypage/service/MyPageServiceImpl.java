@@ -52,6 +52,7 @@ public class MyPageServiceImpl implements MyPageService{
     private final PendingSaleRepository pendingSaleRepository;
     private final VerifiedSaleRepository verifiedSaleRepository;
     private final UsedProductRepository usedProductRepository;
+    private final FavoriteRepository favoriteRepository;
 
     @Transactional
     public OrderProgressResDto getOrderProgress(UserDetails userDetails){
@@ -91,7 +92,7 @@ public class MyPageServiceImpl implements MyPageService{
                 return new OrderDetailResDto(
                         deliveryPurchase != null ? deliveryPurchase.getDeliveredDate() : null,
                         purchaseProduct.getProductName(),
-                        purchaseProduct.getProduct().getPrice() * purchaseProduct.getProductQuantity(),
+                        purchaseProduct.getUsedProduct().getVerifiedSale().getPendingSale().getExceptedSellingPrice() * purchaseProduct.getProductQuantity(),
                         purchaseProduct.getProductQuantity()
                 );
             }).toList();
@@ -194,7 +195,7 @@ public class MyPageServiceImpl implements MyPageService{
                         review.getMember().getId(),
                         review.getPurchaseProduct().getId(),
                         review.getPurchaseProduct().getProductName(),
-                        review.getPurchaseProduct().getProduct().getSize()
+                        review.getPurchaseProduct().getUsedProduct().getVerifiedSale().getProductSize()
                 ))
                 .toList();
     }
@@ -227,6 +228,7 @@ public class MyPageServiceImpl implements MyPageService{
     @Transactional
     public void reviewDelete(UserDetails userDetails, Long reviewId){
         Review review = reviewRepository.findById(reviewId).orElseThrow();
+        favoriteRepository.deleteAllByReview(review);
         reviewImageRepository.deleteById(review.getId());
         reviewRepository.deleteById(reviewId);
     }

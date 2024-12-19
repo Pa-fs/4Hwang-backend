@@ -1,8 +1,8 @@
 package com.green.sahwang.service.impl;
 
 import com.green.sahwang.config.AvroToDBSerializer;
-import com.green.sahwang.dto.request.PurchaseReqDto;
-import com.green.sahwang.dto.response.PurchaseResDto;
+import com.green.sahwang.purchase.dto.request.PurchaseReqDto;
+import com.green.sahwang.purchase.dto.response.PurchaseResDto;
 import com.green.sahwang.dto.response.externalapi.ExternalPaymentResDto;
 import com.green.sahwang.entity.*;
 import com.green.sahwang.entity.enumtype.OutboxStatus;
@@ -13,6 +13,8 @@ import com.green.sahwang.model.purchase.avro.PurchaseAvroModel;
 import com.green.sahwang.model.purchase.avro.PurchaseCreatedEventAvroModel;
 import com.green.sahwang.repository.*;
 import com.green.sahwang.service.PurchaseService;
+import com.green.sahwang.usedproduct.entity.UsedProduct;
+import com.green.sahwang.usedproduct.repository.UsedProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -32,6 +34,7 @@ public class PurchaseServiceImpl implements PurchaseService {
     private final PurchaseProductRepository purchaseProductRepository;
     private final MemberRepository memberRepository;
     private final ProductRepository productRepository;
+    private final UsedProductRepository usedProductRepository;
     private final OutboxRepository outboxRepository;
 
     @Override
@@ -39,16 +42,16 @@ public class PurchaseServiceImpl implements PurchaseService {
     public PurchaseResDto createPurchase(PurchaseReqDto purchaseReqDto, String userEmail) {
         Member member = memberRepository.findByEmail(userEmail);
 
-        List<Product> products = productRepository.findAllById(purchaseReqDto.getPurchaseProductDtos().stream()
-                .map(purchaseProductReqDto -> purchaseProductReqDto.getProductId())
+        List<UsedProduct> usedProducts = usedProductRepository.findAllById(purchaseReqDto.getPurchaseProductDtos().stream()
+                .map(purchaseProductReqDto -> purchaseProductReqDto.getUsedProductId())
                 .toList());
 
         Purchase purchase = Purchase.builder()
                 .member(member)
                 .purchaseStatus(PurchaseStatus.CREATED)
                 .purchaseDate(LocalDateTime.now())
-                .totalPrice(products.stream()
-                        .mapToInt(product -> product.getPrice() * getCartProductQuantity(purchaseReqDto, product))
+                .totalPrice(usedProducts.stream()
+                        .mapToInt(usedProduct -> usedProduct.getVerifiedSale().getPendingSale().getExceptedSellingPrice() * getCartProductQuantity(purchaseReqDto, usedProduct))
                         .sum())
                 .build();
 
@@ -61,16 +64,16 @@ public class PurchaseServiceImpl implements PurchaseService {
 
         Purchase savedPurchase = purchaseRepository.save(purchase);
 
-        for (Product product : products) {
-            Product findProduct = productRepository.findById(product.getId())
-                    .orElseThrow(() -> new ProductDomainException("해당 " + product.getId() + "제품이 없습니다"));
+        for (UsedProduct usedProduct : usedProducts) {
+            UsedProduct findUsedProduct = usedProductRepository.findById(usedProduct.getId())
+                    .orElseThrow(() -> new ProductDomainException("해당 " + usedProduct.getId() + "제품이 없습니다"));
 
-            Integer cartProductQuantity = getCartProductQuantity(purchaseReqDto, product);
+            Integer cartProductQuantity = getCartProductQuantity(purchaseReqDto, findUsedProduct);
 
             PurchaseProduct purchaseProduct = PurchaseProduct.builder()
                     .purchase(savedPurchase)
-                    .productName(findProduct.getName())
-                    .product(findProduct)
+                    .productName(usedProduct.getVerifiedSale().getProductName())
+                    .usedProduct(usedProduct)
                     .productQuantity(cartProductQuantity)
                     .purchaseCreationDate(LocalDateTime.now())
                     .build();
@@ -95,18 +98,18 @@ public class PurchaseServiceImpl implements PurchaseService {
         return null;
     }
 
-    private Integer getCartProductQuantity(PurchaseReqDto purchaseReqDto, Product product) {
+    private Integer getCartProductQuantity(PurchaseReqDto purchaseReqDto, UsedProduct usedProduct) {
         return purchaseReqDto.getPurchaseProductDtos().stream()
-                .filter(purchaseProductReqDto -> purchaseProductReqDto.getProductId().equals(product.getId()))
+                .filter(purchaseProductReqDto -> purchaseProductReqDto.getUsedProductId().equals(usedProduct.getId()))
                 .map(purchaseProductReqDto -> purchaseProductReqDto.getQuantity())
                 .findFirst()
-                .orElseThrow(() -> new PurchaseDomainException("해당 " + product.getId() + " 제품의 수량이 없습니다."));
+                .orElseThrow(() -> new PurchaseDomainException("해당 " + usedProduct.getId() + " 제품의 수량이 없습니다."));
     }
 
     private PurchaseCreatedEventAvroModel getPurchaseCreatedEventAvroModel(PurchaseReqDto purchaseReqDto, Purchase savedPurchase) {
         List<PurchaseAvroModel> productAvroModels = purchaseReqDto.getPurchaseProductDtos().stream()
                 .map(purchaseProductReqDto -> PurchaseAvroModel.newBuilder()
-                        .setProductId(String.valueOf(purchaseProductReqDto.getProductId()))
+                        .setProductId(String.valueOf(purchaseProductReqDto.getUsedProductId()))
                         .setQuantity(purchaseProductReqDto.getQuantity())
                         .build())
                 .toList();

@@ -1,9 +1,9 @@
 package com.green.sahwang.entity;
 
+import com.green.sahwang.usedproduct.entity.UsedProduct;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -24,8 +24,8 @@ public class PurchaseProduct {
     private Purchase purchase;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_id")
-    private Product product;
+    @JoinColumn(name = "used_product_id")
+    private UsedProduct usedProduct;
 
     private String productName;
 

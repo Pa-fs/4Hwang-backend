@@ -8,6 +8,7 @@ import com.green.sahwang.entity.*;
 import com.green.sahwang.exception.BizException;
 import com.green.sahwang.exception.ErrorCode;
 import com.green.sahwang.repository.*;
+import com.green.sahwang.usedproduct.repository.UsedProductRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -39,6 +40,7 @@ public class ProductDetailPagePageServiceImpl implements ProductDetailPageServic
     private final FavoriteRepository favoriteRepository;
     private final ReviewImageRepository reviewImageRepository;
     private final DetailImageRepository detailImageRepository;
+    private final UsedProductRepository usedProductRepository;
     private final Path imagePath;
 
     public ProductDetailPagePageServiceImpl(ProductImageRepository productImageRepository,
@@ -49,7 +51,8 @@ public class ProductDetailPagePageServiceImpl implements ProductDetailPageServic
                                             MemberRepository memberRepository,
                                             FavoriteRepository favoriteRepository,
                                             ReviewImageRepository reviewImageRepository,
-                                            DetailImageRepository detailImageRepository) {
+                                            DetailImageRepository detailImageRepository,
+                                            UsedProductRepository usedProductRepository) {
         this.productImageRepository = productImageRepository;
         this.productRepository = productRepository;
         this.purchaseProductRepository = purchaseProductRepository;
@@ -59,6 +62,7 @@ public class ProductDetailPagePageServiceImpl implements ProductDetailPageServic
         this.favoriteRepository = favoriteRepository;
         this.reviewImageRepository = reviewImageRepository;
         this.detailImageRepository = detailImageRepository;
+        this.usedProductRepository = usedProductRepository;
         this.imagePath = Paths.get("images/file").toAbsolutePath();
 
         try {
@@ -70,6 +74,8 @@ public class ProductDetailPagePageServiceImpl implements ProductDetailPageServic
 
     @Transactional
     public List<DetailChartResDto> getSaleProducts(Long productId){
+        
+
         Product product = productRepository.findById(productId).orElseThrow();
         List<PurchaseProduct> purchaseProductList = purchaseProductRepository.findAllByProduct(product);
         List<PurchasePayment> purchasePaymentList = purchasePaymentRepository.findAllByPurchaseProductIn(purchaseProductList);
@@ -171,6 +177,7 @@ public class ProductDetailPagePageServiceImpl implements ProductDetailPageServic
     @Transactional
     public List<DetailProductInfoResDto> getDetailProductInfo(Long productId){
         Product product = productRepository.findById(productId).orElseThrow();
+
         List<Product> productList = productRepository.findAllByName(product.getName());
 
         List<DetailProductInfoResDto> detailProductInfoResDtoList = new ArrayList<>();
@@ -196,8 +203,8 @@ public class ProductDetailPagePageServiceImpl implements ProductDetailPageServic
     }
 
     @Transactional
-    public DetailReviewInfoResDto getDetailReviewInfo(Long productId){
-        List<PurchaseProduct> purchaseProductList = purchaseProductRepository.findAllByProductId(productId);
+    public DetailReviewInfoResDto getDetailReviewInfo(Long usedProductId){
+        List<PurchaseProduct> purchaseProductList = purchaseProductRepository.findAllByUsedProductId(usedProductId);
         List<Review> reviewList = reviewRepository.findAllByPurchaseProductIn(purchaseProductList);
 
         int oneStarCount = 0;
@@ -271,8 +278,8 @@ public class ProductDetailPagePageServiceImpl implements ProductDetailPageServic
     }
 
     @Transactional
-    public List<ReviewResDto> getReviewPages(Long productId, int pageNum, int size){
-        List<PurchaseProduct> purchaseProductList = purchaseProductRepository.findAllByProductId(productId);
+    public List<ReviewResDto> getReviewPages(Long usedProductId, int pageNum, int size){
+        List<PurchaseProduct> purchaseProductList = purchaseProductRepository.findAllByUsedProductId(usedProductId);
 
         Pageable pageable = PageRequest.of(pageNum, size);
 
@@ -315,8 +322,8 @@ public class ProductDetailPagePageServiceImpl implements ProductDetailPageServic
     }
 
     @Transactional
-    public List<ReviewImageResDto> getReviewImages(Long productId){
-        List<PurchaseProduct> purchaseProductList = purchaseProductRepository.findAllByProductId(productId);
+    public List<ReviewImageResDto> getReviewImages(Long usedProductId){
+        List<PurchaseProduct> purchaseProductList = purchaseProductRepository.findAllByUsedProductId(usedProductId);
         List<Review> reviewList = reviewRepository.findAllByPurchaseProductIn(purchaseProductList);
         List<ReviewImage> reviewImageList = reviewImageRepository.findAllByReviewIn(reviewList);
 
@@ -334,9 +341,9 @@ public class ProductDetailPagePageServiceImpl implements ProductDetailPageServic
     }
 
     @Transactional
-    public List<FavoriteCheckedResDto> getChecked(Long productId, UserDetails userDetails, int pageNum, int size){
+    public List<FavoriteCheckedResDto> getChecked(Long usedProductId, UserDetails userDetails, int pageNum, int size){
         Member member = memberRepository.findByEmail(userDetails.getUsername());
-        List<PurchaseProduct> purchaseProductList = purchaseProductRepository.findAllByProductId(productId);
+        List<PurchaseProduct> purchaseProductList = purchaseProductRepository.findAllByUsedProductId(usedProductId);
 
         Pageable pageable = PageRequest.of(pageNum, size);
         Page<Review> reviewPage = reviewRepository.findAllByPurchaseProductIn(purchaseProductList, pageable);

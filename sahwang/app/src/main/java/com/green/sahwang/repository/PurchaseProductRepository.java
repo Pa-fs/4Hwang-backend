@@ -13,15 +13,34 @@ import java.util.List;
 import java.util.Optional;
 
 public interface PurchaseProductRepository extends JpaRepository<PurchaseProduct, Long> {
-    Optional<PurchaseProduct> findByProductIdAndPurchaseId(Long productId, Long purchaseId);
+    Optional<PurchaseProduct> findByUsedProductIdAndPurchaseId(Long usedProductId, Long purchaseId);
 
-    List<PurchaseProduct> findByProductIdAndPurchaseIn(Long productId, List<Purchase> purchases);
+
+    @Query("""
+            select pp from PurchaseProduct pp
+            join fetch pp.purchase pur
+            join fetch pp.usedProduct up
+            join fetch up.verifiedSale vs
+            join fetch vs.pendingSale ps
+            join fetch ps.product p
+            where p.id = :productId
+            and pur.id in (:purchases)
+            """)
+    List<PurchaseProduct> findByProductIdAndPurchaseIn(@Param("productId") Long productId, @Param("purchases") List<Long> purchases);
 
     List<PurchaseProduct> findAllByPurchase(Purchase purchase);
 
-    List<PurchaseProduct> findAllByProductId(Long productId);
+    List<PurchaseProduct> findAllByUsedProductId(Long usedProductId);
 
-    List<PurchaseProduct> findAllByProduct(Product product);
+    @Query("""
+            select pp from PurchaseProduct pp
+            join fetch pp.usedProduct up
+            join fetch up.verifiedSale vs
+            join fetch vs.pendingSale ps
+            join fetch ps.product p
+            where p.id = :product
+            """)
+    List<PurchaseProduct> findAllByProduct(@Param("product") Product product);
 
     List<PurchaseProduct> findAllByPurchaseIn(List<Purchase> purchasePage);
 
