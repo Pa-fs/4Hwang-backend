@@ -92,7 +92,7 @@ public class MyPageServiceImpl implements MyPageService{
                 return new OrderDetailResDto(
                         deliveryPurchase != null ? deliveryPurchase.getDeliveredDate() : null,
                         purchaseProduct.getProductName(),
-                        purchaseProduct.getProduct().getPrice() * purchaseProduct.getProductQuantity(),
+                        purchaseProduct.getUsedProduct().getVerifiedSale().getPendingSale().getExceptedSellingPrice() * purchaseProduct.getProductQuantity(),
                         purchaseProduct.getProductQuantity()
                 );
             }).toList();
@@ -195,7 +195,7 @@ public class MyPageServiceImpl implements MyPageService{
                         review.getMember().getId(),
                         review.getPurchaseProduct().getId(),
                         review.getPurchaseProduct().getProductName(),
-                        review.getPurchaseProduct().getProduct().getSize()
+                        review.getPurchaseProduct().getUsedProduct().getVerifiedSale().getProductSize()
                 ))
                 .toList();
     }

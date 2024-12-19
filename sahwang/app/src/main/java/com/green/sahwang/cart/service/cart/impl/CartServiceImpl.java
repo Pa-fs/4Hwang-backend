@@ -225,7 +225,7 @@ public class CartServiceImpl implements CartService {
             // paymentId -> purchasePayments -> purchaseProduct -> productIds
             List<PurchasePayment> purchasePayments = purchasePaymentRepository.findAllByPayment(payment);
             cartProductRepository.deleteAllByProductIdIn(purchasePayments.stream()
-                    .map(purchasePayment -> purchasePayment.getPurchaseProduct().getProduct().getId())
+                    .map(purchasePayment -> purchasePayment.getPurchaseProduct().getUsedProduct().getId())
                     .toList());
         }
     }

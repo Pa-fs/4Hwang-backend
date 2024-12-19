@@ -104,31 +104,31 @@ public class AdminServiceImpl implements AdminService{
         }
     }
 
-    @Transactional
-    public List<ReviewManageResDto> getReviews(int pageNum, int size){
-        Pageable pageable = PageRequest.of(pageNum, size);
-        Page<ReviewManageDto> reviewManageDtoPage = reviewRepository.findReviews(pageable);
+//    @Transactional
+//    public List<ReviewManageResDto> getReviews(int pageNum, int size){
+//        Pageable pageable = PageRequest.of(pageNum, size);
+//        Page<ReviewManageDto> reviewManageDtoPage = reviewRepository.findReviews(pageable);
+//
+//        return reviewManageDtoPage.stream()
+//                .map(reviewManageDto -> {
+//                    List<Favorite> favoriteList = favoriteRepository.findAllByReviewId(reviewManageDto.getReviewId());
+//                    return new ReviewManageResDto(reviewManageDto, favoriteList.size());
+//                }).toList();
+//    }
 
-        return reviewManageDtoPage.stream()
-                .map(reviewManageDto -> {
-                    List<Favorite> favoriteList = favoriteRepository.findAllByReviewId(reviewManageDto.getReviewId());
-                    return new ReviewManageResDto(reviewManageDto, favoriteList.size());
-                }).toList();
-    }
-
-    @Transactional
-    public List<ReviewManageResDto> getReviewsBySort(String sort, int pageNum, int size){
-        Sort sortByOptions = getSortByOptions(sort);
-
-        Pageable pageable = PageRequest.of(pageNum, size, sortByOptions);
-        Page<ReviewManageDto> reviewManageDtoPage = reviewRepository.findReviews(pageable);
-
-        return reviewManageDtoPage.stream()
-                .map(reviewManageDto -> {
-                    List<Favorite> favoriteList = favoriteRepository.findAllByReviewId(reviewManageDto.getReviewId());
-                    return new ReviewManageResDto(reviewManageDto, favoriteList.size());
-                }).toList();
-    }
+//    @Transactional
+//    public List<ReviewManageResDto> getReviewsBySort(String sort, int pageNum, int size){
+//        Sort sortByOptions = getSortByOptions(sort);
+//
+//        Pageable pageable = PageRequest.of(pageNum, size, sortByOptions);
+//        Page<ReviewManageDto> reviewManageDtoPage = reviewRepository.findReviews(pageable);
+//
+//        return reviewManageDtoPage.stream()
+//                .map(reviewManageDto -> {
+//                    List<Favorite> favoriteList = favoriteRepository.findAllByReviewId(reviewManageDto.getReviewId());
+//                    return new ReviewManageResDto(reviewManageDto, favoriteList.size());
+//                }).toList();
+//    }
 
     private Sort getSortByOptions(String sort){
         return switch (sort.toLowerCase()) {

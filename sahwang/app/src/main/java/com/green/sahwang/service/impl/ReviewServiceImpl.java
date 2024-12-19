@@ -26,6 +26,7 @@ public class ReviewServiceImpl implements ReviewService {
         // 리뷰 수를 구하려면 productId, purchaseProductId 필요
         // purchaseProduct -> purchaseId -> purchaseEntity -> 구매완료인지 체크해야함
 
+        // 기존에는 제품ID -> 중고제품의 제품ID 공통
         List<Purchase> purchases = purchaseRepository.findAllByPurchaseStatus(PurchaseStatus.COMPLETED);
 
         List<PurchaseProduct> purchaseProducts = purchaseProductRepository.findByProductIdAndPurchaseIn(product.getId(), purchases);

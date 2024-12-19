@@ -387,6 +387,71 @@ INSERT INTO `product_image` (`product_image_id`, `file_desc`, `filename`, `path`
     (93, 'newCandle12', 'c012.png', 'images/file/\\c012.png',  90),
     (94, 'newCandle13', 'c013.png', 'images/file/\\c013.png',  91);
 
+-- pending_sale
+INSERT INTO pending_sale (member_id, product_id, pending_sale_id, category_name, brand_name, product_name, product_description, product_size, inspection_status, excepted_selling_price, used_or_not, rejected_reason, created_date, updated_date)
+VALUES
+(1, 1, 40, 'Perfume', 'Chanel', '샤넬 No.5 향수', '샤넬 No.5 향수, 50ml, 새 제품, 박스 포함', 50, 'ACCEPTED', 150000, FALSE, NULL, NOW(), NOW()),
+(2, 9, 41, 'Diffuser', 'Yankee Candle', '라벤더 디퓨저', 'Yankee Candle 라벤더 향 디퓨저, 새 제품', 100, 'ACCEPTED', 30000, FALSE, NULL, NOW(), NOW()),
+(3, 17, 42, 'Candle', 'Bath & Body Works', '시나몬 스틱 캔들', 'Bath & Body Works 시나몬 스틱 캔들, 사용한 흔적 있음, 90% 남음', 200, 'ACCEPTED', 25000, TRUE, NULL, NOW(), NOW()),
+(1, 1, 43, 'Perfume', 'Dior', '디올 Sauvage 향수', '디올 Sauvage 향수, 100ml, 새 제품', 100, 'ACCEPTED', 130000, FALSE, NULL, NOW(), NOW()),
+(2, 17, 44, 'Candle', 'IKEA', '레드 캔들', 'IKEA 레드 향초, 새 제품', 150, 'REJECTED', 15000, FALSE, NULL, NOW(), NOW());
+
+INSERT INTO user_sale_image(user_sale_image_id, file_desc, filename, path, pending_sale_id, is_used)
+VALUES
+(1, 'image-1', 'p_001.png', 'images/file/\\p_001.jpg', 40, false),
+(2, 'image-2', 'p_002.png', 'images/file/\\p_002.jpg', 40, false),
+(3, 'image-3', 'p_003.png', 'images/file/\\p_003.jpg', 40, false),
+(4, 'image-1', 'p_004.png', 'images/file/\\p_004.jpg', 41, false),
+(5, 'image-2', 'p_005.png', 'images/file/\\p_005.jpg', 41, false),
+(6, 'image-3', 'p_006.png', 'images/file/\\p_006.jpg', 41, false),
+(7, 'image-1', 'p_007.png', 'images/file/\\p_007.jpg', 42, false),
+(8, 'image-1', 'p_008.png', 'images/file/\\p_008.jpg', 43, false),
+(9, 'image-1', 'p_009.png', 'images/file/\\p_009.jpg', 44, false);
+
+-- sale_grade
+INSERT INTO sale_grade (sale_grade_id, grade_description, grade_type)
+VALUES
+  (1, '새상품과 거의 동일한 상태', 'A'),
+  (2, '새상품이나 박스가 훼손된 상태', 'B'),
+  (3, '사용한 흔적이 있거나 상품에 흠집이나 스크래치가 있는 상태', 'C'),
+  (4, '사용한 흔적이 많고 상품에 흠집이나 스크래치, 약간의 파손이 있는 상태', 'D'),
+  (5, '사용한 흔적이 많고 상품에 흠집이나 스크래치, 파손, 훼손이 있지만 사용하기엔 문제가 없는 상태', 'E');
+
+-- rejection_reason
+INSERT INTO rejection_reason (rejection_reason_id, reason)
+VALUES
+  (1, '파손 또는 훼손이 심해 판매할 수 없는 상태입니다.'),
+  (2, '정품이 아닙니다.'),
+  (3, '유통기한이 지났습니다.'),
+  (4, '유통기한은 문제가 없으나 내용물 변질이 일어났습니다.'),
+  (5, '판매 기준 용량 미달입니다.'),
+  (6, '향수, 캔들, 디퓨저에 해당하지 않는 제품입니다.');
+
+-- verified_sale_image
+
+-- verified_sale
+INSERT INTO verified_sale(
+verified_sale_id, category_name, brand_name, product_name, inspection_description,
+product_size, inspection_result, verified_selling_price,
+pending_sale_id, rejected_sale_id, sale_grade_id, created_date, posted, used_or_not)
+values
+    (1, 'Perfume', 'Chanel', '샤넬 No.5 향수', '샤넬 No.5 향수, 50ml, 새 제품, 박스 포함', 50, 1, 120000, 40, NULL, 1, NOW(), 0, 0),
+    (2, 'Diffuser', 'Yankee Candle', '라벤더 디퓨저', 'Yankee Candle 라벤더 향 디퓨저, 새 제품', 100, 1, 40000, 41, NULL, 1, NOW(), 0, 0),
+    (3, 'Candle', 'Bath & Body Works', '시나몬 스틱 캔들', 'Bath & Body Works 시나몬 스틱 캔들, 사용한 흔적 있음, 90% 남음', 185, 1, 25000, 42, NULL, 2, NOW(), 0, 1),
+    (4, 'Perfume', 'Dior', '디올 Sauvage 향수', '디올 Sauvage 향수, 100ml, 새 제품', 100, 1, 110000, 43, NULL, 3, NOW(), 0, 0),
+    (5, 'Candle', 'IKEA', '레드 캔들', 'IKEA 레드 향초, 결과참조바람 test1', 150, 0, 0, 44, 4, NULL, NOW(), 0, 1),
+    (6, 'Candle', 'IKEA', '레드 캔들', 'IKEA 레드 향초, 결과참조바람 test2', 150, 0, 0, 44, 5, NULL, NOW(), 0, 1);
+
+-- used_product
+INSERT INTO used_product(used_product_id, created_date, used_product_type, verified_sale_id)
+values
+    (1, now(), 'USER_ACCEPT', 1),
+    (2, now(), 'USER_ACCEPT', 2),
+    (3, now(), 'USER_ACCEPT', 3),
+    (4, now(), 'USER_ACCEPT', 4),
+    (5, now(), 'USER_ACCEPT', 5),
+    (6, now(), 'USER_ACCEPT', 6);
+
 -- purchase
 INSERT INTO purchase (purchase_id, purchase_date, purchase_status, total_price, member_id) VALUES (10000001, now(), 'COMPLETED', 730000, 3);
 INSERT INTO purchase (purchase_id, purchase_date, purchase_status, total_price, member_id) VALUES (10000002, now(), 'COMPLETED', 730000, 4);
@@ -396,17 +461,16 @@ INSERT INTO purchase (purchase_id, purchase_date, purchase_status, total_price, 
 INSERT INTO purchase (purchase_id, purchase_date, purchase_status, total_price, member_id) VALUES (10000006, now(), 'COMPLETED', 730000, 3);
 
 -- purchase_product
-INSERT INTO purchase_product (purchase_product_id, product_name, product_quantity, purchase_creation_date, product_id, purchase_id) VALUES (10000001, '아쿠아 오드퍼퓸', 2, now(), 1, 10000001);
-INSERT INTO purchase_product (purchase_product_id, product_name, product_quantity, purchase_creation_date, product_id, purchase_id) VALUES (10000002, '아이스드베리레모네이드', 2, now(), 9, 10000002);
-INSERT INTO purchase_product (purchase_product_id, product_name, product_quantity, purchase_creation_date, product_id, purchase_id) VALUES (10000003, '라임 바질 앤 만다린 디퓨저', 2, now(), 17, 10000003);
-INSERT INTO purchase_product (purchase_product_id, product_name, product_quantity, purchase_creation_date, product_id, purchase_id) VALUES (10000004, '아쿠아 오드퍼퓸', 2, now(), 25, 10000004);
-INSERT INTO purchase_product (purchase_product_id, product_name, product_quantity, purchase_creation_date, product_id, purchase_id) VALUES (10000005, '아이스드베리레모네이드', 2, now(), 33, 10000005);
-INSERT INTO purchase_product (purchase_product_id, product_name, product_quantity, purchase_creation_date, product_id, purchase_id) VALUES (10000006, '라임 바질 앤 만다린 디퓨저', 2, now(), 34, 10000006);
+INSERT INTO purchase_product (purchase_product_id, product_name, product_quantity, purchase_creation_date, used_product_id, purchase_id) VALUES (10000001, '아쿠아 오드퍼퓸', 2, now(), 1, 10000001);
+INSERT INTO purchase_product (purchase_product_id, product_name, product_quantity, purchase_creation_date, used_product_id, purchase_id) VALUES (10000002, '아이스드베리레모네이드', 2, now(), 2, 10000002);
+INSERT INTO purchase_product (purchase_product_id, product_name, product_quantity, purchase_creation_date, used_product_id, purchase_id) VALUES (10000003, '라임 바질 앤 만다린 디퓨저', 2, now(), 3, 10000003);
+INSERT INTO purchase_product (purchase_product_id, product_name, product_quantity, purchase_creation_date, used_product_id, purchase_id) VALUES (10000004, '아쿠아 오드퍼퓸', 2, now(), 4, 10000004);
+INSERT INTO purchase_product (purchase_product_id, product_name, product_quantity, purchase_creation_date, used_product_id, purchase_id) VALUES (10000005, '아이스드베리레모네이드', 2, now(), 5, 10000005);
+INSERT INTO purchase_product (purchase_product_id, product_name, product_quantity, purchase_creation_date, used_product_id, purchase_id) VALUES (10000006, '라임 바질 앤 만다린 디퓨저', 2, now(), 6, 10000006);
 
 -- payment
 INSERT INTO payment (payment_id,total_price, member_id) VALUES (10000001, 100000, 5);
 
--- purchase_payment
 -- purchase_payment
 INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000001, NULL, NOW() - INTERVAL 6 MONTH, 10000001, 10000001, 	    100000, 95);
 INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000002, NULL, NOW() - INTERVAL 6 MONTH, 10000001, 10000002, 	    20000, 599);
@@ -939,67 +1003,3 @@ INSERT INTO review_image (review_image_id, review_id, file_desc, filename, path)
 INSERT INTO favorite (member_id, review_id) VALUES(3, 10000001);
 INSERT INTO favorite (member_id, review_id) VALUES(5, 10000001);
 INSERT INTO favorite (member_id, review_id) VALUES(5, 10000002);
-
-
--- pending_sale
-INSERT INTO pending_sale (member_id, product_id, pending_sale_id, category_name, brand_name, product_name, product_description, product_size, inspection_status, excepted_selling_price, used_or_not, rejected_reason, created_date, updated_date)
-VALUES
-(1, 1, 40, 'Perfume', 'Chanel', '샤넬 No.5 향수', '샤넬 No.5 향수, 50ml, 새 제품, 박스 포함', 50, 'ACCEPTED', 150000, FALSE, NULL, NOW(), NOW()),
-(2, 9, 41, 'Diffuser', 'Yankee Candle', '라벤더 디퓨저', 'Yankee Candle 라벤더 향 디퓨저, 새 제품', 100, 'ACCEPTED', 30000, FALSE, NULL, NOW(), NOW()),
-(3, 17, 42, 'Candle', 'Bath & Body Works', '시나몬 스틱 캔들', 'Bath & Body Works 시나몬 스틱 캔들, 사용한 흔적 있음, 90% 남음', 200, 'ACCEPTED', 25000, TRUE, NULL, NOW(), NOW()),
-(1, 1, 43, 'Perfume', 'Dior', '디올 Sauvage 향수', '디올 Sauvage 향수, 100ml, 새 제품', 100, 'ACCEPTED', 130000, FALSE, NULL, NOW(), NOW()),
-(2, 17, 44, 'Candle', 'IKEA', '레드 캔들', 'IKEA 레드 향초, 새 제품', 150, 'REJECTED', 15000, FALSE, NULL, NOW(), NOW());
-
-INSERT INTO user_sale_image(user_sale_image_id, file_desc, filename, path, pending_sale_id, is_used)
-VALUES
-(1, 'image-1', 'p_001.png', 'images/file/\\p_001.jpg', 40, false),
-(2, 'image-2', 'p_002.png', 'images/file/\\p_002.jpg', 40, false),
-(3, 'image-3', 'p_003.png', 'images/file/\\p_003.jpg', 40, false),
-(4, 'image-1', 'p_004.png', 'images/file/\\p_004.jpg', 41, false),
-(5, 'image-2', 'p_005.png', 'images/file/\\p_005.jpg', 41, false),
-(6, 'image-3', 'p_006.png', 'images/file/\\p_006.jpg', 41, false),
-(7, 'image-1', 'p_007.png', 'images/file/\\p_007.jpg', 42, false),
-(8, 'image-1', 'p_008.png', 'images/file/\\p_008.jpg', 43, false),
-(9, 'image-1', 'p_009.png', 'images/file/\\p_009.jpg', 44, false);
-
--- sale_grade
-INSERT INTO sale_grade (sale_grade_id, grade_description, grade_type)
-VALUES
-  (1, '새상품과 거의 동일한 상태', 'A'),
-  (2, '새상품이나 박스가 훼손된 상태', 'B'),
-  (3, '사용한 흔적이 있거나 상품에 흠집이나 스크래치가 있는 상태', 'C'),
-  (4, '사용한 흔적이 많고 상품에 흠집이나 스크래치, 약간의 파손이 있는 상태', 'D'),
-  (5, '사용한 흔적이 많고 상품에 흠집이나 스크래치, 파손, 훼손이 있지만 사용하기엔 문제가 없는 상태', 'E');
-
--- rejection_reason
-INSERT INTO rejection_reason (rejection_reason_id, reason)
-VALUES
-  (1, '파손 또는 훼손이 심해 판매할 수 없는 상태입니다.'),
-  (2, '정품이 아닙니다.'),
-  (3, '유통기한이 지났습니다.'),
-  (4, '유통기한은 문제가 없으나 내용물 변질이 일어났습니다.'),
-  (5, '판매 기준 용량 미달입니다.'),
-  (6, '향수, 캔들, 디퓨저에 해당하지 않는 제품입니다.');
-
--- verified_sale_image
-
--- verified_sale
-INSERT INTO verified_sale(
-verified_sale_id, category_name, brand_name, product_name, inspection_description,
-product_size, inspection_result, verified_selling_price,
-pending_sale_id, rejected_sale_id, sale_grade_id, created_date, posted, used_or_not)
-values
-    (1, 'Perfume', 'Chanel', '샤넬 No.5 향수', '샤넬 No.5 향수, 50ml, 새 제품, 박스 포함', 50, 1, 120000, 40, NULL, 1, NOW(), 0, 0),
-    (2, 'Diffuser', 'Yankee Candle', '라벤더 디퓨저', 'Yankee Candle 라벤더 향 디퓨저, 새 제품', 100, 1, 40000, 41, NULL, 1, NOW(), 0, 0),
-    (3, 'Candle', 'Bath & Body Works', '시나몬 스틱 캔들', 'Bath & Body Works 시나몬 스틱 캔들, 사용한 흔적 있음, 90% 남음', 185, 1, 25000, 42, NULL, 2, NOW(), 0, 1),
-    (4, 'Perfume', 'Dior', '디올 Sauvage 향수', '디올 Sauvage 향수, 100ml, 새 제품', 100, 1, 110000, 43, NULL, 3, NOW(), 0, 0),
-    (5, 'Candle', 'IKEA', '레드 캔들', 'IKEA 레드 향초, 결과참조바람', 150, 0, 0, 44, 4, NULL, NOW(), 0, 1);
-
--- used_product
-INSERT INTO used_product(used_product_id, created_date, used_product_type, verified_sale_id)
-values
-    (1, now(), 'USER_ACCEPT', 1),
-    (2, now(), 'USER_ACCEPT', 2),
-    (3, now(), 'USER_ACCEPT', 3),
-    (4, now(), 'USER_ACCEPT', 4),
-    (5, now(), 'USER_ACCEPT', 5);

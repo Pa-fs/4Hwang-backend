@@ -1,4 +1,4 @@
-package com.green.sahwang.dto.request;
+package com.green.sahwang.purchase.dto.request;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
@@ -21,7 +21,7 @@ public class PurchaseReqDto {
     @Data
     public static class PurchaseProductReqDto {
         @NotNull
-        private Long productId;
+        private Long usedProductId;
 
         @NotNull
         @Min(1)

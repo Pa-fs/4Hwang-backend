@@ -203,8 +203,8 @@ public class ProductDetailPagePageServiceImpl implements ProductDetailPageServic
     }
 
     @Transactional
-    public DetailReviewInfoResDto getDetailReviewInfo(Long productId){
-        List<PurchaseProduct> purchaseProductList = purchaseProductRepository.findAllByProductId(productId);
+    public DetailReviewInfoResDto getDetailReviewInfo(Long usedProductId){
+        List<PurchaseProduct> purchaseProductList = purchaseProductRepository.findAllByUsedProductId(usedProductId);
         List<Review> reviewList = reviewRepository.findAllByPurchaseProductIn(purchaseProductList);
 
         int oneStarCount = 0;
@@ -278,8 +278,8 @@ public class ProductDetailPagePageServiceImpl implements ProductDetailPageServic
     }
 
     @Transactional
-    public List<ReviewResDto> getReviewPages(Long productId, int pageNum, int size){
-        List<PurchaseProduct> purchaseProductList = purchaseProductRepository.findAllByProductId(productId);
+    public List<ReviewResDto> getReviewPages(Long usedProductId, int pageNum, int size){
+        List<PurchaseProduct> purchaseProductList = purchaseProductRepository.findAllByUsedProductId(usedProductId);
 
         Pageable pageable = PageRequest.of(pageNum, size);
 
@@ -322,8 +322,8 @@ public class ProductDetailPagePageServiceImpl implements ProductDetailPageServic
     }
 
     @Transactional
-    public List<ReviewImageResDto> getReviewImages(Long productId){
-        List<PurchaseProduct> purchaseProductList = purchaseProductRepository.findAllByProductId(productId);
+    public List<ReviewImageResDto> getReviewImages(Long usedProductId){
+        List<PurchaseProduct> purchaseProductList = purchaseProductRepository.findAllByUsedProductId(usedProductId);
         List<Review> reviewList = reviewRepository.findAllByPurchaseProductIn(purchaseProductList);
         List<ReviewImage> reviewImageList = reviewImageRepository.findAllByReviewIn(reviewList);
 
@@ -341,9 +341,9 @@ public class ProductDetailPagePageServiceImpl implements ProductDetailPageServic
     }
 
     @Transactional
-    public List<FavoriteCheckedResDto> getChecked(Long productId, UserDetails userDetails, int pageNum, int size){
+    public List<FavoriteCheckedResDto> getChecked(Long usedProductId, UserDetails userDetails, int pageNum, int size){
         Member member = memberRepository.findByEmail(userDetails.getUsername());
-        List<PurchaseProduct> purchaseProductList = purchaseProductRepository.findAllByProductId(productId);
+        List<PurchaseProduct> purchaseProductList = purchaseProductRepository.findAllByUsedProductId(usedProductId);
 
         Pageable pageable = PageRequest.of(pageNum, size);
         Page<Review> reviewPage = reviewRepository.findAllByPurchaseProductIn(purchaseProductList, pageable);
