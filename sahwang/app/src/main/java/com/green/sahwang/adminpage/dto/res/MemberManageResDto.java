@@ -1,41 +1,20 @@
 package com.green.sahwang.adminpage.dto.res;
 
-import com.green.sahwang.entity.enumtype.MemberRole;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import com.green.sahwang.adminpage.dto.MemberManageDto;
+import lombok.*;
 
-import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class MemberManageResDto {
 
-    private String profileImage;
+    private List<MemberManageDto> memberManageDtos;
 
-    private String name;
-
-    private String phoneNum;
-
-    private String email;
-
-    private MemberRole role;
-
-    private LocalDateTime joinDate;
-
-    private LocalDateTime withdrawDate;
-
-    private LocalDateTime lastLoginDate;
-
-    private String nickName;
-
-    private int purchaseCount;
-
-    private Boolean adReceived;
-
-    private int warnCount;
-
-    private int reviewCount;
+    private int memberCount;
 
 }
