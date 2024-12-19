@@ -99,25 +99,8 @@ public class AdminServiceImpl implements AdminService{
         MemberManageResDto memberManageResDto = new MemberManageResDto();
         memberManageResDto.setMemberManageDtos(memberManageDtoList);
         memberManageResDto.setMemberCount(memberManageDtoList.size());
+
         return memberManageResDto;
-            MemberManageResDto memberManageResDto = new MemberManageResDto();
-            memberManageResDto.setMemberId(member.getId());
-            memberManageResDto.setProfileImage(member.getProfileImage());
-            memberManageResDto.setName(member.getName());
-            memberManageResDto.setPhoneNum(member.getPhoneNum());
-            memberManageResDto.setEmail(member.getEmail());
-            memberManageResDto.setRole(member.getRole());
-            memberManageResDto.setJoinDate(member.getJoinDate());
-            memberManageResDto.setWithdrawDate(member.getWithdrawDate());
-            memberManageResDto.setLastLoginDate(member.getLastLoginDate());
-            memberManageResDto.setNickName(member.getNickName());
-            memberManageResDto.setAdReceived(member.getAdReceived());
-            memberManageResDto.setWarnCount(member.getWarnCount());
-            memberManageResDto.setPurchaseCount(purchaseList.size());
-            memberManageResDto.setReviewCount(reviewList.size());
-            memberManageResDtoList.add(memberManageResDto);
-        }
-        return memberManageResDtoList;
     }
 
     @Transactional
@@ -131,31 +114,31 @@ public class AdminServiceImpl implements AdminService{
         }
     }
 
-    @Transactional
-    public List<ReviewManageResDto> getReviews(int pageNum, int size){
-        Pageable pageable = PageRequest.of(pageNum, size);
-        Page<ReviewManageDto> reviewManageDtoPage = reviewRepository.findReviews(pageable);
-
-        return reviewManageDtoPage.stream()
-                .map(reviewManageDto -> {
-                    List<Favorite> favoriteList = favoriteRepository.findAllByReviewId(reviewManageDto.getReviewId());
-                    return new ReviewManageResDto(reviewManageDto, favoriteList.size());
-                }).toList();
-    }
-
-    @Transactional
-    public List<ReviewManageResDto> getReviewsBySort(String sort, int pageNum, int size){
-        Sort sortByOptions = getSortByOptions(sort);
-
-        Pageable pageable = PageRequest.of(pageNum, size, sortByOptions);
-        Page<ReviewManageDto> reviewManageDtoPage = reviewRepository.findReviews(pageable);
-
-        return reviewManageDtoPage.stream()
-                .map(reviewManageDto -> {
-                    List<Favorite> favoriteList = favoriteRepository.findAllByReviewId(reviewManageDto.getReviewId());
-                    return new ReviewManageResDto(reviewManageDto, favoriteList.size());
-                }).toList();
-    }
+//    @Transactional
+//    public List<ReviewManageResDto> getReviews(int pageNum, int size){
+//        Pageable pageable = PageRequest.of(pageNum, size);
+//        Page<ReviewManageDto> reviewManageDtoPage = reviewRepository.findReviews(pageable);
+//
+//        return reviewManageDtoPage.stream()
+//                .map(reviewManageDto -> {
+//                    List<Favorite> favoriteList = favoriteRepository.findAllByReviewId(reviewManageDto.getReviewId());
+//                    return new ReviewManageResDto(reviewManageDto, favoriteList.size());
+//                }).toList();
+//    }
+//
+//    @Transactional
+//    public List<ReviewManageResDto> getReviewsBySort(String sort, int pageNum, int size){
+//        Sort sortByOptions = getSortByOptions(sort);
+//
+//        Pageable pageable = PageRequest.of(pageNum, size, sortByOptions);
+//        Page<ReviewManageDto> reviewManageDtoPage = reviewRepository.findReviews(pageable);
+//
+//        return reviewManageDtoPage.stream()
+//                .map(reviewManageDto -> {
+//                    List<Favorite> favoriteList = favoriteRepository.findAllByReviewId(reviewManageDto.getReviewId());
+//                    return new ReviewManageResDto(reviewManageDto, favoriteList.size());
+//                }).toList();
+//    }
 
     private Sort getSortByOptions(String sort){
         return switch (sort.toLowerCase()) {

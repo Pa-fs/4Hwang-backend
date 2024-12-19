@@ -14,17 +14,6 @@ import java.util.List;
 public class MemberManageResDto {
 
     private List<MemberManageDto> memberManageDtos;
-    private Long memberId;
-
-    private String profileImage;
-
-    private String name;
-
-    private String phoneNum;
-
-    private String email;
-
-    private MemberRole role;
 
     private int memberCount;
 
