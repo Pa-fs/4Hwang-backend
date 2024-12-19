@@ -2,6 +2,9 @@ package com.green.sahwang.adminpage.dto.res;
 
 import com.green.sahwang.adminpage.dto.ReviewManageDto;
 import lombok.*;
+import org.springframework.data.domain.Page;
+
+import java.util.List;
 
 @Data
 @Getter
@@ -10,8 +13,8 @@ import lombok.*;
 @NoArgsConstructor
 public class ReviewManageResDto {
 
-    private ReviewManageDto reviewManageDto;
+    private Page<ReviewManageDto> reviewManageDtos;
 
-    private int favoriteCount;
+    private int reviewCount;
 
 }
