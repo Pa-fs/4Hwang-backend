@@ -15,7 +15,7 @@ public interface ProductDetailPageService {
 
 //    DetailReviewResDto getDetailReviewInfo(Long productId);
 
-    List<DetailProductInfoResDto> getDetailProductInfo(Long usedProductId);
+    DetailProductInfoResDto getDetailProductInfo(Long usedProductId);
 
     DetailReviewInfoResDto getDetailReviewInfo(Long productId);
 

@@ -3,6 +3,7 @@ package com.green.sahwang.pendingsale.repository;
 import com.green.sahwang.pendingsale.entity.PendingSale;
 import com.green.sahwang.pendingsale.entity.UserSaleImage;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
