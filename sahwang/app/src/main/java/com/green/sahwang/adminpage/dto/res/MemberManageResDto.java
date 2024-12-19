@@ -12,6 +12,8 @@ import java.time.LocalDateTime;
 @Setter
 public class MemberManageResDto {
 
+    private Long memberId;
+
     private String profileImage;
 
     private String name;
