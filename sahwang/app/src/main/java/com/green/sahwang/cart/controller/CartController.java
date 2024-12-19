@@ -25,22 +25,6 @@ public class CartController {
 
     private final CartService cartService;
 
-//    @PostMapping("add")
-//    public ResponseEntity<String> addProducts(
-//            @AuthenticationPrincipal UserDetails userDetails,
-//            @RequestBody CartProductsReqDto cartProductsReqDto) {
-//        cartService.addProductToCart(userDetails.getUsername(), cartProductsReqDto.getProductId(), cartProductsReqDto.getQuantity());
-//        return ResponseEntity.ok("insert products in cart");
-//    }
-
-//    @DeleteMapping("remove")
-//    public ResponseEntity<String> removeProducts(
-//            @AuthenticationPrincipal UserDetails userDetails,
-//            @RequestBody List<CartProductsRemoveReqDto> cartProductsRemoveReqDtos) {
-//        cartService.removeProductFromCart(userDetails.getUsername(), cartProductsRemoveReqDtos);
-//        return ResponseEntity.ok("delete products in cart");
-//    }
-
     @PostMapping("add")
     public ResponseEntity<String> addProducts(
             @AuthenticationPrincipal UserDetails userDetails,
@@ -56,20 +40,6 @@ public class CartController {
         cartService.removeUsedProductFromCart(userDetails.getUsername(), cartUsedProductRemoveReqDtos);
         return ResponseEntity.ok("delete usedProducts in cart");
     }
-
-//    @PostMapping("merge")
-//    public ResponseEntity<String> mergeProducts(@RequestBody List<CartProductsReqDto> cartUsedProductsReqDtos,
-//                                                @AuthenticationPrincipal UserDetails userDetails) {
-//        if (userDetails.getUsername() == null) {
-//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-//        }
-//
-//        if (cartUsedProductsReqDtos.isEmpty()) {
-//            return ResponseEntity.ok("요청 데이터가 비어있습니다.");
-//        }
-//        cartService.mergeProductsInCartWithUserLogin(cartUsedProductsReqDtos, userDetails.getUsername());
-//        return ResponseEntity.ok("success merge");
-//    }
 
     @PostMapping("merge")
     @SecurityRequirement(name = "Bearer Authentication")

@@ -27,6 +27,7 @@ public class VerifiedSaleImage implements ImageEntity {
 
     private String fileDesc;
 
+    @Enumerated(EnumType.STRING)
     private VerifiedImageType verifiedImageType;
 
     // 연관관계 메서드
