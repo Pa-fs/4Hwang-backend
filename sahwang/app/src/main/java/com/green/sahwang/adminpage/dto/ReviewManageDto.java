@@ -17,9 +17,9 @@ public class ReviewManageDto {
 
     private String productName;
 
-    private int size;
+    private int productSize;
 
-    private String dtype;
+    private String categoryName;
 
     private String content;
 
@@ -28,5 +28,7 @@ public class ReviewManageDto {
     private String nickName;
 
     private LocalDateTime reviewCreationDate;
+
+    private Long favoriteCount;
 
 }

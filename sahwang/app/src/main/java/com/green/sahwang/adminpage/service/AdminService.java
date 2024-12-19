@@ -14,8 +14,8 @@ public interface AdminService {
 
     void memberRoleChange(Long memberId, String role);
 
-//    List<ReviewManageResDto> getReviews(int pageNum, int size);
-//
-//    List<ReviewManageResDto> getReviewsBySort(String sort, int pageNum, int size);
+    ReviewManageResDto getReviews(int pageNum, int size);
+
+    ReviewManageResDto getReviewsBySort(String sort, int pageNum, int size);
 
 }
