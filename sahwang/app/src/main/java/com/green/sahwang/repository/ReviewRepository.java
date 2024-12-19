@@ -25,18 +25,4 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
 
     Page<Review> findAll(Pageable pageable);
 
-    @Query("SELECT new com.green.sahwang.adminpage.dto.ReviewManageDto( " +
-            "r.id, r.image, pp.productName, vs.productSize, ps.categoryName, " +
-            "r.content, r.star, m.nickName, r.reviewCreationDate, " +
-            "COUNT(f.id) AS favoriteCount) " +
-            "FROM Review r " +
-            "JOIN r.purchaseProduct pp " +
-            "JOIN pp.usedProduct up " +
-            "JOIN up.verifiedSale vs " +
-            "JOIN vs.pendingSale ps " +
-            "JOIN r.member m " +
-            "LEFT JOIN Favorite f ON r.id = f.review.id " +
-            "GROUP BY r.id, r.image, pp.productName, vs.productSize, ps.categoryName, " +
-            "r.content, r.star, m.nickName, r.reviewCreationDate")
-    Page<ReviewManageDto> findReviews(Pageable pageable);
 }
