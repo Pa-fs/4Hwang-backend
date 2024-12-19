@@ -1,4 +1,4 @@
-package com.green.sahwang.dto.response;
+package com.green.sahwang.purchase.dto.response;
 
 import lombok.Builder;
 import lombok.Data;

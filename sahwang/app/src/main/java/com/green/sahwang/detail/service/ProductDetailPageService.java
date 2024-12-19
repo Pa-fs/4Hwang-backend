@@ -15,19 +15,19 @@ public interface ProductDetailPageService {
 
 //    DetailReviewResDto getDetailReviewInfo(Long productId);
 
-    List<DetailProductInfoResDto> getDetailProductInfo(Long productId);
+    List<DetailProductInfoResDto> getDetailProductInfo(Long usedProductId);
 
     DetailReviewInfoResDto getDetailReviewInfo(Long productId);
 
     void saveDetailMainImage(MultipartFile file, ImageFileReqDto imageFileReqDto);
 
-    DetailMainImageResDto getDetailMainPageImage(Long productId);
+    DetailMainImageResDto getDetailMainPageImage(Long usedProductId);
 
-    List<ReviewResDto> getReviewPages(Long productId, int pageNum, int size);
+    List<ReviewResDto> getReviewPages(Long usedProductId, int pageNum, int size);
 
-    List<ReviewImageResDto> getReviewImages(Long productId);
+    List<ReviewImageResDto> getReviewImages(Long usedProductId);
 
-    List<FavoriteCheckedResDto> getChecked(Long productId, UserDetails userDetails, int pageNum, int size);
+    List<FavoriteCheckedResDto> getChecked(Long usedProductId, UserDetails userDetails, int pageNum, int size);
 
 //    FavoriteClickResDto clickFavorite(Long reviewId, UserDetails userDetails);
 //

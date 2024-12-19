@@ -59,17 +59,17 @@ public class ProductDetailPageController {
     }
 
     @GetMapping("/detailProductInfo/{productId}")
-    public ResponseEntity<List<DetailProductInfoResDto>> getProductInfo(@PathVariable(name = "productId") Long productId){
+    public ResponseEntity<List<DetailProductInfoResDto>> getProductInfo(@PathVariable(name = "usedProductId") Long usedProductId){
 
-        List<DetailProductInfoResDto> detailProductInfoResDtoList = productDetailPageService.getDetailProductInfo(productId);
+        List<DetailProductInfoResDto> detailProductInfoResDtoList = productDetailPageService.getDetailProductInfo(usedProductId);
 
         return ResponseEntity.ok(detailProductInfoResDtoList);
     }
 
-    @GetMapping("/detailReviewInfo/{productId}")
-    public ResponseEntity<DetailReviewInfoResDto> getReviewInfo(@PathVariable(name = "productId") Long productId){
+    @GetMapping("/detailReviewInfo/{usedProductId}")
+    public ResponseEntity<DetailReviewInfoResDto> getReviewInfo(@PathVariable(name = "usedProductId") Long usedProductId){
 
-        DetailReviewInfoResDto detailReviewInfoResDto = productDetailPageService.getDetailReviewInfo(productId);
+        DetailReviewInfoResDto detailReviewInfoResDto = productDetailPageService.getDetailReviewInfo(usedProductId);
 
         return ResponseEntity.ok(detailReviewInfoResDto);
     }
@@ -84,27 +84,27 @@ public class ProductDetailPageController {
         return "이미지 저장 완료되었습니다";
     }
 
-    @GetMapping("/detailPageImage/{productId}")
-    public ResponseEntity<DetailMainImageResDto> getDetailPageImage(@PathVariable(name = "productId") Long productId){
+    @GetMapping("/detailPageImage/{usedProductId}")
+    public ResponseEntity<DetailMainImageResDto> getDetailPageImage(@PathVariable(name = "usedProductId") Long usedProductId){
 
-        DetailMainImageResDto detailMainImageResDto = productDetailPageService.getDetailMainPageImage(productId);
+        DetailMainImageResDto detailMainImageResDto = productDetailPageService.getDetailMainPageImage(usedProductId);
 
         return ResponseEntity.ok(detailMainImageResDto);
     }
 
-    @GetMapping("/review/{productId}")
-    public ResponseEntity<List<ReviewResDto>> getReviewPage(@PathVariable(name = "productId") Long productID,
+    @GetMapping("/review/{usedProductId}")
+    public ResponseEntity<List<ReviewResDto>> getReviewPage(@PathVariable(name = "usedProductId") Long usedProductId,
                                                             @RequestParam(name = "pageNum", defaultValue = "0", required = false) int pageNum,
                                                             @RequestParam(name = "size", defaultValue = "5", required = false) int size){
-        List<ReviewResDto> reviewResDtoList = productDetailPageService.getReviewPages(productID, pageNum, size);
+        List<ReviewResDto> reviewResDtoList = productDetailPageService.getReviewPages(usedProductId, pageNum, size);
 
         return ResponseEntity.ok(reviewResDtoList);
     }
 
-    @GetMapping("/reviewImageList/{productId}")
-    public ResponseEntity<List<ReviewImageResDto>> getReviewImages(@PathVariable(name = "productId") Long productId){
+    @GetMapping("/reviewImageList/{usedProductId}")
+    public ResponseEntity<List<ReviewImageResDto>> getReviewImages(@PathVariable(name = "usedProductId") Long usedProductId){
 
-        List<ReviewImageResDto> reviewImageResDtoList = productDetailPageService.getReviewImages(productId);
+        List<ReviewImageResDto> reviewImageResDtoList = productDetailPageService.getReviewImages(usedProductId);
 
         return ResponseEntity.ok(reviewImageResDtoList);
     }
@@ -112,11 +112,11 @@ public class ProductDetailPageController {
     @SecurityRequirement(name = "Bearer Authentication")
     @Operation(summary = "리뷰 도움되요", description = "리뷰 도움되유 리스트")
     @GetMapping("/favorite/{productId}")
-    public ResponseEntity<List<FavoriteCheckedResDto>> favoriteCheck(@PathVariable(name = "productId") Long productId,
+    public ResponseEntity<List<FavoriteCheckedResDto>> favoriteCheck(@PathVariable(name = "usedProductId") Long usedProductId,
                                                                      @AuthenticationPrincipal UserDetails userDetails,
                                                                      @RequestParam(name = "pageNum", defaultValue = "0", required = false) int pageNum,
                                                                      @RequestParam(name = "size", defaultValue = "5", required = false) int size){
-        List<FavoriteCheckedResDto> favoriteCheckedResDtoList = productDetailPageService.getChecked(productId, userDetails, pageNum, size);
+        List<FavoriteCheckedResDto> favoriteCheckedResDtoList = productDetailPageService.getChecked(usedProductId, userDetails, pageNum, size);
 
         return ResponseEntity.ok(favoriteCheckedResDtoList);
     }
