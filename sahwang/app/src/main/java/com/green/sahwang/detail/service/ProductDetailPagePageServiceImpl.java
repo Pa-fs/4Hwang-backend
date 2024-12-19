@@ -1,13 +1,16 @@
 package com.green.sahwang.detail.service;
 
 import com.green.sahwang.config.DateTimeUtils;
+import com.green.sahwang.detail.dto.DetailProductInfoDto;
 import com.green.sahwang.detail.dto.response.*;
 import com.green.sahwang.dto.request.ImageFileReqDto;
 import com.green.sahwang.dto.response.ImageResDto;
 import com.green.sahwang.entity.*;
 import com.green.sahwang.exception.BizException;
 import com.green.sahwang.exception.ErrorCode;
+import com.green.sahwang.pendingsale.repository.UserSaleImageRepository;
 import com.green.sahwang.repository.*;
+import com.green.sahwang.usedproduct.entity.UsedProduct;
 import com.green.sahwang.usedproduct.repository.UsedProductRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -41,6 +44,7 @@ public class ProductDetailPagePageServiceImpl implements ProductDetailPageServic
     private final ReviewImageRepository reviewImageRepository;
     private final DetailImageRepository detailImageRepository;
     private final UsedProductRepository usedProductRepository;
+    private final UserSaleImageRepository userSaleImageRepository;
     private final Path imagePath;
 
     public ProductDetailPagePageServiceImpl(ProductImageRepository productImageRepository,
@@ -52,7 +56,8 @@ public class ProductDetailPagePageServiceImpl implements ProductDetailPageServic
                                             FavoriteRepository favoriteRepository,
                                             ReviewImageRepository reviewImageRepository,
                                             DetailImageRepository detailImageRepository,
-                                            UsedProductRepository usedProductRepository) {
+                                            UsedProductRepository usedProductRepository,
+                                            UserSaleImageRepository userSaleImageRepository) {
         this.productImageRepository = productImageRepository;
         this.productRepository = productRepository;
         this.purchaseProductRepository = purchaseProductRepository;
@@ -63,6 +68,7 @@ public class ProductDetailPagePageServiceImpl implements ProductDetailPageServic
         this.reviewImageRepository = reviewImageRepository;
         this.detailImageRepository = detailImageRepository;
         this.usedProductRepository = usedProductRepository;
+        this.userSaleImageRepository = userSaleImageRepository;
         this.imagePath = Paths.get("images/file").toAbsolutePath();
 
         try {
@@ -74,7 +80,7 @@ public class ProductDetailPagePageServiceImpl implements ProductDetailPageServic
 
     @Transactional
     public List<DetailChartResDto> getSaleProducts(Long productId){
-        
+
 
         Product product = productRepository.findById(productId).orElseThrow();
         List<PurchaseProduct> purchaseProductList = purchaseProductRepository.findAllByProduct(product);
@@ -175,31 +181,15 @@ public class ProductDetailPagePageServiceImpl implements ProductDetailPageServic
     }
 
     @Transactional
-    public List<DetailProductInfoResDto> getDetailProductInfo(Long productId){
-        Product product = productRepository.findById(productId).orElseThrow();
-
-        List<Product> productList = productRepository.findAllByName(product.getName());
-
-        List<DetailProductInfoResDto> detailProductInfoResDtoList = new ArrayList<>();
-
-        for (Product product1 : productList){
-            List<ProductImage> productImages = productImageRepository.findAllByProduct(product1);
-            ProductImage productImage = productImages.get(0);
-
-            ImageResDto imageResDto = new ImageResDto(productImage.getFilename(), productImage.getPath(), productImage.getFileDesc());
-
-            DetailProductInfoResDto detailProductInfoResDto = new DetailProductInfoResDto();
-            detailProductInfoResDto.setBrandName(product1.getBrand().getName());
-            detailProductInfoResDto.setProductName(product1.getName());
-            detailProductInfoResDto.setPrice(product1.getPrice());
-            detailProductInfoResDto.setProductId(product1.getId());
-            detailProductInfoResDto.setSize(product1.getSize());
-            detailProductInfoResDto.setMainImage(imageResDto);
-
-            detailProductInfoResDtoList.add(detailProductInfoResDto);
-        }
-
-        return detailProductInfoResDtoList;
+    public DetailProductInfoResDto getDetailProductInfo(Long usedProductId){
+        DetailProductInfoDto detailProductInfoDto = usedProductRepository.findUsedProductInfo(usedProductId);
+        UsedProduct usedProduct = usedProductRepository.findById(detailProductInfoDto.getUsedProductId()).orElseThrow();
+        List<ImageResDto> imageResDtoList = usedProduct.getVerifiedSale().getPendingSale().getUserSaleImages().stream().map(userSaleImage -> ImageResDto.builder()
+                .filename(userSaleImage.getFilename())
+                .fileDesc(userSaleImage.getFileDesc())
+                .path(userSaleImage.getPath())
+                .build()).toList();
+        return new DetailProductInfoResDto(detailProductInfoDto, imageResDtoList);
     }
 
     @Transactional

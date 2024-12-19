@@ -1,5 +1,6 @@
 package com.green.sahwang.usedproduct.repository;
 
+import com.green.sahwang.detail.dto.DetailProductInfoDto;
 import com.green.sahwang.usedproduct.entity.UsedProduct;
 import com.green.sahwang.usedproduct.entity.enumtype.UsedProductType;
 import com.green.sahwang.verifiedsale.entity.VerifiedSale;
@@ -35,6 +36,17 @@ public interface UsedProductRepository extends JpaRepository<UsedProduct, Long> 
             and vs.rejectionReason is null
             """)
     Page<UsedProduct> findUsedProductsByProductId(@Param("productId") Long productId, @Param("usedProductType") UsedProductType usedProductType, Pageable pageable);
+
+    @Query("SELECT new com.green.sahwang.detail.dto.DetailProductInfoDto( " +
+            "up.id, p.id, ps.brandName, vs.productName, " +
+            "p.size, vs.productSize, vs.verifiedSellingPrice, sg.gradeType) " +
+            "FROM UsedProduct up " +
+            "JOIN up.verifiedSale vs " +
+            "JOIN vs.saleGrade sg " +
+            "JOIN vs.pendingSale ps " +
+            "JOIN ps.product p " +
+            "WHERE up.id = :usedProductId")
+    DetailProductInfoDto findUsedProductInfo(@Param("usedProductId") Long usedProductId);
 
     List<UsedProduct> findAllByVerifiedSaleIn(List<VerifiedSale> verifiedSaleList);
 }

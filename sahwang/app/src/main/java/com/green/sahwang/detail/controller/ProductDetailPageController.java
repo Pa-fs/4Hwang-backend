@@ -58,12 +58,12 @@ public class ProductDetailPageController {
         return ResponseEntity.ok(detailChartResDtoList);
     }
 
-    @GetMapping("/detailProductInfo/{productId}")
-    public ResponseEntity<List<DetailProductInfoResDto>> getProductInfo(@PathVariable(name = "usedProductId") Long usedProductId){
+    @GetMapping("/detailProductInfo/{usedProductId}")
+    public ResponseEntity<DetailProductInfoResDto> getProductInfo(@PathVariable(name = "usedProductId") Long usedProductId){
 
-        List<DetailProductInfoResDto> detailProductInfoResDtoList = productDetailPageService.getDetailProductInfo(usedProductId);
+        DetailProductInfoResDto detailProductInfo = productDetailPageService.getDetailProductInfo(usedProductId);
 
-        return ResponseEntity.ok(detailProductInfoResDtoList);
+        return ResponseEntity.ok(detailProductInfo);
     }
 
     @GetMapping("/detailReviewInfo/{usedProductId}")
