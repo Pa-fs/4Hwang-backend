@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -29,7 +30,11 @@ public class ReviewServiceImpl implements ReviewService {
         // 기존에는 제품ID -> 중고제품의 제품ID 공통
         List<Purchase> purchases = purchaseRepository.findAllByPurchaseStatus(PurchaseStatus.COMPLETED);
 
-        List<PurchaseProduct> purchaseProducts = purchaseProductRepository.findByProductIdAndPurchaseIn(product.getId(), purchases);
+        List<Long> purchaseIds = purchases.stream()
+                .map(Purchase::getId)
+                .toList();
+
+        List<PurchaseProduct> purchaseProducts = purchaseProductRepository.findByProductIdAndPurchaseIn(product.getId(), purchaseIds);
 
         List<Review> reviews = reviewRepository.findAllByPurchaseProductIn(purchaseProducts);
 

@@ -26,7 +26,7 @@ public interface PurchaseProductRepository extends JpaRepository<PurchaseProduct
             where p.id = :productId
             and pur.id in (:purchases)
             """)
-    List<PurchaseProduct> findByProductIdAndPurchaseIn(@Param("productId") Long productId, @Param("purchases") List<Purchase> purchases);
+    List<PurchaseProduct> findByProductIdAndPurchaseIn(@Param("productId") Long productId, @Param("purchases") List<Long> purchases);
 
     List<PurchaseProduct> findAllByPurchase(Purchase purchase);
 
