@@ -1,9 +1,7 @@
 package com.green.sahwang.cart.repository;
 
 import com.green.sahwang.cart.entity.Cart;
-import com.green.sahwang.cart.entity.CartProduct;
 import com.green.sahwang.cart.entity.CartUsedProduct;
-import com.green.sahwang.entity.Product;
 import com.green.sahwang.usedproduct.entity.UsedProduct;
 import org.springframework.data.jpa.repository.JpaRepository;
 

@@ -1,10 +1,8 @@
 package com.green.sahwang.entity;
 
 import com.green.sahwang.cart.entity.Cart;
-import com.green.sahwang.cart.entity.CartProduct;
 import com.green.sahwang.entity.product.Candle;
 import com.green.sahwang.entity.product.Perfume;
-import com.green.sahwang.cart.repository.CartProductRepository;
 import com.green.sahwang.cart.repository.CartRepository;
 import com.green.sahwang.repository.MemberRepository;
 import com.green.sahwang.repository.ProductRepository;

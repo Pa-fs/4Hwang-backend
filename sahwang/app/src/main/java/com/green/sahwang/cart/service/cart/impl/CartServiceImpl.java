@@ -5,9 +5,7 @@ import com.green.sahwang.cart.dto.request.CartProductsReqDto;
 import com.green.sahwang.cart.dto.request.CartUsedProductRemoveReqDto;
 import com.green.sahwang.cart.dto.request.CartUsedProductReqDto;
 import com.green.sahwang.cart.entity.Cart;
-import com.green.sahwang.cart.entity.CartProduct;
 import com.green.sahwang.cart.entity.CartUsedProduct;
-import com.green.sahwang.cart.repository.CartProductRepository;
 import com.green.sahwang.cart.repository.CartRepository;
 import com.green.sahwang.cart.repository.CartUsedProductRepository;
 import com.green.sahwang.entity.*;
@@ -38,7 +36,6 @@ public class CartServiceImpl implements CartService {
     private final CartRepository cartRepository;
     private final MemberRepository memberRepository;
     private final ProductRepository productRepository;
-    private final CartProductRepository cartProductRepository;
 
     private final UsedProductRepository usedProductRepository;
     private final CartUsedProductRepository cartUsedProductRepository;
@@ -52,33 +49,6 @@ public class CartServiceImpl implements CartService {
         Member member = getMemberById(memberId);
         return cartRepository.findByMember(member)
                 .orElseGet(() -> createNewCartForMember(member));
-    }
-
-    @Override
-    @Transactional
-    public void addProductToCart(String email, Long productId, int quantity) {
-        Member member = getMemberByEmail(email);
-
-        Cart cart = cartRepository.findByMember(member)
-                .orElseGet(() -> createNewCartForMember(member));
-
-        Product product = getProduct(productId);
-
-
-        CartProduct cartProduct = cartProductRepository.findByCartAndProduct(cart, product)
-                .orElse(null);
-
-        if (cartProduct == null) {
-            cartProduct = CartProduct.builder()
-                    .cart(cart)
-                    .product(product)
-                    .quantity(quantity)
-                    .build();
-        } else {
-            // 이미 있으면 더함
-            cartProduct.setQuantity(cartProduct.getQuantity() + quantity);
-        }
-        cartProductRepository.save(cartProduct);
     }
 
     @Override
@@ -108,23 +78,6 @@ public class CartServiceImpl implements CartService {
         cartUsedProductRepository.save(cartUsedProduct);
     }
 
-    @Transactional
-    public void removeProductFromCart(String email, List<CartProductsRemoveReqDto> cartProductsRemoveReqDtos) {
-        List<Product> products = cartProductsRemoveReqDtos.stream()
-                .map(cartProductsRemoveReqDto -> productRepository.findById(cartProductsRemoveReqDto.getProductId())
-                        .orElseThrow(() -> new ProductDomainException("productId " + cartProductsRemoveReqDto.getProductId() + " 해당 제품이 존재하지 않습니다"))).toList();
-
-        Member member = getMemberByEmail(email);
-        Cart cart = cartRepository.findByMember(member)
-                .orElseThrow(() -> new CartDomainException("No cart"));
-
-        List<CartProduct> cartProducts = cartProductRepository.findAllByProductIn(products)
-                .stream()
-                .filter(cartProduct -> cartProduct.getCart().equals(cart)) // 특정 카트에 해당하는 것만 필터링
-                .collect(Collectors.toList());
-        cartProductRepository.deleteAll(cartProducts);
-    }
-
     @Override
     @Transactional
     public void removeUsedProductFromCart(String email, List<CartUsedProductRemoveReqDto> cartUsedProductRemoveReqDtos) {
@@ -141,37 +94,6 @@ public class CartServiceImpl implements CartService {
                 .filter(cartUsedProduct -> cartUsedProduct.getCart().equals(cart)) // 특정 카트에 해당하는 것만 필터링
                 .collect(Collectors.toList());
         cartUsedProductRepository.deleteAll(cartUsedProducts);
-    }
-
-    @Override
-    @Transactional
-    public void mergeProductsInCartWithUserLogin(List<CartProductsReqDto> cartProductsReqDtos, String userEmail) {
-        Member member = getMemberByEmail(userEmail);
-        Cart cart = getCartForMember(member.getId());
-
-        List<CartProduct> localProducts = cartServiceHelper.getLocalProducts(cart, cartProductsReqDtos);
-
-        List<CartProduct> existingProducts = cartProductRepository.findByCart(cart);
-
-        for (CartProduct localProduct : localProducts) {
-            CartProduct existingCartProduct = existingProducts.stream()
-                    .filter(product -> product.getProduct().getId().equals(localProduct.getProduct().getId()))
-                    .findFirst()
-                    .orElse(null);
-
-            if (existingCartProduct != null) {
-                existingCartProduct.setQuantity(existingCartProduct.getQuantity() + localProduct.getQuantity());
-                cartProductRepository.save(existingCartProduct);
-            } else {
-                Product product = getProduct(localProduct.getProduct().getId());
-                CartProduct cartProduct = CartProduct.builder()
-                        .cart(cart)
-                        .product(product)
-                        .quantity(localProduct.getQuantity())
-                        .build();
-                cartProductRepository.save(cartProduct);
-            }
-        }
     }
 
     @Override
@@ -224,7 +146,7 @@ public class CartServiceImpl implements CartService {
             // 결제된 제품 ID만 제거해야함
             // paymentId -> purchasePayments -> purchaseProduct -> productIds
             List<PurchasePayment> purchasePayments = purchasePaymentRepository.findAllByPayment(payment);
-            cartProductRepository.deleteAllByProductIdIn(purchasePayments.stream()
+            cartUsedProductRepository.deleteAllByUsedProductIdIn(purchasePayments.stream()
                     .map(purchasePayment -> purchasePayment.getPurchaseProduct().getUsedProduct().getId())
                     .toList());
         }
@@ -243,12 +165,6 @@ public class CartServiceImpl implements CartService {
 
     private Member getMemberByEmail(String userEmail) {
         return memberRepository.findByEmail(userEmail);
-    }
-
-    // 미사용 241218
-    private Product getProduct(Long productId) {
-        return productRepository.findById(productId)
-                .orElseThrow(() -> new ProductDomainException("productId " + productId + " 해당 제품이 존재하지 않습니다"));
     }
 
     private UsedProduct getUsedProduct(Long usedProductId) {

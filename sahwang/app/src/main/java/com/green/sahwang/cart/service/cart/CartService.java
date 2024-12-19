@@ -13,17 +13,9 @@ public interface CartService {
 
     Cart getCartForMember(Long memberId);
 
-    // 미사용 241218
-    void addProductToCart(String email, Long productId, int quantity);
-
     void addUsedProductToCart(String email, Long productId, int quantity);
 
-//    void removeProductFromCart(String email, List<CartProductsRemoveReqDto> cartProductsReqDto);
-
     void removeUsedProductFromCart(String email, List<CartUsedProductRemoveReqDto> cartUsedProductRemoveReqDtos);
-
-    // 미사용 241218
-    void mergeProductsInCartWithUserLogin(List<CartProductsReqDto> cartProductsReqDtos, String userEmail);
 
     void mergeUsedProductsInCartWithUserLogin(List<CartUsedProductReqDto> cartUsedProductReqDtos, String userEmail);
 
