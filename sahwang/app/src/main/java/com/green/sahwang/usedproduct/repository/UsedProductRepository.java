@@ -21,6 +21,7 @@ public interface UsedProductRepository extends JpaRepository<UsedProduct, Long> 
             join fetch ps.product p
             where p.id = :productId
             and up.usedProductType = :usedProductType
+            and vs.rejectionReason is null
             """,
             countQuery = """
             select count(up.id)
@@ -31,6 +32,7 @@ public interface UsedProductRepository extends JpaRepository<UsedProduct, Long> 
             join ps.product p
             where p.id = :productId
             and up.usedProductType = :usedProductType
+            and vs.rejectionReason is null
             """)
     Page<UsedProduct> findUsedProductsByProductId(@Param("productId") Long productId, @Param("usedProductType") UsedProductType usedProductType, Pageable pageable);
 

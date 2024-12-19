@@ -57,8 +57,18 @@
                     </foreach>
                 </when>
                 <otherwise>
-                    <!-- 생산날짜 순 -->
-                    p.register_date DESC
+                    <!-- 가격, 생산날짜 순 -->
+                    <choose>
+                        <when test="maxPrice != null">
+                            maxPrice DESC
+                        </when>
+                        <otherwise>
+                            <!-- null인 경우 뒤로 가도록 처리 -->
+                            <!-- 가격이 null이면 후순위 처리 (가격 내림차순으로 정렬하고, null은 마지막에 오게) -->
+                            maxPrice DESC NULLS LAST
+                        </otherwise>
+                    </choose>
+                    , p.register_date DESC
                 </otherwise>
             </choose>
         </if>

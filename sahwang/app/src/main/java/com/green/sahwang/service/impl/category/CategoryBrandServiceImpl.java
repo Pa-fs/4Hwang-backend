@@ -46,7 +46,14 @@ public class CategoryBrandServiceImpl implements CategoryBrandService {
         // 개선 여지 코드
         String dType = String.valueOf(category.getName().charAt(0)).toUpperCase();
 
-        Pageable pageable = PageRequest.of(pageNum, size, Sort.by(Sort.Direction.DESC, sortType));
+        Pageable pageable = PageRequest.of(
+                pageNum,
+                size,
+                Sort.by(
+                        Sort.Order.desc("maxPrice"),
+                        Sort.Order.desc(sortType)
+                )
+        );
         List<ProductWithSaleInfoDto> productWithSaleInfoDtos = productMapper.findProductsWithInUsedSaleInfo(pageable, dType);
 
         return productWithSaleInfoDtos.stream()
