@@ -15,6 +15,7 @@ DELETE FROM `detail_image`;
 DELETE FROM `wish_category`;
 DELETE FROM `used_product`;
 DELETE FROM `user_sale_image`;
+DELETE FROM `verified_sale_image`;
 DELETE FROM `verified_sale`;
 DELETE FROM `sale_grade`;
 DELETE FROM `rejection_reason`;
@@ -392,20 +393,20 @@ VALUES
 (1, 1, 40, 'Perfume', 'Santa Maria Novella', '아쿠아 오드퍼퓸', '아쿠아 오드퍼퓸 향수, 50ml, 새 제품, 박스 포함', 48, 'ACCEPTED', 145000, FALSE, NULL, NOW(), NOW()),
 (2, 9, 41, 'Diffuser', 'Yankee Candle', '라벤더 디퓨저', 'Yankee Candle 라벤더 향 디퓨저, 새 제품', 100, 'ACCEPTED', 30000, FALSE, NULL, NOW(), NOW()),
 (3, 17, 42, 'Candle', 'Bath & Body Works', '시나몬 스틱 캔들', 'Bath & Body Works 시나몬 스틱 캔들, 사용한 흔적 있음, 90% 남음', 200, 'ACCEPTED', 25000, TRUE, NULL, NOW(), NOW()),
-(1, 1, 43, 'Perfume', 'Dior', '디올 Sauvage 향수', '디올 Sauvage 향수, 100ml, 새 제품', 100, 'ACCEPTED', 130000, FALSE, NULL, NOW(), NOW()),
+(1, 1, 43, 'Perfume', 'Santa Maria Novella', '아쿠아 오드퍼퓸', '아쿠아 오드퍼퓸 향수, 45ml, 중고 제품', 45, 'ACCEPTED', 130000, FALSE, NULL, NOW(), NOW()),
 (2, 17, 44, 'Candle', 'IKEA', '레드 캔들', 'IKEA 레드 향초, 새 제품', 150, 'REJECTED', 15000, FALSE, NULL, NOW(), NOW());
 
 INSERT INTO user_sale_image(user_sale_image_id, file_desc, filename, path, pending_sale_id, is_used)
 VALUES
-(1, 'image-1', 'p_001.png', 'images/file/\\p_001.jpg', 40, false),
+(1, 'image-1', 'p_001.png', 'images/file/\\p_001.jpg', 40, true),
 (2, 'image-2', 'p_002.png', 'images/file/\\p_002.jpg', 40, false),
-(3, 'image-3', 'p_003.png', 'images/file/\\p_003.jpg', 40, false),
-(4, 'image-1', 'p_004.png', 'images/file/\\p_004.jpg', 41, false),
-(5, 'image-2', 'p_005.png', 'images/file/\\p_005.jpg', 41, false),
-(6, 'image-3', 'p_006.png', 'images/file/\\p_006.jpg', 41, false),
-(7, 'image-1', 'p_007.png', 'images/file/\\p_007.jpg', 42, false),
-(8, 'image-1', 'p_008.png', 'images/file/\\p_008.jpg', 43, false),
-(9, 'image-1', 'p_009.png', 'images/file/\\p_009.jpg', 44, false);
+(3, 'image-3', 'p_003.png', 'images/file/\\p_003.jpg', 40, true),
+(4, 'image-1', 'p_004.png', 'images/file/\\p_004.jpg', 41, true),
+(5, 'image-2', 'p_005.png', 'images/file/\\p_005.jpg', 41, true),
+(6, 'image-3', 'p_006.png', 'images/file/\\p_006.jpg', 41, true),
+(7, 'image-1', 'p_007.png', 'images/file/\\p_007.jpg', 42, true),
+(8, 'image-1', 'p_008.png', 'images/file/\\p_008.jpg', 43, true),
+(9, 'image-1', 'p_009.png', 'images/file/\\p_009.jpg', 44, true);
 
 -- sale_grade
 INSERT INTO sale_grade (sale_grade_id, grade_description, grade_type)
@@ -435,7 +436,7 @@ values
     (1, 'Perfume', 'Santa Maria Novella', '아쿠아 오드퍼퓸', '아쿠아 오드퍼퓸 향수, 50ml, 새 제품, 박스 포함', 45, 1, 120000, 40, NULL, 1, NOW(), 0, 0),
     (2, 'Diffuser', 'Yankee Candle', '라벤더 디퓨저', 'Yankee Candle 라벤더 향 디퓨저, 새 제품', 100, 1, 40000, 41, NULL, 1, NOW(), 0, 0),
     (3, 'Candle', 'Bath & Body Works', '시나몬 스틱 캔들', 'Bath & Body Works 시나몬 스틱 캔들, 사용한 흔적 있음, 90% 남음', 185, 1, 25000, 42, NULL, 2, NOW(), 0, 1),
-    (4, 'Perfume', 'Dior', '디올 Sauvage 향수', '디올 Sauvage 향수, 100ml, 새 제품', 100, 1, 110000, 43, NULL, 3, NOW(), 0, 0),
+    (4, 'Perfume', 'Santa Maria Novella', '아쿠아 오드퍼퓸', '아쿠아 오드퍼퓸, 45ml, 중고 제품', 100, 1, 99000, 43, NULL, 3, NOW(), 0, 0),
     (5, 'Candle', 'IKEA', '레드 캔들', 'IKEA 레드 향초, 결과참조바람 test1', 150, 0, 0, 44, 4, NULL, NOW(), 0, 1),
     (6, 'Candle', 'IKEA', '레드 캔들', 'IKEA 레드 향초, 결과참조바람 test2', 150, 0, 0, 44, 5, NULL, NOW(), 0, 1);
 

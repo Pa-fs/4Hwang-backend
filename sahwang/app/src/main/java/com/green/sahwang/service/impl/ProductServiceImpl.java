@@ -18,6 +18,7 @@ import com.green.sahwang.usedproduct.entity.UsedProduct;
 import com.green.sahwang.usedproduct.repository.UsedProductRepository;
 import com.green.sahwang.verifiedsale.entity.VerifiedSaleImage;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -31,6 +32,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
 
@@ -154,6 +156,8 @@ public class ProductServiceImpl implements ProductService {
         List<UserSaleImage> userSaleImages = usedProduct.getVerifiedSale().getPendingSale().getUserSaleImages().stream()
                 .filter(userSaleImage -> userSaleImage.isUsed())
                 .toList();
+
+        log.info("UserSaleImages : {}", userSaleImages);
         List<VerifiedSaleImage> verifiedSaleImages = usedProduct.getVerifiedSale().getVerifiedSaleImages();
 
         List<ImageResDto> images = new ArrayList<>();
@@ -168,10 +172,10 @@ public class ProductServiceImpl implements ProductService {
                 .sellingUsedProductSize(usedProduct.getVerifiedSale().getProductSize())
                 .dtype(usedProduct.getVerifiedSale().getPendingSale().getProduct().getDtype())
                 .usedOrNot(usedProduct.getVerifiedSale().isUsedOrNot())
-                .sellingUsedProductSize(usedProduct.getVerifiedSale().getPendingSale().getExceptedSellingPrice())
                 .nickName(usedProduct.getVerifiedSale().getPendingSale().getMember().getNickName())
                 .verifiedSaleGradeType(usedProduct.getVerifiedSale().getSaleGrade().getGradeType().toString())
-                .images(images)
+                .sellingPrice(usedProduct.getVerifiedSale().getPendingSale().getExceptedSellingPrice())
+                .userSaleImages(images)
                 .registerDate(usedProduct.getCreatedDate() != null ? DateTimeUtils.format(usedProduct.getCreatedDate()) : null)
                 .reviewCount(reviewService.reviewCount(usedProduct.getVerifiedSale().getPendingSale().getProduct()))
                 .build();

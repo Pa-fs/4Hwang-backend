@@ -40,5 +40,5 @@ public class GeneralUsedProductResDto {
 
     private String registerDate;
 
-    private List<ImageResDto> images;
+    private List<ImageResDto> userSaleImages;
 }
