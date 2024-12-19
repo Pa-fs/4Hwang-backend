@@ -8,11 +8,11 @@ import java.util.List;
 @Data
 public class DetailProductInfoResDto {
 
-    String brandName;
-    String productName;
-    Long productId;
-    int size;
-    int price;
-    ImageResDto mainImage;
+    private String brandName;
+    private String productName;
+    private Long productId;
+    private int size;
+    private int price;
+    private ImageResDto mainImage;
 
 }

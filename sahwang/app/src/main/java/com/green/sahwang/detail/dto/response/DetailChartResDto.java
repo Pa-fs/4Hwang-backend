@@ -8,7 +8,9 @@ import java.time.LocalDateTime;
 public class DetailChartResDto {
 
     private int tradePrice;
+
     private String tradeCompletedDate;
-    int size;
+
+    private int size;
 
 }

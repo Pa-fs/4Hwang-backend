@@ -74,6 +74,7 @@ public class AdminServiceImpl implements AdminService{
             List<Review> reviewList = reviewRepository.findAllByMember(member);
             List<Purchase> purchaseList = purchaseRepository.findAllByMemberAndPurchaseStatus(member, PurchaseStatus.COMPLETED);
             MemberManageResDto memberManageResDto = new MemberManageResDto();
+            memberManageResDto.setMemberId(member.getId());
             memberManageResDto.setProfileImage(member.getProfileImage());
             memberManageResDto.setName(member.getName());
             memberManageResDto.setPhoneNum(member.getPhoneNum());
