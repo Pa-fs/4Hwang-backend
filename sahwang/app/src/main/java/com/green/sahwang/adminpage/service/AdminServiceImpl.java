@@ -10,10 +10,7 @@ import com.green.sahwang.entity.Purchase;
 import com.green.sahwang.entity.Review;
 import com.green.sahwang.entity.enumtype.MemberRole;
 import com.green.sahwang.entity.enumtype.PurchaseStatus;
-import com.green.sahwang.repository.FavoriteRepository;
-import com.green.sahwang.repository.MemberRepository;
-import com.green.sahwang.repository.PurchaseRepository;
-import com.green.sahwang.repository.ReviewRepository;
+import com.green.sahwang.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -34,6 +31,7 @@ public class AdminServiceImpl implements AdminService{
     private final MemberRepository memberRepository;
     private final ReviewRepository reviewRepository;
     private final PurchaseRepository purchaseRepository;
+    private final ReviewImageRepository reviewImageRepository;
     private final FavoriteRepository favoriteRepository;
 
     @Transactional
@@ -117,7 +115,7 @@ public class AdminServiceImpl implements AdminService{
     @Transactional
     public ReviewManageResDto getReviews(int pageNum, int size){
         Pageable pageable = PageRequest.of(pageNum, size);
-        Page<ReviewManageDto> reviewManageDtoPage = reviewRepository.findReviews(pageable);
+        Page<ReviewManageDto> reviewManageDtoPage = reviewImageRepository.findReviews(pageable);
         List<Review> reviewList = reviewRepository.findAll();
 
         return new ReviewManageResDto(reviewManageDtoPage, reviewList.size());
@@ -127,7 +125,7 @@ public class AdminServiceImpl implements AdminService{
     public ReviewManageResDto getReviewsBySort(String sort, int pageNum, int size){
         Sort sortByOptions = getSortByOptions(sort);
         Pageable pageable = PageRequest.of(pageNum, size, sortByOptions);
-        Page<ReviewManageDto> reviewManageDtoPage = reviewRepository.findReviews(pageable);
+        Page<ReviewManageDto> reviewManageDtoPage = reviewImageRepository.findReviews(pageable);
         List<Review> reviewList = reviewRepository.findAll();
 
         return new ReviewManageResDto(reviewManageDtoPage, reviewList.size());
