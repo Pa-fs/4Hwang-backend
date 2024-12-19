@@ -2,7 +2,7 @@ version: '3.8'
 services:
     # mysql 데이터베이스 서비스
   mysql:
-    image: mysql:8.0.39
+    image: mysql:latest
     container_name: mysql_container
     environment:
       MYSQL_ROOT_PASSWORD: 1234   # root 사용자 비밀번호 설정
@@ -21,6 +21,20 @@ services:
     # volumes:
     #   - mariadb_data:/var/lib/mysql  # 데이터가 유지되도록 볼륨을 사용
 
+  redis:
+    image: redis:latest
+    container_name: redis_container
+    ports:
+      - 6380:6379
+    networks:
+      - my_network
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 30s       # 30초 간격으로 확인
+      retries: 3          # 3회 실패 시 서비스 상태를 unhealthy로 간주
+      start_period: 10s   # 컨테이너 시작 후 10초 후에 헬스체크 시작
+      timeout: 5s         # 각 헬스체크의 타임아웃은 5초
+
   # Spring Boot 애플리케이션 서비스 docker run -e
   springboot:
     image: taeyoungk/sahwang-app:latest  # 실제 빌드된 Spring Boot 애플리케이션 이미지
@@ -30,6 +44,8 @@ services:
       SPRING_DATASOURCE_USERNAME: root                       # 사용자
       SPRING_DATASOURCE_PASSWORD: 1234              #  사용자 비밀번호
       SERVER_PORT: 8080
+      SPRING_REDIS_HOST: redis_container            # Redis 호스트 이름 (서비스 이름 사용)
+      SPRING_REDIS_PORT: 6379                      # Redis 포트
       # SRPING_SQL_INIT_MODE: never
     ports:
       - 8080:8080  # Spring Boot 포트를 호스트로 노출
