@@ -3,6 +3,7 @@ package com.green.sahwang.detail.controller;
 import com.green.sahwang.detail.dto.response.*;
 import com.green.sahwang.detail.service.ProductDetailPageService;
 import com.green.sahwang.dto.request.ImageFileReqDto;
+import com.green.sahwang.usedproduct.dto.VerifiedAndUserSaleImageResDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
@@ -26,44 +27,44 @@ public class ProductDetailPageController {
     @Autowired
     private ProductDetailPageService productDetailPageService;
 
-    @GetMapping("/images/{productId}")
-    public ResponseEntity<DetailImagesResDto> productDetailPageImages(@PathVariable(name = "productId") Long productId){
+    @GetMapping("/images/{usedProductId}")
+    public ResponseEntity<List<VerifiedAndUserSaleImageResDto>> productDetailPageImages(@PathVariable(name = "usedProductId") Long usedProductId){
 
-        DetailImagesResDto detailImagesResDto = productDetailPageService.getProductImages(productId);
+        List<VerifiedAndUserSaleImageResDto> verifiedAndUserSaleImageResDtoList = productDetailPageService.getProductImages(usedProductId);
 
-        return ResponseEntity.ok(detailImagesResDto);
+        return ResponseEntity.ok(verifiedAndUserSaleImageResDtoList);
     }
 
-    @GetMapping("/chart/{productId}")
-    public ResponseEntity<List<DetailChartResDto>> productDetailPageChart(@PathVariable(name = "productId") Long productId){
+    @GetMapping("/chart/{usedProductId}")
+    public ResponseEntity<List<DetailChartResDto>> productDetailPageChart(@PathVariable(name = "usedProductId") Long usedProductId){
 
-        List<DetailChartResDto> detailChartResDtoList = productDetailPageService.getSaleProducts(productId);
+        List<DetailChartResDto> detailChartResDtoList = productDetailPageService.getSaleProducts(usedProductId);
 
         return ResponseEntity.ok(detailChartResDtoList);
     }
 
-    @GetMapping("/chart/oneMonth/{productId}")
-    public ResponseEntity<List<DetailChartResDto>> productDetailPageChartOneMonth(@PathVariable(name = "productId") Long productId){
+    @GetMapping("/chart/oneMonth/{usedProductId}")
+    public ResponseEntity<List<DetailChartResDto>> productDetailPageChartOneMonth(@PathVariable(name = "usedProductId") Long usedProductId){
 
-        List<DetailChartResDto> detailChartResDtoList = productDetailPageService.getChartOneMonth(productId);
-
-        return ResponseEntity.ok(detailChartResDtoList);
-    }
-
-    @GetMapping("/chart/sixMonth/{productId}")
-    public ResponseEntity<List<DetailChartResDto>> productDetailPageChartSixMonth(@PathVariable(name = "productId") Long productId){
-
-        List<DetailChartResDto> detailChartResDtoList = productDetailPageService.getChartSixMonth(productId);
+        List<DetailChartResDto> detailChartResDtoList = productDetailPageService.getChartOneMonth(usedProductId);
 
         return ResponseEntity.ok(detailChartResDtoList);
     }
 
-    @GetMapping("/detailProductInfo/{productId}")
-    public ResponseEntity<List<DetailProductInfoResDto>> getProductInfo(@PathVariable(name = "usedProductId") Long usedProductId){
+    @GetMapping("/chart/sixMonth/{usedProductId}")
+    public ResponseEntity<List<DetailChartResDto>> productDetailPageChartSixMonth(@PathVariable(name = "usedProductId") Long usedProductId){
 
-        List<DetailProductInfoResDto> detailProductInfoResDtoList = productDetailPageService.getDetailProductInfo(usedProductId);
+        List<DetailChartResDto> detailChartResDtoList = productDetailPageService.getChartSixMonth(usedProductId);
 
-        return ResponseEntity.ok(detailProductInfoResDtoList);
+        return ResponseEntity.ok(detailChartResDtoList);
+    }
+
+    @GetMapping("/detailProductInfo/{usedProductId}")
+    public ResponseEntity<DetailProductInfoResDto> getProductInfo(@PathVariable(name = "usedProductId") Long usedProductId){
+
+        DetailProductInfoResDto detailProductInfo = productDetailPageService.getDetailProductInfo(usedProductId);
+
+        return ResponseEntity.ok(detailProductInfo);
     }
 
     @GetMapping("/detailReviewInfo/{usedProductId}")

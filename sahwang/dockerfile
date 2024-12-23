@@ -17,7 +17,8 @@ RUN mkdir -p infrastructure/kafka/kafka-config-data/src \
     infrastructure/kafka/kafka-model/src \
     infrastructure/kafka/kafka-producer/src \
     infrastructure/kafka/kafka-consumer/src \
-    app/src
+    app/src \
+    app/images/file
 
 # 의존성 설치 (캐시 마운트 사용)
 RUN --mount=type=cache,target=/root/.m2 \
@@ -29,7 +30,6 @@ COPY infrastructure/kafka/kafka-model/src ./infrastructure/kafka/kafka-model/src
 COPY infrastructure/kafka/kafka-producer/src ./infrastructure/kafka/kafka-producer/src/
 COPY infrastructure/kafka/kafka-consumer/src ./infrastructure/kafka/kafka-consumer/src/
 COPY app/src ./app/src
-COPY ./images ./app
 
 # 전체 프로젝트 빌드
 RUN --mount=type=cache,target=/root/.m2 \
@@ -43,5 +43,9 @@ RUN --mount=type=cache,target=/root/.m2 \
 FROM openjdk:17.0-slim
 WORKDIR /app
 COPY --from=builder /build/app/target/*.jar ./app.jar
+
+# 이미지 파일 복사
+COPY ./images ./app/images
+
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "-Djava.security.egd=file:/dev/./urandom", "-Dsun.net.inetaddr.ttl=0", "app.jar"]

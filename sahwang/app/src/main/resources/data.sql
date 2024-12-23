@@ -12,6 +12,7 @@ DELETE FROM `payment`;
 DELETE FROM `product_product_type`;
 DELETE FROM `product_type`;
 DELETE FROM `detail_image`;
+DELETE FROM `wish_product`;
 DELETE FROM `wish_category`;
 DELETE FROM `wish_product`;
 DELETE FROM `used_product`;

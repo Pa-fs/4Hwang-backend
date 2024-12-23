@@ -2,6 +2,7 @@ package com.green.sahwang.detail.service;
 
 import com.green.sahwang.detail.dto.response.*;
 import com.green.sahwang.dto.request.ImageFileReqDto;
+import com.green.sahwang.usedproduct.dto.VerifiedAndUserSaleImageResDto;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -11,11 +12,11 @@ public interface ProductDetailPageService {
 
     List<DetailChartResDto> getSaleProducts(Long productId);
 
-    DetailImagesResDto getProductImages(Long productId);
+    List<VerifiedAndUserSaleImageResDto> getProductImages(Long productId);
 
 //    DetailReviewResDto getDetailReviewInfo(Long productId);
 
-    List<DetailProductInfoResDto> getDetailProductInfo(Long usedProductId);
+    DetailProductInfoResDto getDetailProductInfo(Long usedProductId);
 
     DetailReviewInfoResDto getDetailReviewInfo(Long productId);
 
@@ -35,8 +36,8 @@ public interface ProductDetailPageService {
 
     FavoriteClickResDto clickFavorite(UserDetails userDetails, Long reviewId);
 
-    List<DetailChartResDto> getChartOneMonth(Long productId);
+    List<DetailChartResDto> getChartOneMonth(Long usedProductId);
 
-    List<DetailChartResDto> getChartSixMonth(Long productId);
+    List<DetailChartResDto> getChartSixMonth(Long usedProductId);
 
 }
