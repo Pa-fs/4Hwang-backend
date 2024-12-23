@@ -28,4 +28,6 @@ public class UsedProduct {
     private UsedProductType usedProductType;
 
     private LocalDateTime createdDate;
+
+    private LocalDateTime modifiedDate;
 }
