@@ -59,7 +59,7 @@ public class InspectionServiceImpl implements InspectionService {
     @Override
     @Transactional
     public Long getTotalCount() {
-        return pendingSaleRepository.count();
+        return pendingSaleRepository.countByInspectionStatus(InspectionStatus.WAITING);
     }
 
     @Override

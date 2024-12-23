@@ -53,4 +53,6 @@ public interface PendingSaleRepository extends JpaRepository<PendingSale, Long> 
             ORDER BY ps.created_date DESC
             """, nativeQuery = true)
     Page<SaleListResDto> findAllVerifiedSaleList(@Param("memberId") Long memberId, Pageable pageable);
+
+    Long countByInspectionStatus(InspectionStatus inspectionStatus);
 }
