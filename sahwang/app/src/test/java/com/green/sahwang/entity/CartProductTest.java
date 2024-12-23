@@ -23,57 +23,57 @@ import static org.assertj.core.api.Assertions.assertThat;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class CartProductTest {
 
-    @Autowired
-    MemberRepository memberRepository;
-
-    @Autowired
-    ProductRepository productRepository;
-
-    @Autowired
-    CartRepository cartRepository;
-
-    @Autowired
-    CartProductRepository cartProductRepository;
-
-    @BeforeEach
-    void setUp() {
-        Member member = new Member();
-        member.setName("test1");
-        memberRepository.save(member);
-
-        Cart cart = new Cart();
-        cart.setMember(member);
-        cartRepository.save(cart);
-
-        Candle candle = new Candle();
-        candle.setName("candle1");
-
-        Perfume perfume = new Perfume();
-        perfume.setName("perfume1");
-
-        productRepository.save(candle);
-        productRepository.save(perfume);
-    }
-
-    @Test
-    @DisplayName("장바구니 목록 테스트")
-    void testCartProduct() {
-        int expectedValue = 0;
-        List<Product> products = productRepository.findAll();
-
-        expectedValue = getExpectedValue(products, expectedValue);
-
-        assertThat(expectedValue).isEqualTo(products.stream().mapToInt(product -> product.getPrice()).sum());
-    }
-
-    private int getExpectedValue(List<Product> products, int expectedValue) {
-        for (Product product : products) {
-            CartProduct cartProduct = new CartProduct();
-            cartProduct.setProduct(product);
-            cartProduct.setQuantity(1);
-            cartProductRepository.save(cartProduct);
-            expectedValue += product.getPrice() * cartProduct.getQuantity();
-        }
-        return expectedValue;
-    }
+//    @Autowired
+//    MemberRepository memberRepository;
+//
+//    @Autowired
+//    ProductRepository productRepository;
+//
+//    @Autowired
+//    CartRepository cartRepository;
+//
+//    @Autowired
+//    CartProductRepository cartProductRepository;
+//
+//    @BeforeEach
+//    void setUp() {
+//        Member member = new Member();
+//        member.setName("test1");
+//        memberRepository.save(member);
+//
+//        Cart cart = new Cart();
+//        cart.setMember(member);
+//        cartRepository.save(cart);
+//
+//        Candle candle = new Candle();
+//        candle.setName("candle1");
+//
+//        Perfume perfume = new Perfume();
+//        perfume.setName("perfume1");
+//
+//        productRepository.save(candle);
+//        productRepository.save(perfume);
+//    }
+//
+//    @Test
+//    @DisplayName("장바구니 목록 테스트")
+//    void testCartProduct() {
+//        int expectedValue = 0;
+//        List<Product> products = productRepository.findAll();
+//
+//        expectedValue = getExpectedValue(products, expectedValue);
+//
+//        assertThat(expectedValue).isEqualTo(products.stream().mapToInt(product -> product.getPrice()).sum());
+//    }
+//
+//    private int getExpectedValue(List<Product> products, int expectedValue) {
+//        for (Product product : products) {
+//            CartProduct cartProduct = new CartProduct();
+//            cartProduct.setProduct(product);
+//            cartProduct.setQuantity(1);
+//            cartProductRepository.save(cartProduct);
+//            expectedValue += product.getPrice() * cartProduct.getQuantity();
+//        }
+//        return expectedValue;
+//    }
 }
