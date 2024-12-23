@@ -55,9 +55,11 @@ public class AdminController {
     }
 
     @GetMapping("/review/management/search")
-    public ResponseEntity<List<ReviewManageResDto>> getSearchReviews(@RequestParam(value = "productName", required = false) String productName){
-
-        return ResponseEntity.ok(null);
+    public ResponseEntity<ReviewManageResDto> getSearchReviews(@RequestParam(value = "searchKeyword", required = false) String searchKeyword,
+                                                                     @RequestParam(name = "pageNum", defaultValue = "0", required = false) int pageNum,
+                                                                     @RequestParam(name = "size", defaultValue = "20", required = false) int size){
+        ReviewManageResDto reviewManageResDto = adminService.getReviewBySearch(searchKeyword, pageNum, size);
+        return ResponseEntity.ok(reviewManageResDto);
     }
 
 }
