@@ -8,8 +8,10 @@ import com.green.sahwang.dto.response.ImageResDto;
 import com.green.sahwang.entity.*;
 import com.green.sahwang.exception.BizException;
 import com.green.sahwang.exception.ErrorCode;
+import com.green.sahwang.pendingsale.entity.UserSaleImage;
 import com.green.sahwang.pendingsale.repository.UserSaleImageRepository;
 import com.green.sahwang.repository.*;
+import com.green.sahwang.usedproduct.dto.VerifiedAndUserSaleImageResDto;
 import com.green.sahwang.usedproduct.entity.UsedProduct;
 import com.green.sahwang.usedproduct.repository.UsedProductRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +28,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -79,105 +82,67 @@ public class ProductDetailPagePageServiceImpl implements ProductDetailPageServic
     }
 
     @Transactional
-    public List<DetailChartResDto> getSaleProducts(Long productId){
+    public List<DetailChartResDto> getSaleProducts(Long usedProductId){
+        List<Object[]> reviewInfo = usedProductRepository.findReviewInfo(usedProductId);
 
-
-        Product product = productRepository.findById(productId).orElseThrow();
-        List<PurchaseProduct> purchaseProductList = purchaseProductRepository.findAllByProduct(product);
-        List<PurchasePayment> purchasePaymentList = purchasePaymentRepository.findAllByPurchaseProductIn(purchaseProductList);
-
-        if (purchasePaymentList.isEmpty()){
-            throw new BizException(ErrorCode.NO_PURCHASE_PRODUCT);
-        }
-
-        purchasePaymentList.sort(Comparator.comparing(PurchasePayment::getCreatedDate).reversed());
-
-        List<DetailChartResDto> detailChartResDtoList = new ArrayList<>();
-
-        for (PurchasePayment purchasePayment : purchasePaymentList){
-            DetailChartResDto detailChartResDto = new DetailChartResDto();
-            detailChartResDto.setTradePrice(purchasePayment.getTradePrice());
-            detailChartResDto.setTradeCompletedDate(DateTimeUtils.formatWithoutSecond(purchasePayment.getCreatedDate()));
-            detailChartResDto.setSize(purchasePayment.getTradeSize());
-
-            detailChartResDtoList.add(detailChartResDto);
-        }
-
-        return detailChartResDtoList;
+        return reviewInfo.stream().map(row -> new DetailChartResDto(
+                (Long) row[0],
+                (Long) row[1],
+                (Long) row[2],
+                ((Timestamp) row[3]).toLocalDateTime(),
+                (Integer) row[4],
+                (Integer) row[5]
+        )).toList();
     }
 
     @Transactional
-    public List<DetailChartResDto> getChartOneMonth(Long productId){
-        Product product = productRepository.findById(productId).orElseThrow();
-        List<PurchaseProduct> purchaseProductList = purchaseProductRepository.findAllByProduct(product);
+    public List<DetailChartResDto> getChartOneMonth(Long usedProductId){
+        List<Object[]> reviewInfoOneMonth = usedProductRepository.findReviewInfoOneMonth(usedProductId);
 
-        LocalDateTime oneMonth = LocalDateTime.now().minusMonths(1);
-
-        List<PurchasePayment> purchasePaymentList = purchasePaymentRepository.findAllByPurchaseProductInAndCreatedDateAfter(purchaseProductList, oneMonth);
-
-        if (purchasePaymentList.isEmpty()){
-            throw new BizException(ErrorCode.NO_PURCHASE_PRODUCT);
-        }
-
-        purchasePaymentList.sort(Comparator.comparing(PurchasePayment::getCreatedDate).reversed());
-
-        List<DetailChartResDto> detailChartResDtoList = new ArrayList<>();
-
-        for (PurchasePayment purchasePayment : purchasePaymentList){
-            DetailChartResDto detailChartResDto = new DetailChartResDto();
-            detailChartResDto.setTradePrice(purchasePayment.getTradePrice());
-            detailChartResDto.setTradeCompletedDate(DateTimeUtils.formatWithoutSecond(purchasePayment.getCreatedDate()));
-            detailChartResDto.setSize(purchasePayment.getTradeSize());
-
-            detailChartResDtoList.add(detailChartResDto);
-        }
-
-        return detailChartResDtoList;
+        return reviewInfoOneMonth.stream().map(row -> new DetailChartResDto(
+                (Long) row[0],
+                (Long) row[1],
+                (Long) row[2],
+                ((Timestamp) row[3]).toLocalDateTime(),
+                (Integer) row[4],
+                (Integer) row[5]
+        )).toList();
     }
 
     @Transactional
-    public List<DetailChartResDto> getChartSixMonth(Long productId){
-        Product product = productRepository.findById(productId).orElseThrow();
-        List<PurchaseProduct> purchaseProductList = purchaseProductRepository.findAllByProduct(product);
+    public List<DetailChartResDto> getChartSixMonth(Long usedProductId){
+        List<Object[]> reviewInfoSixMonth = usedProductRepository.findReviewInfoSixMonth(usedProductId);
 
-        LocalDateTime oneMonth = LocalDateTime.now().minusMonths(6);
-
-        List<PurchasePayment> purchasePaymentList = purchasePaymentRepository.findAllByPurchaseProductInAndCreatedDateAfter(purchaseProductList, oneMonth);
-
-        if (purchasePaymentList.isEmpty()){
-            throw new BizException(ErrorCode.NO_PURCHASE_PRODUCT);
-        }
-
-        purchasePaymentList.sort(Comparator.comparing(PurchasePayment::getCreatedDate).reversed());
-
-        List<DetailChartResDto> detailChartResDtoList = new ArrayList<>();
-
-        for (PurchasePayment purchasePayment : purchasePaymentList){
-            DetailChartResDto detailChartResDto = new DetailChartResDto();
-            detailChartResDto.setTradePrice(purchasePayment.getTradePrice());
-            detailChartResDto.setTradeCompletedDate(DateTimeUtils.formatWithoutSecond(purchasePayment.getCreatedDate()));
-            detailChartResDto.setSize(purchasePayment.getTradeSize());
-
-            detailChartResDtoList.add(detailChartResDto);
-        }
-
-        return detailChartResDtoList;
+        return reviewInfoSixMonth.stream().map(row -> new DetailChartResDto(
+                (Long) row[0],
+                (Long) row[1],
+                (Long) row[2],
+                ((Timestamp) row[3]).toLocalDateTime(),
+                (Integer) row[4],
+                (Integer) row[5]
+        )).toList();
     }
 
     @Transactional
-    public DetailImagesResDto getProductImages(Long productId){
-        Product product = productRepository.findById(productId)
-                .orElse(null);
-        List<ProductImage> productImages = productImageRepository.findAllByProduct(product);
+    public List<VerifiedAndUserSaleImageResDto> getProductImages(Long usedProductId){
+//        Product product = productRepository.findById(productId)
+//                .orElse(null);
+//        List<ProductImage> productImages = productImageRepository.findAllByProduct(product);
+//
+//        List<ImageResDto> imageResDtoList = new ArrayList<>();
+//        for (ProductImage productImage : productImages) {
+//            imageResDtoList.add(new ImageResDto(productImage.getFilename(), productImage.getPath(), productImage.getFileDesc()));
+//        }
+//        DetailImagesResDto detailImagesResDto = new DetailImagesResDto();
+//        detailImagesResDto.setImages(imageResDtoList);
+        List<Object[]> byUsedProductId = usedProductRepository.findByUsedProductId(usedProductId);
 
-        List<ImageResDto> imageResDtoList = new ArrayList<>();
-        for (ProductImage productImage : productImages) {
-            imageResDtoList.add(new ImageResDto(productImage.getFilename(), productImage.getPath(), productImage.getFileDesc()));
-        }
-        DetailImagesResDto detailImagesResDto = new DetailImagesResDto();
-        detailImagesResDto.setImages(imageResDtoList);
-
-        return detailImagesResDto;
+        return byUsedProductId.stream().map(row -> new VerifiedAndUserSaleImageResDto(
+                (String) row[0], // file_desc
+                (String) row[1], // filename
+                (String) row[2], // path
+                (String) row[3]  // type ('Verified' or 'User')
+        )).toList();
     }
 
     @Transactional
