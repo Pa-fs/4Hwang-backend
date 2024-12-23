@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.green.sahwang.mypage.mapper.SaleMapper">
+    <select id="findVerifiedSaleList" resultType="com.green.sahwang.mypage.dto.res.SaleListResDto">
+        SELECT
+        ps.pending_sale_id pendingSaleId,
+        vs.verified_sale_id verifiedSaleId,
+        up.used_product_id usedProductId,
+        ps.category_name userCategory,
+        ps.brand_name userBrand,
+        ps.inspection_status saleStatus,
+        ps.excepted_selling_price userPrice,
+        ps.product_size userSize,
+        ps.used_or_not userUsedOrNot,
+        vs.product_size verifiedSize,
+        vs.verified_selling_price verifiedPrice,
+        vs.used_or_not verifiedUsedOrNot,
+        up.used_product_type usedProductType,
+        sg.grade_type gradeType
+        FROM member m
+        INNER JOIN pending_sale ps ON ps.member_id = m.member_id
+        INNER JOIN verified_sale vs ON ps.pending_sale_id = vs.pending_sale_id
+        INNER JOIN used_product up ON vs.verified_sale_id = up.used_product_id
+        INNER JOIN sale_grade sg ON sg.sale_grade_id = vs.sale_grade_id
+        WHERE m.member_id = #{memberId}
+        AND ps.inspection_status = 'ACCEPTED'
+        AND vs.rejected_sale_id is null
+        ORDER BY ps.created_date DESC
+        LIMIT #{pageable.offset}, #{pageable.pageSize}
+    </select>
+
+    <!-- ImageResDto 데이터 조회 (유저 이미지) -->
+    <select id="findUserImages" resultType="com.green.sahwang.dto.response.ImageResDto">
+        SELECT *
+        FROM user_sale_image usi
+        WHERE usi.pending_sale_id = #{pendingSaleId}
+    </select>
+
+    <!-- ImageResDto 데이터 조회 (검증된 이미지) -->
+    <select id="findVerifiedImages" resultType="com.green.sahwang.dto.response.ImageResDto">
+        SELECT *
+        FROM verified_sale_image vsi
+        WHERE vsi.verified_sale_id = #{verifiedSaleId}
+    </select>
+
+    <select id="findWaitingSaleList" resultType="com.green.sahwang.mypage.dto.res.SaleListResDto">
+        SELECT
+        ps.category_name userCategory,
+        ps.brand_name userBrand,
+        ps.inspection_status saleStatus,
+        ps.excepted_selling_price userPrice,
+        ps.product_size userSize,
+        ps.used_or_not userUsedOrNot
+        FROM member m
+        INNER JOIN pending_sale ps ON ps.member_id = m.member_id
+        WHERE m.member_id = #{memberId}
+        AND ps.inspection_status = 'WAITING'
+        ORDER BY ps.created_date DESC
+        LIMIT #{pageable.offset}, #{pageable.pageSize}
+    </select>
+
+    <select id="findRejectedSaleList" resultType="com.green.sahwang.mypage.dto.res.SaleListResDto">
+        SELECT
+        ps.pending_sale_id pendingSaleId,
+        vs.verified_sale_id verifiedSaleId,
+        up.used_product_id usedProductId,
+        ps.category_name userCategory,
+        ps.brand_name userBrand,
+        ps.inspection_status saleStatus,
+        ps.excepted_selling_price userPrice,
+        ps.product_size userSize,
+        ps.used_or_not userUsedOrNot,
+        vs.product_size verifiedSize,
+        vs.verified_selling_price verifiedPrice,
+        vs.used_or_not verifiedUsedOrNot,
+        up.used_product_type usedProductType,
+        rr.reason reason
+        FROM member m
+        INNER JOIN pending_sale ps ON ps.member_id = m.member_id
+        INNER JOIN verified_sale vs ON ps.pending_sale_id = vs.pending_sale_id
+        INNER JOIN used_product up ON vs.verified_sale_id = up.used_product_id
+        INNER JOIN rejection_reason rr ON rr.rejection_reason_id = vs.rejected_sale_id
+        WHERE m.member_id = #{memberId}
+        AND ps.inspection_status = 'REJECTED'
+        AND vs.sale_grade_id is null
+        ORDER BY ps.created_date DESC
+        LIMIT #{pageable.offset}, #{pageable.pageSize}
+    </select>
+
+</mapper>

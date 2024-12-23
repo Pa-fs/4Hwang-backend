@@ -1,6 +1,5 @@
 package com.green.sahwang.mypage.service;
 
-import com.green.sahwang.mypage.dto.WishListCategoryDto;
 import com.green.sahwang.mypage.dto.req.MemberInfoReqDto;
 import com.green.sahwang.mypage.dto.req.ReviewCreateReqDto;
 import com.green.sahwang.mypage.dto.req.ReviewUpdateReqDto;
@@ -17,6 +16,7 @@ public interface MyPageService {
 
     List<OrderListResDto> getOrderList(UserDetails userDetails, int pageNum, int size);
 
+//    String getSaleList(UserDetails userDetails, int pageNum, int size);
     List<SaleListResDto> getSaleList(UserDetails userDetails, int pageNum, int size);
 
     List<WishListCategoryResDto> getWishCategoryList(UserDetails userDetails, int pageNum, int size);

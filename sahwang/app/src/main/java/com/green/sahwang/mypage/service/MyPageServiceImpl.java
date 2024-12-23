@@ -5,11 +5,13 @@ import com.green.sahwang.dto.response.ImageResDto;
 import com.green.sahwang.entity.*;
 import com.green.sahwang.exception.BizException;
 import com.green.sahwang.exception.ErrorCode;
+import com.green.sahwang.inspection.enumtype.InspectionStatus;
 import com.green.sahwang.mypage.dto.WishListCategoryDto;
 import com.green.sahwang.mypage.dto.req.MemberInfoReqDto;
 import com.green.sahwang.mypage.dto.req.ReviewCreateReqDto;
 import com.green.sahwang.mypage.dto.req.ReviewUpdateReqDto;
 import com.green.sahwang.mypage.dto.res.*;
+import com.green.sahwang.mypage.mapper.SaleMapper;
 import com.green.sahwang.pendingsale.entity.PendingSale;
 import com.green.sahwang.pendingsale.repository.PendingSaleRepository;
 import com.green.sahwang.repository.*;
@@ -30,7 +32,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Slf4j
@@ -53,6 +57,8 @@ public class MyPageServiceImpl implements MyPageService{
     private final VerifiedSaleRepository verifiedSaleRepository;
     private final UsedProductRepository usedProductRepository;
     private final FavoriteRepository favoriteRepository;
+
+    private final SaleMapper saleMapper;
 
     @Transactional
     public OrderProgressResDto getOrderProgress(UserDetails userDetails){
@@ -110,25 +116,77 @@ public class MyPageServiceImpl implements MyPageService{
         Member member = memberRepository.findByEmail(userDetails.getUsername());
 
         Pageable pageable = PageRequest.of(pageNum, size);
-        Page<Sale> salePage = saleRepository.findAllByMember(member, pageable);
 
-        return salePage.stream().map(sale -> {
-            List<SaleProduct> saleProductList = saleProductRepository.findAllBySale(sale);
-            List<SaleDetailResDto> saleDetailResDtoList = saleProductList.stream().map(saleProduct -> {
-                return new SaleDetailResDto(
-                        saleProduct.getTradeCompletedDate(),
-                        saleProduct.getProduct().getName(),
-                        saleProduct.getTradePrice(),
-                        saleProduct.getQuantity()
-                );
-            }).toList();
-            return new SaleListResDto(
-                    sale.getSaleStartDate(),
-                    sale.getId().toString() + "-" + DateTimeUtils.formatOrderNumber(sale.getSaleStartDate()),
-                    sale.getStatus(),
-                    saleDetailResDtoList
-            );
-        }).toList();
+        Page<InspectionStatus> saleStatusByMemberId = pendingSaleRepository.findSaleStatusByMemberId(member.getId(), pageable);
+        List<InspectionStatus> saleStatusList = saleStatusByMemberId.getContent();
+
+        Map<Long, SaleListResDto> saleListMap = new HashMap<>();
+
+        for (InspectionStatus inspectionStatus : saleStatusList) {
+            log.info("inspectionStatus : {}", inspectionStatus.toString());
+
+            // 상태별로 다른 데이터를 가져오되, 중복되지 않도록 처리
+            if (inspectionStatus.equals(InspectionStatus.ACCEPTED)) {
+                List<SaleListResDto> verifiedSaleList = saleMapper.findVerifiedSaleList(member.getId(), pageable);
+                for (SaleListResDto saleListResDto : verifiedSaleList) {
+                    Long saleId = saleListResDto.getPendingSaleId();
+                    if (saleId != null && !saleListMap.containsKey(saleId)) {
+                        saleListMap.put(saleId, saleListResDto);
+                    }
+                }
+            } else if (inspectionStatus.equals(InspectionStatus.WAITING)) {
+                List<SaleListResDto> waitingSaleList = saleMapper.findWaitingSaleList(member.getId(), pageable);
+                for (SaleListResDto saleListResDto : waitingSaleList) {
+                    Long saleId = saleListResDto.getPendingSaleId();
+                    if (saleId != null && !saleListMap.containsKey(saleId)) {
+                        saleListMap.put(saleId, saleListResDto);
+                    }
+                }
+            } else if (inspectionStatus.equals(InspectionStatus.REJECTED)) {
+                List<SaleListResDto> waitingSaleList = saleMapper.findRejectedSaleList(member.getId(), pageable);
+                for (SaleListResDto saleListResDto : waitingSaleList) {
+                    Long saleId = saleListResDto.getPendingSaleId();
+                    if (saleId != null && !saleListMap.containsKey(saleId)) {
+                        saleListMap.put(saleId, saleListResDto);
+                    }
+                }
+            }
+        }
+
+        // saleListMap -> 리스트로 변환
+        List<SaleListResDto> saleListResDtos = new ArrayList<>(saleListMap.values());
+
+        log.info("saleListResDtos : {}", saleListResDtos.size());
+
+        for (SaleListResDto saleListResDto : saleListResDtos) {
+            if(saleListResDto.getPendingSaleId() != null) {
+                saleListResDto.setUserImages(saleMapper.findUserImages(saleListResDto.getPendingSaleId()));
+            }
+            if(saleListResDto.getVerifiedSaleId() != null) {
+                saleListResDto.setVerifiedImages(saleMapper.findVerifiedImages(saleListResDto.getVerifiedSaleId()));
+            }
+        }
+
+        return saleListResDtos;
+
+
+//        return salePage.stream().map(sale -> {
+//            List<SaleProduct> saleProductList = saleProductRepository.findAllBySale(sale);
+//            List<SaleDetailResDto> saleDetailResDtoList = saleProductList.stream().map(saleProduct -> {
+//                return new SaleDetailResDto(
+//                        saleProduct.getTradeCompletedDate(),
+//                        saleProduct.getProduct().getName(),
+//                        saleProduct.getTradePrice(),
+//                        saleProduct.getQuantity()
+//                );
+//            }).toList();
+//            return new SaleListResDto(
+//                    sale.getSaleStartDate(),
+//                    sale.getId().toString() + "-" + DateTimeUtils.formatOrderNumber(sale.getSaleStartDate()),
+//                    sale.getStatus(),
+//                    saleDetailResDtoList
+//            );
+//        }).toList();
     }
 
     @Transactional(readOnly = true)

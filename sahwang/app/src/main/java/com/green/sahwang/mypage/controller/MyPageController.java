@@ -62,13 +62,16 @@ public class MyPageController {
         return ResponseEntity.ok(orderListResDtoList);
     }
 
+    @SecurityRequirement(name = "Bearer Authentication")
     @GetMapping("/saleList")
+    @Operation(summary = "판매내역 리스트", description = "판매 진행에 대한 리스트")
     public ResponseEntity<List<SaleListResDto>> getSaleList(@AuthenticationPrincipal UserDetails userDetails,
                                                             @RequestParam(name = "pageNum", defaultValue = "0", required = false) int pageNum,
-                                                            @RequestParam(name = "size", defaultValue = "5", required = false) int size){
-        List<SaleListResDto> saleListResDtoList = myPageService.getSaleList(userDetails, pageNum, size);
+                                                            @RequestParam(name = "size", defaultValue = "5", required = false) int size
+    ){
+//        List<SaleListResDto> saleListResDtoList = myPageService.getSaleList(userDetails, pageNum, size);
 
-        return ResponseEntity.ok(saleListResDtoList);
+        return ResponseEntity.ok(myPageService.getSaleList(userDetails, pageNum, size));
     }
 
     @SecurityRequirement(name = "Bearer Authentication")
