@@ -18,4 +18,6 @@ public interface AdminService {
 
     ReviewManageResDto getReviewsBySort(String sort, int pageNum, int size);
 
+    ReviewManageResDto getReviewBySearch(String searchKeyword, int pageNum, int size);
+
 }

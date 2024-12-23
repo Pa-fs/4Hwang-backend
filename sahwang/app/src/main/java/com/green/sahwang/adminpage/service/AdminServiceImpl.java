@@ -141,4 +141,12 @@ public class AdminServiceImpl implements AdminService{
         };
     }
 
+    public ReviewManageResDto getReviewBySearch(String searchKeyword, int pageNum, int size){
+        Pageable pageable = PageRequest.of(pageNum, size);
+        Page<ReviewManageDto> reviewManageDtoPage = reviewImageRepository.findReviewsBySearch(searchKeyword, pageable);
+        List<Review> reviewList = reviewRepository.findAll();
+
+        return new ReviewManageResDto(reviewManageDtoPage, reviewList.size());
+    }
+
 }
