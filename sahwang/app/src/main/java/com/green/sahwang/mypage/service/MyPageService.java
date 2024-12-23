@@ -32,4 +32,8 @@ public interface MyPageService {
     void reviewDelete(UserDetails userDetails, Long reviewId);
 
     MemberInfoResDto updateMemberInfo(UserDetails userDetails, MemberInfoReqDto memberInfoReqDto);
+
+    void approveVerifiedSale(UserDetails userDetails, Long pendingSaleId);
+
+    void rejectVerifiedSale(UserDetails userDetails, Long pendingSaleId);
 }

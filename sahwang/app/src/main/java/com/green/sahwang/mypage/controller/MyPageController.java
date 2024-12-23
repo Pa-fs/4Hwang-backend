@@ -69,9 +69,26 @@ public class MyPageController {
                                                             @RequestParam(name = "pageNum", defaultValue = "0", required = false) int pageNum,
                                                             @RequestParam(name = "size", defaultValue = "5", required = false) int size
     ){
-//        List<SaleListResDto> saleListResDtoList = myPageService.getSaleList(userDetails, pageNum, size);
 
         return ResponseEntity.ok(myPageService.getSaleList(userDetails, pageNum, size));
+    }
+
+    @SecurityRequirement(name = "Bearer Authentication")
+    @PostMapping("/verified-sale/approve")
+    @Operation(summary = "판매검수 승인하기", description = "사용자가 판매검수에 대해 승인하는 API")
+    public ResponseEntity<Void> approveVerifiedSale(@AuthenticationPrincipal UserDetails userDetails, @RequestParam Long pendingSaleId){
+        myPageService.approveVerifiedSale(userDetails, pendingSaleId);
+
+        return ResponseEntity.ok().build();
+    }
+
+    @SecurityRequirement(name = "Bearer Authentication")
+    @PostMapping("/verified-sale/reject")
+    @Operation(summary = "판매검수 반려하기", description = "사용자가 판매검수에 대해 반려하는 API")
+    public ResponseEntity<Void> rejectVerifiedSale(@AuthenticationPrincipal UserDetails userDetails, @RequestParam Long pendingSaleId){
+        myPageService.rejectVerifiedSale(userDetails, pendingSaleId);
+
+        return ResponseEntity.ok().build();
     }
 
     @SecurityRequirement(name = "Bearer Authentication")

@@ -16,6 +16,7 @@ import com.green.sahwang.pendingsale.entity.PendingSale;
 import com.green.sahwang.pendingsale.repository.PendingSaleRepository;
 import com.green.sahwang.repository.*;
 import com.green.sahwang.usedproduct.entity.UsedProduct;
+import com.green.sahwang.usedproduct.entity.enumtype.UsedProductType;
 import com.green.sahwang.usedproduct.repository.UsedProductRepository;
 import com.green.sahwang.verifiedsale.entity.VerifiedSale;
 import com.green.sahwang.verifiedsale.repository.VerifiedSaleRepository;
@@ -31,10 +32,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -111,7 +109,7 @@ public class MyPageServiceImpl implements MyPageService{
         }).toList();
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<SaleListResDto> getSaleList(UserDetails userDetails, int pageNum, int size){
         Member member = memberRepository.findByEmail(userDetails.getUsername());
 
@@ -303,6 +301,36 @@ public class MyPageServiceImpl implements MyPageService{
         memberRepository.save(member);
 
         return modelMapper.map(member, MemberInfoResDto.class);
+    }
+
+    @Override
+    @Transactional
+    public void approveVerifiedSale(UserDetails userDetails, Long pendingSaleId) {
+        Member member = memberRepository.findByEmail(userDetails.getUsername());
+        PendingSale pendingSale = pendingSaleRepository.findById(pendingSaleId)
+                .orElseThrow(() -> new BizException(ErrorCode.NO_PENDING_SALE));
+
+        if (!Objects.equals(pendingSale.getMember().getId(), member.getId())) {
+            throw new BizException(ErrorCode.NO_ACCEPT_MEMBER);
+        }
+
+        pendingSale.getVerifiedSale().getUsedProduct().setUsedProductType(UsedProductType.USER_ACCEPT);
+        pendingSaleRepository.save(pendingSale);
+    }
+
+    @Override
+    @Transactional
+    public void rejectVerifiedSale(UserDetails userDetails, Long pendingSaleId) {
+        Member member = memberRepository.findByEmail(userDetails.getUsername());
+        PendingSale pendingSale = pendingSaleRepository.findById(pendingSaleId)
+                .orElseThrow(() -> new BizException(ErrorCode.NO_PENDING_SALE));
+
+        if (!Objects.equals(pendingSale.getMember().getId(), member.getId())) {
+            throw new BizException(ErrorCode.NO_ACCEPT_MEMBER);
+        }
+
+        pendingSale.getVerifiedSale().getUsedProduct().setUsedProductType(UsedProductType.USER_REJECT);
+        pendingSaleRepository.save(pendingSale);
     }
 
 }
