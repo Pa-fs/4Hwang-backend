@@ -3,6 +3,7 @@ package com.green.sahwang.adminpage.controller;
 import com.green.sahwang.adminpage.dto.req.MemberRoleReqDto;
 import com.green.sahwang.adminpage.dto.MemberManageDto;
 import com.green.sahwang.adminpage.dto.res.MemberManageResDto;
+import com.green.sahwang.adminpage.dto.res.ProductManageResDto;
 import com.green.sahwang.adminpage.dto.res.ReviewManageResDto;
 import com.green.sahwang.adminpage.service.AdminService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -60,6 +61,14 @@ public class AdminController {
                                                                      @RequestParam(name = "size", defaultValue = "20", required = false) int size){
         ReviewManageResDto reviewManageResDto = adminService.getReviewBySearch(searchKeyword, pageNum, size);
         return ResponseEntity.ok(reviewManageResDto);
+    }
+
+    @GetMapping("/product/management")
+    public ResponseEntity<ProductManageResDto> getProducts(@RequestParam(value = "status", required = false) String status,
+                                                           @RequestParam(name = "pageNum", defaultValue = "0", required = false) int pageNum,
+                                                           @RequestParam(name = "size", defaultValue = "20", required = false) int size){
+        ProductManageResDto productManageResDto = adminService.getProducts(status, pageNum, size);
+        return ResponseEntity.ok(productManageResDto);
     }
 
 }

@@ -3,6 +3,8 @@ package com.green.sahwang.adminpage.service;
 import com.green.sahwang.adminpage.dto.MemberManageDto;
 import com.green.sahwang.adminpage.dto.ReviewManageDto;
 import com.green.sahwang.adminpage.dto.res.MemberManageResDto;
+import com.green.sahwang.adminpage.dto.res.ProductManageDto;
+import com.green.sahwang.adminpage.dto.res.ProductManageResDto;
 import com.green.sahwang.adminpage.dto.res.ReviewManageResDto;
 import com.green.sahwang.entity.Favorite;
 import com.green.sahwang.entity.Member;
@@ -11,6 +13,10 @@ import com.green.sahwang.entity.Review;
 import com.green.sahwang.entity.enumtype.MemberRole;
 import com.green.sahwang.entity.enumtype.PurchaseStatus;
 import com.green.sahwang.repository.*;
+import com.green.sahwang.usedproduct.entity.UsedProduct;
+import com.green.sahwang.usedproduct.repository.UsedProductRepository;
+import com.green.sahwang.verifiedsale.entity.VerifiedSale;
+import com.green.sahwang.verifiedsale.repository.VerifiedSaleRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -33,6 +39,8 @@ public class AdminServiceImpl implements AdminService{
     private final PurchaseRepository purchaseRepository;
     private final ReviewImageRepository reviewImageRepository;
     private final FavoriteRepository favoriteRepository;
+    private final UsedProductRepository usedProductRepository;
+    private final VerifiedSaleRepository verifiedSaleRepository;
 
     @Transactional
     public MemberManageResDto getMembers(int pageNum, int size){
@@ -141,6 +149,7 @@ public class AdminServiceImpl implements AdminService{
         };
     }
 
+    @Transactional
     public ReviewManageResDto getReviewBySearch(String searchKeyword, int pageNum, int size){
         Pageable pageable = PageRequest.of(pageNum, size);
         Page<ReviewManageDto> reviewManageDtoPage = reviewImageRepository.findReviewsBySearch(searchKeyword, pageable);
@@ -149,4 +158,12 @@ public class AdminServiceImpl implements AdminService{
         return new ReviewManageResDto(reviewManageDtoPage, reviewList.size());
     }
 
+    @Transactional
+    public ProductManageResDto getProducts(String status, int pageNum, int size){
+        Pageable pageable = PageRequest.of(pageNum, size);
+        Page<ProductManageDto> productManageDtoPage = usedProductRepository.findUsedProducts(pageable);
+        List<UsedProduct> usedProductList = usedProductRepository.findAll();
+        List<VerifiedSale> verifiedSaleList = verifiedSaleRepository.findAllByUsedProductInAndRejectionReason(usedProductList, null);
+        return new ProductManageResDto(productManageDtoPage, verifiedSaleList.size());
+    }
 }
