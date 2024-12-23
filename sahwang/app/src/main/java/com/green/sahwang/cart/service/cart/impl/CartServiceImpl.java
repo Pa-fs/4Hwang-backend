@@ -143,8 +143,8 @@ public class CartServiceImpl implements CartService {
             log.info("paymentId : {}, status : {}", payment.getId(), payment.getStatus());
             payment.validatePaidCompletedStatus();
 
-            // 결제된 제품 ID만 제거해야함
-            // paymentId -> purchasePayments -> purchaseProduct -> productIds
+            // 결제된 중고제품 ID만 제거해야함
+            // paymentId -> purchasePayments -> purchaseProduct -> usedProductIds
             List<PurchasePayment> purchasePayments = purchasePaymentRepository.findAllByPayment(payment);
             cartUsedProductRepository.deleteAllByUsedProductIdIn(purchasePayments.stream()
                     .map(purchasePayment -> purchasePayment.getPurchaseProduct().getUsedProduct().getId())

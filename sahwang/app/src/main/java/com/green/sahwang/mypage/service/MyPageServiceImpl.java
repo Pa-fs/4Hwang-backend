@@ -320,6 +320,15 @@ public class MyPageServiceImpl implements MyPageService{
         }
 
         pendingSale.getVerifiedSale().getUsedProduct().setUsedProductType(UsedProductType.USER_ACCEPT);
+
+        UsedProduct usedProduct = UsedProduct.builder()
+                .verifiedSale(pendingSale.getVerifiedSale())
+                .createdDate(LocalDateTime.now())
+                .usedProductType(UsedProductType.USER_ACCEPT)
+                .build();
+
+        usedProductRepository.save(usedProduct);
+
         pendingSaleRepository.save(pendingSale);
     }
 
@@ -335,6 +344,15 @@ public class MyPageServiceImpl implements MyPageService{
         }
 
         pendingSale.getVerifiedSale().getUsedProduct().setUsedProductType(UsedProductType.USER_REJECT);
+
+        UsedProduct usedProduct = UsedProduct.builder()
+                .verifiedSale(pendingSale.getVerifiedSale())
+                .createdDate(LocalDateTime.now())
+                .usedProductType(UsedProductType.USER_REJECT)
+                .build();
+
+        usedProductRepository.save(usedProduct);
+
         pendingSaleRepository.save(pendingSale);
     }
 
