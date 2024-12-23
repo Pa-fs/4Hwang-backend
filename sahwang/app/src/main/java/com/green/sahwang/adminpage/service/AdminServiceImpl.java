@@ -135,8 +135,8 @@ public class AdminServiceImpl implements AdminService{
         return switch (sort.toLowerCase()) {
             case "category" -> Sort.by("ps.categoryName").ascending();
             case "productname" -> Sort.by("pp.productName").ascending();
-            case "starasc" -> Sort.by("star").ascending();
-            case "stardesc" -> Sort.by("star").descending();
+            case "starasc" -> Sort.by("r.star").ascending();
+            case "stardesc" -> Sort.by("r.star").descending();
             default -> null;
         };
     }
