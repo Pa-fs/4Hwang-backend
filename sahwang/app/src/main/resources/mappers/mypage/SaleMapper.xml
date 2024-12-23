@@ -47,6 +47,7 @@
 
     <select id="findWaitingSaleList" resultType="com.green.sahwang.mypage.dto.res.SaleListResDto">
         SELECT
+        ps.pending_sale_id pendingSaleId,
         ps.category_name userCategory,
         ps.brand_name userBrand,
         ps.inspection_status saleStatus,

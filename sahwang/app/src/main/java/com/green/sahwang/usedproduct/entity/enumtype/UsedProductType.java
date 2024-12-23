@@ -1,5 +1,5 @@
 package com.green.sahwang.usedproduct.entity.enumtype;
 
 public enum UsedProductType {
-    USER_ACCEPT, USER_REJECT
+    NO_SELECT, USER_ACCEPT, USER_REJECT
 }

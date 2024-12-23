@@ -132,7 +132,8 @@ public class MyPageServiceImpl implements MyPageService{
                         saleListMap.put(saleId, saleListResDto);
                     }
                 }
-            } else if (inspectionStatus.equals(InspectionStatus.WAITING)) {
+            }
+            else if (inspectionStatus.equals(InspectionStatus.WAITING)) {
                 List<SaleListResDto> waitingSaleList = saleMapper.findWaitingSaleList(member.getId(), pageable);
                 for (SaleListResDto saleListResDto : waitingSaleList) {
                     Long saleId = saleListResDto.getPendingSaleId();
@@ -140,7 +141,8 @@ public class MyPageServiceImpl implements MyPageService{
                         saleListMap.put(saleId, saleListResDto);
                     }
                 }
-            } else if (inspectionStatus.equals(InspectionStatus.REJECTED)) {
+            }
+            else if (inspectionStatus.equals(InspectionStatus.REJECTED)) {
                 List<SaleListResDto> waitingSaleList = saleMapper.findRejectedSaleList(member.getId(), pageable);
                 for (SaleListResDto saleListResDto : waitingSaleList) {
                     Long saleId = saleListResDto.getPendingSaleId();
@@ -312,6 +314,9 @@ public class MyPageServiceImpl implements MyPageService{
 
         if (!Objects.equals(pendingSale.getMember().getId(), member.getId())) {
             throw new BizException(ErrorCode.NO_ACCEPT_MEMBER);
+        }
+        if (pendingSale.getVerifiedSale().getUsedProduct().getUsedProductType().equals(UsedProductType.NO_SELECT)) {
+            throw new BizException(ErrorCode.NO_ACCEPT_USED_PRODUCT_TYPE);
         }
 
         pendingSale.getVerifiedSale().getUsedProduct().setUsedProductType(UsedProductType.USER_ACCEPT);
