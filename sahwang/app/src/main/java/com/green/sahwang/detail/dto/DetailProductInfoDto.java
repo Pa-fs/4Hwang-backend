@@ -18,4 +18,5 @@ public class DetailProductInfoDto {
     private int productSize;
     private int verifiedSellingPrice;
     private GradeType gradeType;
+    private boolean usedOrNot;
 }
