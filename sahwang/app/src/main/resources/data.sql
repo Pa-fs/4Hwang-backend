@@ -7,6 +7,7 @@ DELETE FROM `review_image`;
 DELETE FROM `review`;
 DELETE FROM `delivery_purchase`;
 DELETE FROM `purchase_product`;
+DELETE FROM `sale_payment`;
 DELETE FROM `purchase`;
 DELETE FROM `payment`;
 DELETE FROM `product_product_type`;
@@ -22,8 +23,6 @@ DELETE FROM `verified_sale`;
 DELETE FROM `sale_grade`;
 DELETE FROM `rejection_reason`;
 DELETE FROM `pending_sale`;
-DELETE FROM `sale_product`;
-DELETE FROM `sale`;
 DELETE FROM `product`;
 DELETE FROM `brand`;
 DELETE FROM `category`;
@@ -448,14 +447,14 @@ VALUES
 (1, 'p_001.png', 'images/file/\\p_001.png', 'VERIFIED_ACCEPT', 1);
 
 -- used_product
-INSERT INTO used_product(used_product_id, created_date, used_product_type, verified_sale_id)
+INSERT INTO used_product(used_product_id, created_date, used_product_type, verified_sale_id, sold_out)
 values
-    (1, now(), 'USER_ACCEPT', 1),
-    (2, now(), 'USER_ACCEPT', 2),
-    (3, now(), 'USER_ACCEPT', 3),
-    (4, now(), 'USER_ACCEPT', 4),
-    (5, now(), 'USER_ACCEPT', 5),
-    (6, now(), 'USER_ACCEPT', 6);
+    (1, now(), 'USER_ACCEPT', 1, false),
+    (2, now(), 'USER_ACCEPT', 2, false),
+    (3, now(), 'USER_ACCEPT', 3, false),
+    (4, now(), 'USER_ACCEPT', 4, false),
+    (5, now(), 'USER_ACCEPT', 5, false),
+    (6, now(), 'USER_ACCEPT', 6, false);
 
 -- purchase
 INSERT INTO purchase (purchase_id, purchase_date, purchase_status, total_price, member_id) VALUES (10000001, now(), 'COMPLETED', 730000, 3);
