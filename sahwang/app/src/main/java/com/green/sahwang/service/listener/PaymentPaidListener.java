@@ -13,11 +13,12 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-//@Component
+@Component
 @RequiredArgsConstructor
 @Slf4j
 public class PaymentPaidListener implements KafkaConsumer<PurchasePaidEventAvroModel> {

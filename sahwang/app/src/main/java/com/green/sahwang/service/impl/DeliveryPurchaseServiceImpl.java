@@ -30,7 +30,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-//@Service
+@Service
 @RequiredArgsConstructor
 @Slf4j
 public class DeliveryPurchaseServiceImpl implements DeliveryPurchaseService {
@@ -53,9 +53,9 @@ public class DeliveryPurchaseServiceImpl implements DeliveryPurchaseService {
 
             List<PurchasePaidEventAvroModel> purchasePaidEventAvroModels = messages.stream().toList();
             for (PurchasePaidEventAvroModel purchasePaidEventAvroModel : purchasePaidEventAvroModels) {
-                log.info("purchasePaidEventAvroModel.getPurchaseId() : ", purchasePaidEventAvroModel.getPurchaseId());
+                log.info("purchasePaidEventAvroModel.getPurchaseId() : {}", purchasePaidEventAvroModel.getPurchaseId());
                 Purchase purchase = purchaseRepository.findById(Long.valueOf(purchasePaidEventAvroModel.getPurchaseId()))
-                        .orElse(null);
+                        .orElseThrow(() -> new BizException(ErrorCode.NO_PURCHASE));
                 if (purchase != null && purchase.getPurchaseStatus() != PurchaseStatus.PAID) {
                     String shippingAddress = purchasePaidEventAvroModel.getShippingAddress();
 
@@ -80,31 +80,37 @@ public class DeliveryPurchaseServiceImpl implements DeliveryPurchaseService {
 
     @Scheduled(fixedRate = 5000)
     public void shippingProcess() {
-        Purchase purchase = purchaseRepository.findByPurchaseStatus(PurchaseStatus.SHIP_READY);
-        if (purchase != null) {
-            DeliveryPurchase deliveryPurchase = DeliveryPurchase.builder()
-                    .purchase(purchase)
-                    .status(ShipStatus.SHIPPING)
-                    .deliveredDate(LocalDateTime.now())
-                    .build();
-            deliveryPurchasesRepository.save(deliveryPurchase);
-            purchase.setPurchaseStatus(PurchaseStatus.SHIPPING);
-            purchaseRepository.save(purchase);
-        }
+        List<Purchase> purchases = purchaseRepository.findByPurchaseStatus(PurchaseStatus.SHIP_READY);
+
+        purchases.forEach(purchase -> {
+                    if (purchase != null) {
+                        DeliveryPurchase deliveryPurchase = DeliveryPurchase.builder()
+                                .purchase(purchase)
+                                .status(ShipStatus.SHIPPING)
+                                .deliveredDate(LocalDateTime.now())
+                                .build();
+                        deliveryPurchasesRepository.save(deliveryPurchase);
+                        purchase.setPurchaseStatus(PurchaseStatus.SHIPPING);
+                        purchaseRepository.save(purchase);
+                    }
+                });
     }
     @Scheduled(fixedRate = 15000)
     public void shippedProcess() {
-        Purchase purchase = purchaseRepository.findByPurchaseStatus(PurchaseStatus.SHIPPING);
-        if (purchase != null) {
-            DeliveryPurchase deliveryPurchase = DeliveryPurchase.builder()
-                    .purchase(purchase)
-                    .status(ShipStatus.SHIPPED)
-                    .deliveredDate(LocalDateTime.now())
-                    .build();
-            deliveryPurchasesRepository.save(deliveryPurchase);
-            purchase.setPurchaseStatus(PurchaseStatus.SHIPPED);
-            purchaseRepository.save(purchase);
-        }
+        List<Purchase> purchases = purchaseRepository.findByPurchaseStatus(PurchaseStatus.SHIPPING);
+
+        purchases.forEach(purchase -> {
+            if (purchase != null) {
+                DeliveryPurchase deliveryPurchase = DeliveryPurchase.builder()
+                        .purchase(purchase)
+                        .status(ShipStatus.SHIPPED)
+                        .deliveredDate(LocalDateTime.now())
+                        .build();
+                deliveryPurchasesRepository.save(deliveryPurchase);
+                purchase.setPurchaseStatus(PurchaseStatus.SHIPPED);
+                purchaseRepository.save(purchase);
+            }
+        });
     }
 
     private void createPurchaseCompletedOutboxMessage(Purchase purchase) {

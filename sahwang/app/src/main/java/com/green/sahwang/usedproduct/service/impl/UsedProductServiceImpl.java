@@ -65,9 +65,8 @@ public class UsedProductServiceImpl implements UsedProductService {
     }
 
     @Override
+    @Transactional
     public void soldOutUsedProduct(List<String> memberIds, List<PurchasePaidEventAvroModel> messages) {
-        // TODO: calculate sale used product
-        log.info("Calculating");
         for (String memberId : memberIds) {
             String memberKeyId = memberId.split(":")[1];
             log.info("memberKeyId = {}", memberKeyId);
@@ -77,20 +76,20 @@ public class UsedProductServiceImpl implements UsedProductService {
 
             List<PurchasePaidEventAvroModel> purchasePaidEventAvroModels = messages.stream().toList();
             for (PurchasePaidEventAvroModel purchasePaidEventAvroModel : purchasePaidEventAvroModels) {
-                log.info("purchasePaidEventAvroModel.getPurchaseId() : ", purchasePaidEventAvroModel.getPurchaseId());
+                log.info("purchasePaidEventAvroModel.getPurchaseId() : {}", purchasePaidEventAvroModel.getPurchaseId());
                 Purchase purchase = purchaseRepository.findById(Long.valueOf(purchasePaidEventAvroModel.getPurchaseId()))
-                        .orElse(null);
-                if (purchase != null && purchase.getPurchaseStatus() != PurchaseStatus.PAID) {
-                    throw new BizException(ErrorCode.NO_PURCHASE_PRODUCT);
-                }
+                        .orElseThrow(() -> new BizException(ErrorCode.NO_PURCHASE));
+                log.info("{}", purchase.getPurchaseStatus());
 
                 List<PurchaseProduct> purchaseProducts = purchaseProductRepository.findAllByPurchase(purchase);
-
+                log.info("판매처리 전 purchaseProducts 사이즈 : {}", purchaseProducts.size());
                 for (PurchaseProduct purchaseProduct : purchaseProducts) {
                     // 상품 판매처리
                     UsedProduct usedProduct = usedProductRepository.findById(purchaseProduct.getUsedProduct().getId())
                             .orElseThrow(() -> new BizException(ErrorCode.NO_USED_PRODUCT));
                     usedProduct.setSoldOut(true);
+                    usedProductRepository.save(usedProduct);
+                    log.info("usedProduct Id : {}, 판매처리", usedProduct.getId());
                 }
             }
         }

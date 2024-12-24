@@ -20,7 +20,7 @@ public interface PurchaseRepository extends JpaRepository<Purchase,Long> {
 
     Page<Purchase> findAllByMember(Member member, Pageable pageable);
 
-    Purchase findByPurchaseStatus(PurchaseStatus purchaseStatus);
+    List<Purchase> findByPurchaseStatus(PurchaseStatus purchaseStatus);
 
     List<Purchase> findAllByMemberAndPurchaseStatus(Member member, PurchaseStatus purchaseStatus);
 }
