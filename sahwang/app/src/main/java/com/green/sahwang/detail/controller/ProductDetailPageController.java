@@ -138,7 +138,7 @@ public class ProductDetailPageController {
 
     @SecurityRequirement(name = "Bearer Authentication")
     @Operation(summary = "리뷰 도움되요 클릭", description = "리뷰 도움되유 클릭")
-    @GetMapping("/favorite/clickFavorite/{reviewId}")
+    @GetMapping("/favorite/clickFavorite")
     public ResponseEntity<FavoriteClickResDto> clickFavorite(@AuthenticationPrincipal UserDetails userDetails,
                                                              @RequestParam(name = "reviewId") Long reviewId){
         FavoriteClickResDto favoriteClickResDto = productDetailPageService.clickFavorite(userDetails, reviewId);
