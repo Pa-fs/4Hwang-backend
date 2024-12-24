@@ -20,13 +20,4 @@ public class DeliverySale {
 
     @Enumerated(EnumType.STRING)
     private ShipStatus status;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "sale_id")
-    private Sale sale;
-
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "sale_product_id")
-    private SaleProduct saleProduct;
-
 }

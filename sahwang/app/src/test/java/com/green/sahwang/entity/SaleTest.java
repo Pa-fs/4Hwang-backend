@@ -6,8 +6,6 @@ import com.green.sahwang.entity.product.Candle;
 import com.green.sahwang.entity.product.Perfume;
 import com.green.sahwang.repository.MemberRepository;
 import com.green.sahwang.repository.ProductRepository;
-import com.green.sahwang.repository.SaleProductRepository;
-import com.green.sahwang.repository.SaleRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;

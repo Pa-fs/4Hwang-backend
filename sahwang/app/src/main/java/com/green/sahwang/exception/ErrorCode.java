@@ -24,7 +24,8 @@ public enum ErrorCode {
     NO_USED_PRODUCT(HttpStatus.NOT_FOUND, "해당 중고상품이 존재하지 않습니다"),
 
     NO_ACCEPT_MEMBER(HttpStatus.BAD_REQUEST, "회원정보가 일치하지 않습니다"),
-    NO_ACCEPT_USED_PRODUCT_TYPE(HttpStatus.BAD_REQUEST, "이미 사용자가 처리한 상품입니다");
+    NO_ACCEPT_USED_PRODUCT_TYPE(HttpStatus.BAD_REQUEST, "이미 사용자가 처리한 상품입니다"),
+    NO_ACCEPT_PRE_VERIFICATION(HttpStatus.BAD_REQUEST, "사전검증 금액이 맞지 않습니다");
 
     private final HttpStatus httpStatus;
     private final String message;

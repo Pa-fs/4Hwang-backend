@@ -14,10 +14,10 @@ import org.apache.avro.message.SchemaStore;
 
 @org.apache.avro.specific.AvroGenerated
 public class PurchaseAvroModel extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = 1293588656262181630L;
+  private static final long serialVersionUID = -9013526427238979893L;
 
 
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"PurchaseAvroModel\",\"namespace\":\"com.green.sahwang.model.purchase.avro\",\"fields\":[{\"name\":\"productId\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"quantity\",\"type\":\"int\"}]}");
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"PurchaseAvroModel\",\"namespace\":\"com.green.sahwang.model.purchase.avro\",\"fields\":[{\"name\":\"usedProductId\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"quantity\",\"type\":\"int\"}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static final SpecificData MODEL$ = new SpecificData();
@@ -73,7 +73,7 @@ public class PurchaseAvroModel extends org.apache.avro.specific.SpecificRecordBa
     return DECODER.decode(b);
   }
 
-  private java.lang.String productId;
+  private java.lang.String usedProductId;
   private int quantity;
 
   /**
@@ -85,11 +85,11 @@ public class PurchaseAvroModel extends org.apache.avro.specific.SpecificRecordBa
 
   /**
    * All-args constructor.
-   * @param productId The new value for productId
+   * @param usedProductId The new value for usedProductId
    * @param quantity The new value for quantity
    */
-  public PurchaseAvroModel(java.lang.String productId, java.lang.Integer quantity) {
-    this.productId = productId;
+  public PurchaseAvroModel(java.lang.String usedProductId, java.lang.Integer quantity) {
+    this.usedProductId = usedProductId;
     this.quantity = quantity;
   }
 
@@ -103,7 +103,7 @@ public class PurchaseAvroModel extends org.apache.avro.specific.SpecificRecordBa
   @Override
   public java.lang.Object get(int field$) {
     switch (field$) {
-    case 0: return productId;
+    case 0: return usedProductId;
     case 1: return quantity;
     default: throw new IndexOutOfBoundsException("Invalid index: " + field$);
     }
@@ -114,27 +114,27 @@ public class PurchaseAvroModel extends org.apache.avro.specific.SpecificRecordBa
   @SuppressWarnings(value="unchecked")
   public void put(int field$, java.lang.Object value$) {
     switch (field$) {
-    case 0: productId = value$ != null ? value$.toString() : null; break;
+    case 0: usedProductId = value$ != null ? value$.toString() : null; break;
     case 1: quantity = (java.lang.Integer)value$; break;
     default: throw new IndexOutOfBoundsException("Invalid index: " + field$);
     }
   }
 
   /**
-   * Gets the value of the 'productId' field.
-   * @return The value of the 'productId' field.
+   * Gets the value of the 'usedProductId' field.
+   * @return The value of the 'usedProductId' field.
    */
-  public java.lang.String getProductId() {
-    return productId;
+  public java.lang.String getUsedProductId() {
+    return usedProductId;
   }
 
 
   /**
-   * Sets the value of the 'productId' field.
+   * Sets the value of the 'usedProductId' field.
    * @param value the value to set.
    */
-  public void setProductId(java.lang.String value) {
-    this.productId = value;
+  public void setUsedProductId(java.lang.String value) {
+    this.usedProductId = value;
   }
 
   /**
@@ -195,7 +195,7 @@ public class PurchaseAvroModel extends org.apache.avro.specific.SpecificRecordBa
   public static class Builder extends org.apache.avro.specific.SpecificRecordBuilderBase<PurchaseAvroModel>
     implements org.apache.avro.data.RecordBuilder<PurchaseAvroModel> {
 
-    private java.lang.String productId;
+    private java.lang.String usedProductId;
     private int quantity;
 
     /** Creates a new Builder */
@@ -209,8 +209,8 @@ public class PurchaseAvroModel extends org.apache.avro.specific.SpecificRecordBa
      */
     private Builder(com.green.sahwang.model.purchase.avro.PurchaseAvroModel.Builder other) {
       super(other);
-      if (isValidValue(fields()[0], other.productId)) {
-        this.productId = data().deepCopy(fields()[0].schema(), other.productId);
+      if (isValidValue(fields()[0], other.usedProductId)) {
+        this.usedProductId = data().deepCopy(fields()[0].schema(), other.usedProductId);
         fieldSetFlags()[0] = other.fieldSetFlags()[0];
       }
       if (isValidValue(fields()[1], other.quantity)) {
@@ -225,8 +225,8 @@ public class PurchaseAvroModel extends org.apache.avro.specific.SpecificRecordBa
      */
     private Builder(com.green.sahwang.model.purchase.avro.PurchaseAvroModel other) {
       super(SCHEMA$, MODEL$);
-      if (isValidValue(fields()[0], other.productId)) {
-        this.productId = data().deepCopy(fields()[0].schema(), other.productId);
+      if (isValidValue(fields()[0], other.usedProductId)) {
+        this.usedProductId = data().deepCopy(fields()[0].schema(), other.usedProductId);
         fieldSetFlags()[0] = true;
       }
       if (isValidValue(fields()[1], other.quantity)) {
@@ -236,41 +236,41 @@ public class PurchaseAvroModel extends org.apache.avro.specific.SpecificRecordBa
     }
 
     /**
-      * Gets the value of the 'productId' field.
+      * Gets the value of the 'usedProductId' field.
       * @return The value.
       */
-    public java.lang.String getProductId() {
-      return productId;
+    public java.lang.String getUsedProductId() {
+      return usedProductId;
     }
 
 
     /**
-      * Sets the value of the 'productId' field.
-      * @param value The value of 'productId'.
+      * Sets the value of the 'usedProductId' field.
+      * @param value The value of 'usedProductId'.
       * @return This builder.
       */
-    public com.green.sahwang.model.purchase.avro.PurchaseAvroModel.Builder setProductId(java.lang.String value) {
+    public com.green.sahwang.model.purchase.avro.PurchaseAvroModel.Builder setUsedProductId(java.lang.String value) {
       validate(fields()[0], value);
-      this.productId = value;
+      this.usedProductId = value;
       fieldSetFlags()[0] = true;
       return this;
     }
 
     /**
-      * Checks whether the 'productId' field has been set.
-      * @return True if the 'productId' field has been set, false otherwise.
+      * Checks whether the 'usedProductId' field has been set.
+      * @return True if the 'usedProductId' field has been set, false otherwise.
       */
-    public boolean hasProductId() {
+    public boolean hasUsedProductId() {
       return fieldSetFlags()[0];
     }
 
 
     /**
-      * Clears the value of the 'productId' field.
+      * Clears the value of the 'usedProductId' field.
       * @return This builder.
       */
-    public com.green.sahwang.model.purchase.avro.PurchaseAvroModel.Builder clearProductId() {
-      productId = null;
+    public com.green.sahwang.model.purchase.avro.PurchaseAvroModel.Builder clearUsedProductId() {
+      usedProductId = null;
       fieldSetFlags()[0] = false;
       return this;
     }
@@ -319,7 +319,7 @@ public class PurchaseAvroModel extends org.apache.avro.specific.SpecificRecordBa
     public PurchaseAvroModel build() {
       try {
         PurchaseAvroModel record = new PurchaseAvroModel();
-        record.productId = fieldSetFlags()[0] ? this.productId : (java.lang.String) defaultValue(fields()[0]);
+        record.usedProductId = fieldSetFlags()[0] ? this.usedProductId : (java.lang.String) defaultValue(fields()[0]);
         record.quantity = fieldSetFlags()[1] ? this.quantity : (java.lang.Integer) defaultValue(fields()[1]);
         return record;
       } catch (org.apache.avro.AvroMissingFieldException e) {
@@ -353,7 +353,7 @@ public class PurchaseAvroModel extends org.apache.avro.specific.SpecificRecordBa
   @Override public void customEncode(org.apache.avro.io.Encoder out)
     throws java.io.IOException
   {
-    out.writeString(this.productId);
+    out.writeString(this.usedProductId);
 
     out.writeInt(this.quantity);
 
@@ -364,7 +364,7 @@ public class PurchaseAvroModel extends org.apache.avro.specific.SpecificRecordBa
   {
     org.apache.avro.Schema.Field[] fieldOrder = in.readFieldOrderIfDiff();
     if (fieldOrder == null) {
-      this.productId = in.readString();
+      this.usedProductId = in.readString();
 
       this.quantity = in.readInt();
 
@@ -372,7 +372,7 @@ public class PurchaseAvroModel extends org.apache.avro.specific.SpecificRecordBa
       for (int i = 0; i < 2; i++) {
         switch (fieldOrder[i].pos()) {
         case 0:
-          this.productId = in.readString();
+          this.usedProductId = in.readString();
           break;
 
         case 1:

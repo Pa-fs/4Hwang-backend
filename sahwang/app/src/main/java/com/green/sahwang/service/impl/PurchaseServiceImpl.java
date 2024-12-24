@@ -1,13 +1,14 @@
 package com.green.sahwang.service.impl;
 
 import com.green.sahwang.config.AvroToDBSerializer;
+import com.green.sahwang.exception.BizException;
+import com.green.sahwang.exception.ErrorCode;
 import com.green.sahwang.purchase.dto.request.PurchaseReqDto;
 import com.green.sahwang.purchase.dto.response.PurchaseResDto;
 import com.green.sahwang.dto.response.externalapi.ExternalPaymentResDto;
 import com.green.sahwang.entity.*;
 import com.green.sahwang.entity.enumtype.OutboxStatus;
 import com.green.sahwang.entity.enumtype.PurchaseStatus;
-import com.green.sahwang.exception.ProductDomainException;
 import com.green.sahwang.exception.PurchaseDomainException;
 import com.green.sahwang.model.purchase.avro.PurchaseAvroModel;
 import com.green.sahwang.model.purchase.avro.PurchaseCreatedEventAvroModel;
@@ -33,7 +34,6 @@ public class PurchaseServiceImpl implements PurchaseService {
     private final PurchaseRepository purchaseRepository;
     private final PurchaseProductRepository purchaseProductRepository;
     private final MemberRepository memberRepository;
-    private final ProductRepository productRepository;
     private final UsedProductRepository usedProductRepository;
     private final OutboxRepository outboxRepository;
 
@@ -59,14 +59,14 @@ public class PurchaseServiceImpl implements PurchaseService {
         log.info("purchaseReqDto.getTotalPrice() 사전 총합 : {}", purchaseReqDto.getTotalPrice());
 
         if (purchase.getTotalPrice() != purchaseReqDto.getTotalPrice()) {
-            throw new PurchaseDomainException("사전 총 결제 금액이 맞지 않습니다.");
+            throw new BizException(ErrorCode.NO_ACCEPT_PRE_VERIFICATION);
         }
 
         Purchase savedPurchase = purchaseRepository.save(purchase);
 
         for (UsedProduct usedProduct : usedProducts) {
             UsedProduct findUsedProduct = usedProductRepository.findById(usedProduct.getId())
-                    .orElseThrow(() -> new ProductDomainException("해당 " + usedProduct.getId() + "제품이 없습니다"));
+                    .orElseThrow(() -> new BizException(ErrorCode.NO_USED_PRODUCT));
 
             Integer cartProductQuantity = getCartProductQuantity(purchaseReqDto, findUsedProduct);
 
@@ -109,7 +109,7 @@ public class PurchaseServiceImpl implements PurchaseService {
     private PurchaseCreatedEventAvroModel getPurchaseCreatedEventAvroModel(PurchaseReqDto purchaseReqDto, Purchase savedPurchase) {
         List<PurchaseAvroModel> productAvroModels = purchaseReqDto.getPurchaseProductDtos().stream()
                 .map(purchaseProductReqDto -> PurchaseAvroModel.newBuilder()
-                        .setProductId(String.valueOf(purchaseProductReqDto.getUsedProductId()))
+                        .setUsedProductId(String.valueOf(purchaseProductReqDto.getUsedProductId()))
                         .setQuantity(purchaseProductReqDto.getQuantity())
                         .build())
                 .toList();
@@ -118,7 +118,7 @@ public class PurchaseServiceImpl implements PurchaseService {
         return PurchaseCreatedEventAvroModel.newBuilder()
                 .setPurchaseId(PREFIX + savedPurchase.getId())
                 .setMemberId("memberId:" + savedPurchase.getMember().getId())
-                .setProducts(new ArrayList<>(productAvroModels))
+                .setUsedProducts(new ArrayList<>(productAvroModels))
                 .setTimestamp(System.currentTimeMillis())
                 .setTotalPrice(purchaseReqDto.getTotalPrice())
                 .build();

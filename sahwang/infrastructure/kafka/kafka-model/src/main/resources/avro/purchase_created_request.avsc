@@ -5,14 +5,14 @@
   "fields": [
     { "name": "purchaseId", "type": "string" },
     { "name": "memberId", "type": "string" },
-    { "name": "products", "type": {
+    { "name": "usedProducts", "type": {
         "type": "array",
         "items": {
           "name": "PurchaseAvroModel",
           "type": "record",
           "fields": [
             {
-              "name": "productId",
+              "name": "usedProductId",
               "type": "string"
             },
             {

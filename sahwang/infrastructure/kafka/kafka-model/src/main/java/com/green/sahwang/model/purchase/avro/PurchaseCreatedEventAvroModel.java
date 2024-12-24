@@ -14,10 +14,10 @@ import org.apache.avro.message.SchemaStore;
 
 @org.apache.avro.specific.AvroGenerated
 public class PurchaseCreatedEventAvroModel extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = 6302048711555594580L;
+  private static final long serialVersionUID = -2220943235914506983L;
 
 
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"PurchaseCreatedEventAvroModel\",\"namespace\":\"com.green.sahwang.model.purchase.avro\",\"fields\":[{\"name\":\"purchaseId\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"memberId\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"products\",\"type\":{\"type\":\"array\",\"items\":{\"type\":\"record\",\"name\":\"PurchaseAvroModel\",\"fields\":[{\"name\":\"productId\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"quantity\",\"type\":\"int\"}]}}},{\"name\":\"totalPrice\",\"type\":\"long\"},{\"name\":\"timestamp\",\"type\":\"long\"}]}");
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"PurchaseCreatedEventAvroModel\",\"namespace\":\"com.green.sahwang.model.purchase.avro\",\"fields\":[{\"name\":\"purchaseId\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"memberId\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"usedProducts\",\"type\":{\"type\":\"array\",\"items\":{\"type\":\"record\",\"name\":\"PurchaseAvroModel\",\"fields\":[{\"name\":\"usedProductId\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"quantity\",\"type\":\"int\"}]}}},{\"name\":\"totalPrice\",\"type\":\"long\"},{\"name\":\"timestamp\",\"type\":\"long\"}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static final SpecificData MODEL$ = new SpecificData();
@@ -75,7 +75,7 @@ public class PurchaseCreatedEventAvroModel extends org.apache.avro.specific.Spec
 
   private java.lang.String purchaseId;
   private java.lang.String memberId;
-  private java.util.List<com.green.sahwang.model.purchase.avro.PurchaseAvroModel> products;
+  private java.util.List<com.green.sahwang.model.purchase.avro.PurchaseAvroModel> usedProducts;
   private long totalPrice;
   private long timestamp;
 
@@ -90,14 +90,14 @@ public class PurchaseCreatedEventAvroModel extends org.apache.avro.specific.Spec
    * All-args constructor.
    * @param purchaseId The new value for purchaseId
    * @param memberId The new value for memberId
-   * @param products The new value for products
+   * @param usedProducts The new value for usedProducts
    * @param totalPrice The new value for totalPrice
    * @param timestamp The new value for timestamp
    */
-  public PurchaseCreatedEventAvroModel(java.lang.String purchaseId, java.lang.String memberId, java.util.List<com.green.sahwang.model.purchase.avro.PurchaseAvroModel> products, java.lang.Long totalPrice, java.lang.Long timestamp) {
+  public PurchaseCreatedEventAvroModel(java.lang.String purchaseId, java.lang.String memberId, java.util.List<com.green.sahwang.model.purchase.avro.PurchaseAvroModel> usedProducts, java.lang.Long totalPrice, java.lang.Long timestamp) {
     this.purchaseId = purchaseId;
     this.memberId = memberId;
-    this.products = products;
+    this.usedProducts = usedProducts;
     this.totalPrice = totalPrice;
     this.timestamp = timestamp;
   }
@@ -114,7 +114,7 @@ public class PurchaseCreatedEventAvroModel extends org.apache.avro.specific.Spec
     switch (field$) {
     case 0: return purchaseId;
     case 1: return memberId;
-    case 2: return products;
+    case 2: return usedProducts;
     case 3: return totalPrice;
     case 4: return timestamp;
     default: throw new IndexOutOfBoundsException("Invalid index: " + field$);
@@ -128,7 +128,7 @@ public class PurchaseCreatedEventAvroModel extends org.apache.avro.specific.Spec
     switch (field$) {
     case 0: purchaseId = value$ != null ? value$.toString() : null; break;
     case 1: memberId = value$ != null ? value$.toString() : null; break;
-    case 2: products = (java.util.List<com.green.sahwang.model.purchase.avro.PurchaseAvroModel>)value$; break;
+    case 2: usedProducts = (java.util.List<com.green.sahwang.model.purchase.avro.PurchaseAvroModel>)value$; break;
     case 3: totalPrice = (java.lang.Long)value$; break;
     case 4: timestamp = (java.lang.Long)value$; break;
     default: throw new IndexOutOfBoundsException("Invalid index: " + field$);
@@ -170,20 +170,20 @@ public class PurchaseCreatedEventAvroModel extends org.apache.avro.specific.Spec
   }
 
   /**
-   * Gets the value of the 'products' field.
-   * @return The value of the 'products' field.
+   * Gets the value of the 'usedProducts' field.
+   * @return The value of the 'usedProducts' field.
    */
-  public java.util.List<com.green.sahwang.model.purchase.avro.PurchaseAvroModel> getProducts() {
-    return products;
+  public java.util.List<com.green.sahwang.model.purchase.avro.PurchaseAvroModel> getUsedProducts() {
+    return usedProducts;
   }
 
 
   /**
-   * Sets the value of the 'products' field.
+   * Sets the value of the 'usedProducts' field.
    * @param value the value to set.
    */
-  public void setProducts(java.util.List<com.green.sahwang.model.purchase.avro.PurchaseAvroModel> value) {
-    this.products = value;
+  public void setUsedProducts(java.util.List<com.green.sahwang.model.purchase.avro.PurchaseAvroModel> value) {
+    this.usedProducts = value;
   }
 
   /**
@@ -263,7 +263,7 @@ public class PurchaseCreatedEventAvroModel extends org.apache.avro.specific.Spec
 
     private java.lang.String purchaseId;
     private java.lang.String memberId;
-    private java.util.List<com.green.sahwang.model.purchase.avro.PurchaseAvroModel> products;
+    private java.util.List<com.green.sahwang.model.purchase.avro.PurchaseAvroModel> usedProducts;
     private long totalPrice;
     private long timestamp;
 
@@ -286,8 +286,8 @@ public class PurchaseCreatedEventAvroModel extends org.apache.avro.specific.Spec
         this.memberId = data().deepCopy(fields()[1].schema(), other.memberId);
         fieldSetFlags()[1] = other.fieldSetFlags()[1];
       }
-      if (isValidValue(fields()[2], other.products)) {
-        this.products = data().deepCopy(fields()[2].schema(), other.products);
+      if (isValidValue(fields()[2], other.usedProducts)) {
+        this.usedProducts = data().deepCopy(fields()[2].schema(), other.usedProducts);
         fieldSetFlags()[2] = other.fieldSetFlags()[2];
       }
       if (isValidValue(fields()[3], other.totalPrice)) {
@@ -314,8 +314,8 @@ public class PurchaseCreatedEventAvroModel extends org.apache.avro.specific.Spec
         this.memberId = data().deepCopy(fields()[1].schema(), other.memberId);
         fieldSetFlags()[1] = true;
       }
-      if (isValidValue(fields()[2], other.products)) {
-        this.products = data().deepCopy(fields()[2].schema(), other.products);
+      if (isValidValue(fields()[2], other.usedProducts)) {
+        this.usedProducts = data().deepCopy(fields()[2].schema(), other.usedProducts);
         fieldSetFlags()[2] = true;
       }
       if (isValidValue(fields()[3], other.totalPrice)) {
@@ -409,41 +409,41 @@ public class PurchaseCreatedEventAvroModel extends org.apache.avro.specific.Spec
     }
 
     /**
-      * Gets the value of the 'products' field.
+      * Gets the value of the 'usedProducts' field.
       * @return The value.
       */
-    public java.util.List<com.green.sahwang.model.purchase.avro.PurchaseAvroModel> getProducts() {
-      return products;
+    public java.util.List<com.green.sahwang.model.purchase.avro.PurchaseAvroModel> getUsedProducts() {
+      return usedProducts;
     }
 
 
     /**
-      * Sets the value of the 'products' field.
-      * @param value The value of 'products'.
+      * Sets the value of the 'usedProducts' field.
+      * @param value The value of 'usedProducts'.
       * @return This builder.
       */
-    public com.green.sahwang.model.purchase.avro.PurchaseCreatedEventAvroModel.Builder setProducts(java.util.List<com.green.sahwang.model.purchase.avro.PurchaseAvroModel> value) {
+    public com.green.sahwang.model.purchase.avro.PurchaseCreatedEventAvroModel.Builder setUsedProducts(java.util.List<com.green.sahwang.model.purchase.avro.PurchaseAvroModel> value) {
       validate(fields()[2], value);
-      this.products = value;
+      this.usedProducts = value;
       fieldSetFlags()[2] = true;
       return this;
     }
 
     /**
-      * Checks whether the 'products' field has been set.
-      * @return True if the 'products' field has been set, false otherwise.
+      * Checks whether the 'usedProducts' field has been set.
+      * @return True if the 'usedProducts' field has been set, false otherwise.
       */
-    public boolean hasProducts() {
+    public boolean hasUsedProducts() {
       return fieldSetFlags()[2];
     }
 
 
     /**
-      * Clears the value of the 'products' field.
+      * Clears the value of the 'usedProducts' field.
       * @return This builder.
       */
-    public com.green.sahwang.model.purchase.avro.PurchaseCreatedEventAvroModel.Builder clearProducts() {
-      products = null;
+    public com.green.sahwang.model.purchase.avro.PurchaseCreatedEventAvroModel.Builder clearUsedProducts() {
+      usedProducts = null;
       fieldSetFlags()[2] = false;
       return this;
     }
@@ -533,7 +533,7 @@ public class PurchaseCreatedEventAvroModel extends org.apache.avro.specific.Spec
         PurchaseCreatedEventAvroModel record = new PurchaseCreatedEventAvroModel();
         record.purchaseId = fieldSetFlags()[0] ? this.purchaseId : (java.lang.String) defaultValue(fields()[0]);
         record.memberId = fieldSetFlags()[1] ? this.memberId : (java.lang.String) defaultValue(fields()[1]);
-        record.products = fieldSetFlags()[2] ? this.products : (java.util.List<com.green.sahwang.model.purchase.avro.PurchaseAvroModel>) defaultValue(fields()[2]);
+        record.usedProducts = fieldSetFlags()[2] ? this.usedProducts : (java.util.List<com.green.sahwang.model.purchase.avro.PurchaseAvroModel>) defaultValue(fields()[2]);
         record.totalPrice = fieldSetFlags()[3] ? this.totalPrice : (java.lang.Long) defaultValue(fields()[3]);
         record.timestamp = fieldSetFlags()[4] ? this.timestamp : (java.lang.Long) defaultValue(fields()[4]);
         return record;
@@ -572,11 +572,11 @@ public class PurchaseCreatedEventAvroModel extends org.apache.avro.specific.Spec
 
     out.writeString(this.memberId);
 
-    long size0 = this.products.size();
+    long size0 = this.usedProducts.size();
     out.writeArrayStart();
     out.setItemCount(size0);
     long actualSize0 = 0;
-    for (com.green.sahwang.model.purchase.avro.PurchaseAvroModel e0: this.products) {
+    for (com.green.sahwang.model.purchase.avro.PurchaseAvroModel e0: this.usedProducts) {
       actualSize0++;
       out.startItem();
       e0.customEncode(out);
@@ -601,10 +601,10 @@ public class PurchaseCreatedEventAvroModel extends org.apache.avro.specific.Spec
       this.memberId = in.readString();
 
       long size0 = in.readArrayStart();
-      java.util.List<com.green.sahwang.model.purchase.avro.PurchaseAvroModel> a0 = this.products;
+      java.util.List<com.green.sahwang.model.purchase.avro.PurchaseAvroModel> a0 = this.usedProducts;
       if (a0 == null) {
-        a0 = new SpecificData.Array<com.green.sahwang.model.purchase.avro.PurchaseAvroModel>((int)size0, SCHEMA$.getField("products").schema());
-        this.products = a0;
+        a0 = new SpecificData.Array<com.green.sahwang.model.purchase.avro.PurchaseAvroModel>((int)size0, SCHEMA$.getField("usedProducts").schema());
+        this.usedProducts = a0;
       } else a0.clear();
       SpecificData.Array<com.green.sahwang.model.purchase.avro.PurchaseAvroModel> ga0 = (a0 instanceof SpecificData.Array ? (SpecificData.Array<com.green.sahwang.model.purchase.avro.PurchaseAvroModel>)a0 : null);
       for ( ; 0 < size0; size0 = in.arrayNext()) {
@@ -635,10 +635,10 @@ public class PurchaseCreatedEventAvroModel extends org.apache.avro.specific.Spec
 
         case 2:
           long size0 = in.readArrayStart();
-          java.util.List<com.green.sahwang.model.purchase.avro.PurchaseAvroModel> a0 = this.products;
+          java.util.List<com.green.sahwang.model.purchase.avro.PurchaseAvroModel> a0 = this.usedProducts;
           if (a0 == null) {
-            a0 = new SpecificData.Array<com.green.sahwang.model.purchase.avro.PurchaseAvroModel>((int)size0, SCHEMA$.getField("products").schema());
-            this.products = a0;
+            a0 = new SpecificData.Array<com.green.sahwang.model.purchase.avro.PurchaseAvroModel>((int)size0, SCHEMA$.getField("usedProducts").schema());
+            this.usedProducts = a0;
           } else a0.clear();
           SpecificData.Array<com.green.sahwang.model.purchase.avro.PurchaseAvroModel> ga0 = (a0 instanceof SpecificData.Array ? (SpecificData.Array<com.green.sahwang.model.purchase.avro.PurchaseAvroModel>)a0 : null);
           for ( ; 0 < size0; size0 = in.arrayNext()) {

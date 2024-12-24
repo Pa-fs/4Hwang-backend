@@ -42,11 +42,9 @@ public class MyPageServiceImpl implements MyPageService{
     private final MemberRepository memberRepository;
     private final PurchaseRepository purchaseRepository;
     private final PurchaseProductRepository purchaseProductRepository;
-    private final SaleRepository saleRepository;
     private final WishCategoryRepository wishCategoryRepository;
     private final WishProductRepository wishProductRepository;
     private final DeliveryPurchasesRepository deliveryPurchasesRepository;
-    private final SaleProductRepository saleProductRepository;
     private final ModelMapper modelMapper;
     private final ReviewRepository reviewRepository;
     private final ReviewImageRepository reviewImageRepository;
@@ -72,14 +70,15 @@ public class MyPageServiceImpl implements MyPageService{
 
     @Transactional(readOnly = true)
     public SaleProgressResDto getSaleProgress(UserDetails userDetails){
-        Member member = memberRepository.findByEmail(userDetails.getUsername());
-        Sale sale = saleRepository.findTopByMemberOrderBySaleStartDateDesc(member)
-                .orElseThrow(() -> new BizException(ErrorCode.NO_SALE));
-
-        SaleProgressResDto saleProgressResDto = new SaleProgressResDto();
-        saleProgressResDto.setStatus(sale.getStatus());
-
-        return saleProgressResDto;
+//        Member member = memberRepository.findByEmail(userDetails.getUsername());
+//        Sale sale = saleRepository.findTopByMemberOrderBySaleStartDateDesc(member)
+//                .orElseThrow(() -> new BizException(ErrorCode.NO_SALE));
+//
+//        SaleProgressResDto saleProgressResDto = new SaleProgressResDto();
+//        saleProgressResDto.setStatus(sale.getStatus());
+//
+//        return saleProgressResDto;
+        return new SaleProgressResDto();
     }
 
     @Transactional
@@ -168,25 +167,6 @@ public class MyPageServiceImpl implements MyPageService{
         }
 
         return saleListResDtos;
-
-
-//        return salePage.stream().map(sale -> {
-//            List<SaleProduct> saleProductList = saleProductRepository.findAllBySale(sale);
-//            List<SaleDetailResDto> saleDetailResDtoList = saleProductList.stream().map(saleProduct -> {
-//                return new SaleDetailResDto(
-//                        saleProduct.getTradeCompletedDate(),
-//                        saleProduct.getProduct().getName(),
-//                        saleProduct.getTradePrice(),
-//                        saleProduct.getQuantity()
-//                );
-//            }).toList();
-//            return new SaleListResDto(
-//                    sale.getSaleStartDate(),
-//                    sale.getId().toString() + "-" + DateTimeUtils.formatOrderNumber(sale.getSaleStartDate()),
-//                    sale.getStatus(),
-//                    saleDetailResDtoList
-//            );
-//        }).toList();
     }
 
     @Transactional(readOnly = true)

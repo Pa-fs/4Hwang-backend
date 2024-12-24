@@ -25,9 +25,4 @@ public class SalePayment {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "payments_id")
     private Payment payment;
-
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "sale_product_id")
-    private SaleProduct saleProduct;
-
 }
