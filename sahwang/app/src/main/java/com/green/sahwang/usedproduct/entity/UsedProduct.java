@@ -30,4 +30,6 @@ public class UsedProduct {
     private LocalDateTime createdDate;
 
     private LocalDateTime modifiedDate;
+
+    private boolean soldOut = false;
 }

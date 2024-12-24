@@ -141,4 +141,6 @@ public interface UsedProductRepository extends JpaRepository<UsedProduct, Long> 
             "vs.verifiedSellingPrice, vs.categoryName, up.createdDate, up.modifiedDate " +
             "ORDER BY up.id")
     Page<ProductManageDto> findUsedProducts(Pageable pageable);
+
+
 }

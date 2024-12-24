@@ -22,8 +22,6 @@ import com.green.sahwang.exception.payment.PaymentDomainException;
 import com.green.sahwang.model.payment.avro.PaymentAvroMethod;
 import com.green.sahwang.model.payment.avro.PaymentAvroStatus;
 import com.green.sahwang.model.payment.avro.PurchasePaidEventAvroModel;
-import com.green.sahwang.model.purchase.avro.PurchaseAvroModel;
-import com.green.sahwang.model.purchase.avro.PurchaseCreatedEventAvroModel;
 import com.green.sahwang.repository.*;
 import com.green.sahwang.repository.externalapi.ExternalPrePaymentApiRepository;
 import com.green.sahwang.service.PaymentService;
@@ -45,7 +43,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -54,7 +51,6 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class PaymentServiceImpl implements PaymentService {
 
-    private static final String PURCHASE_PREFIX = "purchase:";
     private static final String MEMBER_PREFIX = "member:";
 
     private final PurchaseRepository purchaseRepository;
@@ -65,6 +61,7 @@ public class PaymentServiceImpl implements PaymentService {
     private final PaymentRepository paymentRepository;
     private final MemberRepository memberRepository;
     private final PurchasePaymentRepository purchasePaymentRepository;
+    private final SalePaymentRepository salePaymentRepository;
 
     private final ProductRepository productRepository;
     private final UsedProductRepository usedProductRepository;
@@ -82,97 +79,6 @@ public class PaymentServiceImpl implements PaymentService {
     public void init() {
         this.paymentExternalApi = new IamportClient(apiKey, apiSecret);
     }
-
-//    // Todo : 현재 사용 안함
-//    @Override
-//    @Transactional
-//    public void processPayment(List<String> purchaseIds, List<PurchaseCreatedEventAvroModel> messages) {
-//
-//        for (String purchaseId : purchaseIds) {
-//            String PREFIX = purchaseId.split(":")[0];
-//            String purchaseKeyId = purchaseId.split(":")[1];
-//            log.info("purchaseKeyId = {}", purchaseKeyId);
-//            Purchase purchase = purchaseRepository.findById(Long.valueOf(purchaseKeyId))
-//                    .orElseThrow(() -> new PurchaseDomainException("해당 구매번호가 없습니다"));
-//
-//            // Idempotency
-//            purchase.doReadyForPay();
-//            purchaseRepository.save(purchase);
-//
-//            List<PurchaseProduct> orderedProducts = new ArrayList<>();
-//            // PaymentServiceHelper ...
-//            List<PurchaseCreatedEventAvroModel> collect = messages.stream().toList();
-//            for (PurchaseCreatedEventAvroModel purchaseCreatedEventAvroModel : collect) {
-//
-//                List<PurchaseAvroModel> products = purchaseCreatedEventAvroModel.getProducts();
-//                for (PurchaseAvroModel productAvroModel : products) {
-//                    String productId = productAvroModel.getProductId();
-//                    PurchaseProduct purchaseProduct = purchaseProductRepository.findByProductIdAndPurchaseId(Long.valueOf(productId),
-//                                    Long.valueOf(purchaseKeyId))
-//                            .orElseThrow(() -> new PurchaseDomainException("주문 상품 내역이 존재하지 않습니다."));
-//
-//                    log.info("주문상품 : {}, 상품 ID : {}", purchaseProduct.toString(), purchaseProduct.getUsedProduct().getId());
-//                    orderedProducts.add(purchaseProduct);
-//                }
-//            }
-//
-//            log.info("purchaseId, PREFIX : {}, VALUE : {}", PREFIX, purchaseKeyId);
-//        }
-//    }
-//
-//    // Todo : 현재 사용 안함
-//    @Override
-//    @Transactional
-//    public void processAsyncPayment(PaymentCompleteRequest paymentCompleteRequest) {
-//        // 사용자가 결제 완료 후 사후 검증 메서드 구현 ...
-////        String purchaseId = paymentCompleteRequest.getPurchaseId();
-////        changedOutboxMessageForPreparePayment(purchaseId);
-////
-////        String aggregateId = modifyOutboxStatusToSendPaidEvent(purchaseId);
-////        Optional<Purchase> purchase = purchaseRepository.findById(Long.valueOf(purchaseId));
-////        createPaymentPaidOutboxMessage(aggregateId, purchase.get(), payment.getPaidAt(), payment.getTotalPrice());
-//    }
-//
-//    private void changedOutboxMessageForPreparePayment(String purchaseId) {
-//        OutboxMessage outboxMessage = outboxRepository.findByAggregateId(PURCHASE_PREFIX + purchaseId)
-//                .orElseThrow(() -> new PurchaseDomainException("해당 하는 주문이 존재하지 않습니다."));
-//        outboxMessage.setStatus(OutboxStatus.PENDING);
-//        outboxRepository.save(outboxMessage);
-//    }
-//
-//    // Todo : 현재 사용 안함
-////    @Override
-//    @Transactional
-//    public void postValidateOrder(List<String> purchaseIds, List<PurchaseCreatedEventAvroModel> messages) {
-//        Purchase purchase = paymentServiceHelper.getPurchase(purchaseIds);
-//        int purchaseTotalPrice = purchase.getTotalPrice();
-//
-//        int productTotalPrice = 0;
-//
-//        List<PurchaseCreatedEventAvroModel> purchaseCreatedEventAvroModels = messages.stream().toList();
-//        for (PurchaseCreatedEventAvroModel purchaseCreatedEventAvroModel : purchaseCreatedEventAvroModels) {
-//
-//            List<PurchaseAvroModel> avroProducts = purchaseCreatedEventAvroModel.getProducts();
-//
-//            for (PurchaseAvroModel productAvroModel : avroProducts) {
-//                String productId = productAvroModel.getProductId();
-//                PurchaseProduct purchaseProduct = purchaseProductRepository.findByProductIdAndPurchaseId(Long.valueOf(productId),
-//                                purchase.getId())
-//                        .orElseThrow(() -> new PurchaseDomainException("주문 상품 내역이 존재하지 않습니다."));
-//
-//                log.info("주문상품 : {}, 상품 ID : {}", purchaseProduct.toString(), purchaseProduct.getProduct().getId());
-//
-//                productTotalPrice += purchaseProduct.getProduct().getPrice();
-//            }
-//        }
-//
-//        if (productTotalPrice != purchaseTotalPrice) {
-//            throw new PurchaseDomainException("사전검증 결과 실패 : 상품 가격 총합과 총합이 맞지 않습니다.");
-//        }
-//
-//        log.info("purchaseId : {}, 사전검증 통과", purchase.getId());
-//        purchase.doReadyForPay();
-//    }
 
     @Override
     @Transactional
@@ -273,6 +179,14 @@ public class PaymentServiceImpl implements PaymentService {
                     .createdDate(payment.getPaidAt())
                     .build();
             purchasePaymentRepository.save(purchasePayment);
+
+            SalePayment salePayment = SalePayment.builder()
+                    .usedProduct(purchaseProduct.getUsedProduct())
+                    .payment(payment)
+                    .final_price((int) (purchasePayment.getTradePrice() - (purchasePayment.getTradePrice() * 0.05)))
+                    .createdDate(payment.getPaidAt())
+                    .build();
+            salePaymentRepository.save(salePayment);
 
             purchase = purchaseProduct.getPurchase();
         }

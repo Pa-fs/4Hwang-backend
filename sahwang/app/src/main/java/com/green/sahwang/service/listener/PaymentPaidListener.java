@@ -6,6 +6,7 @@ import com.green.sahwang.model.payment.avro.PurchasePaidEventAvroModel;
 import com.green.sahwang.pendingsale.service.PendingSaleService;
 import com.green.sahwang.service.DeliveryPurchaseService;
 import com.green.sahwang.cart.service.cart.CartService;
+import com.green.sahwang.usedproduct.service.UsedProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -25,6 +26,7 @@ public class PaymentPaidListener implements KafkaConsumer<PurchasePaidEventAvroM
     private final NotificationService notificationService;
     private final CartService cartService;
     private final PendingSaleService pendingSaleService;
+    private final UsedProductService usedProductService;
 
     @KafkaListener(id = "${kafka-consumer-config.payment-consumer-group-id}",
             topics = "${payment-service.payment-paid-topic-name}")
@@ -42,5 +44,6 @@ public class PaymentPaidListener implements KafkaConsumer<PurchasePaidEventAvroM
         CompletableFuture.runAsync(() -> cartService.clearCart(keys, messages));
         CompletableFuture.runAsync(() -> notificationService.paymentCompletedUniCast(keys, messages));
         CompletableFuture.runAsync(() -> deliveryPurchaseService.processDeliveryPurchase(keys, messages));
+        CompletableFuture.runAsync(() -> usedProductService.soldOutUsedProduct(keys, messages));
     }
 }
