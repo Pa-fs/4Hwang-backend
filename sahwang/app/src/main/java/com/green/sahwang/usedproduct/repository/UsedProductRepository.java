@@ -86,8 +86,9 @@ public interface UsedProductRepository extends JpaRepository<UsedProduct, Long> 
             WHERE up.used_product_id = :usedProductId
             AND vs.rejected_sale_id IS NULL)
             AND vs.rejected_sale_id IS NULL
+            ORDER BY ppay.created_date DESC
             """, nativeQuery = true)
-    List<Object[]> findReviewInfo(@Param("usedProductId") Long usedProductId);
+    List<Object[]> findChartInfo(@Param("usedProductId") Long usedProductId);
 
     @Query(value = """
             SELECT p.product_id, up.used_product_id, ppay.purchase_payment_id, ppay.created_date, ppay.trade_price, ppay.trade_size
@@ -106,8 +107,9 @@ public interface UsedProductRepository extends JpaRepository<UsedProduct, Long> 
             AND vs.rejected_sale_id IS NULL)
             AND vs.rejected_sale_id IS NULL
             AND ppay.created_date >= DATE_ADD(NOW(), INTERVAL -1 MONTH)
+            ORDER BY ppay.created_date DESC
             """, nativeQuery = true)
-    List<Object[]> findReviewInfoOneMonth(@Param("usedProductId") Long usedProductId);
+    List<Object[]> findChartInfoOneMonth(@Param("usedProductId") Long usedProductId);
 
     @Query(value = """
             SELECT p.product_id, up.used_product_id, ppay.purchase_payment_id, ppay.created_date, ppay.trade_price, ppay.trade_size
@@ -126,8 +128,9 @@ public interface UsedProductRepository extends JpaRepository<UsedProduct, Long> 
             AND vs.rejected_sale_id IS NULL)
             AND vs.rejected_sale_id IS NULL
             AND ppay.created_date >= DATE_ADD(NOW(), INTERVAL -6 MONTH)
+            ORDER BY ppay.created_date DESC
             """, nativeQuery = true)
-    List<Object[]> findReviewInfoSixMonth(@Param("usedProductId") Long usedProductId);
+    List<Object[]> findChartInfoSixMonth(@Param("usedProductId") Long usedProductId);
 
     @Query("SELECT new com.green.sahwang.adminpage.dto.res.ProductManageDto( " +
             "up.id, vs.productName, MIN(usi.filename), vs.productSize, " +

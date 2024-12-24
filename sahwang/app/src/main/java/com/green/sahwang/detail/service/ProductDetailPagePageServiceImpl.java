@@ -83,7 +83,7 @@ public class ProductDetailPagePageServiceImpl implements ProductDetailPageServic
 
     @Transactional
     public List<DetailChartResDto> getSaleProducts(Long usedProductId){
-        List<Object[]> reviewInfo = usedProductRepository.findReviewInfo(usedProductId);
+        List<Object[]> reviewInfo = usedProductRepository.findChartInfo(usedProductId);
 
         return reviewInfo.stream().map(row -> new DetailChartResDto(
                 (Long) row[0],
@@ -97,7 +97,7 @@ public class ProductDetailPagePageServiceImpl implements ProductDetailPageServic
 
     @Transactional
     public List<DetailChartResDto> getChartOneMonth(Long usedProductId){
-        List<Object[]> reviewInfoOneMonth = usedProductRepository.findReviewInfoOneMonth(usedProductId);
+        List<Object[]> reviewInfoOneMonth = usedProductRepository.findChartInfoOneMonth(usedProductId);
 
         return reviewInfoOneMonth.stream().map(row -> new DetailChartResDto(
                 (Long) row[0],
@@ -111,7 +111,7 @@ public class ProductDetailPagePageServiceImpl implements ProductDetailPageServic
 
     @Transactional
     public List<DetailChartResDto> getChartSixMonth(Long usedProductId){
-        List<Object[]> reviewInfoSixMonth = usedProductRepository.findReviewInfoSixMonth(usedProductId);
+        List<Object[]> reviewInfoSixMonth = usedProductRepository.findChartInfoSixMonth(usedProductId);
 
         return reviewInfoSixMonth.stream().map(row -> new DetailChartResDto(
                 (Long) row[0],
