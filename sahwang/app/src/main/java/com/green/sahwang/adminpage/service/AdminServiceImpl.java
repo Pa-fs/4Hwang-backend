@@ -2,10 +2,7 @@ package com.green.sahwang.adminpage.service;
 
 import com.green.sahwang.adminpage.dto.MemberManageDto;
 import com.green.sahwang.adminpage.dto.ReviewManageDto;
-import com.green.sahwang.adminpage.dto.res.MemberManageResDto;
-import com.green.sahwang.adminpage.dto.res.ProductManageDto;
-import com.green.sahwang.adminpage.dto.res.ProductManageResDto;
-import com.green.sahwang.adminpage.dto.res.ReviewManageResDto;
+import com.green.sahwang.adminpage.dto.res.*;
 import com.green.sahwang.entity.Favorite;
 import com.green.sahwang.entity.Member;
 import com.green.sahwang.entity.Purchase;
@@ -154,16 +151,52 @@ public class AdminServiceImpl implements AdminService{
         Pageable pageable = PageRequest.of(pageNum, size);
         Page<ReviewManageDto> reviewManageDtoPage = reviewImageRepository.findReviewsBySearch(searchKeyword, pageable);
         List<Review> reviewList = reviewRepository.findAll();
-
         return new ReviewManageResDto(reviewManageDtoPage, reviewList.size());
     }
 
+    public void deleteReview(Long reviewId){
+        reviewRepository.deleteById(reviewId);
+    }
+
     @Transactional
-    public ProductManageResDto getProducts(String status, int pageNum, int size){
+    public ProductManageResDto getProducts(int pageNum, int size){
         Pageable pageable = PageRequest.of(pageNum, size);
         Page<ProductManageDto> productManageDtoPage = usedProductRepository.findUsedProducts(pageable);
         List<UsedProduct> usedProductList = usedProductRepository.findAll();
         List<VerifiedSale> verifiedSaleList = verifiedSaleRepository.findAllByUsedProductInAndRejectionReason(usedProductList, null);
         return new ProductManageResDto(productManageDtoPage, verifiedSaleList.size());
+    }
+
+    @Transactional
+    public ProductManageResDto getProductsSortByStatus(String status, int pageNum, int size){
+        Pageable pageable = PageRequest.of(pageNum, size);
+
+        return null;
+    }
+
+    @Transactional
+    public CategoryManageResDto getCategories(int pageNum, int size){
+        Pageable pageable = PageRequest.of(pageNum, size);
+        return new CategoryManageResDto();
+    }
+
+    @Transactional
+    public CategoryManageResDto getCategoriesByStatus(String status, int pageNum, int size){
+        Pageable pageable = PageRequest.of(pageNum, size);
+        return new CategoryManageResDto();
+    }
+
+    @Transactional
+    public OrderManageResDto getOrders(int pageNum, int size){
+        Pageable pageable = PageRequest.of(pageNum, size);
+
+        return new OrderManageResDto();
+    }
+
+    @Transactional
+    public OrderManageResDto getOrdersByStatus(String status, int pageNum, int size){
+        Pageable pageable = PageRequest.of(pageNum, size);
+
+        return new OrderManageResDto();
     }
 }

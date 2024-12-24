@@ -112,7 +112,7 @@ public class ProductDetailPageController {
 
     @SecurityRequirement(name = "Bearer Authentication")
     @Operation(summary = "리뷰 도움되요", description = "리뷰 도움되유 리스트")
-    @GetMapping("/favorite/{productId}")
+    @GetMapping("/favorite/{usedProductId}")
     public ResponseEntity<List<FavoriteCheckedResDto>> favoriteCheck(@PathVariable(name = "usedProductId") Long usedProductId,
                                                                      @AuthenticationPrincipal UserDetails userDetails,
                                                                      @RequestParam(name = "pageNum", defaultValue = "0", required = false) int pageNum,
