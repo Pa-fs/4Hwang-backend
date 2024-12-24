@@ -33,4 +33,6 @@ public class PurchaseProduct {
 
     private LocalDateTime purchaseCreationDate;
 
+    private LocalDateTime purchaseCompleteDate;
+
 }
