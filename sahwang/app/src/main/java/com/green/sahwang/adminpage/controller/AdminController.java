@@ -2,9 +2,7 @@ package com.green.sahwang.adminpage.controller;
 
 import com.green.sahwang.adminpage.dto.req.MemberRoleReqDto;
 import com.green.sahwang.adminpage.dto.MemberManageDto;
-import com.green.sahwang.adminpage.dto.res.MemberManageResDto;
-import com.green.sahwang.adminpage.dto.res.ProductManageResDto;
-import com.green.sahwang.adminpage.dto.res.ReviewManageResDto;
+import com.green.sahwang.adminpage.dto.res.*;
 import com.green.sahwang.adminpage.service.AdminService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -63,12 +61,52 @@ public class AdminController {
         return ResponseEntity.ok(reviewManageResDto);
     }
 
-    @GetMapping("/product/management")
+    @DeleteMapping("/review/management/delete")
+    public ResponseEntity<String> deleteReview(@RequestParam(value = "reviewId") Long reviewId){
+        adminService.deleteReview(reviewId);
+        return ResponseEntity.ok("리뷰가 삭제되었습니다");
+    }
+
+    @GetMapping("/product/management/usedProduct")
     public ResponseEntity<ProductManageResDto> getProducts(@RequestParam(value = "status", required = false) String status,
                                                            @RequestParam(name = "pageNum", defaultValue = "0", required = false) int pageNum,
                                                            @RequestParam(name = "size", defaultValue = "20", required = false) int size){
-        ProductManageResDto productManageResDto = adminService.getProducts(status, pageNum, size);
-        return ResponseEntity.ok(productManageResDto);
+        if (status == null || status.equalsIgnoreCase("null")){
+            ProductManageResDto productManageResDto = adminService.getProducts(pageNum, size);
+            return ResponseEntity.ok(productManageResDto);
+        }
+        else {
+            ProductManageResDto productManageResDto = adminService.getProductsSortByStatus(status, pageNum, size);
+            return ResponseEntity.ok(productManageResDto);
+        }
+    }
+
+    @GetMapping("/product/management/category")
+    public ResponseEntity<CategoryManageResDto> getCategories(@RequestParam(value = "status", required = false) String status,
+                                                              @RequestParam(name = "pageNum", defaultValue = "0", required = false) int pageNum,
+                                                              @RequestParam(name = "size", defaultValue = "20", required = false) int size){
+        if (status == null || status.equalsIgnoreCase("null")){
+            CategoryManageResDto categoryManageResDto = adminService.getCategories(pageNum, size);
+            return ResponseEntity.ok(categoryManageResDto);
+        }
+        else {
+            CategoryManageResDto categoryManageResDto = adminService.getCategoriesByStatus(status, pageNum, size);
+            return ResponseEntity.ok(categoryManageResDto);
+        }
+    }
+
+    @GetMapping("/order/management")
+    public ResponseEntity<OrderManageResDto> getOrders(@RequestParam(value = "status", required = false) String status,
+                                                       @RequestParam(name = "pageNum", defaultValue = "0", required = false) int pageNum,
+                                                       @RequestParam(name = "size", defaultValue = "20", required = false) int size) {
+        if (status == null || status.equalsIgnoreCase("null")) {
+            OrderManageResDto orderManageResDto = adminService.getOrders(pageNum, size);
+            return ResponseEntity.ok(orderManageResDto);
+        } else {
+            OrderManageResDto orderManageResDto = adminService.getOrdersByStatus(status, pageNum, size);
+            return ResponseEntity.ok(orderManageResDto);
+        }
+
     }
 
 }
