@@ -81,11 +81,4 @@ public class PaymentController {
         paymentService.savePurchaseInfoForPayment(externalPurchasePaymentReqDto, userDetails.getUsername());
         return ResponseEntity.ok(externalPurchasePaymentReqDto.getMerchantUId());
     }
-
-    // Todo 현재 사용 안함
-//    @PostMapping("/create")
-//    public ResponseEntity<String> createPaid(@ModelAttribute PaymentCompleteRequest paymentCompleteRequest) {
-//        paymentService.processAsyncPayment(paymentCompleteRequest);
-//        return ResponseEntity.ok("결제완료 처리 중");
-//    }
 }

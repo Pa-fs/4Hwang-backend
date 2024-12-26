@@ -64,6 +64,42 @@
         LIMIT #{pageable.offset}, #{pageable.pageSize}
     </select>
 
+    <select id="findSellingSaleList" resultType="com.green.sahwang.mypage.dto.res.SaleListResDto">
+        SELECT
+        ps.pending_sale_id pendingSaleId,
+        ps.category_name userCategory,
+        ps.brand_name userBrand,
+        ps.product_name productName,
+        ps.inspection_status saleStatus,
+        ps.excepted_selling_price userPrice,
+        ps.product_size userSize,
+        ps.used_or_not userUsedOrNot
+        FROM member m
+        INNER JOIN pending_sale ps ON ps.member_id = m.member_id
+        WHERE m.member_id = #{memberId}
+        AND ps.inspection_status = 'SELLING'
+        ORDER BY ps.created_date DESC
+        LIMIT #{pageable.offset}, #{pageable.pageSize}
+    </select>
+
+    <select id="findSoldSaleList" resultType="com.green.sahwang.mypage.dto.res.SaleListResDto">
+        SELECT
+        ps.pending_sale_id pendingSaleId,
+        ps.category_name userCategory,
+        ps.brand_name userBrand,
+        ps.product_name productName,
+        ps.inspection_status saleStatus,
+        ps.excepted_selling_price userPrice,
+        ps.product_size userSize,
+        ps.used_or_not userUsedOrNot
+        FROM member m
+        INNER JOIN pending_sale ps ON ps.member_id = m.member_id
+        WHERE m.member_id = #{memberId}
+        AND ps.inspection_status = 'SOLD'
+        ORDER BY ps.created_date DESC
+        LIMIT #{pageable.offset}, #{pageable.pageSize}
+    </select>
+
     <select id="findRejectedSaleList" resultType="com.green.sahwang.mypage.dto.res.SaleListResDto">
         SELECT
         ps.pending_sale_id pendingSaleId,

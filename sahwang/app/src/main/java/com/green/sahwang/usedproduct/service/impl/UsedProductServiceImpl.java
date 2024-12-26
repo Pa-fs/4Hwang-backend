@@ -7,7 +7,10 @@ import com.green.sahwang.entity.PurchaseProduct;
 import com.green.sahwang.entity.enumtype.PurchaseStatus;
 import com.green.sahwang.exception.BizException;
 import com.green.sahwang.exception.ErrorCode;
+import com.green.sahwang.inspection.enumtype.InspectionStatus;
 import com.green.sahwang.model.payment.avro.PurchasePaidEventAvroModel;
+import com.green.sahwang.pendingsale.entity.PendingSale;
+import com.green.sahwang.pendingsale.repository.PendingSaleRepository;
 import com.green.sahwang.repository.*;
 import com.green.sahwang.usedproduct.dto.response.UsedProductResDto;
 import com.green.sahwang.usedproduct.entity.UsedProduct;
@@ -35,6 +38,7 @@ public class UsedProductServiceImpl implements UsedProductService {
     private final PurchaseProductRepository purchaseProductRepository;
     private final SalePaymentRepository salePaymentRepository;
     private final PurchasePaymentRepository purchasePaymentRepository;
+    private final PendingSaleRepository pendingSaleRepository;
 
     @Override
     @Transactional(readOnly = true)
@@ -89,6 +93,10 @@ public class UsedProductServiceImpl implements UsedProductService {
                             .orElseThrow(() -> new BizException(ErrorCode.NO_USED_PRODUCT));
                     usedProduct.setSoldOut(true);
                     usedProductRepository.save(usedProduct);
+
+                    PendingSale pendingSale = usedProduct.getVerifiedSale().getPendingSale();
+                    pendingSale.setInspectionStatus(InspectionStatus.SOLD);
+                    pendingSaleRepository.save(pendingSale);
                     log.info("usedProduct Id : {}, 판매처리", usedProduct.getId());
                 }
             }

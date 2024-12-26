@@ -132,6 +132,24 @@ public class MyPageServiceImpl implements MyPageService{
                     }
                 }
             }
+            if (inspectionStatus.equals(InspectionStatus.SELLING)) {
+                List<SaleListResDto> verifiedSaleList = saleMapper.findSellingSaleList(member.getId(), pageable);
+                for (SaleListResDto saleListResDto : verifiedSaleList) {
+                    Long saleId = saleListResDto.getPendingSaleId();
+                    if (saleId != null && !saleListMap.containsKey(saleId)) {
+                        saleListMap.put(saleId, saleListResDto);
+                    }
+                }
+            }
+            if (inspectionStatus.equals(InspectionStatus.SOLD)) {
+                List<SaleListResDto> verifiedSaleList = saleMapper.findSoldSaleList(member.getId(), pageable);
+                for (SaleListResDto saleListResDto : verifiedSaleList) {
+                    Long saleId = saleListResDto.getPendingSaleId();
+                    if (saleId != null && !saleListMap.containsKey(saleId)) {
+                        saleListMap.put(saleId, saleListResDto);
+                    }
+                }
+            }
             if (inspectionStatus.equals(InspectionStatus.WAITING)) {
                 List<SaleListResDto> waitingSaleList = saleMapper.findWaitingSaleList(member.getId(), pageable);
                 for (SaleListResDto saleListResDto : waitingSaleList) {
