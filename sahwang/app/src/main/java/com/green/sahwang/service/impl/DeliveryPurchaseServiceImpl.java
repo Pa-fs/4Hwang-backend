@@ -66,9 +66,9 @@ public class DeliveryPurchaseServiceImpl implements DeliveryPurchaseService {
                     // 배송 프로세스 시작
                     log.info("주문완료 이벤트 발행, 구매번호 : {}", purchase.getId());
 
-                    if(purchase.getStatus().equals(PurchaseStatus.SHIP_READY))
+                    if(purchase.getPurchaseStatus().equals(PurchaseStatus.SHIP_READY))
                         shippingProcess();
-                    if(purchase.getStatus().equals(PurchaseStatus.SHIPPING))
+                    if(purchase.getPurchaseStatus().equals(PurchaseStatus.SHIPPING))
                         shippedProcess();
                     break;
                 }

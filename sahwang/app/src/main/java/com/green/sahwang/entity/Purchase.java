@@ -32,6 +32,7 @@ public class Purchase {
     @Enumerated(EnumType.STRING)
     private PurchaseStatus purchaseStatus;
 
+    // 결제완료 여부
     private Boolean status = false;
 
     public void doReadyForPay() {
