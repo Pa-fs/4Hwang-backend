@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.green.sahwang.mypage.mapper.SaleMapper">
+<mapper namespace="com.green.sahwang.sale.mapper.SaleMapper">
     <select id="findVerifiedSaleList" resultType="com.green.sahwang.mypage.dto.res.SaleListResDto">
         SELECT
         ps.pending_sale_id pendingSaleId,
@@ -90,4 +90,15 @@
         LIMIT #{pageable.offset}, #{pageable.pageSize}
     </select>
 
+    <select id="findProductImageById" resultType="String">
+            select p.main_image
+            from product p
+            where p.product_id = #{productId}
+    </select>
+
+    <select id="findSellerById" resultType="String">
+        select m.nick_name
+        from member m
+        where m.member_id = #{memberId}
+    </select>
 </mapper>

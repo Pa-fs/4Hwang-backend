@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.green.sahwang.verifiedsale.mapper.VerifiedSaleRejectionMapper">
+    <select id="findVerifiedSaleRejectionList" resultType="com.green.sahwang.verifiedsale.dto.response.SaleRejectionListResDto">
+        SELECT
+        m.member_id memberId,
+        p.product_id productId,
+        ps.pending_sale_id pendingSaleId,
+        vs.verified_sale_id verifiedSaleId,
+        up.used_product_id usedProductId,
+        vs.category_name verifiedCategory,
+        vs.brand_name verifiedBrand,
+        vs.product_name productName,
+        ps.excepted_selling_price userPrice,
+        vs.product_size verifiedSize,
+        vs.verified_selling_price verifiedPrice,
+        vs.used_or_not verifiedUsedOrNot,
+        rr.reason rejectionReason,
+        up.used_product_type usedProductType,
+        ps.created_date registerDate
+        FROM member m
+        INNER JOIN pending_sale ps ON ps.member_id = m.member_id
+        INNER JOIN verified_sale vs ON ps.pending_sale_id = vs.pending_sale_id
+        INNER JOIN used_product up ON vs.verified_sale_id = up.used_product_id
+        INNER JOIN rejection_reason rr ON rr.rejection_reason_id = vs.rejected_sale_id
+        INNER JOIN product p ON p.product_id = ps.product_id
+        WHERE ps.inspection_status = 'REJECTED'
+        AND vs.sale_grade_id is null
+        LIMIT #{pageable.offset}, #{pageable.pageSize}
+    </select>
+</mapper>

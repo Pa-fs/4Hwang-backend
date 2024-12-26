@@ -11,7 +11,7 @@ import com.green.sahwang.mypage.dto.req.MemberInfoReqDto;
 import com.green.sahwang.mypage.dto.req.ReviewCreateReqDto;
 import com.green.sahwang.mypage.dto.req.ReviewUpdateReqDto;
 import com.green.sahwang.mypage.dto.res.*;
-import com.green.sahwang.mypage.mapper.SaleMapper;
+import com.green.sahwang.sale.mapper.SaleMapper;
 import com.green.sahwang.pendingsale.entity.PendingSale;
 import com.green.sahwang.pendingsale.repository.PendingSaleRepository;
 import com.green.sahwang.repository.*;
