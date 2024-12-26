@@ -83,6 +83,7 @@ public class ProductServiceImpl implements ProductService {
         return allNewProducts.stream()
                 .map(usedProduct -> NewUsedProductResDto.builder()
                         .usedProductId(usedProduct.getId())
+                        .productName(usedProduct.getVerifiedSale().getProductName())
                         .brandName(usedProduct.getVerifiedSale().getBrandName())
                         .gradeType(usedProduct.getUsedProductType().toString())
                         .price(usedProduct.getVerifiedSale().getProductSize())
