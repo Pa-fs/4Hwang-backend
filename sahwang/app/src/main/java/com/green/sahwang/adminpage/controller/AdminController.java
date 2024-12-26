@@ -67,6 +67,7 @@ public class AdminController {
         return ResponseEntity.ok("리뷰가 삭제되었습니다");
     }
 
+    @Operation(summary = "null 일 때만 가능", description = "기본 : null")
     @GetMapping("/product/management/usedProduct")
     public ResponseEntity<ProductManageResDto> getProducts(@RequestParam(value = "status", required = false) String status,
                                                            @RequestParam(name = "pageNum", defaultValue = "0", required = false) int pageNum,
@@ -76,11 +77,12 @@ public class AdminController {
             return ResponseEntity.ok(productManageResDto);
         }
         else {
-            ProductManageResDto productManageResDto = adminService.getProductsSortByStatus(status, pageNum, size);
+            ProductManageResDto productManageResDto = adminService.getProductsByStatus(status, pageNum, size);
             return ResponseEntity.ok(productManageResDto);
         }
     }
 
+    @Operation(summary = "null 일 때만 가능", description = "기본 : null")
     @GetMapping("/product/management/category")
     public ResponseEntity<CategoryManageResDto> getCategories(@RequestParam(value = "status", required = false) String status,
                                                               @RequestParam(name = "pageNum", defaultValue = "0", required = false) int pageNum,
@@ -95,6 +97,7 @@ public class AdminController {
         }
     }
 
+    @Operation(summary = "이건 그냥 못하겠음", description = "erd가 너무 어렵게 되어있어ㅠㅠ")
     @GetMapping("/order/management")
     public ResponseEntity<OrderManageResDto> getOrders(@RequestParam(value = "status", required = false) String status,
                                                        @RequestParam(name = "pageNum", defaultValue = "0", required = false) int pageNum,

@@ -24,7 +24,7 @@ public class OrderManageDto {
 
     private String category;
 
-    private String status;
+//    private String status;
 
     private int quantity;
 
