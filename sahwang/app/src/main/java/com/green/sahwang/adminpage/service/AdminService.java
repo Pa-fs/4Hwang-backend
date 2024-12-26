@@ -23,7 +23,7 @@ public interface AdminService {
 
     ProductManageResDto getProducts(int pageNum, int size);
 
-    ProductManageResDto getProductsSortByStatus(String status, int pageNum, int size);
+    ProductManageResDto getProductsByStatus(String status, int pageNum, int size);
 
     CategoryManageResDto getCategories(int pageNum, int size);
 
