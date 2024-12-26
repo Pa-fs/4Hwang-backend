@@ -91,6 +91,7 @@ public class ProductServiceImpl implements ProductService {
                         .mainImage(usedProduct.getVerifiedSale().getPendingSale().getUserSaleImages().get(0).getFilename())
                         .registerDate(DateTimeUtils.formatWithoutSecond(usedProduct.getVerifiedSale().getPendingSale().getCreatedDate()))
                         .size(usedProduct.getVerifiedSale().getProductSize())
+                        .gradeType(usedProduct.getVerifiedSale().getSaleGrade().getGradeType().toString())
                         .build()).toList();
     }
 
