@@ -133,8 +133,8 @@ public class MyPageServiceImpl implements MyPageService{
                 }
             }
             if (inspectionStatus.equals(InspectionStatus.SELLING)) {
-                List<SaleListResDto> verifiedSaleList = saleMapper.findSellingSaleList(member.getId(), pageable);
-                for (SaleListResDto saleListResDto : verifiedSaleList) {
+                List<SaleListResDto> sellingSaleList = saleMapper.findSellingSaleList(member.getId(), pageable);
+                for (SaleListResDto saleListResDto : sellingSaleList) {
                     Long saleId = saleListResDto.getPendingSaleId();
                     if (saleId != null && !saleListMap.containsKey(saleId)) {
                         saleListMap.put(saleId, saleListResDto);
@@ -142,8 +142,8 @@ public class MyPageServiceImpl implements MyPageService{
                 }
             }
             if (inspectionStatus.equals(InspectionStatus.SOLD)) {
-                List<SaleListResDto> verifiedSaleList = saleMapper.findSoldSaleList(member.getId(), pageable);
-                for (SaleListResDto saleListResDto : verifiedSaleList) {
+                List<SaleListResDto> soldSaleList = saleMapper.findSoldSaleList(member.getId(), pageable);
+                for (SaleListResDto saleListResDto : soldSaleList) {
                     Long saleId = saleListResDto.getPendingSaleId();
                     if (saleId != null && !saleListMap.containsKey(saleId)) {
                         saleListMap.put(saleId, saleListResDto);
