@@ -2,6 +2,7 @@ package com.green.sahwang.mypage.controller;
 
 import com.green.sahwang.config.filepath.ImageFilePathConfig;
 import com.green.sahwang.mypage.dto.WishListCategoryDto;
+import com.green.sahwang.mypage.dto.req.ApproveVerifiedSaleReqDto;
 import com.green.sahwang.mypage.dto.req.MemberInfoReqDto;
 import com.green.sahwang.mypage.dto.req.ReviewCreateReqDto;
 import com.green.sahwang.mypage.dto.req.ReviewUpdateReqDto;
@@ -76,8 +77,8 @@ public class MyPageController {
     @SecurityRequirement(name = "Bearer Authentication")
     @PostMapping("/verified-sale/approve")
     @Operation(summary = "판매검수 승인하기", description = "사용자가 판매검수에 대해 승인하는 API")
-    public ResponseEntity<Void> approveVerifiedSale(@AuthenticationPrincipal UserDetails userDetails, @RequestBody Long pendingSaleId){
-        myPageService.approveVerifiedSale(userDetails, pendingSaleId);
+    public ResponseEntity<Void> approveVerifiedSale(@AuthenticationPrincipal UserDetails userDetails, @RequestBody ApproveVerifiedSaleReqDto approveVerifiedSaleReqDto){
+        myPageService.approveVerifiedSale(userDetails, approveVerifiedSaleReqDto);
 
         return ResponseEntity.ok().build();
     }

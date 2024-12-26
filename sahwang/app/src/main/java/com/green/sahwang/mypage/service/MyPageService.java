@@ -1,5 +1,6 @@
 package com.green.sahwang.mypage.service;
 
+import com.green.sahwang.mypage.dto.req.ApproveVerifiedSaleReqDto;
 import com.green.sahwang.mypage.dto.req.MemberInfoReqDto;
 import com.green.sahwang.mypage.dto.req.ReviewCreateReqDto;
 import com.green.sahwang.mypage.dto.req.ReviewUpdateReqDto;
@@ -33,7 +34,7 @@ public interface MyPageService {
 
     MemberInfoResDto updateMemberInfo(UserDetails userDetails, MemberInfoReqDto memberInfoReqDto);
 
-    void approveVerifiedSale(UserDetails userDetails, Long pendingSaleId);
+    void approveVerifiedSale(UserDetails userDetails, ApproveVerifiedSaleReqDto approveVerifiedSaleReqDto);
 
     void rejectVerifiedSale(UserDetails userDetails, Long pendingSaleId);
 }

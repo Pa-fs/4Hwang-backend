@@ -7,6 +7,7 @@ import com.green.sahwang.exception.BizException;
 import com.green.sahwang.exception.ErrorCode;
 import com.green.sahwang.inspection.enumtype.InspectionStatus;
 import com.green.sahwang.mypage.dto.WishListCategoryDto;
+import com.green.sahwang.mypage.dto.req.ApproveVerifiedSaleReqDto;
 import com.green.sahwang.mypage.dto.req.MemberInfoReqDto;
 import com.green.sahwang.mypage.dto.req.ReviewCreateReqDto;
 import com.green.sahwang.mypage.dto.req.ReviewUpdateReqDto;
@@ -305,9 +306,9 @@ public class MyPageServiceImpl implements MyPageService{
 
     @Override
     @Transactional
-    public void approveVerifiedSale(UserDetails userDetails, Long pendingSaleId) {
+    public void approveVerifiedSale(UserDetails userDetails, ApproveVerifiedSaleReqDto approveVerifiedSaleReqDto) {
         Member member = memberRepository.findByEmail(userDetails.getUsername());
-        PendingSale pendingSale = pendingSaleRepository.findById(pendingSaleId)
+        PendingSale pendingSale = pendingSaleRepository.findById(approveVerifiedSaleReqDto.getPendingSaleId())
                 .orElseThrow(() -> new BizException(ErrorCode.NO_PENDING_SALE));
 
         if (!Objects.equals(pendingSale.getMember().getId(), member.getId())) {
@@ -320,10 +321,12 @@ public class MyPageServiceImpl implements MyPageService{
                 .usedProductType(UsedProductType.USER_ACCEPT)
                 .build();
 
+        VerifiedSale verifiedSale = usedProduct.getVerifiedSale();
+        verifiedSale.setVerifiedSellingPrice(approveVerifiedSaleReqDto.getSalesPrice());
+
         usedProduct.getVerifiedSale().getPendingSale().setInspectionStatus(InspectionStatus.SELLING);
-
+        verifiedSaleRepository.save(verifiedSale);
         usedProductRepository.save(usedProduct);
-
         pendingSaleRepository.save(pendingSale);
     }
 
