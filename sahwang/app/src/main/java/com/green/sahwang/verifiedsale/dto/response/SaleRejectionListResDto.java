@@ -35,6 +35,7 @@ public class SaleRejectionListResDto {
     private String inspectionStatus;
     private String inspectionDescription;
     private String shippedDate;
+    private String productDescription;
     private List<ImageResDto> userImages;
     private List<ImageResDto> verifiedImages;
 }
