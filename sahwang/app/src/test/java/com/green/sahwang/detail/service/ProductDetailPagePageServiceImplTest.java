@@ -24,67 +24,67 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 class ProductDetailPagePageServiceImplTest {
 
-    @Autowired
-    ProductDetailPageService productDetailPageService;
-
-    @Autowired
-    SaleProductRepository saleProductRepository;
-
-    @Autowired
-    SalePaymentRepository salePaymentRepository;
-
-    @Autowired
-    ProductImageRepository productImageRepository;
-
-    @Autowired
-    ProductRepository productRepository;
-
-    @Autowired
-    PurchaseProductRepository purchaseProductRepository;
-
-    @Autowired
-    ReviewRepository reviewRepository;
-
-    @Autowired
-    MemberRepository memberRepository;
-
-    @Autowired
-    FavoriteRepository favoriteRepository;
-
-    private Product product;
-    private PurchaseProduct purchaseProduct;
-    private Member member;
-    private Review review;
-    private UserDetails userDetails;
-    private Favorite favorite;
-
-    @BeforeEach
-    void setup() {
-        userDetails = User.withUsername("thdghckd111@naver.com")
-                .password("")
-                .roles("USER")
-                .build();
-
-        product = productRepository.findById(1L).orElseThrow();
-
-        purchaseProduct = new PurchaseProduct();
-        purchaseProduct.setProduct(product);
-        purchaseProductRepository.save(purchaseProduct);
-
-        member = memberRepository.findByEmail(userDetails.getUsername());
-
-        review = new Review();
-        review.setPurchaseProduct(purchaseProduct);
-        review.setMember(member);
-        review.setStar(4.0);
-        review.setContent("굿굿");
-        review = reviewRepository.save(review);
-
-        favorite = new Favorite();
-        favorite.setMember(member);
-        favorite.setReview(review);
-        favoriteRepository.save(favorite);
-    }
+//    @Autowired
+//    ProductDetailPageService productDetailPageService;
+//
+//    @Autowired
+//    SaleProductRepository saleProductRepository;
+//
+//    @Autowired
+//    SalePaymentRepository salePaymentRepository;
+//
+//    @Autowired
+//    ProductImageRepository productImageRepository;
+//
+//    @Autowired
+//    ProductRepository productRepository;
+//
+//    @Autowired
+//    PurchaseProductRepository purchaseProductRepository;
+//
+//    @Autowired
+//    ReviewRepository reviewRepository;
+//
+//    @Autowired
+//    MemberRepository memberRepository;
+//
+//    @Autowired
+//    FavoriteRepository favoriteRepository;
+//
+//    private Product product;
+//    private PurchaseProduct purchaseProduct;
+//    private Member member;
+//    private Review review;
+//    private UserDetails userDetails;
+//    private Favorite favorite;
+//
+//    @BeforeEach
+//    void setup() {
+//        userDetails = User.withUsername("thdghckd111@naver.com")
+//                .password("")
+//                .roles("USER")
+//                .build();
+//
+//        product = productRepository.findById(1L).orElseThrow();
+//
+//        purchaseProduct = new PurchaseProduct();
+//        purchaseProduct.setProduct(product);
+//        purchaseProductRepository.save(purchaseProduct);
+//
+//        member = memberRepository.findByEmail(userDetails.getUsername());
+//
+//        review = new Review();
+//        review.setPurchaseProduct(purchaseProduct);
+//        review.setMember(member);
+//        review.setStar(4.0);
+//        review.setContent("굿굿");
+//        review = reviewRepository.save(review);
+//
+//        favorite = new Favorite();
+//        favorite.setMember(member);
+//        favorite.setReview(review);
+//        favoriteRepository.save(favorite);
+//    }
 
 //    @Transactional
 //    @Test

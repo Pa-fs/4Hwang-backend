@@ -45,7 +45,7 @@ WORKDIR /app
 COPY --from=builder /build/app/target/*.jar ./app.jar
 
 # 이미지 파일 복사
-COPY ./images ./app/images
+COPY ./images ./images
 
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "-Djava.security.egd=file:/dev/./urandom", "-Dsun.net.inetaddr.ttl=0", "app.jar"]
