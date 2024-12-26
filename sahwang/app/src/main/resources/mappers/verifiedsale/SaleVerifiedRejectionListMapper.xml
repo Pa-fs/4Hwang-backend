@@ -19,7 +19,9 @@
         vs.used_or_not verifiedUsedOrNot,
         rr.reason rejectionReason,
         up.used_product_type usedProductType,
-        ps.created_date registerDate
+        ps.inspection_status inspectionStatus,
+        vs.inspection_description inspectionDescription,
+        ps.created_date createdDate
         FROM member m
         INNER JOIN pending_sale ps ON ps.member_id = m.member_id
         INNER JOIN verified_sale vs ON ps.pending_sale_id = vs.pending_sale_id

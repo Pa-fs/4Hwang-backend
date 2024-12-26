@@ -20,7 +20,8 @@ public class SaleRejectionListResDto {
     private Long verifiedSaleId;
     private Long usedProductId;
     private String seller;
-    private LocalDateTime registerDate;
+    private LocalDateTime createdDate;
+    private String registerDate;
     private String verifiedCategory;
     private String verifiedBrand;
     private String productName;
@@ -31,6 +32,9 @@ public class SaleRejectionListResDto {
     private String usedProductType;
     private String rejectionReason;
     private String representativeImage;
+    private String inspectionStatus;
+    private String inspectionDescription;
+    private String shippedDate;
     private List<ImageResDto> userImages;
     private List<ImageResDto> verifiedImages;
 }

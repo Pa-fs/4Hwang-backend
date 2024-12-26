@@ -1,5 +1,6 @@
 package com.green.sahwang.verifiedsale.service.impl;
 
+import com.green.sahwang.config.DateTimeUtils;
 import com.green.sahwang.dto.response.ImageResDto;
 import com.green.sahwang.entity.Member;
 import com.green.sahwang.entity.enumtype.MemberRole;
@@ -19,6 +20,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -51,6 +53,8 @@ public class VerifiedSaleServiceImpl implements VerifiedSaleService {
             saleAcceptedListResDto.setVerifiedImages(verifiedImages);
             saleAcceptedListResDto.setSeller(seller);
             saleAcceptedListResDto.setRepresentativeImage(representativeImage);
+            saleAcceptedListResDto.setRegisterDate(DateTimeUtils.formatWithoutSecond(saleAcceptedListResDto.getCreatedDate()));
+            saleAcceptedListResDto.setShippedDate(DateTimeUtils.formatWithoutSecond(saleAcceptedListResDto.getCreatedDate().plusDays(3)));
         }
 
         return verifiedSaleAcceptedList;
@@ -75,6 +79,8 @@ public class VerifiedSaleServiceImpl implements VerifiedSaleService {
             saleRejectionListResDto.setVerifiedImages(verifiedImages);
             saleRejectionListResDto.setSeller(seller);
             saleRejectionListResDto.setRepresentativeImage(representativeImage);
+            saleRejectionListResDto.setRegisterDate(DateTimeUtils.formatWithoutSecond(saleRejectionListResDto.getCreatedDate()));
+            saleRejectionListResDto.setShippedDate(DateTimeUtils.formatWithoutSecond(saleRejectionListResDto.getCreatedDate().plusDays(3)));
         }
 
         return verifiedSaleRejectionList;
