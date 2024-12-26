@@ -161,8 +161,8 @@ public class MyPageServiceImpl implements MyPageService{
                 }
             }
             if (inspectionStatus.equals(InspectionStatus.REJECTED)) {
-                List<SaleListResDto> waitingSaleList = saleMapper.findRejectedSaleList(member.getId(), pageable);
-                for (SaleListResDto saleListResDto : waitingSaleList) {
+                List<SaleListResDto> rejectedSaleList = saleMapper.findRejectedSaleList(member.getId(), pageable);
+                for (SaleListResDto saleListResDto : rejectedSaleList) {
                     Long saleId = saleListResDto.getPendingSaleId();
                     if (saleId != null && !saleListMap.containsKey(saleId)) {
                         saleListMap.put(saleId, saleListResDto);
@@ -340,7 +340,7 @@ public class MyPageServiceImpl implements MyPageService{
 
         UsedProduct usedProduct = UsedProduct.builder()
                 .verifiedSale(pendingSale.getVerifiedSale())
-                .createdDate(LocalDateTime.now())
+                .modifiedDate(LocalDateTime.now())
                 .usedProductType(UsedProductType.USER_REJECT)
                 .build();
 
