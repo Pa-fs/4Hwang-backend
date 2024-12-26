@@ -1,12 +1,10 @@
 package com.green.sahwang.adminpage.service;
 
+import com.green.sahwang.adminpage.dto.CategoryManageDto;
 import com.green.sahwang.adminpage.dto.MemberManageDto;
 import com.green.sahwang.adminpage.dto.ReviewManageDto;
 import com.green.sahwang.adminpage.dto.res.*;
-import com.green.sahwang.entity.Favorite;
-import com.green.sahwang.entity.Member;
-import com.green.sahwang.entity.Purchase;
-import com.green.sahwang.entity.Review;
+import com.green.sahwang.entity.*;
 import com.green.sahwang.entity.enumtype.MemberRole;
 import com.green.sahwang.entity.enumtype.PurchaseStatus;
 import com.green.sahwang.repository.*;
@@ -23,7 +21,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -38,6 +38,7 @@ public class AdminServiceImpl implements AdminService{
     private final FavoriteRepository favoriteRepository;
     private final UsedProductRepository usedProductRepository;
     private final VerifiedSaleRepository verifiedSaleRepository;
+    private final ProductRepository productRepository;
 
     @Transactional
     public MemberManageResDto getMembers(int pageNum, int size){
@@ -168,16 +169,26 @@ public class AdminServiceImpl implements AdminService{
     }
 
     @Transactional
-    public ProductManageResDto getProductsSortByStatus(String status, int pageNum, int size){
+    public ProductManageResDto getProductsByStatus(String status, int pageNum, int size){
         Pageable pageable = PageRequest.of(pageNum, size);
-
         return null;
     }
 
     @Transactional
     public CategoryManageResDto getCategories(int pageNum, int size){
-        Pageable pageable = PageRequest.of(pageNum, size);
-        return new CategoryManageResDto();
+        int offset = pageNum * size;
+        List<Object[]> products = productRepository.findProducts(size, offset);
+        List<CategoryManageDto> categoryManageDtoList = products.stream().map(row -> new CategoryManageDto(
+                (Long) row[0],
+                (String) row[1],
+                (Integer) row[2],
+                (String) row[3],
+                (String) row[4],
+                ((BigDecimal) row[5]).longValue(),
+                (String) row[6]
+        )).toList();
+        int totalProducts = productRepository.countTotalProducts();
+        return new CategoryManageResDto(categoryManageDtoList, totalProducts);
     }
 
     @Transactional

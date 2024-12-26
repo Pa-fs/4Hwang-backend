@@ -76,7 +76,7 @@ public class AdminController {
             return ResponseEntity.ok(productManageResDto);
         }
         else {
-            ProductManageResDto productManageResDto = adminService.getProductsSortByStatus(status, pageNum, size);
+            ProductManageResDto productManageResDto = adminService.getProductsByStatus(status, pageNum, size);
             return ResponseEntity.ok(productManageResDto);
         }
     }
