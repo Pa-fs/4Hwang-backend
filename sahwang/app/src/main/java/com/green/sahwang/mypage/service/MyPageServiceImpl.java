@@ -321,11 +321,8 @@ public class MyPageServiceImpl implements MyPageService{
                 .usedProductType(UsedProductType.USER_ACCEPT)
                 .build();
 
-        VerifiedSale verifiedSale = usedProduct.getVerifiedSale();
-        verifiedSale.setVerifiedSellingPrice(approveVerifiedSaleReqDto.getSalesPrice());
-
+        pendingSale.setExceptedSellingPrice(approveVerifiedSaleReqDto.getSalesPrice());
         usedProduct.getVerifiedSale().getPendingSale().setInspectionStatus(InspectionStatus.SELLING);
-        verifiedSaleRepository.save(verifiedSale);
         usedProductRepository.save(usedProduct);
         pendingSaleRepository.save(pendingSale);
     }
