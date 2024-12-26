@@ -7,6 +7,7 @@ import com.green.sahwang.dto.response.ProductResDto;
 import com.green.sahwang.dto.response.ProductWithSaleInfoDto;
 import com.green.sahwang.entity.Product;
 import com.green.sahwang.entity.ProductImage;
+import com.green.sahwang.mainpage.dto.NewUsedProductResDto;
 import com.green.sahwang.pendingsale.entity.UserSaleImage;
 import com.green.sahwang.repository.ProductImageRepository;
 import com.green.sahwang.repository.ProductRepository;
@@ -27,6 +28,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -61,10 +63,25 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<ProductResDto> getNewProducts(int pageNum, int size) {
-        Pageable pageable = PageRequest.of(pageNum, size, Sort.by("registerDate").descending());
-        Page<Product> products = productRepository.findAll(pageable);
-        return getProductResDtos(products.stream().toList());
+    public List<NewUsedProductResDto> getNewProducts(int pageNum, int size) {
+        Pageable pageable = PageRequest.of(pageNum, size);
+        LocalDateTime startDate = LocalDateTime.now().minusDays(3);  // 3일 전 날짜 계산
+        LocalDateTime now = LocalDateTime.now();
+        Page<UsedProduct> allNewProducts = usedProductRepository.findAllNewProducts(startDate, pageable);
+
+        log.info("usedProducts : {}", allNewProducts.getContent().size());
+
+        return allNewProducts.stream()
+                .map(usedProduct -> NewUsedProductResDto.builder()
+                        .usedProductId(usedProduct.getId())
+                        .brandName(usedProduct.getVerifiedSale().getBrandName())
+                        .gradeType(usedProduct.getUsedProductType().toString())
+                        .price(usedProduct.getVerifiedSale().getProductSize())
+                        // 유저이미지로 할지, 검수이미지로 할지 정하기
+                        .mainImage(usedProduct.getVerifiedSale().getPendingSale().getUserSaleImages().get(0).getFilename())
+                        .registerDate(DateTimeUtils.formatWithoutSecond(usedProduct.getVerifiedSale().getPendingSale().getCreatedDate()))
+                        .size(usedProduct.getVerifiedSale().getProductSize())
+                        .build()).toList();
     }
 
 //    @NotNull

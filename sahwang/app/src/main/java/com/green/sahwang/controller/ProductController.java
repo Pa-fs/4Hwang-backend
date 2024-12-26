@@ -3,6 +3,7 @@ package com.green.sahwang.controller;
 import com.green.sahwang.dto.response.BestProductResDto;
 import com.green.sahwang.dto.response.HeartResDto;
 import com.green.sahwang.dto.response.ProductResDto;
+import com.green.sahwang.mainpage.dto.NewUsedProductResDto;
 import com.green.sahwang.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -39,11 +40,10 @@ public class ProductController {
     }
 
     @GetMapping("/new")
-    public ResponseEntity<List<ProductResDto>> getNewProducts(
+    public ResponseEntity<List<NewUsedProductResDto>> getNewProducts(
             @RequestParam(name = "pageNum", defaultValue = "0") int pageNum,
             @RequestParam(name = "size", defaultValue = "10") int size) {
-        List<ProductResDto> products = productService.getNewProducts(pageNum, size);
-        return ResponseEntity.ok(products);
+        return ResponseEntity.ok(productService.getNewProducts(pageNum, size));
     }
 
 //    @GetMapping("/heart")

@@ -12,6 +12,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface UsedProductRepository extends JpaRepository<UsedProduct, Long> {
@@ -144,6 +145,29 @@ public interface UsedProductRepository extends JpaRepository<UsedProduct, Long> 
             "vs.verifiedSellingPrice, vs.categoryName, up.createdDate, up.modifiedDate " +
             "ORDER BY up.id")
     Page<ProductManageDto> findUsedProducts(Pageable pageable);
+
+
+    @Query(value = """
+            select up from UsedProduct up
+            join fetch up.verifiedSale vs
+            join fetch vs.pendingSale ps
+            WHERE up.createdDate >= up.createdDate - 3 AND up.createdDate <= now()
+            AND up.usedProductType = 'USER_ACCEPT'
+            AND ps.inspectionStatus = 'SELLING'
+            AND vs.rejectionReason IS NULL
+            ORDER BY up.createdDate DESC
+            """,
+            countQuery = """
+            select count(up) from UsedProduct up
+            join up.verifiedSale vs
+            join vs.pendingSale ps
+            WHERE up.createdDate >= up.createdDate - 3 AND up.createdDate <= now()
+            AND up.usedProductType = 'USER_ACCEPT'
+            AND ps.inspectionStatus = 'SELLING'
+            AND vs.rejectionReason IS NULL
+            """
+    )
+    Page<UsedProduct> findAllNewProducts(@Param("startDate") LocalDateTime startDate, Pageable pageable);
 
 
 }
