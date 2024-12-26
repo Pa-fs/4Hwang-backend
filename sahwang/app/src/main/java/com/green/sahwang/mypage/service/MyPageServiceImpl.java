@@ -295,17 +295,14 @@ public class MyPageServiceImpl implements MyPageService{
         if (!Objects.equals(pendingSale.getMember().getId(), member.getId())) {
             throw new BizException(ErrorCode.NO_ACCEPT_MEMBER);
         }
-        if (pendingSale.getVerifiedSale().getUsedProduct().getUsedProductType().equals(UsedProductType.NO_SELECT)) {
-            throw new BizException(ErrorCode.NO_ACCEPT_USED_PRODUCT_TYPE);
-        }
-
-        pendingSale.getVerifiedSale().getUsedProduct().setUsedProductType(UsedProductType.USER_ACCEPT);
 
         UsedProduct usedProduct = UsedProduct.builder()
                 .verifiedSale(pendingSale.getVerifiedSale())
                 .createdDate(LocalDateTime.now())
                 .usedProductType(UsedProductType.USER_ACCEPT)
                 .build();
+
+        usedProduct.getVerifiedSale().getPendingSale().setInspectionStatus(InspectionStatus.SELLING);
 
         usedProductRepository.save(usedProduct);
 
@@ -323,13 +320,13 @@ public class MyPageServiceImpl implements MyPageService{
             throw new BizException(ErrorCode.NO_ACCEPT_MEMBER);
         }
 
-        pendingSale.getVerifiedSale().getUsedProduct().setUsedProductType(UsedProductType.USER_REJECT);
-
         UsedProduct usedProduct = UsedProduct.builder()
                 .verifiedSale(pendingSale.getVerifiedSale())
                 .createdDate(LocalDateTime.now())
                 .usedProductType(UsedProductType.USER_REJECT)
                 .build();
+
+        usedProduct.getVerifiedSale().getPendingSale().setInspectionStatus(InspectionStatus.REJECTED);
 
         usedProductRepository.save(usedProduct);
 
