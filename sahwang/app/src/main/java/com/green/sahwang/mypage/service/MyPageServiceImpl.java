@@ -132,7 +132,7 @@ public class MyPageServiceImpl implements MyPageService{
                     }
                 }
             }
-            else if (inspectionStatus.equals(InspectionStatus.WAITING)) {
+            if (inspectionStatus.equals(InspectionStatus.WAITING)) {
                 List<SaleListResDto> waitingSaleList = saleMapper.findWaitingSaleList(member.getId(), pageable);
                 for (SaleListResDto saleListResDto : waitingSaleList) {
                     Long saleId = saleListResDto.getPendingSaleId();
@@ -141,7 +141,7 @@ public class MyPageServiceImpl implements MyPageService{
                     }
                 }
             }
-            else if (inspectionStatus.equals(InspectionStatus.REJECTED)) {
+            if (inspectionStatus.equals(InspectionStatus.REJECTED)) {
                 List<SaleListResDto> waitingSaleList = saleMapper.findRejectedSaleList(member.getId(), pageable);
                 for (SaleListResDto saleListResDto : waitingSaleList) {
                     Long saleId = saleListResDto.getPendingSaleId();

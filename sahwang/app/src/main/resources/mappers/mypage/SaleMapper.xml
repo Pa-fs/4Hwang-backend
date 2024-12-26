@@ -14,6 +14,7 @@
         ps.excepted_selling_price userPrice,
         ps.product_size userSize,
         ps.used_or_not userUsedOrNot,
+        vs.product_name productName,
         vs.product_size verifiedSize,
         vs.verified_selling_price verifiedPrice,
         vs.used_or_not verifiedUsedOrNot,
@@ -22,7 +23,7 @@
         FROM member m
         INNER JOIN pending_sale ps ON ps.member_id = m.member_id
         INNER JOIN verified_sale vs ON ps.pending_sale_id = vs.pending_sale_id
-        INNER JOIN used_product up ON vs.verified_sale_id = up.used_product_id
+        LEFT OUTER JOIN used_product up ON vs.verified_sale_id = up.used_product_id
         INNER JOIN sale_grade sg ON sg.sale_grade_id = vs.sale_grade_id
         WHERE m.member_id = #{memberId}
         AND ps.inspection_status = 'ACCEPTED'
@@ -50,6 +51,7 @@
         ps.pending_sale_id pendingSaleId,
         ps.category_name userCategory,
         ps.brand_name userBrand,
+        ps.product_name productName,
         ps.inspection_status saleStatus,
         ps.excepted_selling_price userPrice,
         ps.product_size userSize,

@@ -21,6 +21,7 @@ public class SaleListResDto {
     private String userCategory;
     private String userBrand;
     private String saleStatus;
+    private String productName;
     private int userPrice;
     private int userSize;
     private boolean userUsedOrNot;
