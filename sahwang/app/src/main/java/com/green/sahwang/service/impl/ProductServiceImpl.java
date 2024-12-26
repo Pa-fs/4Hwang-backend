@@ -86,7 +86,7 @@ public class ProductServiceImpl implements ProductService {
                         .productName(usedProduct.getVerifiedSale().getProductName())
                         .brandName(usedProduct.getVerifiedSale().getBrandName())
                         .gradeType(usedProduct.getUsedProductType().toString())
-                        .price(usedProduct.getVerifiedSale().getProductSize())
+                        .price(usedProduct.getVerifiedSale().getPendingSale().getExceptedSellingPrice())
                         // 유저이미지로 할지, 검수이미지로 할지 정하기
                         .mainImage(usedProduct.getVerifiedSale().getPendingSale().getUserSaleImages().get(0).getFilename())
                         .registerDate(DateTimeUtils.formatWithoutSecond(usedProduct.getVerifiedSale().getPendingSale().getCreatedDate()))
