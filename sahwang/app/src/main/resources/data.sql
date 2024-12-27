@@ -392,10 +392,10 @@ INSERT INTO `product_image` (`product_image_id`, `file_desc`, `filename`, `path`
 INSERT INTO pending_sale (member_id, product_id, pending_sale_id, category_name, brand_name, product_name, product_description, product_size, inspection_status, excepted_selling_price, used_or_not, rejected_reason, created_date, updated_date)
 VALUES
 (1, 1, 40, 'Perfume', 'Santa Maria Novella', '아쿠아 오드퍼퓸', '아쿠아 오드퍼퓸 향수, 50ml, 새 제품, 박스 포함', 48, 'ACCEPTED', 145000, FALSE, NULL, NOW(), NOW()),
-(2, 9, 41, 'Diffuser', 'Yankee Candle', '라벤더 디퓨저', 'Yankee Candle 라벤더 향 디퓨저, 새 제품', 100, 'ACCEPTED', 30000, FALSE, NULL, NOW(), NOW()),
+(1, 9, 41, 'Diffuser', 'Yankee Candle', '라벤더 디퓨저', 'Yankee Candle 라벤더 향 디퓨저, 새 제품', 100, 'ACCEPTED', 30000, FALSE, NULL, NOW(), NOW()),
 (3, 17, 42, 'Candle', 'Bath & Body Works', '시나몬 스틱 캔들', 'Bath & Body Works 시나몬 스틱 캔들, 사용한 흔적 있음, 90% 남음', 200, 'ACCEPTED', 25000, TRUE, NULL, NOW(), NOW()),
 (1, 1, 43, 'Perfume', 'Santa Maria Novella', '아쿠아 오드퍼퓸', '아쿠아 오드퍼퓸 향수, 45ml, 중고 제품', 45, 'ACCEPTED', 130000, FALSE, NULL, NOW(), NOW()),
-(2, 17, 44, 'Candle', 'IKEA', '레드 캔들', 'IKEA 레드 향초, 새 제품', 150, 'REJECTED', 15000, FALSE, NULL, NOW(), NOW());
+(1, 17, 44, 'Candle', 'IKEA', '레드 캔들', 'IKEA 레드 향초, 새 제품', 150, 'REJECTED', 15000, FALSE, NULL, NOW(), NOW());
 
 INSERT INTO user_sale_image(user_sale_image_id, file_desc, filename, path, pending_sale_id, is_used)
 VALUES
@@ -438,8 +438,7 @@ values
     (2, 'Diffuser', 'Yankee Candle', '라벤더 디퓨저', 'Yankee Candle 라벤더 향 디퓨저, 새 제품', 100, 1, 40000, 41, NULL, 1, NOW(), 0, 0),
     (3, 'Candle', 'Bath & Body Works', '시나몬 스틱 캔들', 'Bath & Body Works 시나몬 스틱 캔들, 사용한 흔적 있음, 90% 남음', 185, 1, 25000, 42, NULL, 2, NOW(), 0, 1),
     (4, 'Perfume', 'Santa Maria Novella', '아쿠아 오드퍼퓸', '아쿠아 오드퍼퓸, 45ml, 중고 제품', 100, 1, 99000, 43, NULL, 3, NOW(), 0, 0),
-    (5, 'Candle', 'IKEA', '레드 캔들', 'IKEA 레드 향초, 결과참조바람 test1', 150, 0, 0, 44, 4, NULL, NOW(), 0, 1),
-    (6, 'Candle', 'IKEA', '레드 캔들', 'IKEA 레드 향초, 결과참조바람 test2', 150, 0, 0, 44, 5, NULL, NOW(), 0, 1);
+    (5, 'Candle', 'IKEA', '레드 캔들', 'IKEA 레드 향초, 결과참조바람 test1', 150, 0, 0, 44, 4, NULL, NOW(), 0, 1);
 
 -- verified_sale_image
 INSERT INTO verified_sale_image(verified_sale_image_id, filename, path, verified_image_type, verified_sale_id)
@@ -453,8 +452,7 @@ values
     (2, now(), 'USER_ACCEPT', 2, false),
     (3, now(), 'USER_ACCEPT', 3, false),
     (4, now(), 'USER_ACCEPT', 4, false),
-    (5, now(), 'USER_ACCEPT', 5, false),
-    (6, now(), 'USER_ACCEPT', 6, false);
+    (5, now(), 'USER_REJECT', 5, false);
 
 -- purchase
 INSERT INTO purchase (purchase_id, purchase_date, purchase_status, total_price, member_id) VALUES (10000001, now(), 'COMPLETED', 730000, 3);
@@ -470,7 +468,6 @@ INSERT INTO purchase_product (purchase_product_id, product_name, product_quantit
 INSERT INTO purchase_product (purchase_product_id, product_name, product_quantity, purchase_creation_date, used_product_id, purchase_id) VALUES (10000003, '라임 바질 앤 만다린 디퓨저', 2, now(), 3, 10000003);
 INSERT INTO purchase_product (purchase_product_id, product_name, product_quantity, purchase_creation_date, used_product_id, purchase_id) VALUES (10000004, '아쿠아 오드퍼퓸', 2, now(), 4, 10000004);
 INSERT INTO purchase_product (purchase_product_id, product_name, product_quantity, purchase_creation_date, used_product_id, purchase_id) VALUES (10000005, '아이스드베리레모네이드', 2, now(), 5, 10000005);
-INSERT INTO purchase_product (purchase_product_id, product_name, product_quantity, purchase_creation_date, used_product_id, purchase_id) VALUES (10000006, '라임 바질 앤 만다린 디퓨저', 2, now(), 6, 10000006);
 
 -- payment
 INSERT INTO payment (payment_id,total_price, member_id) VALUES (10000001, 100000, 5);
@@ -481,61 +478,50 @@ INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date,
 INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000003, NULL, NOW() - INTERVAL 6 MONTH, 10000001, 10000003, 	   100000, 154);
 INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000004, NULL, NOW() - INTERVAL 6 MONTH, 10000001, 10000004, 	     50000, 44);
 INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000005, NULL, NOW() - INTERVAL 6 MONTH, 10000001, 10000005, 	    10000, 349);
-INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000006, NULL, NOW() - INTERVAL 6 MONTH, 10000001, 10000006, 	     60000, 82);
-INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000007, NULL, NOW() - INTERVAL 25 DAY, 10000001, 10000001   , 	    100000, 95                 );
 INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000008, NULL, NOW() - INTERVAL 2 MONTH, 10000001, 10000002  , 	    21000, 610                 );
 INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000009, NULL, NOW() - INTERVAL 28 DAY, 10000001, 10000003   , 	   105000, 151                 );
 INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000010, NULL, NOW() - INTERVAL 4 MONTH, 10000001, 10000004  , 	     50000, 45                 );
 INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000011, NULL, NOW() - INTERVAL 250 DAY, 10000001, 10000005  , 	    10000, 350                 );
-INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000012, NULL, NOW() - INTERVAL 40 DAY, 10000001, 10000006   , 	     65000, 83                 );
 INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000013, NULL, now(), 10000001, 10000001                      , 	    90000, 92                );
 INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000014, NULL, now(), 10000001, 10000002                      , 	    20000, 599                );
 INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000015, NULL, now(), 10000001, 10000003                      , 	   100000, 154                );
 INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000016, NULL, now() - INTERVAL 83 DAY, 10000001, 10000004    , 	     50000, 44                );
 INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000017, NULL, now(), 10000001, 10000005                      , 	    10000, 349                );
-INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000018, NULL, now(), 10000001, 10000006                      , 	     60000, 82                );
 INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000019, NULL, NOW() - INTERVAL 7 MONTH, 10000001, 10000001   , 	    100000, 95                );
 INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000020, NULL, NOW() - INTERVAL 7 MONTH, 10000001, 10000002   , 	    20000, 599                );
 INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000021, NULL, NOW() - INTERVAL 7 MONTH, 10000001, 10000003   , 	   100000, 154                );
 INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000022, NULL, NOW() - INTERVAL 7 MONTH, 10000001, 10000004   , 	     50000, 44                );
 INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000023, NULL, NOW() - INTERVAL 7 MONTH, 10000001, 10000005   , 	    10000, 349                );
-INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000024, NULL, NOW() - INTERVAL 7 MONTH, 10000001, 10000006   , 	     60000, 82                );
 INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000025, NULL, NOW() - INTERVAL 8 MONTH, 10000001, 10000001   , 	    100000, 95                );
 INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000026, NULL, NOW() - INTERVAL 8 MONTH, 10000001, 10000002   , 	    20000, 599                );
 INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000027, NULL, NOW() - INTERVAL 8 MONTH, 10000001, 10000003   , 	   100000, 154                );
 INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000028, NULL, NOW() - INTERVAL 8 MONTH, 10000001, 10000004   , 	     50000, 44                );
 INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000029, NULL, NOW() - INTERVAL 8 MONTH, 10000001, 10000005   , 	    10000, 349                );
-INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000030, NULL, NOW() - INTERVAL 8 MONTH, 10000001, 10000006   , 	     60000, 82                );
 INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000031, NULL, NOW() - INTERVAL 8 MONTH - INTERVAL 13 DAY, 10000001,  10000001, 	    100000, 95);
 INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000032, NULL, NOW() - INTERVAL 8 MONTH - INTERVAL 13 DAY, 10000001,  10000002, 	    20000, 599);
 INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000033, NULL, NOW() - INTERVAL 8 MONTH - INTERVAL 13 DAY, 10000001,  10000003, 	   100000, 154);
 INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000034, NULL, NOW() - INTERVAL 8 MONTH - INTERVAL 13 DAY, 10000001,  10000004, 	     50000, 44);
 INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000035, NULL, NOW() - INTERVAL 8 MONTH - INTERVAL 13 DAY, 10000001,  10000005, 	    10000, 349);
-INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000036, NULL, NOW() - INTERVAL 8 MONTH - INTERVAL 13 DAY, 10000001,  10000006, 	     60000, 82);
 INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000037, NULL, NOW() - INTERVAL 8 MONTH - INTERVAL 23 DAY, 10000001,  10000001, 	    100000, 95);
 INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000038, NULL, NOW() - INTERVAL 8 MONTH - INTERVAL 23 DAY, 10000001,  10000002, 	    20000, 599);
 INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000039, NULL, NOW() - INTERVAL 8 MONTH - INTERVAL 23 DAY, 10000001,  10000003, 	   100000, 154);
 INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000040, NULL, NOW() - INTERVAL 8 MONTH - INTERVAL 23 DAY, 10000001,  10000004, 	     50000, 44);
 INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000041, NULL, NOW() - INTERVAL 8 MONTH - INTERVAL 23 DAY, 10000001,  10000005, 	    10000, 349);
-INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000042, NULL, NOW() - INTERVAL 8 MONTH - INTERVAL 23 DAY, 10000001,  10000006, 	     60000, 82);
 INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000043, NULL, NOW() - INTERVAL 9 MONTH, 10000001, 10000001	                  , 	    95000, 97);
 INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000044, NULL, NOW() - INTERVAL 9 MONTH, 10000001, 10000002			          , 	    35000, 623);
 INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000045, NULL, NOW() - INTERVAL 9 MONTH, 10000001, 10000003			          , 	   110000, 160);
 INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000046, NULL, NOW() - INTERVAL 9 MONTH, 10000001, 10000004			          , 	     55000, 46);
 INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000047, NULL, NOW() - INTERVAL 9 MONTH, 10000001, 10000005			          , 	    10000, 349);
-INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000048, NULL, NOW() - INTERVAL 9 MONTH, 10000001, 10000006			          , 	     60000, 85);
 INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000049, NULL, NOW() - INTERVAL 9 MONTH - INTERVAL 13 DAY, 10000001,  10000001, 	    100000, 95);
 INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000050, NULL, NOW() - INTERVAL 9 MONTH - INTERVAL 13 DAY, 10000001,  10000002, 	    20000, 599);
 INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000051, NULL, NOW() - INTERVAL 9 MONTH - INTERVAL 13 DAY, 10000001,  10000003, 	   100000, 154);
 INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000052, NULL, NOW() - INTERVAL 9 MONTH - INTERVAL 13 DAY, 10000001,  10000004, 	     50000, 44);
 INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000053, NULL, NOW() - INTERVAL 9 MONTH - INTERVAL 13 DAY, 10000001,  10000005, 	    10000, 349);
-INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000054, NULL, NOW() - INTERVAL 9 MONTH - INTERVAL 13 DAY, 10000001,  10000006, 	     60000, 83);
 INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000055, NULL, NOW() - INTERVAL 9 MONTH - INTERVAL 23 DAY, 10000001,  10000001, 	    100000, 95);
 INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000056, NULL, NOW() - INTERVAL 9 MONTH - INTERVAL 23 DAY, 10000001,  10000002, 	    20000, 599);
 INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000057, NULL, NOW() - INTERVAL 9 MONTH - INTERVAL 23 DAY, 10000001,  10000003, 	   100000, 154);
 INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000058, NULL, NOW() - INTERVAL 9 MONTH - INTERVAL 23 DAY, 10000001,  10000004, 	     50000, 44);
 INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000059, NULL, NOW() - INTERVAL 9 MONTH - INTERVAL 23 DAY, 10000001,  10000005, 	    10000, 349);
-INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000060, NULL, NOW() - INTERVAL 9 MONTH - INTERVAL 23 DAY, 10000001,  10000006, 	     65000, 84);
 INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000061, NULL, NOW() - INTERVAL 10 MONTH - INTERVAL 8 DAY, 10000001,  10000001, 	    100000, 95);
 INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000062, NULL, NOW() - INTERVAL 10 MONTH - INTERVAL 12 DAY, 10000001, 10000001, 	   100000, 95);
 INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000063, NULL, NOW() - INTERVAL 10 MONTH - INTERVAL 4 DAY, 10000001,  10000001, 	   110000, 96);
@@ -751,33 +737,6 @@ INSERT INTO review (review_id, member_id, purchase_product_id, review_creation_d
 INSERT INTO review (review_id, member_id, purchase_product_id, review_creation_date, star, content) VALUES (10000196, 4, 10000005, now(), 1.0, '아이스드베리레모네이드(369) 너무 강한 향이어서 불쾌했습니다. 다시는 사용하지 않을 것 같아요.');
 INSERT INTO review (review_id, member_id, purchase_product_id, review_creation_date, star, content) VALUES (10000197, 5, 10000005, now(), 5.0, '아이스드베리레모네이드(369) 정말 상쾌하고 기분 좋은 향이에요. 자주 사용할 것 같아요.');
 
-INSERT INTO review (review_id, member_id, purchase_product_id, review_creation_date, star, content) VALUES (10000198, 4, 10000006, now(), 3.0, '만다린 디퓨저(90) 상쾌한 향이 마음에 들어요. 하지만 지속성이 짧아서 조금 아쉬워요.');
-INSERT INTO review (review_id, member_id, purchase_product_id, review_creation_date, star, content) VALUES (10000199, 5, 10000006, now(), 4.0, '만다린 디퓨저(90) 향이 좋지만 조금 더 오래갔으면 좋겠어요. 그래도 기분이 좋아집니다.');
-INSERT INTO review (review_id, member_id, purchase_product_id, review_creation_date, star, content) VALUES (10000200, 3, 10000006, now(), 5.0, '만다린 디퓨저(90) 상큼하고 기분 좋은 향이에요. 자주 사용할 것 같아요.');
-INSERT INTO review (review_id, member_id, purchase_product_id, review_creation_date, star, content) VALUES (10000201, 4, 10000006, now(), 2.0, '만다린 디퓨저(90) 향이 너무 강하고 불쾌하게 느껴졌어요. 지속성도 짧아서 실망입니다.');
-INSERT INTO review (review_id, member_id, purchase_product_id, review_creation_date, star, content) VALUES (10000202, 5, 10000006, now(), 3.0, '만다린 디퓨저(90) 향은 좋지만 지속력이 너무 짧아서 아쉽습니다.');
-INSERT INTO review (review_id, member_id, purchase_product_id, review_creation_date, star, content) VALUES (10000203, 3, 10000006, now(), 4.0, '만다린 디퓨저(90) 향이 좋지만 조금 더 오래갔으면 좋겠어요.');
-INSERT INTO review (review_id, member_id, purchase_product_id, review_creation_date, star, content) VALUES (10000204, 4, 10000006, now(), 5.0, '만다린 디퓨저(90) 정말 상쾌하고 기분 좋은 향이에요. 자주 사용할 것 같습니다.');
-INSERT INTO review (review_id, member_id, purchase_product_id, review_creation_date, star, content) VALUES (10000205, 5, 10000006, now(), 1.0, '만다린 디퓨저(90) 향이 너무 강하고 불쾌해서 다시는 사용하지 않을 것 같아요.');
-INSERT INTO review (review_id, member_id, purchase_product_id, review_creation_date, star, content) VALUES (10000206, 3, 10000006, now(), 4.0, '만다린 디퓨저(90) 향이 은은하고 좋아요. 다만 지속성에서 아쉬움이 있어요.');
-INSERT INTO review (review_id, member_id, purchase_product_id, review_creation_date, star, content) VALUES (10000207, 4, 10000006, now(), 3.0, '만다린 디퓨저(90) 향은 좋지만 지속시간이 짧아 조금 아쉽습니다.');
-INSERT INTO review (review_id, member_id, purchase_product_id, review_creation_date, star, content) VALUES (10000208, 5, 10000006, now(), 5.0, '만다린 디퓨저(90) 기분 좋은 향수예요! 상쾌하고 청량한 향이 마음에 듭니다.');
-INSERT INTO review (review_id, member_id, purchase_product_id, review_creation_date, star, content) VALUES (10000209, 3, 10000006, now(), 2.0, '만다린 디퓨저(90) 향이 너무 강하고 오래가지 않아서 실망스러웠어요.');
-INSERT INTO review (review_id, member_id, purchase_product_id, review_creation_date, star, content) VALUES (10000210, 4, 10000006, now(), 5.0, '만다린 디퓨저(90) 향이 정말 좋고 오래 지속돼서 기분 좋아요.');
-INSERT INTO review (review_id, member_id, purchase_product_id, review_creation_date, star, content) VALUES (10000211, 5, 10000006, now(), 4.0, '만다린 디퓨저(90) 은은하고 기분 좋은 향이에요. 지속력이 조금 더 길면 좋겠어요.');
-INSERT INTO review (review_id, member_id, purchase_product_id, review_creation_date, star, content) VALUES (10000212, 3, 10000006, now(), 3.0, '만다린 디퓨저(90) 향은 좋지만 지속력이 짧아서 아쉽습니다.');
-INSERT INTO review (review_id, member_id, purchase_product_id, review_creation_date, star, content) VALUES (10000213, 4, 10000006, now(), 4.0, '만다린 디퓨저(90) 상쾌한 향이고 기분 좋아요. 지속성도 괜찮은 편입니다.');
-INSERT INTO review (review_id, member_id, purchase_product_id, review_creation_date, star, content) VALUES (10000214, 5, 10000006, now(), 5.0, '만다린 디퓨저(90) 향이 정말 좋고 오래 지속돼서 매우 만족합니다.');
-INSERT INTO review (review_id, member_id, purchase_product_id, review_creation_date, star, content) VALUES (10000215, 3, 10000006, now(), 1.0, '만다린 디퓨저(90) 너무 강한 향이라서 불쾌하고 지속성도 짧아서 실망이었어요.');
-INSERT INTO review (review_id, member_id, purchase_product_id, review_creation_date, star, content) VALUES (10000216, 4, 10000006, now(), 3.0, '만다린 디퓨저(90) 상쾌한 향이지만 지속력에서 아쉬움이 있어요.');
-INSERT INTO review (review_id, member_id, purchase_product_id, review_creation_date, star, content) VALUES (10000217, 5, 10000006, now(), 4.0, '만다린 디퓨저(90) 향이 은은하고 기분 좋아져요. 조금 더 지속되면 좋겠어요.');
-INSERT INTO review (review_id, member_id, purchase_product_id, review_creation_date, star, content) VALUES (10000218, 3, 10000006, now(), 2.0, '만다린 디퓨저(90) 향이 너무 강하고 오래가지 않아서 실망했습니다.');
-INSERT INTO review (review_id, member_id, purchase_product_id, review_creation_date, star, content) VALUES (10000219, 4, 10000006, now(), 5.0, '만다린 디퓨저(90) 이 향수 정말 좋아요. 상쾌하고 기분 좋은 향이 오래 지속됩니다.');
-INSERT INTO review (review_id, member_id, purchase_product_id, review_creation_date, star, content) VALUES (10000220, 5, 10000006, now(), 3.0, '만다린 디퓨저(90) 향은 좋은데 지속시간이 짧아서 아쉬웠습니다.');
-INSERT INTO review (review_id, member_id, purchase_product_id, review_creation_date, star, content) VALUES (10000221, 3, 10000006, now(), 4.0, '만다린 디퓨저(90) 향이 좋고 기분을 좋게 해줘요. 조금 더 지속됐으면 좋겠어요.');
-INSERT INTO review (review_id, member_id, purchase_product_id, review_creation_date, star, content) VALUES (10000222, 4, 10000006, now(), 1.0, '만다린 디퓨저(90) 너무 강한 향이어서 불쾌했습니다. 다시는 사용하지 않을 것 같아요.');
-INSERT INTO review (review_id, member_id, purchase_product_id, review_creation_date, star, content) VALUES (10000223, 5, 10000006, now(), 5.0, '만다린 디퓨저(90) 정말 상쾌하고 기분 좋은 향이에요. 자주 사용할 것 같아요.');
-
 -- review Image
 INSERT INTO review_image (review_image_id, review_id, file_desc, filename, path) VALUES (10000001, 10000001, 'perfume8', 'p_008.png', 'images/file/\\p_008.png');
 INSERT INTO review_image (review_image_id, review_id, file_desc, filename, path) VALUES (10000002, 10000002, 'perfume2', 'p_002.png', 'images/file/\\p_002.png');
@@ -975,33 +934,6 @@ INSERT INTO review_image (review_image_id, review_id, file_desc, filename, path)
 INSERT INTO review_image (review_image_id, review_id, file_desc, filename, path) VALUES (10000195, 10000195, 'candle5',  'c_005.png', 'images/file/\\c_005.png');
 INSERT INTO review_image (review_image_id, review_id, file_desc, filename, path) VALUES (10000196, 10000196, 'candle6',  'c_006.png', 'images/file/\\c_006.png');
 INSERT INTO review_image (review_image_id, review_id, file_desc, filename, path) VALUES (10000197, 10000197, 'candle7',  'c_007.png', 'images/file/\\c_007.png');
-INSERT INTO review_image (review_image_id, review_id, file_desc, filename, path) VALUES (10000198, 10000198, 'candle8',  'c_008.png', 'images/file/\\c_008.png');
-INSERT INTO review_image (review_image_id, review_id, file_desc, filename, path) VALUES (10000199, 10000199, 'perfume5', 'p_005.png', 'images/file/\\p_005.png');
-INSERT INTO review_image (review_image_id, review_id, file_desc, filename, path) VALUES (10000200, 10000200, 'perfume7', 'p_007.png', 'images/file/\\p_007.png');
-INSERT INTO review_image (review_image_id, review_id, file_desc, filename, path) VALUES (10000201, 10000201, 'perfume1', 'p_001.png', 'images/file/\\p_001.png');
-INSERT INTO review_image (review_image_id, review_id, file_desc, filename, path) VALUES (10000202, 10000202, 'perfume1', 'p_001.png', 'images/file/\\p_001.png');
-INSERT INTO review_image (review_image_id, review_id, file_desc, filename, path) VALUES (10000203, 10000203, 'perfume8', 'p_008.png', 'images/file/\\p_008.png');
-INSERT INTO review_image (review_image_id, review_id, file_desc, filename, path) VALUES (10000204, 10000204, 'perfume2', 'p_002.png', 'images/file/\\p_002.png');
-INSERT INTO review_image (review_image_id, review_id, file_desc, filename, path) VALUES (10000205, 10000205, 'perfume3', 'p_003.png', 'images/file/\\p_003.png');
-INSERT INTO review_image (review_image_id, review_id, file_desc, filename, path) VALUES (10000206, 10000206, 'perfume1', 'p_001.png', 'images/file/\\p_001.png');
-INSERT INTO review_image (review_image_id, review_id, file_desc, filename, path) VALUES (10000207, 10000207, 'perfume2', 'p_002.png', 'images/file/\\p_002.png');
-INSERT INTO review_image (review_image_id, review_id, file_desc, filename, path) VALUES (10000208, 10000208, 'perfume4', 'p_004.png', 'images/file/\\p_004.png');
-INSERT INTO review_image (review_image_id, review_id, file_desc, filename, path) VALUES (10000209, 10000209, 'perfume5', 'p_005.png', 'images/file/\\p_005.png');
-INSERT INTO review_image (review_image_id, review_id, file_desc, filename, path) VALUES (10000210, 10000210, 'perfume7', 'p_007.png', 'images/file/\\p_007.png');
-INSERT INTO review_image (review_image_id, review_id, file_desc, filename, path) VALUES (10000211, 10000211, 'perfume1', 'p_001.png', 'images/file/\\p_001.png');
-INSERT INTO review_image (review_image_id, review_id, file_desc, filename, path) VALUES (10000212, 10000212, 'candle1',  'c_001.png', 'images/file/\\c_001.png');
-INSERT INTO review_image (review_image_id, review_id, file_desc, filename, path) VALUES (10000213, 10000213, 'candle2',  'c_002.png', 'images/file/\\c_002.png');
-INSERT INTO review_image (review_image_id, review_id, file_desc, filename, path) VALUES (10000214, 10000214, 'candle4',  'c_004.png', 'images/file/\\c_004.png');
-INSERT INTO review_image (review_image_id, review_id, file_desc, filename, path) VALUES (10000215, 10000215, 'candle5',  'c_005.png', 'images/file/\\c_005.png');
-INSERT INTO review_image (review_image_id, review_id, file_desc, filename, path) VALUES (10000216, 10000216, 'candle6',  'c_006.png', 'images/file/\\c_006.png');
-INSERT INTO review_image (review_image_id, review_id, file_desc, filename, path) VALUES (10000217, 10000217, 'candle7',  'c_007.png', 'images/file/\\c_007.png');
-INSERT INTO review_image (review_image_id, review_id, file_desc, filename, path) VALUES (10000218, 10000218, 'candle8',  'c_008.png', 'images/file/\\c_008.png');
-INSERT INTO review_image (review_image_id, review_id, file_desc, filename, path) VALUES (10000219, 10000219, 'candle2',  'c_002.png', 'images/file/\\c_002.png');
-INSERT INTO review_image (review_image_id, review_id, file_desc, filename, path) VALUES (10000220, 10000220, 'candle1',  'c_001.png', 'images/file/\\c_001.png');
-INSERT INTO review_image (review_image_id, review_id, file_desc, filename, path) VALUES (10000221, 10000221, 'candle2',  'c_002.png', 'images/file/\\c_002.png');
-INSERT INTO review_image (review_image_id, review_id, file_desc, filename, path) VALUES (10000222, 10000222, 'candle1',  'c_001.png', 'images/file/\\c_001.png');
-INSERT INTO review_image (review_image_id, review_id, file_desc, filename, path) VALUES (10000223, 10000223, 'candle2',  'c_002.png', 'images/file/\\c_002.png');
-
 
 -- favorite
 INSERT INTO favorite (member_id, review_id) VALUES(3, 10000001);
