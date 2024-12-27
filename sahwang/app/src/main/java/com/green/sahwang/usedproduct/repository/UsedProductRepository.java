@@ -26,6 +26,7 @@ public interface UsedProductRepository extends JpaRepository<UsedProduct, Long> 
             where p.id = :productId
             and up.usedProductType = :usedProductType
             and vs.rejectionReason is null
+            and ps.inspectionStatus != 'SOLD'
             """,
             countQuery = """
             select count(up.id)
@@ -37,18 +38,21 @@ public interface UsedProductRepository extends JpaRepository<UsedProduct, Long> 
             where p.id = :productId
             and up.usedProductType = :usedProductType
             and vs.rejectionReason is null
+            and ps.inspectionStatus != 'SOLD'
             """)
     Page<UsedProduct> findUsedProductsByProductId(@Param("productId") Long productId, @Param("usedProductType") UsedProductType usedProductType, Pageable pageable);
 
-    @Query("SELECT new com.green.sahwang.detail.dto.DetailProductInfoDto( " +
-            "up.id, p.id, ps.brandName, vs.productName, " +
-            "p.size, vs.productSize, vs.verifiedSellingPrice, sg.gradeType, vs.usedOrNot) " +
-            "FROM UsedProduct up " +
-            "JOIN up.verifiedSale vs " +
-            "JOIN vs.saleGrade sg " +
-            "JOIN vs.pendingSale ps " +
-            "JOIN ps.product p " +
-            "WHERE up.id = :usedProductId")
+    @Query("""
+            SELECT new com.green.sahwang.detail.dto.DetailProductInfoDto(
+            up.id, p.id, ps.brandName, vs.productName,
+            p.size, vs.productSize, vs.verifiedSellingPrice, sg.gradeType, vs.usedOrNot)
+            FROM UsedProduct up
+            JOIN up.verifiedSale vs
+            JOIN vs.saleGrade sg
+            JOIN vs.pendingSale ps
+            JOIN ps.product p
+            WHERE up.id = :usedProductId
+            """)
     DetailProductInfoDto findUsedProductInfo(@Param("usedProductId") Long usedProductId);
 
     List<UsedProduct> findAllByVerifiedSaleIn(List<VerifiedSale> verifiedSaleList);
