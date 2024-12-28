@@ -26,7 +26,7 @@ public interface UsedProductRepository extends JpaRepository<UsedProduct, Long> 
             where p.id = :productId
             and up.usedProductType = :usedProductType
             and vs.rejectionReason is null
-            and ps.inspectionStatus != 'SOLD'
+            and ps.inspectionStatus = 'SELLING'
             """,
             countQuery = """
             select count(up.id)
@@ -38,7 +38,7 @@ public interface UsedProductRepository extends JpaRepository<UsedProduct, Long> 
             where p.id = :productId
             and up.usedProductType = :usedProductType
             and vs.rejectionReason is null
-            and ps.inspectionStatus != 'SOLD'
+            and ps.inspectionStatus = 'SELLING'
             """)
     Page<UsedProduct> findUsedProductsByProductId(@Param("productId") Long productId, @Param("usedProductType") UsedProductType usedProductType, Pageable pageable);
 

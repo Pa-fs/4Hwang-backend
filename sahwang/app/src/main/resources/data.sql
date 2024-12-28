@@ -392,19 +392,19 @@ INSERT INTO `product_image` (`product_image_id`, `file_desc`, `filename`, `path`
 INSERT INTO pending_sale (member_id, product_id, pending_sale_id, category_name, brand_name, product_name, product_description,
                           product_size, inspection_status, excepted_selling_price, used_or_not, rejected_reason, created_date, updated_date)
 VALUES
-(1, 1, 40, 'Perfume', 'Santa Maria Novella', '아쿠아 오드퍼퓸', '아쿠아 오드퍼퓸 향수, 50ml, 새 제품, 박스 포함', 48, 'ACCEPTED', 145000, FALSE, NULL, NOW(), NOW()),
-(1, 9, 41, 'Diffuser', 'Yankee Candle', '라벤더 디퓨저', 'Yankee Candle 라벤더 향 디퓨저, 새 제품', 100, 'ACCEPTED', 30000, FALSE, NULL, NOW(), NOW()),
-(3, 17, 42, 'Diffuser', 'Jomalone', '라임 바질 앤 만다린 디퓨저', 'Jomalone 만다린 디퓨저', 130, 'ACCEPTED', 120000, TRUE, NULL, NOW(), NOW()),
-(1, 1, 43, 'Perfume', 'Santa Maria Novella', '아쿠아 오드퍼퓸', '아쿠아 오드퍼퓸 향수, 45ml, 중고 제품', 45, 'ACCEPTED', 130000, FALSE, NULL, NOW(), NOW()),
+(1, 1, 40, 'Perfume', 'Santa Maria Novella', '아쿠아 오드퍼퓸', '아쿠아 오드퍼퓸 향수, 50ml, 새 제품, 박스 포함', 48, 'SELLING', 145000, FALSE, NULL, NOW(), NOW()),
+(1, 9, 41, 'Diffuser', 'Yankee Candle', '라벤더 디퓨저', 'Yankee Candle 라벤더 향 디퓨저, 새 제품', 100, 'SELLING', 30000, FALSE, NULL, NOW(), NOW()),
+(3, 17, 42, 'Diffuser', 'Jomalone', '라임 바질 앤 만다린 디퓨저', 'Jomalone 만다린 디퓨저', 130, 'SELLING', 120000, TRUE, NULL, NOW(), NOW()),
+(1, 1, 43, 'Perfume', 'Santa Maria Novella', '아쿠아 오드퍼퓸', '아쿠아 오드퍼퓸 향수, 45ml, 중고 제품', 45, 'SELLING', 130000, FALSE, NULL, NOW(), NOW()),
 (1, 17, 44, 'Diffuser', 'IKEA', '레드 캔들', 'IKEA 레드 향초, 새 제품', 150, 'REJECTED', 15000, FALSE, NULL, NOW(), NOW()),
 (1, 1, 45, 'Perfume', 'Santa Maria', '오드퍼퓸', '오드퍼퓸 향수 중고', 70, 'SOLD', 98000, TRUE, NULL, NOW(), NOW()),
-(1, 1, 46, 'Perfume', 'Santa Maria', '오드 퍼퓸', '오드퍼퓸 향수 중고', 80, 'ACCEPTED', 126600, TRUE, NULL, NOW(), NOW()),
-(1, 1, 47, 'Perfume', 'Santa Maria', '오드퍼퓸 ', '오드퍼퓸 향수 중고', 55, 'ACCEPTED', 150000, TRUE, NULL, NOW(), NOW()),
-(1, 1, 48, 'Perfume', 'Santa Maria', '오드퍼퓸', '오드퍼퓸 향수 중고', 90, 'ACCEPTED', 150000, TRUE, NULL, NOW(), NOW()),
-(1, 1, 49, 'Perfume', 'Santa Maria', '오드퍼퓸', '오드퍼퓸 중고', 75, 'ACCEPTED', 120000, TRUE, NULL, NOW(), NOW()),
+(1, 1, 46, 'Perfume', 'Santa Maria', '오드 퍼퓸', '오드퍼퓸 향수 중고', 80, 'SELLING', 126600, TRUE, NULL, NOW(), NOW()),
+(1, 1, 47, 'Perfume', 'Santa Maria', '오드퍼퓸 ', '오드퍼퓸 향수 중고', 55, 'SELLING', 150000, TRUE, NULL, NOW(), NOW()),
+(1, 1, 48, 'Perfume', 'Santa Maria', '오드퍼퓸', '오드퍼퓸 향수 중고', 90, 'SELLING', 150000, TRUE, NULL, NOW(), NOW()),
+(1, 1, 49, 'Perfume', 'Santa Maria', '오드퍼퓸', '오드퍼퓸 중고', 75, 'SELLING', 120000, TRUE, NULL, NOW(), NOW()),
 (1, 1, 50, 'Perfume', 'Santa Maria', '모름', '오드퍼퓸', 55, 'REJECTED', 50000, TRUE, NULL, NOW(), NOW()),
-(1, 17, 51, 'Diffuser', 'Jomalone', '만다린 디퓨저', '디퓨저1', 165, 'ACCEPTED', 150000, TRUE, NULL, NOW(), NOW()),
-(1, 17, 52, 'Diffuser', 'Jomalone', '만다린 디퓨저', '디퓨저2', 90, 'ACCEPTED', 110000, TRUE, NULL, NOW(), NOW()),
+(1, 17, 51, 'Diffuser', 'Jomalone', '만다린 디퓨저', '디퓨저1', 165, 'SELLING', 150000, TRUE, NULL, NOW(), NOW()),
+(1, 17, 52, 'Diffuser', 'Jomalone', '만다린 디퓨저', '디퓨저2', 90, 'SELLING', 110000, TRUE, NULL, NOW(), NOW()),
 (1, 77, 53, 'Diffuser', 'Fragonard', '디퓨저', '디퓨저3', 150, 'SOLD', 50000, TRUE, NULL, NOW(), NOW());
 
 INSERT INTO user_sale_image(user_sale_image_id, file_desc, filename, path, pending_sale_id, is_used)

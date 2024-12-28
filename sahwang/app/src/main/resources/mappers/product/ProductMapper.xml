@@ -44,7 +44,7 @@
             JOIN used_product up ON vs.verified_sale_id = up.verified_sale_id
             JOIN sale_grade sg ON vs.sale_grade_id = sg.sale_grade_id
             WHERE up.used_product_type = 'USER_ACCEPT'
-            AND ps.inspection_status != 'SOLD'
+            AND ps.inspection_status = 'SELLING'
             GROUP BY ps.product_id, sg.sale_grade_id
             ) pp ON p.product_id = pp.product_id
         WHERE p.dtype = #{dtype}
