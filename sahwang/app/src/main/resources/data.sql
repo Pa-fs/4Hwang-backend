@@ -34,15 +34,15 @@ DELETE FROM `external_prepare_payment`;
 
 
 INSERT INTO `member` (`member_id`, `account`, `ad_received`, `addr`, `post_code`, `email`, `is_deleted`, `join_date`, `name`, `nick_name`, `phone_num`, `role`, `sns_type`, `withdraw_date`, `profile_image`, `thumbnail_image`, `warn_count`)
-values (1, NULL, NULL, '대구광역시 중구', '123-456', 'qordi124@gmail.com', NULL, '2024-10-24', NULL, '태영', '010-1234-5678', 'USER', 1, NULL, '', '',0);
+values (1, NULL, NULL, '대구광역시 중구', '123-456', 'qordi124@gmail.com', NULL, '2024-10-24', NULL, '태영', '010-1234-5678', 'ADMIN', 1, NULL, '', '',0);
 insert into member(member_id, addr, post_code, phone_num, `warn_count`)
 values (2, '대구광역시 중구', '345-678', '010-1234-5678', 0);
 INSERT INTO `member` (`member_id`, `account`, `ad_received`, `addr`, `post_code`, `email`, `is_deleted`, `join_date`, `name`, `nick_name`, `phone_num`, `role`, `sns_type`, `withdraw_date`, `profile_image`, `thumbnail_image`, `warn_count`)
-VALUES (3, NULL, NULL, '대구광역시 중구', '234-567', 'whgpals4263@nate.com', NULL, '2024-10-31', NULL, '민이♡', '010-1234-5678', 'USER', 1, NULL, 'http://img1.kakaocdn.net/thumb/R640x640.q70/?fname=http://t1.kakaocdn.net/account_images/default_profile.jpeg', 'http://img1.kakaocdn.net/thumb/R110x110.q70/?fname=http://t1.kakaocdn.net/account_images/default_profile.jpeg', 0);
+VALUES (3, NULL, NULL, '대구광역시 중구', '234-567', 'whgpals4263@nate.com', NULL, '2024-10-31', NULL, '민이♡', '010-1234-5678', 'ADMIN', 1, NULL, 'http://img1.kakaocdn.net/thumb/R640x640.q70/?fname=http://t1.kakaocdn.net/account_images/default_profile.jpeg', 'http://img1.kakaocdn.net/thumb/R110x110.q70/?fname=http://t1.kakaocdn.net/account_images/default_profile.jpeg', 0);
 INSERT INTO `member` (`member_id`, `account`, `ad_received`, `addr`, `post_code`, `email`, `is_deleted`, `join_date`, `name`, `nick_name`, `phone_num`, `role`, `sns_type`, `withdraw_date`, `profile_image`, `thumbnail_image`, `warn_count`)
-VALUES (4, NULL, NULL, '대구광역시 중구', '567-988', 'kdh7313@naver.com', NULL, '2024-11-01', NULL, '강도현', '010-1234-5678', 'USER', 1, NULL, 'http://k.kakaocdn.net/dn/b7yPFA/btsKquPi0Cw/BjABLmpyNB6gbKxUAX9I40/img_640x640.jpg', 'http://k.kakaocdn.net/dn/b7yPFA/btsKquPi0Cw/BjABLmpyNB6gbKxUAX9I40/img_110x110.jpg', 0);
+VALUES (4, NULL, NULL, '대구광역시 중구', '567-988', 'kdh7313@naver.com', NULL, '2024-11-01', NULL, '강도현', '010-1234-5678', 'ADMIN', 1, NULL, 'http://k.kakaocdn.net/dn/b7yPFA/btsKquPi0Cw/BjABLmpyNB6gbKxUAX9I40/img_640x640.jpg', 'http://k.kakaocdn.net/dn/b7yPFA/btsKquPi0Cw/BjABLmpyNB6gbKxUAX9I40/img_110x110.jpg', 0);
 INSERT INTO `member` (`member_id`, `account`, `ad_received`, `addr`, `post_code`, `email`, `is_deleted`, `join_date`, `name`, `nick_name`, `phone_num`, `role`, `sns_type`, `withdraw_date`, `profile_image`, `thumbnail_image`, `warn_count`)
-VALUES (5, NULL, NULL, '대구광역시 중구', '999-100', 'thdghckd111@naver.com', NULL, '2024-11-01', NULL, '송호창', '010-1234-5678', 'USER', 1, NULL, 'http://img1.kakaocdn.net/thumb/R640x640.q70/?fname=http://t1.kakaocdn.net/account_images/default_profile.jpeg', 'http://img1.kakaocdn.net/thumb/R110x110.q70/?fname=http://t1.kakaocdn.net/account_images/default_profile.jpeg', 0);
+VALUES (5, NULL, NULL, '대구광역시 중구', '999-100', 'thdghckd111@naver.com', NULL, '2024-11-01', NULL, '송호창', '010-1234-5678', 'ADMIN', 1, NULL, 'http://img1.kakaocdn.net/thumb/R640x640.q70/?fname=http://t1.kakaocdn.net/account_images/default_profile.jpeg', 'http://img1.kakaocdn.net/thumb/R110x110.q70/?fname=http://t1.kakaocdn.net/account_images/default_profile.jpeg', 0);
 
 insert into cart(cart_id, quantities, member_id)
 values (1, 3, 1);
@@ -393,7 +393,7 @@ INSERT INTO pending_sale (member_id, product_id, pending_sale_id, category_name,
                           product_size, inspection_status, excepted_selling_price, used_or_not, rejected_reason, created_date, updated_date)
 VALUES
 (1, 1, 40, 'Perfume', 'Santa Maria Novella', '아쿠아 오드퍼퓸', '아쿠아 오드퍼퓸 향수, 50ml, 새 제품, 박스 포함', 48, 'SELLING', 145000, FALSE, NULL, NOW(), NOW()),
-(1, 9, 41, 'Diffuser', 'Yankee Candle', '라벤더 디퓨저', 'Yankee Candle 라벤더 향 디퓨저, 새 제품', 100, 'SELLING', 30000, FALSE, NULL, NOW(), NOW()),
+(1, 9, 41, 'Candle', 'Yankee Candle', '레모네이드', '레모네이드 캔들', 623, 'SELLING', 53000, FALSE, NULL, NOW(), NOW()),
 (3, 17, 42, 'Diffuser', 'Jomalone', '라임 바질 앤 만다린 디퓨저', 'Jomalone 만다린 디퓨저', 130, 'SELLING', 120000, TRUE, NULL, NOW(), NOW()),
 (1, 1, 43, 'Perfume', 'Santa Maria Novella', '아쿠아 오드퍼퓸', '아쿠아 오드퍼퓸 향수, 45ml, 중고 제품', 45, 'SELLING', 130000, FALSE, NULL, NOW(), NOW()),
 (1, 17, 44, 'Diffuser', 'IKEA', '레드 캔들', 'IKEA 레드 향초, 새 제품', 150, 'REJECTED', 15000, FALSE, NULL, NOW(), NOW()),
@@ -412,22 +412,20 @@ VALUES
 (1, 'image-1', 'p_001.png', 'images/file/\\p_001.png', 40, true),
 (2, 'image-2', 'p_002.png', 'images/file/\\p_002.png', 40, false),
 (3, 'image-3', 'p_003.png', 'images/file/\\p_003.png', 40, true),
-(4, 'image-1', 'p_004.png', 'images/file/\\p_004.png', 41, true),
-(5, 'image-2', 'p_005.png', 'images/file/\\p_005.png', 41, true),
-(6, 'image-3', 'p_006.png', 'images/file/\\p_006.png', 41, true),
-(7, 'image-1', 'd_001_01.jpg', 'images/file/\\d_001_01.jpg', 42, true),
-(8, 'image-1', 'p_001.png', 'images/file/\\p_001.png', 43, true),
-(9, 'image-1', 'p_009.png', 'images/file/\\p_009.png', 44, true),
-(10, 'image-1', 'p_001_01.jpg', 'images/file/\\p_001_01.jpg', 45, true),
-(11, 'image-1', 'p_001_02.jpg', 'images/file/\\p_001_02.jpg', 46, true),
-(12, 'image-1', 'p_001_03.jpg', 'images/file/\\p_001_03.jpg', 47, true),
-(13, 'image-1', 'p_001_04.jpg', 'images/file/\\p_001_04.jpg', 48, true),
-(14, 'image-1', 'p_001_05.jpg', 'images/file/\\p_001_05.jpg', 49, true),
-(15, 'image-1', 'p_001_06.jpg', 'images/file/\\p_001_06.jpg', 50, true),
-(16, 'image-1', 'd_001_02_new.jpg', 'images/file/\\d_001_02_new.jpg', 51, true),
-(17, 'image-2', 'd_001_02_box.jpg', 'images/file/\\d_001_02_box.jpg', 51, true),
-(18, 'image-1', 'd_001_02_c.jpg', 'images/file/\\d_001_02_c.jpg', 52, true),
-(19, 'image-1', 'd_077_01_c.jpg', 'images/file/\\d_077_01_c.jpg', 53, true);
+(4, 'image-1', 'c_001.png', 'images/file/\\c_001.png', 41, true),
+(5, 'image-1', 'd_001_01.jpg', 'images/file/\\d_001_01.jpg', 42, true),
+(6, 'image-1', 'p_001.png', 'images/file/\\p_001.png', 43, true),
+(7, 'image-1', 'p_009.png', 'images/file/\\p_009.png', 44, true),
+(8, 'image-1', 'p_001_01.jpg', 'images/file/\\p_001_01.jpg', 45, true),
+(9, 'image-1', 'p_001_02.jpg', 'images/file/\\p_001_02.jpg', 46, true),
+(10, 'image-1', 'p_001_03.jpg', 'images/file/\\p_001_03.jpg', 47, true),
+(11, 'image-1', 'p_001_04.jpg', 'images/file/\\p_001_04.jpg', 48, true),
+(12, 'image-1', 'p_001_05.jpg', 'images/file/\\p_001_05.jpg', 49, true),
+(13, 'image-1', 'p_001_06.jpg', 'images/file/\\p_001_06.jpg', 50, true),
+(14, 'image-1', 'd_001_02_new.jpg', 'images/file/\\d_001_02_new.jpg', 51, true),
+(15, 'image-2', 'd_001_02_box.jpg', 'images/file/\\d_001_02_box.jpg', 51, true),
+(16, 'image-1', 'd_001_02_c.jpg', 'images/file/\\d_001_02_c.jpg', 52, true),
+(17, 'image-1', 'd_077_01_c.jpg', 'images/file/\\d_077_01_c.jpg', 53, true);
 
 -- sale_grade
 INSERT INTO sale_grade (sale_grade_id, grade_description, grade_type)
@@ -455,7 +453,7 @@ product_size, inspection_result, verified_selling_price,
 pending_sale_id, rejected_sale_id, sale_grade_id, created_date, posted, used_or_not)
 values
     (1, 'Perfume', 'Santa Maria Novella', '아쿠아 오드퍼퓸', '아쿠아 오드퍼퓸 향수, 100ml, 새 제품, 박스 포함', 100, 1, 210000, 40, NULL, 1, NOW(), 0, 0),
-    (2, 'Diffuser', 'Yankee Candle', '라벤더 디퓨저', 'Yankee Candle 라벤더 향 디퓨저, 새 제품', 100, 1, 40000, 41, NULL, 1, NOW(), 0, 0),
+    (2, 'Candle', 'Yankee Candle', '아이스드베리레모네이드', 'Yankee Candle 아이스드베리레모네이드, 새 제품', 100, 1, 55000, 41, NULL, 1, NOW(), 0, 0),
     (3, 'Diffuser', 'Jomalone', '라임 바질 앤 만다린 디퓨저', 'Jomalone 만다린 디퓨저, 사용감 있음', 100, 1, 99000, 42, NULL, 2, NOW(), 0, 1),
     (4, 'Perfume', 'Santa Maria Novella', '아쿠아 오드퍼퓸', '아쿠아 오드퍼퓸, 75ml, 중고 제품', 100, 1, 99000, 43, NULL, 3, NOW(), 0, 1),
     (5, 'Candle', 'IKEA', '레드 캔들', 'IKEA 레드 향초, 결과참조바람 test1', 150, 0, 0, 44, 4, NULL, NOW(), 0, 1),

@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-//@Component
+@Component
 @RequiredArgsConstructor
 @Slf4j
 public class PaymentPaidListener implements KafkaConsumer<PurchasePaidEventAvroModel> {

@@ -11,7 +11,6 @@ import com.green.sahwang.entity.enumtype.PurchaseStatus;
 import com.green.sahwang.entity.enumtype.ShipStatus;
 import com.green.sahwang.exception.BizException;
 import com.green.sahwang.exception.ErrorCode;
-import com.green.sahwang.exception.PurchaseDomainException;
 import com.green.sahwang.exception.outbox.OutboxSerializeEventException;
 import com.green.sahwang.model.payment.avro.PurchasePaidEventAvroModel;
 import com.green.sahwang.model.purchase.avro.PurchaseCompletedEventAvroModel;
@@ -28,9 +27,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
-//@Service
+@Service
 @RequiredArgsConstructor
 @Slf4j
 public class DeliveryPurchaseServiceImpl implements DeliveryPurchaseService {

@@ -5,10 +5,16 @@ import com.green.sahwang.adminpage.dto.MemberManageDto;
 import com.green.sahwang.adminpage.dto.res.*;
 import com.green.sahwang.adminpage.service.AdminService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cglib.core.Local;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -109,7 +115,22 @@ public class AdminController {
             OrderManageResDto orderManageResDto = adminService.getOrdersByStatus(status, pageNum, size);
             return ResponseEntity.ok(orderManageResDto);
         }
+    }
 
+    @Operation(summary = "통계 매출수익", description = "판매금액의 5%를 수수료 -> 매출수익")
+    @SecurityRequirement(name = "Bearer Authentication")
+    @GetMapping("/statistics/revenue")
+    public ResponseEntity<List<RevenueResDto>> getRevenues(@AuthenticationPrincipal UserDetails userDetails,
+                                                           @RequestParam(value = "startDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+                                                           @RequestParam(value = "endDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate
+    ) {
+        if (startDate == null) {
+            startDate = LocalDate.now().minusMonths(1);
+        }
+        if (endDate == null) {
+            endDate = LocalDate.now();
+        }
+        return ResponseEntity.ok(adminService.getRevenues(userDetails.getUsername(), startDate, endDate));
     }
 
 }

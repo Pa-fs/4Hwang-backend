@@ -31,5 +31,5 @@ public class SalePayment {
     @JoinColumn(name = "used_product_id")
     private UsedProduct usedProduct;
 
-    private int final_price;
+    private int finalPrice;
 }

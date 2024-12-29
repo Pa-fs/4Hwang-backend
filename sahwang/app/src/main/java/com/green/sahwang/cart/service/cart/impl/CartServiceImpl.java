@@ -1,7 +1,5 @@
 package com.green.sahwang.cart.service.cart.impl;
 
-import com.green.sahwang.cart.dto.request.CartProductsRemoveReqDto;
-import com.green.sahwang.cart.dto.request.CartProductsReqDto;
 import com.green.sahwang.cart.dto.request.CartUsedProductRemoveReqDto;
 import com.green.sahwang.cart.dto.request.CartUsedProductReqDto;
 import com.green.sahwang.cart.entity.Cart;
@@ -12,7 +10,6 @@ import com.green.sahwang.entity.*;
 import com.green.sahwang.exception.BizException;
 import com.green.sahwang.exception.CartDomainException;
 import com.green.sahwang.exception.ErrorCode;
-import com.green.sahwang.exception.ProductDomainException;
 import com.green.sahwang.exception.payment.PaymentDomainException;
 import com.green.sahwang.model.payment.avro.PurchasePaidEventAvroModel;
 import com.green.sahwang.repository.*;

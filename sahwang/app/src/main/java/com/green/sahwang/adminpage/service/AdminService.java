@@ -1,8 +1,8 @@
 package com.green.sahwang.adminpage.service;
 
-import com.green.sahwang.adminpage.dto.MemberManageDto;
 import com.green.sahwang.adminpage.dto.res.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface AdminService {
@@ -33,4 +33,5 @@ public interface AdminService {
 
     OrderManageResDto getOrdersByStatus(String status, int pageNum, int size);
 
+    List<RevenueResDto> getRevenues(String email, LocalDate startDate, LocalDate endDate);
 }

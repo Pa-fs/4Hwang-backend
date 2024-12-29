@@ -4,7 +4,6 @@ import com.green.sahwang.dto.response.ImageResDto;
 import com.green.sahwang.entity.Member;
 import com.green.sahwang.entity.Purchase;
 import com.green.sahwang.entity.PurchaseProduct;
-import com.green.sahwang.entity.enumtype.PurchaseStatus;
 import com.green.sahwang.exception.BizException;
 import com.green.sahwang.exception.ErrorCode;
 import com.green.sahwang.inspection.enumtype.InspectionStatus;
@@ -23,9 +22,7 @@ import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 @Slf4j

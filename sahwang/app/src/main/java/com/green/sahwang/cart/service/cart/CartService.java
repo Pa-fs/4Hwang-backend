@@ -1,7 +1,5 @@
 package com.green.sahwang.cart.service.cart;
 
-import com.green.sahwang.cart.dto.request.CartProductsRemoveReqDto;
-import com.green.sahwang.cart.dto.request.CartProductsReqDto;
 import com.green.sahwang.cart.dto.request.CartUsedProductRemoveReqDto;
 import com.green.sahwang.cart.dto.request.CartUsedProductReqDto;
 import com.green.sahwang.cart.entity.Cart;

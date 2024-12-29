@@ -4,6 +4,7 @@ import com.green.sahwang.adminpage.dto.CategoryManageDto;
 import com.green.sahwang.adminpage.dto.MemberManageDto;
 import com.green.sahwang.adminpage.dto.ReviewManageDto;
 import com.green.sahwang.adminpage.dto.res.*;
+import com.green.sahwang.config.DateTimeUtils;
 import com.green.sahwang.entity.*;
 import com.green.sahwang.entity.enumtype.MemberRole;
 import com.green.sahwang.entity.enumtype.PurchaseStatus;
@@ -22,6 +23,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -39,6 +42,7 @@ public class AdminServiceImpl implements AdminService{
     private final UsedProductRepository usedProductRepository;
     private final VerifiedSaleRepository verifiedSaleRepository;
     private final ProductRepository productRepository;
+    private final SalePaymentRepository salePaymentRepository;
 
     @Transactional
     public MemberManageResDto getMembers(int pageNum, int size){
@@ -208,5 +212,21 @@ public class AdminServiceImpl implements AdminService{
         Pageable pageable = PageRequest.of(pageNum, size);
 
         return new OrderManageResDto();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<RevenueResDto> getRevenues(String email, LocalDate startDate, LocalDate endDate) {
+        LocalDateTime startDateTime = startDate.atStartOfDay(); // 00:00:00
+        LocalDateTime endDateTime = endDate.atTime(23, 59, 59); // 23:59:59
+        List<SalePayment> salePayments = salePaymentRepository.findRevenue(startDateTime, endDateTime);
+        return salePayments.stream()
+                .map(salePayment -> RevenueResDto.builder()
+                        .usedProductId(salePayment.getUsedProduct().getId())
+                        .totalPrice(salePayment.getFinalPrice())
+                        .revenue((int)(salePayment.getFinalPrice() * 0.05))
+                        .saleDate(DateTimeUtils.format(salePayment.getCreatedDate()))
+                        .build()
+                ).toList();
     }
 }
