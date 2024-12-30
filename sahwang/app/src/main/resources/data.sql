@@ -389,43 +389,56 @@ INSERT INTO `product_image` (`product_image_id`, `file_desc`, `filename`, `path`
     (94, 'newCandle13', 'c013.png', 'images/file/\\c013.png',  91);
 
 -- pending_sale
-INSERT INTO pending_sale (member_id, product_id, pending_sale_id, category_name, brand_name, product_name, product_description,
-                          product_size, inspection_status, excepted_selling_price, used_or_not, rejected_reason, created_date, updated_date)
-VALUES
-(1, 1, 40, 'Perfume', 'Santa Maria Novella', '아쿠아 오드퍼퓸', '아쿠아 오드퍼퓸 향수, 50ml, 새 제품, 박스 포함', 48, 'SELLING', 145000, FALSE, NULL, NOW(), NOW()),
-(1, 9, 41, 'Candle', 'Yankee Candle', '레모네이드', '레모네이드 캔들', 623, 'SELLING', 53000, FALSE, NULL, NOW(), NOW()),
-(3, 17, 42, 'Diffuser', 'Jomalone', '라임 바질 앤 만다린 디퓨저', 'Jomalone 만다린 디퓨저', 130, 'SELLING', 120000, TRUE, NULL, NOW(), NOW()),
-(1, 1, 43, 'Perfume', 'Santa Maria Novella', '아쿠아 오드퍼퓸', '아쿠아 오드퍼퓸 향수, 45ml, 중고 제품', 45, 'SELLING', 130000, FALSE, NULL, NOW(), NOW()),
-(1, 17, 44, 'Diffuser', 'IKEA', '레드 캔들', 'IKEA 레드 향초, 새 제품', 150, 'REJECTED', 15000, FALSE, NULL, NOW(), NOW()),
-(1, 1, 45, 'Perfume', 'Santa Maria', '오드퍼퓸', '오드퍼퓸 향수 중고', 70, 'SOLD', 98000, TRUE, NULL, NOW(), NOW()),
-(1, 1, 46, 'Perfume', 'Santa Maria', '오드 퍼퓸', '오드퍼퓸 향수 중고', 80, 'SELLING', 126600, TRUE, NULL, NOW(), NOW()),
-(1, 1, 47, 'Perfume', 'Santa Maria', '오드퍼퓸 ', '오드퍼퓸 향수 중고', 55, 'SELLING', 150000, TRUE, NULL, NOW(), NOW()),
-(1, 1, 48, 'Perfume', 'Santa Maria', '오드퍼퓸', '오드퍼퓸 향수 중고', 90, 'SELLING', 150000, TRUE, NULL, NOW(), NOW()),
-(1, 1, 49, 'Perfume', 'Santa Maria', '오드퍼퓸', '오드퍼퓸 중고', 75, 'SELLING', 120000, TRUE, NULL, NOW(), NOW()),
-(1, 1, 50, 'Perfume', 'Santa Maria', '모름', '오드퍼퓸', 55, 'REJECTED', 50000, TRUE, NULL, NOW(), NOW()),
-(1, 17, 51, 'Diffuser', 'Jomalone', '만다린 디퓨저', '디퓨저1', 165, 'SELLING', 150000, TRUE, NULL, NOW(), NOW()),
-(1, 17, 52, 'Diffuser', 'Jomalone', '만다린 디퓨저', '디퓨저2', 90, 'SELLING', 110000, TRUE, NULL, NOW(), NOW()),
-(1, 77, 53, 'Diffuser', 'Fragonard', '디퓨저', '디퓨저3', 150, 'SOLD', 50000, TRUE, NULL, NOW(), NOW());
+INSERT INTO `pending_sale` (`pending_sale_id`, `brand_name`, `category_name`, `created_date`, `excepted_selling_price`, `inspection_status`, `product_description`, `product_name`, `product_size`, `rejected_reason`, `updated_date`, `used_or_not`, `member_id`, `product_id`) VALUES
+	(40, 'Santa Maria Novella', 'Perfume', '2024-12-30 09:19:29.000000', 145000, 'SELLING', '아쿠아 오드퍼퓸 향수, 50ml, 새 제품, 박스 포함', '아쿠아 오드퍼퓸', 48, NULL, '2024-12-30 09:19:29.000000', b'0', 1, 1),
+	(41, 'Yankee Candle', 'Candle', '2024-12-30 09:19:29.000000', 53000, 'SELLING', '레모네이드 캔들', '레모네이드', 623, NULL, '2024-12-30 09:19:29.000000', b'0', 1, 9),
+	(42, 'Jomalone', 'Diffuser', '2024-12-30 09:19:29.000000', 120000, 'SELLING', 'Jomalone 만다린 디퓨저', '라임 바질 앤 만다린 디퓨저', 130, NULL, '2024-12-30 09:19:29.000000', b'1', 3, 17),
+	(43, 'Santa Maria Novella', 'Perfume', '2024-12-30 09:19:29.000000', 130000, 'SELLING', '아쿠아 오드퍼퓸 향수, 45ml, 중고 제품', '아쿠아 오드퍼퓸', 45, NULL, '2024-12-30 09:19:29.000000', b'0', 1, 1),
+	(44, 'IKEA', 'Diffuser', '2024-12-30 09:19:29.000000', 15000, 'REJECTED', 'IKEA 레드 향초, 새 제품', '레드 캔들', 150, NULL, '2024-12-30 09:19:29.000000', b'0', 1, 17),
+	(45, 'Santa Maria', 'Perfume', '2024-12-30 09:19:29.000000', 98000, 'SOLD', '오드퍼퓸 향수 중고', '오드퍼퓸', 70, NULL, '2024-12-30 09:19:29.000000', b'1', 1, 1),
+	(46, 'Santa Maria', 'Perfume', '2024-12-30 09:19:29.000000', 126600, 'SELLING', '오드퍼퓸 향수 중고', '오드 퍼퓸', 80, NULL, '2024-12-30 09:19:29.000000', b'1', 1, 1),
+	(47, 'Santa Maria', 'Perfume', '2024-12-30 09:19:29.000000', 150000, 'SELLING', '오드퍼퓸 향수 중고', '오드퍼퓸 ', 55, NULL, '2024-12-30 09:19:29.000000', b'1', 1, 1),
+	(48, 'Santa Maria', 'Perfume', '2024-12-30 09:19:29.000000', 150000, 'SELLING', '오드퍼퓸 향수 중고', '오드퍼퓸', 90, NULL, '2024-12-30 09:19:29.000000', b'1', 1, 1),
+	(49, 'Santa Maria', 'Perfume', '2024-12-30 09:19:29.000000', 120000, 'SELLING', '오드퍼퓸 중고', '오드퍼퓸', 75, NULL, '2024-12-30 09:19:29.000000', b'1', 1, 1),
+	(50, 'Santa Maria', 'Perfume', '2024-12-30 09:19:29.000000', 50000, 'REJECTED', '오드퍼퓸', '모름', 55, NULL, '2024-12-30 09:19:29.000000', b'1', 1, 1),
+	(51, 'Jomalone', 'Diffuser', '2024-12-30 09:19:29.000000', 150000, 'SELLING', '디퓨저1', '만다린 디퓨저', 165, NULL, '2024-12-30 09:19:29.000000', b'1', 1, 17),
+	(52, 'Jomalone', 'Diffuser', '2024-12-30 09:19:29.000000', 110000, 'SELLING', '디퓨저2', '만다린 디퓨저', 90, NULL, '2024-12-30 09:19:29.000000', b'1', 1, 17),
+	(53, 'Fragonard', 'Diffuser', '2024-12-30 09:19:29.000000', 50000, 'SOLD', '디퓨저3', '디퓨저', 150, NULL, '2024-12-30 09:19:29.000000', b'1', 1, 77),
+	(54, '디올', 'Perfume', '2024-12-30 19:31:01.166402', 115000, 'SELLING', '새상품', '옴므', 75, NULL, NULL, b'1', 1, 38),
+	(55, '디올', 'Perfume', '2024-12-30 19:43:22.774986', 65000, 'SELLING', '중고입니다', '옴므', 50, NULL, NULL, b'0', 1, 38),
+	(56, '입생로랑', 'Perfume', '2024-12-30 19:48:01.617846', 70000, 'SELLING', '중고상품임', '루미에르', 40, NULL, NULL, b'0', 1, 45),
+	(57, '샤넬', 'Perfume', '2024-12-30 19:54:37.888162', 130000, 'SELLING', '새 상품', '가브리엘 오 드 빠르펭', 50, NULL, NULL, b'1', 1, 40),
+	(58, '샤넬', 'Perfume', '2024-12-30 19:59:04.606678', 50000, 'SELLING', '중고', '오드 빠르펭', 30, NULL, NULL, b'0', 1, 40),
+	(59, '입생로랑', 'Perfume', '2024-12-30 20:12:01.649433', 35000, 'SELLING', '중고', '플라워 플레임', 30, NULL, NULL, b'0', 1, 49),
+	(60, '샤넬', 'Perfume', '2024-12-30 20:18:16.851478', 250000, 'SELLING', '새 상품', '레조드', 125, NULL, NULL, b'1', 1, 41);
 
-INSERT INTO user_sale_image(user_sale_image_id, file_desc, filename, path, pending_sale_id, is_used)
-VALUES
-(1, 'image-1', 'p_001.png', 'images/file/\\p_001.png', 40, true),
-(2, 'image-2', 'p_002.png', 'images/file/\\p_002.png', 40, false),
-(3, 'image-3', 'p_003.png', 'images/file/\\p_003.png', 40, true),
-(4, 'image-1', 'c_001.png', 'images/file/\\c_001.png', 41, true),
-(5, 'image-1', 'd_001_01.jpg', 'images/file/\\d_001_01.jpg', 42, true),
-(6, 'image-1', 'p_001.png', 'images/file/\\p_001.png', 43, true),
-(7, 'image-1', 'p_009.png', 'images/file/\\p_009.png', 44, true),
-(8, 'image-1', 'p_001_01.jpg', 'images/file/\\p_001_01.jpg', 45, true),
-(9, 'image-1', 'p_001_02.jpg', 'images/file/\\p_001_02.jpg', 46, true),
-(10, 'image-1', 'p_001_03.jpg', 'images/file/\\p_001_03.jpg', 47, true),
-(11, 'image-1', 'p_001_04.jpg', 'images/file/\\p_001_04.jpg', 48, true),
-(12, 'image-1', 'p_001_05.jpg', 'images/file/\\p_001_05.jpg', 49, true),
-(13, 'image-1', 'p_001_06.jpg', 'images/file/\\p_001_06.jpg', 50, true),
-(14, 'image-1', 'd_001_02_new.jpg', 'images/file/\\d_001_02_new.jpg', 51, true),
-(15, 'image-2', 'd_001_02_box.jpg', 'images/file/\\d_001_02_box.jpg', 51, true),
-(16, 'image-1', 'd_001_02_c.jpg', 'images/file/\\d_001_02_c.jpg', 52, true),
-(17, 'image-1', 'd_077_01_c.jpg', 'images/file/\\d_077_01_c.jpg', 53, true);
+-- user_sale_image
+INSERT INTO `user_sale_image` (`user_sale_image_id`, `file_desc`, `filename`, `is_used`, `path`, `pending_sale_id`) VALUES
+	(1, 'image-1', 'p_001.png', b'1', 'images/file/\\p_001.png', 40),
+	(2, 'image-2', 'p_002.png', b'0', 'images/file/\\p_002.png', 40),
+	(3, 'image-3', 'p_003.png', b'1', 'images/file/\\p_003.png', 40),
+	(4, 'image-1', 'c_001.png', b'1', 'images/file/\\c_001.png', 41),
+	(5, 'image-1', 'd_001_01.jpg', b'1', 'images/file/\\d_001_01.jpg', 42),
+	(6, 'image-1', 'p_001.png', b'1', 'images/file/\\p_001.png', 43),
+	(7, 'image-1', 'p_009.png', b'1', 'images/file/\\p_009.png', 44),
+	(8, 'image-1', 'p_001_01.jpg', b'1', 'images/file/\\p_001_01.jpg', 45),
+	(9, 'image-1', 'p_001_02.jpg', b'1', 'images/file/\\p_001_02.jpg', 46),
+	(10, 'image-1', 'p_001_03.jpg', b'1', 'images/file/\\p_001_03.jpg', 47),
+	(11, 'image-1', 'p_001_04.jpg', b'1', 'images/file/\\p_001_04.jpg', 48),
+	(12, 'image-1', 'p_001_05.jpg', b'1', 'images/file/\\p_001_05.jpg', 49),
+	(13, 'image-1', 'p_001_06.jpg', b'1', 'images/file/\\p_001_06.jpg', 50),
+	(14, 'image-1', 'd_001_02_new.jpg', b'1', 'images/file/\\d_001_02_new.jpg', 51),
+	(15, 'image-2', 'd_001_02_box.jpg', b'1', 'images/file/\\d_001_02_box.jpg', 51),
+	(16, 'image-1', 'd_001_02_c.jpg', b'1', 'images/file/\\d_001_02_c.jpg', 52),
+	(17, 'image-1', 'd_077_01_c.jpg', b'1', 'images/file/\\d_077_01_c.jpg', 53),
+	(18, 'image-1', 'dior_homme_75ml.png', b'0', 'images/file/\\dior_homme_75ml.png', 54),
+	(19, 'image-1', 'dior_homme_75ml_c.png', b'0', 'images/file/\\dior_homme_75ml_c.png', 55),
+	(20, 'image-1', 'saint laurent_50ml_01.png', b'0', 'images/file/\\saint laurent_50ml_01.png', 56),
+	(21, 'image-1', 'gabriel_chanel.png', b'0', 'images/file/\\gabriel_chanel.png', 57),
+	(22, 'image-2', 'gabriel_chanel_01.png', b'0', 'images/file/\\gabriel_chanel_01.png', 57),
+	(23, 'image-1', 'gabriel_chanel2.png', b'0', 'images/file/\\gabriel_chanel2.png', 58),
+	(24, 'image-1', 'flower_and_flame_50.png', b'0', 'images/file/\\flower_and_flame_50.png', 59),
+	(25, 'image-1', 'chanel_lejode1.png', b'0', 'images/file/\\chanel_lejode1.png', 60);
 
 -- sale_grade
 INSERT INTO sale_grade (sale_grade_id, grade_description, grade_type)
@@ -447,25 +460,28 @@ VALUES
   (6, '향수, 캔들, 디퓨저에 해당하지 않는 제품입니다.');
 
 -- verified_sale
-INSERT INTO verified_sale(
-verified_sale_id, category_name, brand_name, product_name, inspection_description,
-product_size, inspection_result, verified_selling_price,
-pending_sale_id, rejected_sale_id, sale_grade_id, created_date, posted, used_or_not)
-values
-    (1, 'Perfume', 'Santa Maria Novella', '아쿠아 오드퍼퓸', '아쿠아 오드퍼퓸 향수, 100ml, 새 제품, 박스 포함', 100, 1, 210000, 40, NULL, 1, NOW(), 0, 0),
-    (2, 'Candle', 'Yankee Candle', '아이스드베리레모네이드', 'Yankee Candle 아이스드베리레모네이드, 새 제품', 100, 1, 55000, 41, NULL, 1, NOW(), 0, 0),
-    (3, 'Diffuser', 'Jomalone', '라임 바질 앤 만다린 디퓨저', 'Jomalone 만다린 디퓨저, 사용감 있음', 100, 1, 99000, 42, NULL, 2, NOW(), 0, 1),
-    (4, 'Perfume', 'Santa Maria Novella', '아쿠아 오드퍼퓸', '아쿠아 오드퍼퓸, 75ml, 중고 제품', 100, 1, 99000, 43, NULL, 3, NOW(), 0, 1),
-    (5, 'Candle', 'IKEA', '레드 캔들', 'IKEA 레드 향초, 결과참조바람 test1', 150, 0, 0, 44, 4, NULL, NOW(), 0, 1),
-    (6, 'Perfume', 'Santa Maria Novella', '아쿠아 오드퍼퓸', '아쿠아 오드퍼퓸 향수, 70ml, 중고 제품, 박스 포함', 70, 1, 110000, 45, NULL, 3, NOW(), 0, 1),
-    (7, 'Perfume', 'Santa Maria Novella', '아쿠아 오드퍼퓸', '아쿠아 오드퍼퓸 향수, 85ml, 중고 제품, 박스 포함', 85, 1, 130000, 46, NULL, 2, NOW(), 0, 1),
-    (8, 'Perfume', 'Santa Maria Novella', '아쿠아 오드퍼퓸', '아쿠아 오드퍼퓸 향수, 90ml, 중고 제품, 박스 포함', 90, 1, 150000, 47, NULL, 2, NOW(), 0, 1),
-    (9, 'Perfume', 'Santa Maria Novella', '아쿠아 오드퍼퓸', '아쿠아 오드퍼퓸 향수, 65ml, 중고 제품, 박스 포함', 65, 1, 90000, 48, NULL, 3, NOW(), 0, 1),
-    (10, 'Perfume', 'Santa Maria Novella', '아쿠아 오드퍼퓸', '아쿠아 오드퍼퓸 향수, 55ml, 중고 제품, 박스 포함', 55, 1, 50000, 49, NULL, 4, NOW(), 0, 1),
-    (11, 'Perfume', 'Santa Maria Novella', '아쿠아 오드퍼퓸', '아쿠아 오드퍼퓸 향수, 45ml, 중고 제품, 박스 포함', 45, 1, 50000, 50, 5, NULL, NOW(), 0, 1),
-    (12, 'Diffuser', 'Jomalone', '라임 바질 앤 만다린 디퓨저', 'Jomalone 만다린 디퓨저, 새 제품, 박스 포함', 165, 1, 150000, 51, NULL, 1, NOW(), 0, 0),
-    (13, 'Diffuser', 'Jomalone', '라임 바질 앤 만다린 디퓨저', 'Jomalone 만다린 디퓨저, 사용감 있음', 100, 1, 99000, 52, NULL, 3, NOW(), 0, 1),
-    (14, 'Diffuser', 'Fragonard', '버베인 디퓨저', '버베인 디퓨저, 150ml, 중고, 박스포함', 100, 1, 45000, 53, NULL, 3, NOW(), 0, 1);
+INSERT INTO `verified_sale` (`verified_sale_id`, `brand_name`, `category_name`, `created_date`, `inspection_description`, `inspection_result`, `posted`, `product_name`, `product_size`, `used_or_not`, `verified_selling_price`, `pending_sale_id`, `rejected_sale_id`, `sale_grade_id`) VALUES
+	(1, 'Santa Maria Novella', 'Perfume', '2024-12-30 09:19:29.000000', '아쿠아 오드퍼퓸 향수, 100ml, 새 제품, 박스 포함', b'1', b'0', '아쿠아 오드퍼퓸', 100, b'0', 210000, 40, NULL, 1),
+	(2, 'Yankee Candle', 'Candle', '2024-12-30 09:19:29.000000', 'Yankee Candle 아이스드베리레모네이드, 새 제품', b'1', b'0', '아이스드베리레모네이드', 100, b'0', 55000, 41, NULL, 1),
+	(3, 'Jomalone', 'Diffuser', '2024-12-30 09:19:29.000000', 'Jomalone 만다린 디퓨저, 사용감 있음', b'1', b'0', '라임 바질 앤 만다린 디퓨저', 100, b'1', 99000, 42, NULL, 2),
+	(4, 'Santa Maria Novella', 'Perfume', '2024-12-30 09:19:29.000000', '아쿠아 오드퍼퓸, 75ml, 중고 제품', b'1', b'0', '아쿠아 오드퍼퓸', 100, b'1', 99000, 43, NULL, 3),
+	(5, 'IKEA', 'Candle', '2024-12-30 09:19:29.000000', 'IKEA 레드 향초, 결과참조바람 test1', b'0', b'0', '레드 캔들', 150, b'1', 0, 44, 4, NULL),
+	(6, 'Santa Maria Novella', 'Perfume', '2024-12-30 09:19:29.000000', '아쿠아 오드퍼퓸 향수, 70ml, 중고 제품, 박스 포함', b'1', b'0', '아쿠아 오드퍼퓸', 70, b'1', 110000, 45, NULL, 3),
+	(7, 'Santa Maria Novella', 'Perfume', '2024-12-30 09:19:29.000000', '아쿠아 오드퍼퓸 향수, 85ml, 중고 제품, 박스 포함', b'1', b'0', '아쿠아 오드퍼퓸', 85, b'1', 130000, 46, NULL, 2),
+	(8, 'Santa Maria Novella', 'Perfume', '2024-12-30 09:19:29.000000', '아쿠아 오드퍼퓸 향수, 90ml, 중고 제품, 박스 포함', b'1', b'0', '아쿠아 오드퍼퓸', 90, b'1', 150000, 47, NULL, 2),
+	(9, 'Santa Maria Novella', 'Perfume', '2024-12-30 09:19:29.000000', '아쿠아 오드퍼퓸 향수, 65ml, 중고 제품, 박스 포함', b'1', b'0', '아쿠아 오드퍼퓸', 65, b'1', 90000, 48, NULL, 3),
+	(10, 'Santa Maria Novella', 'Perfume', '2024-12-30 09:19:29.000000', '아쿠아 오드퍼퓸 향수, 55ml, 중고 제품, 박스 포함', b'1', b'0', '아쿠아 오드퍼퓸', 55, b'1', 50000, 49, NULL, 4),
+	(11, 'Santa Maria Novella', 'Perfume', '2024-12-30 09:19:29.000000', '아쿠아 오드퍼퓸 향수, 45ml, 중고 제품, 박스 포함', b'1', b'0', '아쿠아 오드퍼퓸', 45, b'1', 50000, 50, 5, NULL),
+	(12, 'Jomalone', 'Diffuser', '2024-12-30 09:19:29.000000', 'Jomalone 만다린 디퓨저, 새 제품, 박스 포함', b'1', b'0', '라임 바질 앤 만다린 디퓨저', 165, b'0', 150000, 51, NULL, 1),
+	(13, 'Jomalone', 'Diffuser', '2024-12-30 09:19:29.000000', 'Jomalone 만다린 디퓨저, 사용감 있음', b'1', b'0', '라임 바질 앤 만다린 디퓨저', 100, b'1', 99000, 52, NULL, 3),
+	(14, 'Fragonard', 'Diffuser', '2024-12-30 09:19:29.000000', '버베인 디퓨저, 150ml, 중고, 박스포함', b'1', b'0', '버베인 디퓨저', 100, b'1', 45000, 53, NULL, 3),
+	(15, 'Dior', 'Perfume', '2024-12-30 19:35:20.571699', '새상품, 박스 미포함', b'1', b'0', '디올 옴므 코롱', 75, b'0', 120000, 54, NULL, 1),
+	(16, 'Dior', 'Perfume', '2024-12-30 19:44:29.934889', '', b'1', b'0', '디올 옴므 코롱', 40, b'1', 85000, 55, NULL, 3),
+	(17, 'Saint Laurent', 'Perfume', '2024-12-30 19:48:39.622784', '중고상품, 박스 포함', b'1', b'0', '몽파리 오 드 뚜왈렛 루미에르', 30, b'1', 85000, 56, NULL, 3),
+	(18, 'Chanel', 'Perfume', '2024-12-30 19:57:52.687735', '새 상품, 박스 포함', b'1', b'0', '가브리엘 샤넬 에쌍스 오 드 빠르펭', 50, b'0', 140000, 57, NULL, 1),
+	(19, 'Chanel', 'Perfume', '2024-12-30 19:59:51.511306', '중고상품, 박스 미포함', b'1', b'0', '가브리엘 샤넬 에쌍스 오 드 빠르펭', 25, b'1', 68000, 58, NULL, 3),
+	(20, 'Saint Laurent', 'Perfume', '2024-12-30 20:13:18.507925', '중고, 박스 미포함', b'1', b'0', '리브르 플라워 & 플레임', 25, b'1', 50000, 59, NULL, 4),
+	(21, 'Chanel', 'Perfume', '2024-12-30 20:18:59.046337', '새 상품, 박스 포함', b'1', b'0', '레 조 드 샤넬 파리-파리 오 드 뚜왈렛 스프레이', 125, b'0', 2250000, 60, NULL, 1);
 
 -- verified_sale_image
 INSERT INTO verified_sale_image(verified_sale_image_id, filename, path, verified_image_type, verified_sale_id)
@@ -473,22 +489,28 @@ VALUES
 (1, 'p_001.png', 'images/file/\\p_001.png', 'VERIFIED_ACCEPT', 1);
 
 -- used_product
-INSERT INTO used_product(used_product_id, created_date, used_product_type, verified_sale_id, sold_out)
-values
-    (1, now(), 'USER_ACCEPT', 1, false),
-    (2, now(), 'USER_ACCEPT', 2, false),
-    (3, now(), 'USER_ACCEPT', 3, false),
-    (4, now(), 'USER_ACCEPT', 4, false),
-    (5, now(), 'USER_REJECT', 5, false),
-    (6, now(), 'USER_ACCEPT', 6, true),
-    (7, now(), 'USER_ACCEPT', 7, false),
-    (8, now(), 'USER_ACCEPT', 8, false),
-    (9, now(), 'USER_ACCEPT', 9, false),
-    (10, now(), 'USER_ACCEPT', 10, false),
-    (11, now(), 'USER_REJECT', 11, false),
-    (12, now(), 'USER_ACCEPT', 12, false),
-    (13, now(), 'USER_ACCEPT', 13, false),
-    (14, now(), 'USER_ACCEPT', 14, true);
+INSERT INTO `used_product` (`used_product_id`, `created_date`, `modified_date`, `sold_out`, `used_product_type`, `verified_sale_id`) VALUES
+	(1, '2024-12-30 09:19:29.000000', NULL, b'0', 'USER_ACCEPT', 1),
+	(2, '2024-12-30 09:19:29.000000', NULL, b'0', 'USER_ACCEPT', 2),
+	(3, '2024-12-30 09:19:29.000000', NULL, b'0', 'USER_ACCEPT', 3),
+	(4, '2024-12-30 09:19:29.000000', NULL, b'0', 'USER_ACCEPT', 4),
+	(5, '2024-12-30 09:19:29.000000', NULL, b'0', 'USER_REJECT', 5),
+	(6, '2024-12-30 09:19:29.000000', NULL, b'1', 'USER_ACCEPT', 6),
+	(7, '2024-12-30 09:19:29.000000', NULL, b'0', 'USER_ACCEPT', 7),
+	(8, '2024-12-30 09:19:29.000000', NULL, b'0', 'USER_ACCEPT', 8),
+	(9, '2024-12-30 09:19:29.000000', NULL, b'0', 'USER_ACCEPT', 9),
+	(10, '2024-12-30 09:19:29.000000', NULL, b'0', 'USER_ACCEPT', 10),
+	(11, '2024-12-30 09:19:29.000000', NULL, b'0', 'USER_REJECT', 11),
+	(12, '2024-12-30 09:19:29.000000', NULL, b'0', 'USER_ACCEPT', 12),
+	(13, '2024-12-30 09:19:29.000000', NULL, b'0', 'USER_ACCEPT', 13),
+	(14, '2024-12-30 09:19:29.000000', NULL, b'1', 'USER_ACCEPT', 14),
+	(15, '2024-12-30 19:37:10.481529', NULL, b'0', 'USER_ACCEPT', 15),
+	(16, '2024-12-30 19:44:52.257779', NULL, b'0', 'USER_ACCEPT', 16),
+	(17, '2024-12-30 19:49:34.181451', NULL, b'0', 'USER_ACCEPT', 17),
+	(18, '2024-12-30 19:58:07.980914', NULL, b'0', 'USER_ACCEPT', 18),
+	(19, '2024-12-30 20:00:25.546324', NULL, b'0', 'USER_ACCEPT', 19),
+	(20, '2024-12-30 20:13:38.715232', NULL, b'0', 'USER_ACCEPT', 20),
+	(21, '2024-12-30 20:19:11.326697', NULL, b'0', 'USER_ACCEPT', 21);
 
 -- purchase
 INSERT INTO purchase (purchase_id, purchase_date, purchase_status, total_price, member_id) VALUES (10000001, now(), 'COMPLETED', 730000, 3);
