@@ -83,30 +83,12 @@ public class MyPageServiceImpl implements MyPageService{
     }
 
     @Transactional
-    public List<OrderListResDto> getOrderList(UserDetails userDetails, int pageNum, int size){
+    public Page<OrderListResDto> getOrderList(UserDetails userDetails, int pageNum, int size){
         Member member = memberRepository.findByEmail(userDetails.getUsername());
 
         Pageable pageable = PageRequest.of(pageNum, size);
-        Page<Purchase> purchasePage = purchaseRepository.findAllByMember(member, pageable);
 
-        return purchasePage.stream().map(purchase -> {
-            List<PurchaseProduct> purchaseProductList = purchaseProductRepository.findAllByPurchase(purchase);
-            List<OrderDetailResDto> orderDetailResDtoList = purchaseProductList.stream().map(purchaseProduct -> {
-                DeliveryPurchase deliveryPurchase = deliveryPurchasesRepository.findByPurchaseProduct(purchaseProduct);
-                return new OrderDetailResDto(
-                        deliveryPurchase != null ? deliveryPurchase.getDeliveredDate() : null,
-                        purchaseProduct.getProductName(),
-                        purchaseProduct.getUsedProduct().getVerifiedSale().getPendingSale().getExceptedSellingPrice() * purchaseProduct.getProductQuantity(),
-                        purchaseProduct.getProductQuantity()
-                );
-            }).toList();
-            return new OrderListResDto(
-                    purchase.getPurchaseDate(),
-                    purchase.getId().toString() + "-" + DateTimeUtils.formatOrderNumber(purchase.getPurchaseDate()),
-                    purchase.getPurchaseStatus(),
-                    orderDetailResDtoList
-            );
-        }).toList();
+        return purchaseProductRepository.findPurchaseProductsByMemberId(member.getId(), pageable);
     }
 
     @Transactional(readOnly = true)

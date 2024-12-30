@@ -3,6 +3,7 @@ package com.green.sahwang.repository;
 import com.green.sahwang.entity.Product;
 import com.green.sahwang.entity.Purchase;
 import com.green.sahwang.entity.PurchaseProduct;
+import com.green.sahwang.mypage.dto.res.OrderListResDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -45,4 +46,30 @@ public interface PurchaseProductRepository extends JpaRepository<PurchaseProduct
     List<PurchaseProduct> findAllByPurchaseIn(List<Purchase> purchasePage);
 
     Page<PurchaseProduct> findAllByPurchaseIn(List<Purchase> purchaseList, Pageable pageable);
+
+    @Query("""
+            SELECT new com.green.sahwang.mypage.dto.res.OrderListResDto(
+                    pp.id,
+                    pr.name,
+                    vs.brandName,
+                    vs.productName,
+                    vs.productSize,
+                    ps.exceptedSellingPrice,
+                    pp.purchaseCreationDate,
+                    p.purchaseStatus,
+                    MIN(usi.filename)
+                )
+                FROM PurchaseProduct pp
+                JOIN pp.purchase p
+                JOIN pp.usedProduct up
+                JOIN up.verifiedSale vs
+                JOIN vs.pendingSale ps
+                JOIN ps.userSaleImages usi
+                JOIN ps.product pr
+                WHERE vs.rejectionReason IS NULL
+                AND p.member.id = :memberId
+                GROUP BY pp.id, pr.name, vs.brandName, vs.productName, vs.productSize, ps.exceptedSellingPrice, pp.purchaseCreationDate, p.purchaseStatus
+                ORDER BY pp.purchaseCreationDate DESC
+            """)
+    Page<OrderListResDto> findPurchaseProductsByMemberId(@Param("memberId") Long memberId, Pageable pageable);
 }
