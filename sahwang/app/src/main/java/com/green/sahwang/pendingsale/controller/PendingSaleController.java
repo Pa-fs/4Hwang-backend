@@ -51,11 +51,4 @@ public class PendingSaleController {
         // 배송 서비스 로직
         return ResponseEntity.status(HttpStatus.CREATED).body("A pendingSale was created");
     }
-
-    @SecurityRequirement(name = "Bearer Authentication")
-    @Operation(summary = "판매신청 등록 API", description = "JWT 포함, 사용자 판매이미지 파일들을 배열로 보내야함")
-    @GetMapping(value = "/nickname")
-    public ResponseEntity<String> getPendingSaleNickname(@AuthenticationPrincipal UserDetails userDetails) {
-        return ResponseEntity.ok(pendingSaleService.getPendingSaleNickname(userDetails.getUsername()));
-    }
 }
