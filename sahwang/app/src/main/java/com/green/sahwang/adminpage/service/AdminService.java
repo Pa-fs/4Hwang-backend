@@ -1,6 +1,7 @@
 package com.green.sahwang.adminpage.service;
 
 import com.green.sahwang.adminpage.dto.res.*;
+import org.springframework.data.domain.Page;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -29,7 +30,7 @@ public interface AdminService {
 
     CategoryManageResDto getCategoriesByStatus(String status, int pageNum, int size);
 
-    OrderManageResDto getOrders(int pageNum, int size);
+    Page<OrderManageResDto> getOrders(int pageNum, int size);
 
     OrderManageResDto getOrdersByStatus(String status, int pageNum, int size);
 

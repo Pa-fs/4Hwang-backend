@@ -26,7 +26,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -43,6 +42,7 @@ public class AdminServiceImpl implements AdminService{
     private final VerifiedSaleRepository verifiedSaleRepository;
     private final ProductRepository productRepository;
     private final SalePaymentRepository salePaymentRepository;
+    private final PurchaseProductRepository purchaseProductRepository;
 
     @Transactional
     public MemberManageResDto getMembers(int pageNum, int size){
@@ -201,10 +201,10 @@ public class AdminServiceImpl implements AdminService{
     }
 
     @Transactional
-    public OrderManageResDto getOrders(int pageNum, int size){
+    public Page<OrderManageResDto> getOrders(int pageNum, int size){
         Pageable pageable = PageRequest.of(pageNum, size);
 
-        return new OrderManageResDto();
+        return purchaseProductRepository.findOrders(pageable);
     }
 
     @Transactional
