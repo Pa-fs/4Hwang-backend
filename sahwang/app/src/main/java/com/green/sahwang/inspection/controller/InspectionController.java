@@ -102,7 +102,7 @@ public class InspectionController {
     public ResponseEntity<?> rejectInspection(
             @RequestPart(name = "userImageFiles", required = false) MultipartFile[] userImageFiles,
             @RequestPart(name = "failImageFiles") MultipartFile[] failImageFiles,
-            @RequestPart(name = "inspectionPassReqDto") @Parameter(schema = @Schema(type = "string", format = "binary"))
+            @RequestPart(name = "inspectionRejectReqDto") @Parameter(schema = @Schema(type = "string", format = "binary"))
             InspectionRejectReqDto inspectionRejectReqDto) {
 
         try {
