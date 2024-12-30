@@ -15,13 +15,13 @@ import java.util.List;
 public class OrderListResDto {
 
     private Long purchaseProductId;
-    private String productName;
+    private String categoryName;
     private String brandName;
-    private String saleProductName;
-    private String productSize;
-    private Double expectedSellingPrice;
+    private String productName;
+    private int productSize;
+    private int expectedSellingPrice;
     private LocalDateTime purchaseCreationDate;
-    private String purchaseStatus;
+    private PurchaseStatus purchaseStatus;
     private String filename;
 
 }

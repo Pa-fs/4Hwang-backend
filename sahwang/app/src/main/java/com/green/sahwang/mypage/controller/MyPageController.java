@@ -55,6 +55,7 @@ public class MyPageController {
         return ResponseEntity.ok(saleProgressResDto);
     }
 
+    @SecurityRequirement(name = "Bearer Authentication")
     @GetMapping("/orderList")
     public ResponseEntity<Page<OrderListResDto>> getOrderList(@AuthenticationPrincipal UserDetails userDetails,
                                                               @RequestParam(name = "pageNum", defaultValue = "0", required = false) int pageNum,
