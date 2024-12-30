@@ -154,16 +154,16 @@ public interface UsedProductRepository extends JpaRepository<UsedProduct, Long> 
     List<Object[]> findChartInfoSixMonth(@Param("usedProductId") Long usedProductId);
 
     @Query("SELECT new com.green.sahwang.adminpage.dto.res.ProductManageDto( " +
-            "up.id, vs.productName, MIN(usi.filename), vs.productSize, " +
-            "vs.verifiedSellingPrice, vs.categoryName, up.createdDate, up.modifiedDate) " +
+            "up.id, vs.productName, vs.brandName, MIN(usi.filename), vs.productSize," +
+            "vs.verifiedSellingPrice, vs.categoryName, ps.inspectionStatus, up.createdDate, up.modifiedDate) " +
             "FROM UsedProduct up " +
             "JOIN up.verifiedSale vs " +
             "JOIN vs.pendingSale ps " +
             "JOIN ps.userSaleImages usi " +
             "WHERE vs.rejectionReason IS NULL " +
-            "GROUP BY up.id, vs.productName, vs.productSize, " +
-            "vs.verifiedSellingPrice, vs.categoryName, up.createdDate, up.modifiedDate " +
-            "ORDER BY up.id")
+            "GROUP BY up.id, vs.productName, vs.brandName, vs.productSize, " +
+            "vs.verifiedSellingPrice, vs.categoryName, ps.inspectionStatus, up.createdDate, up.modifiedDate " +
+            "ORDER BY up.createdDate DESC")
     Page<ProductManageDto> findUsedProducts(Pageable pageable);
 
 
