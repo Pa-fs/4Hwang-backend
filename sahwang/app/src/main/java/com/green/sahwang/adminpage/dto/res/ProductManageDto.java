@@ -1,5 +1,6 @@
 package com.green.sahwang.adminpage.dto.res;
 
+import com.green.sahwang.inspection.enumtype.InspectionStatus;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -16,6 +17,8 @@ public class ProductManageDto {
 
     private String productName;
 
+    private String brandName;
+
     private String filename;
 
     private int productSize;
@@ -24,7 +27,7 @@ public class ProductManageDto {
 
     private String category;
 
-//    private String status;
+    private InspectionStatus status;
 
     private LocalDateTime createdDate;
 
