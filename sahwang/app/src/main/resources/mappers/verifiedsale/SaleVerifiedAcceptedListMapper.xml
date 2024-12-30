@@ -28,7 +28,7 @@
         INNER JOIN verified_sale vs ON ps.pending_sale_id = vs.pending_sale_id
         LEFT OUTER JOIN used_product up ON up.verified_sale_id = vs.verified_sale_id
         INNER JOIN sale_grade sg ON sg.sale_grade_id = vs.sale_grade_id
-        INNER JOIN product p ON p.product_id = ps.product_id
+        LEFT OUTER JOIN product p ON p.product_id = ps.product_id
         WHERE ps.inspection_status = 'ACCEPTED'
         AND vs.rejected_sale_id is null
         ORDER BY ps.created_date DESC

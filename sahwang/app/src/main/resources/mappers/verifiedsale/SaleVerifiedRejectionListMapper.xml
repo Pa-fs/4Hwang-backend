@@ -15,7 +15,7 @@
         vs.product_name productName,
         ps.excepted_selling_price userPrice,
         vs.product_size verifiedSize,
-        vs.verified_selling_price verifiedPrice,
+        vs.verified_selling_price verifiedPricefourhwang,
         vs.used_or_not verifiedUsedOrNot,
         rr.reason rejectionReason,
         up.used_product_type usedProductType,
@@ -26,9 +26,9 @@
         FROM member m
         INNER JOIN pending_sale ps ON ps.member_id = m.member_id
         INNER JOIN verified_sale vs ON ps.pending_sale_id = vs.pending_sale_id
-        INNER JOIN used_product up ON vs.verified_sale_id = up.used_product_id
-        INNER JOIN rejection_reason rr ON rr.rejection_reason_id = vs.rejected_sale_id
-        INNER JOIN product p ON p.product_id = ps.product_id
+        LEFT OUTER JOIN used_product up ON up.verified_sale_id = vs.verified_sale_id
+        LEFT OUTER JOIN rejection_reason rr ON rr.rejection_reason_id = vs.rejected_sale_id
+        LEFT OUTER JOIN product p ON p.product_id = ps.product_id
         WHERE ps.inspection_status = 'REJECTED'
         AND vs.sale_grade_id is null
         LIMIT #{pageable.offset}, #{pageable.pageSize}
