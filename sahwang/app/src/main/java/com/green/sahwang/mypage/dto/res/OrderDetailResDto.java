@@ -11,9 +11,9 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class OrderDetailResDto {
 
-    LocalDateTime deliveredDate;
-    String productName;
-    int price;
-    int quantity;
+    private LocalDateTime deliveredDate;
+    private String productName;
+    private int price;
+    private int quantity;
 
 }

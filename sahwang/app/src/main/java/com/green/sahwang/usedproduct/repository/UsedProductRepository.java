@@ -45,7 +45,7 @@ public interface UsedProductRepository extends JpaRepository<UsedProduct, Long> 
     @Query("""
             SELECT new com.green.sahwang.detail.dto.DetailProductInfoDto(
             up.id, p.id, ps.brandName, vs.productName,
-            p.size, vs.productSize, vs.verifiedSellingPrice, sg.gradeType, vs.usedOrNot)
+            p.size, vs.productSize, ps.exceptedSellingPrice, sg.gradeType, vs.usedOrNot)
             FROM UsedProduct up
             JOIN up.verifiedSale vs
             JOIN vs.saleGrade sg

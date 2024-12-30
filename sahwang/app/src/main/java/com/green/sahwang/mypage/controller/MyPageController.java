@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -55,12 +56,12 @@ public class MyPageController {
     }
 
     @GetMapping("/orderList")
-    public ResponseEntity<List<OrderListResDto>> getOrderList(@AuthenticationPrincipal UserDetails userDetails,
+    public ResponseEntity<Page<OrderListResDto>> getOrderList(@AuthenticationPrincipal UserDetails userDetails,
                                                               @RequestParam(name = "pageNum", defaultValue = "0", required = false) int pageNum,
                                                               @RequestParam(name = "size", defaultValue = "5", required = false) int size){
-        List<OrderListResDto> orderListResDtoList = myPageService.getOrderList(userDetails, pageNum, size);
+        Page<OrderListResDto> orderListResDtoPage = myPageService.getOrderList(userDetails, pageNum, size);
 
-        return ResponseEntity.ok(orderListResDtoList);
+        return ResponseEntity.ok(orderListResDtoPage);
     }
 
     @SecurityRequirement(name = "Bearer Authentication")

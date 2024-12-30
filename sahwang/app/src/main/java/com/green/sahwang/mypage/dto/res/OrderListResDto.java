@@ -1,9 +1,7 @@
 package com.green.sahwang.mypage.dto.res;
 
 import com.green.sahwang.entity.enumtype.PurchaseStatus;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -11,13 +9,19 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
+@Builder
 public class OrderListResDto {
 
-    LocalDateTime orderDate;
-    String orderId;
-    PurchaseStatus purchaseStatus;
-    List<OrderDetailResDto> orderDetailResDtoList;
-
-
+    private Long purchaseProductId;
+    private String productName;
+    private String brandName;
+    private String saleProductName;
+    private String productSize;
+    private Double expectedSellingPrice;
+    private LocalDateTime purchaseCreationDate;
+    private String purchaseStatus;
+    private String filename;
 
 }

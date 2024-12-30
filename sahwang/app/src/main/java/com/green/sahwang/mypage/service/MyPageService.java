@@ -5,6 +5,7 @@ import com.green.sahwang.mypage.dto.req.MemberInfoReqDto;
 import com.green.sahwang.mypage.dto.req.ReviewCreateReqDto;
 import com.green.sahwang.mypage.dto.req.ReviewUpdateReqDto;
 import com.green.sahwang.mypage.dto.res.*;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,7 +16,7 @@ public interface MyPageService {
 
     SaleProgressResDto getSaleProgress(UserDetails userDetails);
 
-    List<OrderListResDto> getOrderList(UserDetails userDetails, int pageNum, int size);
+    Page<OrderListResDto> getOrderList(UserDetails userDetails, int pageNum, int size);
 
 //    String getSaleList(UserDetails userDetails, int pageNum, int size);
     List<SaleListResDto> getSaleList(UserDetails userDetails, int pageNum, int size);
