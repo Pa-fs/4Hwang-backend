@@ -55,6 +55,22 @@ public interface UsedProductRepository extends JpaRepository<UsedProduct, Long> 
             """)
     DetailProductInfoDto findUsedProductInfo(@Param("usedProductId") Long usedProductId);
 
+    @Query(value = """
+            SELECT up.used_product_id, vsi.filename AS filename, vsi.file_desc AS file_desc, vsi.`path` AS `path`
+            FROM used_product up
+            INNER JOIN verified_sale vs ON vs.verified_sale_id = up.verified_sale_id
+            INNER JOIN verified_sale_image vsi ON vsi.verified_sale_id = vs.verified_sale_id
+            WHERE up.used_product_id = :usedProductId
+            UNION ALL
+            SELECT up.used_product_id, usi.filename AS filename, usi.file_desc AS file_desc, usi.`path` AS `path`
+            FROM used_product up
+            INNER JOIN verified_sale vs ON vs.verified_sale_id = up.verified_sale_id
+            INNER JOIN pending_sale ps ON ps.pending_sale_id = vs.pending_sale_id
+            INNER JOIN user_sale_image usi ON usi.pending_sale_id = ps.pending_sale_id
+            WHERE up.used_product_id = :usedProductId
+            """, nativeQuery = true)
+    List<Object[]> findDetailImages(@Param("usedProductId") Long usedProductId);
+
     List<UsedProduct> findAllByVerifiedSaleIn(List<VerifiedSale> verifiedSaleList);
 
     @Query(value = """

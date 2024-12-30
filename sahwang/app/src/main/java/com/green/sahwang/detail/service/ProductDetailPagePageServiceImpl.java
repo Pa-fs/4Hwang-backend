@@ -148,12 +148,12 @@ public class ProductDetailPagePageServiceImpl implements ProductDetailPageServic
     @Transactional
     public DetailProductInfoResDto getDetailProductInfo(Long usedProductId){
         DetailProductInfoDto detailProductInfoDto = usedProductRepository.findUsedProductInfo(usedProductId);
-        UsedProduct usedProduct = usedProductRepository.findById(detailProductInfoDto.getUsedProductId()).orElseThrow();
-        List<ImageResDto> imageResDtoList = usedProduct.getVerifiedSale().getPendingSale().getUserSaleImages().stream().map(userSaleImage -> ImageResDto.builder()
-                .filename(userSaleImage.getFilename())
-                .fileDesc(userSaleImage.getFileDesc())
-                .path(userSaleImage.getPath())
-                .build()).toList();
+        List<Object[]> images = usedProductRepository.findDetailImages(usedProductId);
+        List<ImageResDto> imageResDtoList = images.stream().map(row -> new ImageResDto(
+                (String) row[0],
+                (String) row[1],
+                (String) row[2]
+        )).toList();
         return new DetailProductInfoResDto(detailProductInfoDto, imageResDtoList);
     }
 
