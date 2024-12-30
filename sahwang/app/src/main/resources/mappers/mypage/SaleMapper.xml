@@ -130,7 +130,7 @@
              INNER JOIN verified_sale vs ON vs.pending_sale_id = ps.pending_sale_id
              INNER JOIN rejection_reason rr ON rr.rejection_reason_id = vs.rejected_sale_id
              LEFT OUTER JOIN used_product up ON up.verified_sale_id = vs.verified_sale_id
-        WHERE m.member_id = 1
+        WHERE m.member_id = #{memberId}
           AND ps.inspection_status = 'REJECTED'
         ORDER BY ps.created_date DESC
         LIMIT #{pageable.offset}, #{pageable.pageSize}
