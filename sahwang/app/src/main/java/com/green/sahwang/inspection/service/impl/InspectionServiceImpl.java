@@ -3,6 +3,7 @@ package com.green.sahwang.inspection.service.impl;
 import com.green.sahwang.config.DateTimeUtils;
 import com.green.sahwang.dto.response.ProductResDto;
 import com.green.sahwang.entity.Member;
+import com.green.sahwang.entity.Product;
 import com.green.sahwang.exception.BizException;
 import com.green.sahwang.exception.ErrorCode;
 import com.green.sahwang.inspection.dto.request.InspectionPassReqDto;
@@ -45,10 +46,6 @@ public class InspectionServiceImpl implements InspectionService {
     private final UserSaleImageRepository userSaleImageRepository;
     private final MemberRepository memberRepository;
 
-//    private final CategoryRepository categoryRepository;
-//    private final CategoryBrandRepository categoryBrandRepository;
-//    private final BrandRepository brandRepository;
-//    private final ProductRepository productRepository;
     private final VerifiedSaleRepository verifiedSaleRepository;
     private final SaleGradeRepository saleGradeRepository;
     private final RejectionReasonRepository rejectionReasonRepository;
@@ -101,8 +98,15 @@ public class InspectionServiceImpl implements InspectionService {
     @Override
     @Transactional
     public void inspectPassProduct(InspectionPassReqDto inspectionPassReqDto) {
+
+        log.info("inspectPassProduct service");
         PendingSale pendingSale = pendingSaleRepository.findById(inspectionPassReqDto.getPendingSaleId())
                 .orElseThrow(() -> new BizException(ErrorCode.NO_PENDING_SALE));
+
+        Product product = productRepository.findById(inspectionPassReqDto.getInspectionProductReqDto().getProductId())
+                .orElse(null);
+
+        pendingSale.setProduct(product);
 
         VerifiedSale verifiedSale = VerifiedSale.builder()
                 .pendingSale(pendingSale)

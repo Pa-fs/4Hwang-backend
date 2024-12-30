@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class InspectionProductReqDto {
+    private Long productId;
     private String productName;
     private int productSize;
     private int verifiedSellingPrice;

@@ -21,6 +21,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -63,26 +65,25 @@ public class InspectionController {
     @SecurityRequirement(name = "Bearer Authentication")
     @Operation(summary = "검수 승인", description = "검수 승인 후 처리")
 //    @PreAuthorize("hasAnyRole('ROLE_APPRAISER', 'ROLE_ADMIN')")
-    public ResponseEntity<?> passInspection(
+    public ResponseEntity<String> passInspection(
+            @AuthenticationPrincipal UserDetails userDetails,
             @RequestPart(name = "userImageFiles", required = false) MultipartFile[] userImageFiles,
             @RequestPart(name = "passImageFiles") MultipartFile[] passImageFiles,
             @RequestPart(name = "inspectionPassReqDto") @Parameter(schema = @Schema(type = "string", format = "binary"))
             InspectionPassReqDto inspectionPassReqDto) {
 
+        log.info("pass inspection");
 //        validateFiles(userImageFiles);
-        validateFiles(passImageFiles);
+//        validateFiles(passImageFiles);
 
         try {
-            if (inspectionPassReqDto.isInspectionResult()) {
-                Path userImagePath = Paths.get("images/user-files");
-                Path passImagePath = Paths.get("images/pass-files");
+            log.info("pass inspection 2");
+            Path imagePath = Paths.get("images/file/");
 
-                inspectionService.inspectPassProduct(inspectionPassReqDto);
-//                imageFileService.saveUserImageFiles(userImageFiles, userImagePath, inspectionPassReqDto.getUserSaleReqImageDtos());
-                imageFileService.savePassSaleImageFiles(passImageFiles, passImagePath, inspectionPassReqDto.getPassSaleReqImageDtos());
-            } else {
-                return ResponseEntity.badRequest().body("권한이 없습니다");
-            }
+            inspectionService.inspectPassProduct(inspectionPassReqDto);
+//            imageFileService.saveUserImageFiles(userImageFiles, userImagePath, inspectionPassReqDto.getUserSaleReqImageDtos());
+            imageFileService.savePassSaleImageFiles(passImageFiles, imagePath, inspectionPassReqDto.getPassSaleReqImageDtos());
+
         } catch (Exception e) {
             log.info("{}", e.getMessage());
             e.printStackTrace();
@@ -106,16 +107,12 @@ public class InspectionController {
             InspectionRejectReqDto inspectionRejectReqDto) {
 
         try {
-            if (!inspectionRejectReqDto.isInspectionResult()) {
-                Path userImagePath = Paths.get("images/user-files");
-                Path failImagePath = Paths.get("images/fail-files");
+            Path imagePath = Paths.get("images/file/");
 
-                inspectionService.inspectRejectProduct(inspectionRejectReqDto);
+            inspectionService.inspectRejectProduct(inspectionRejectReqDto);
 //                imageFileService.saveUserImageFiles(userImageFiles, userImagePath, inspectionRejectReqDto.getUserSaleReqImageDtos());
-                imageFileService.saveFailSaleImageFiles(failImageFiles, failImagePath, inspectionRejectReqDto.getFailSaleReqImageDtos());
-            } else {
-                return ResponseEntity.badRequest().body("권한이 없습니다");
-            }
+            imageFileService.saveFailSaleImageFiles(failImageFiles, imagePath, inspectionRejectReqDto.getFailSaleReqImageDtos());
+
         } catch (Exception e) {
             log.info("{}", e.getMessage());
             e.printStackTrace();
