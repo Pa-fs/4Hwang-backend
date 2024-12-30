@@ -1,5 +1,6 @@
 package com.green.sahwang.repository;
 
+import com.green.sahwang.adminpage.dto.res.OrderManageResDto;
 import com.green.sahwang.entity.Product;
 import com.green.sahwang.entity.Purchase;
 import com.green.sahwang.entity.PurchaseProduct;
@@ -72,4 +73,38 @@ public interface PurchaseProductRepository extends JpaRepository<PurchaseProduct
                 ORDER BY pp.purchaseCreationDate DESC
             """)
     Page<OrderListResDto> findPurchaseProductsByMemberId(@Param("memberId") Long memberId, Pageable pageable);
+
+    @Query("""
+            SELECT new com.green.sahwang.adminpage.dto.res.OrderManageResDto(
+                    pp.id,
+                    pr.name,
+                    vs.brandName,
+                    vs.productName,
+                    vs.productSize,
+                    vs.categoryName,
+                    ps.exceptedSellingPrice,
+                    pp.purchaseCreationDate,
+                    p.purchaseStatus,
+                    m.nickName,
+                    m.name,
+                    dp.deliveredDate,
+                    dp.status,
+                    MIN(usi.filename)
+                )
+                FROM PurchaseProduct pp
+                JOIN pp.purchase p
+                JOIN pp.usedProduct up
+                JOIN up.verifiedSale vs
+                JOIN vs.pendingSale ps
+                JOIN ps.userSaleImages usi
+                JOIN ps.product pr
+                JOIN p.member m
+                LEFT JOIN DeliveryPurchase dp ON dp.purchaseProduct.id = pp.id
+                WHERE vs.rejectionReason IS NULL
+                GROUP BY pp.id, pr.name, vs.brandName, vs.productName, vs.productSize, vs.categoryName,
+                         ps.exceptedSellingPrice, pp.purchaseCreationDate, p.purchaseStatus,
+                         m.nickName, m.name, dp.deliveredDate, dp.status
+                ORDER BY pp.purchaseCreationDate DESC
+            """)
+    Page<OrderManageResDto> findOrders(Pageable pageable);
 }

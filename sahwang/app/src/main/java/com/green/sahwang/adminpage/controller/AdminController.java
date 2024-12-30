@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cglib.core.Local;
+import org.springframework.data.domain.Page;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -103,17 +104,17 @@ public class AdminController {
         }
     }
 
-    @Operation(summary = "이건 그냥 못하겠음", description = "erd가 너무 어렵게 되어있어ㅠㅠ")
+    @Operation(summary = "이건 그냥 못하겠음 -> 일단 하긴했는데...", description = "null일 때만 가능")
     @GetMapping("/order/management")
-    public ResponseEntity<OrderManageResDto> getOrders(@RequestParam(value = "status", required = false) String status,
-                                                       @RequestParam(name = "pageNum", defaultValue = "0", required = false) int pageNum,
-                                                       @RequestParam(name = "size", defaultValue = "20", required = false) int size) {
+    public ResponseEntity<Page<OrderManageResDto>> getOrders(@RequestParam(value = "status", required = false) String status,
+                                                            @RequestParam(name = "pageNum", defaultValue = "0", required = false) int pageNum,
+                                                            @RequestParam(name = "size", defaultValue = "20", required = false) int size) {
         if (status == null || status.equalsIgnoreCase("null")) {
-            OrderManageResDto orderManageResDto = adminService.getOrders(pageNum, size);
-            return ResponseEntity.ok(orderManageResDto);
+            Page<OrderManageResDto> orderManageResDtoPage = adminService.getOrders(pageNum, size);
+            return ResponseEntity.ok(orderManageResDtoPage);
         } else {
             OrderManageResDto orderManageResDto = adminService.getOrdersByStatus(status, pageNum, size);
-            return ResponseEntity.ok(orderManageResDto);
+            return null;
         }
     }
 
