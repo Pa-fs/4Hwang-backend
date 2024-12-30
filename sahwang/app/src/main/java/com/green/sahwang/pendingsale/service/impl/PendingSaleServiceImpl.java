@@ -47,4 +47,10 @@ public class PendingSaleServiceImpl implements PendingSaleService {
         pendingSaleCreateReqDto.getUserSaleReqImageDtos().forEach(userSaleReqImage ->
                 userSaleReqImage.setPendingSaleId(savedPendingSale.getId()));
     }
+
+    @Override
+    public String getPendingSaleNickname(String email) {
+        Member member = memberRepository.findByEmail(email);
+        return member.getNickName();
+    }
 }
