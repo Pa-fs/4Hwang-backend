@@ -52,7 +52,7 @@ public class AdminServiceImpl implements AdminService{
         List<MemberManageDto> memberManageDtoList = new ArrayList<>();
         for (Member member : memberList){
             List<Review> reviewList = reviewRepository.findAllByMember(member);
-            List<Purchase> purchaseList = purchaseRepository.findAllByMemberAndPurchaseStatus(member, PurchaseStatus.COMPLETED);
+            int purchaseCount = purchaseRepository.purchaseListCountByMemberId(member.getId());
             MemberManageDto memberManageDto = new MemberManageDto();
             memberManageDto.setMemberId(member.getId());
             memberManageDto.setProfileImage(member.getProfileImage());
@@ -66,7 +66,7 @@ public class AdminServiceImpl implements AdminService{
             memberManageDto.setNickName(member.getNickName());
             memberManageDto.setAdReceived(member.getAdReceived());
             memberManageDto.setWarnCount(member.getWarnCount());
-            memberManageDto.setPurchaseCount(purchaseList.size());
+            memberManageDto.setPurchaseCount(purchaseCount);
             memberManageDto.setReviewCount(reviewList.size());
             memberManageDtoList.add(memberManageDto);
         }
@@ -86,7 +86,7 @@ public class AdminServiceImpl implements AdminService{
         List<MemberManageDto> memberManageDtoList = new ArrayList<>();
         for (Member member : memberList){
             List<Review> reviewList = reviewRepository.findAllByMember(member);
-            List<Purchase> purchaseList = purchaseRepository.findAllByMemberAndPurchaseStatus(member, PurchaseStatus.COMPLETED);
+            int purchaseCount = purchaseRepository.purchaseListCountByMemberId(member.getId());
             MemberManageDto memberManageDto = new MemberManageDto();
             memberManageDto.setProfileImage(member.getProfileImage());
             memberManageDto.setName(member.getName());
@@ -99,7 +99,7 @@ public class AdminServiceImpl implements AdminService{
             memberManageDto.setNickName(member.getNickName());
             memberManageDto.setAdReceived(member.getAdReceived());
             memberManageDto.setWarnCount(member.getWarnCount());
-            memberManageDto.setPurchaseCount(purchaseList.size());
+            memberManageDto.setPurchaseCount(purchaseCount);
             memberManageDto.setReviewCount(reviewList.size());
             memberManageDtoList.add(memberManageDto);
         }
