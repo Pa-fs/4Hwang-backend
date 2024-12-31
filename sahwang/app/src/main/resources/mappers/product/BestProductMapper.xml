@@ -5,28 +5,25 @@
 <mapper namespace="com.green.sahwang.product.mapper.ProductMapper">
     <!-- 쿼리 정의 -->
     <select id="findBestProduct" resultType="com.green.sahwang.mainpage.dto.BestProductResDto">
-        SELECT
-        p.product_id productId,
-        p.name productName,
-        p.brand_id brandId,
-        p.main_image mainImage,
-        p.dtype dtype
-        FROM product p
-        WHERE p.product_id IN(
-        SELECT pcc.product_id
-        FROM
-        (
-            SELECT pc.product_id, MAX(pc.product_count) maxCount
-            FROM (
-                SELECT p.product_id, COUNT(p.product_id) product_count
-                from used_product up
-                INNER JOIN verified_sale vs ON vs.verified_sale_id = up.verified_sale_id
-                INNER JOIN pending_sale ps ON ps.pending_sale_id = vs.pending_sale_id
-                INNER JOIN product p ON p.product_id = ps.product_id
-                where up.sold_out = true
-                AND ps.inspection_status = 'SOLD'
-                GROUP BY p.product_id) pc
-            GROUP BY pc.product_id) pcc
+        WITH RankedProducts AS (
+            SELECT
+                p.product_id,
+                p.name AS productName,
+                p.brand_id AS brandId,
+                p.main_image AS mainImage,
+                p.dtype,
+                COUNT(p.product_id) AS productCount,
+                ROW_NUMBER() OVER (PARTITION BY p.dtype ORDER BY COUNT(p.product_id) DESC) AS rank_number
+            FROM used_product up
+                     INNER JOIN verified_sale vs ON vs.verified_sale_id = up.verified_sale_id
+                     INNER JOIN pending_sale ps ON ps.pending_sale_id = vs.pending_sale_id
+                     INNER JOIN product p ON p.product_id = ps.product_id
+            WHERE up.sold_out = true
+              AND ps.inspection_status = 'SOLD'
+            GROUP BY p.product_id, p.name, p.brand_id, p.main_image, p.dtype
         )
+        SELECT product_id AS productId, productName, brandId, mainImage, dtype
+        FROM RankedProducts
+        WHERE rank_number = 1;
     </select>
 </mapper>
