@@ -92,77 +92,18 @@ public class MyPageServiceImpl implements MyPageService{
     }
 
     @Transactional(readOnly = true)
-    public List<SaleListResDto> getSaleList(UserDetails userDetails, int pageNum, int size){
+    public List<SaleListResDto> getSaleList(UserDetails userDetails, int pageNum, int size) {
         Member member = memberRepository.findByEmail(userDetails.getUsername());
 
         Pageable pageable = PageRequest.of(pageNum, size);
 
-        Page<InspectionStatus> saleStatusByMemberId = pendingSaleRepository.findSaleStatusByMemberId(member.getId(), pageable);
-        List<InspectionStatus> saleStatusList = saleStatusByMemberId.getContent();
-
-        Map<Long, SaleListResDto> saleListMap = new HashMap<>();
-
-        for (InspectionStatus inspectionStatus : saleStatusList) {
-            log.info("inspectionStatus : {}", inspectionStatus.toString());
-
-            // 상태별로 다른 데이터를 가져오되, 중복되지 않도록 처리
-            if (inspectionStatus.equals(InspectionStatus.ACCEPTED)) {
-                List<SaleListResDto> verifiedSaleList = saleMapper.findVerifiedSaleList(member.getId(), pageable);
-                for (SaleListResDto saleListResDto : verifiedSaleList) {
-                    Long saleId = saleListResDto.getPendingSaleId();
-                    if (saleId != null && !saleListMap.containsKey(saleId)) {
-                        saleListMap.put(saleId, saleListResDto);
-                    }
-                }
-            }
-            if (inspectionStatus.equals(InspectionStatus.SELLING)) {
-                List<SaleListResDto> sellingSaleList = saleMapper.findSellingSaleList(member.getId(), pageable);
-                for (SaleListResDto saleListResDto : sellingSaleList) {
-                    Long saleId = saleListResDto.getPendingSaleId();
-                    if (saleId != null && !saleListMap.containsKey(saleId)) {
-                        saleListMap.put(saleId, saleListResDto);
-                    }
-                }
-            }
-            if (inspectionStatus.equals(InspectionStatus.SOLD)) {
-                List<SaleListResDto> soldSaleList = saleMapper.findSoldSaleList(member.getId(), pageable);
-                for (SaleListResDto saleListResDto : soldSaleList) {
-                    Long saleId = saleListResDto.getPendingSaleId();
-                    if (saleId != null && !saleListMap.containsKey(saleId)) {
-                        saleListMap.put(saleId, saleListResDto);
-                    }
-                }
-            }
-            if (inspectionStatus.equals(InspectionStatus.WAITING)) {
-                List<SaleListResDto> waitingSaleList = saleMapper.findWaitingSaleList(member.getId(), pageable);
-                for (SaleListResDto saleListResDto : waitingSaleList) {
-                    Long saleId = saleListResDto.getPendingSaleId();
-                    if (saleId != null && !saleListMap.containsKey(saleId)) {
-                        saleListMap.put(saleId, saleListResDto);
-                    }
-                }
-            }
-            if (inspectionStatus.equals(InspectionStatus.REJECTED)) {
-                List<SaleListResDto> rejectedSaleList = saleMapper.findRejectedSaleList(member.getId(), pageable);
-                for (SaleListResDto saleListResDto : rejectedSaleList) {
-                    Long saleId = saleListResDto.getPendingSaleId();
-                    if (saleId != null && !saleListMap.containsKey(saleId)) {
-                        saleListMap.put(saleId, saleListResDto);
-                    }
-                }
-            }
-        }
-
-        // saleListMap -> 리스트로 변환
-        List<SaleListResDto> saleListResDtos = new ArrayList<>(saleListMap.values());
-
-        log.info("saleListResDtos : {}", saleListResDtos.size());
+        List<SaleListResDto> saleListResDtos = saleMapper.findSaleList(member.getId(), pageable);
 
         for (SaleListResDto saleListResDto : saleListResDtos) {
-            if(saleListResDto.getPendingSaleId() != null) {
+            if (saleListResDto.getPendingSaleId() != null) {
                 saleListResDto.setUserImages(saleMapper.findUserImages(saleListResDto.getPendingSaleId()));
             }
-            if(saleListResDto.getVerifiedSaleId() != null) {
+            if (saleListResDto.getVerifiedSaleId() != null) {
                 saleListResDto.setVerifiedImages(saleMapper.findVerifiedImages(saleListResDto.getVerifiedSaleId()));
             }
         }
