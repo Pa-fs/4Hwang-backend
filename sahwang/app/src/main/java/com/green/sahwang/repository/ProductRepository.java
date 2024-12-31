@@ -22,8 +22,25 @@ public interface ProductRepository extends JpaRepository<Product, Long>, Product
     @Query(value = "SELECT * FROM product p WHERE p.dtype= :dtype", nativeQuery = true)
     List<Product> findAllByDtype(@Param("dtype") String type);
 
-    @Query("SELECT p FROM Product p ORDER BY FUNCTION('RAND')")
-    List<Product> findRandomProducts(Pageable pageable);
+    @Query(value = """
+    SELECT
+        p.*,
+        GROUP_CONCAT(DISTINCT sg.grade_type ORDER BY sg.grade_type SEPARATOR ', ') AS gradeTypes,
+        COUNT(up.used_product_id) AS productCount
+    FROM product p
+    INNER JOIN pending_sale ps ON p.product_id = ps.product_id
+    LEFT JOIN verified_sale vs ON ps.pending_sale_id = vs.pending_sale_id
+    LEFT JOIN used_product up ON vs.verified_sale_id = up.verified_sale_id
+    JOIN sale_grade sg ON vs.sale_grade_id = sg.sale_grade_id
+    WHERE
+        (ps.inspection_status = 'SELLING' OR
+        (ps.inspection_status = 'SOLD' AND up.sold_out = true))
+    GROUP BY p.product_id
+    HAVING
+        SUM(CASE WHEN ps.inspection_status = 'SELLING' THEN 1 ELSE 0 END) > 0
+    ORDER BY productCount DESC
+    """, nativeQuery = true)
+    List<Product> findRandomProducts();
 
     List<Product> findAllByName(String productName);
 

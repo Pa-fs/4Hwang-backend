@@ -35,6 +35,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -65,8 +66,11 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional(readOnly = true)
     public List<ProductResDto> getRandomProducts(int pageNum, int size) {
-        Pageable pageable = PageRequest.of(pageNum, size);
-        List<Product> randomProducts = productRepository.findRandomProducts(pageable);
+        List<Product> randomProducts = productRepository.findRandomProducts()
+                .stream()
+                .skip(1)
+                .limit(8)
+                .collect(Collectors.toList());
         return getProductResDtos(randomProducts);
     }
 
