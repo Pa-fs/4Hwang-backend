@@ -6,8 +6,10 @@ import com.green.sahwang.entity.ReviewImage;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -50,4 +52,12 @@ public interface ReviewImageRepository extends JpaRepository<ReviewImage, Long> 
             "GROUP BY r.id, ri.filename, pp.productName, vs.productSize, ps.categoryName, " +
             "r.content, r.star, m.nickName, r.reviewCreationDate")
     Page<ReviewManageDto> findReviewsBySearch(@Param("searchKeyword") String searchKeyword, Pageable pageable);
+
+    @Modifying
+    @Transactional
+    @Query(value = """
+            DELETE FROM review_image
+            WHERE review_id = :reviewId
+            """,nativeQuery = true)
+    void deleteByReviewId(@Param("reviewId") Long reviewId);
 }

@@ -160,6 +160,8 @@ public class AdminServiceImpl implements AdminService{
     }
 
     public void deleteReview(Long reviewId){
+        favoriteRepository.deleteByReviewId(reviewId);
+        reviewImageRepository.deleteByReviewId(reviewId);
         reviewRepository.deleteById(reviewId);
     }
 
