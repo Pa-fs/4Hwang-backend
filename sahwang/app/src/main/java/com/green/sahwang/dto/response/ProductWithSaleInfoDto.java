@@ -20,4 +20,5 @@ public class ProductWithSaleInfoDto {
     private int minSize;
     private int maxSize;
     private String gradeTypes;
+    private int rankNumber;
 }

@@ -513,19 +513,19 @@ INSERT INTO `used_product` (`used_product_id`, `created_date`, `modified_date`, 
 	(21, '2024-12-30 20:19:11.326697', NULL, b'0', 'USER_ACCEPT', 21);
 
 -- purchase
-INSERT INTO purchase (purchase_id, purchase_date, purchase_status, total_price, member_id) VALUES (10000001, now(), 'COMPLETED', 730000, 3);
-INSERT INTO purchase (purchase_id, purchase_date, purchase_status, total_price, member_id) VALUES (10000002, now(), 'COMPLETED', 730000, 4);
-INSERT INTO purchase (purchase_id, purchase_date, purchase_status, total_price, member_id) VALUES (10000003, now(), 'COMPLETED', 730000, 5);
-INSERT INTO purchase (purchase_id, purchase_date, purchase_status, total_price, member_id) VALUES (10000004, now(), 'COMPLETED', 730000, 4);
-INSERT INTO purchase (purchase_id, purchase_date, purchase_status, total_price, member_id) VALUES (10000005, now(), 'COMPLETED', 730000, 3);
-INSERT INTO purchase (purchase_id, purchase_date, purchase_status, total_price, member_id) VALUES (10000006, now(), 'COMPLETED', 730000, 3);
+INSERT INTO purchase (purchase_id, purchase_date, purchase_status, total_price, member_id) VALUES (10000001, now(), 'COMPLETED', 110000, 3);
+INSERT INTO purchase (purchase_id, purchase_date, purchase_status, total_price, member_id) VALUES (10000002, now(), 'COMPLETED', 53000, 4);
+INSERT INTO purchase (purchase_id, purchase_date, purchase_status, total_price, member_id) VALUES (10000003, now(), 'COMPLETED', 12000, 5);
+INSERT INTO purchase (purchase_id, purchase_date, purchase_status, total_price, member_id) VALUES (10000004, now(), 'COMPLETED', 100000, 4);
+INSERT INTO purchase (purchase_id, purchase_date, purchase_status, total_price, member_id) VALUES (10000005, now(), 'COMPLETED', 50000, 3);
+INSERT INTO purchase (purchase_id, purchase_date, purchase_status, total_price, member_id) VALUES (10000006, now(), 'COMPLETED', 45000, 3);
 
 -- purchase_product
-INSERT INTO purchase_product (purchase_product_id, product_name, product_quantity, purchase_creation_date, used_product_id, purchase_id) VALUES (10000001, '아쿠아 오드퍼퓸', 2, now(), 1, 10000001);
-INSERT INTO purchase_product (purchase_product_id, product_name, product_quantity, purchase_creation_date, used_product_id, purchase_id) VALUES (10000002, '아이스드베리레모네이드', 2, now(), 2, 10000002);
-INSERT INTO purchase_product (purchase_product_id, product_name, product_quantity, purchase_creation_date, used_product_id, purchase_id) VALUES (10000003, '라임 바질 앤 만다린 디퓨저', 2, now(), 3, 10000003);
-INSERT INTO purchase_product (purchase_product_id, product_name, product_quantity, purchase_creation_date, used_product_id, purchase_id) VALUES (10000004, '아쿠아 오드퍼퓸', 2, now(), 4, 10000004);
-INSERT INTO purchase_product (purchase_product_id, product_name, product_quantity, purchase_creation_date, used_product_id, purchase_id) VALUES (10000005, '아이스드베리레모네이드', 2, now(), 5, 10000005);
+INSERT INTO purchase_product (purchase_product_id, product_name, product_quantity, purchase_creation_date, used_product_id, purchase_id) VALUES (10000001, '아쿠아 오드퍼퓸', 1, now(), 1, 10000001);
+INSERT INTO purchase_product (purchase_product_id, product_name, product_quantity, purchase_creation_date, used_product_id, purchase_id) VALUES (10000002, '아이스드베리레모네이드', 1, now(), 2, 10000002);
+INSERT INTO purchase_product (purchase_product_id, product_name, product_quantity, purchase_creation_date, used_product_id, purchase_id) VALUES (10000003, '라임 바질 앤 만다린 디퓨저', 1, now(), 3, 10000003);
+INSERT INTO purchase_product (purchase_product_id, product_name, product_quantity, purchase_creation_date, used_product_id, purchase_id) VALUES (10000004, '아쿠아 오드퍼퓸', 1, now(), 4, 10000004);
+INSERT INTO purchase_product (purchase_product_id, product_name, product_quantity, purchase_creation_date, used_product_id, purchase_id) VALUES (10000005, '아이스드베리레모네이드', 1, now(), 5, 10000005);
 
 -- payment
 INSERT INTO payment (payment_id,total_price, member_id) VALUES (10000001, 100000, 5);

@@ -1,5 +1,6 @@
 package com.green.sahwang.controller;
 
+import com.green.sahwang.dto.response.ProductForUsedResDto;
 import com.green.sahwang.dto.response.ProductResDto;
 import com.green.sahwang.mainpage.dto.BestProductResDto;
 import com.green.sahwang.mainpage.dto.NewUsedProductResDto;
@@ -27,10 +28,10 @@ public class ProductController {
     }
 
     @GetMapping("/random")
-    public ResponseEntity<List<ProductResDto>> getRandomProducts(
+    public ResponseEntity<List<ProductForUsedResDto>> getRandomProducts(
             @RequestParam(name = "pageNum", defaultValue = "0") int pageNum,
             @RequestParam(name = "size", defaultValue = "8") int size) {
-        List<ProductResDto> products = productService.getRandomProducts(pageNum, size);
+        List<ProductForUsedResDto> products = productService.getRandomProducts(pageNum, size);
         return ResponseEntity.ok(products);
     }
 

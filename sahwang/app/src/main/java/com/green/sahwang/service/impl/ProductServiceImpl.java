@@ -3,10 +3,7 @@ package com.green.sahwang.service.impl;
 import com.green.sahwang.brand.entity.Brand;
 import com.green.sahwang.brand.mapper.BrandMapper;
 import com.green.sahwang.config.DateTimeUtils;
-import com.green.sahwang.dto.response.ImageResDto;
-import com.green.sahwang.dto.response.ProductForUsedResDto;
-import com.green.sahwang.dto.response.ProductResDto;
-import com.green.sahwang.dto.response.ProductWithSaleInfoDto;
+import com.green.sahwang.dto.response.*;
 import com.green.sahwang.entity.Product;
 import com.green.sahwang.entity.ProductImage;
 import com.green.sahwang.mainpage.dto.BestProductResDto;
@@ -35,7 +32,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -65,13 +61,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<ProductResDto> getRandomProducts(int pageNum, int size) {
-        List<Product> randomProducts = productRepository.findRandomProducts()
-                .stream()
-                .skip(1)
-                .limit(8)
-                .collect(Collectors.toList());
-        return getProductResDtos(randomProducts);
+    public List<ProductForUsedResDto> getRandomProducts(int pageNum, int size) {
+        Pageable pageable = PageRequest.of(pageNum, size);
+        List<ProductWithSaleInfoDto> bestProductsWithRanks = productMapper.findBestProductsWithRank(pageable);
+        return bestProductsWithRanks.stream()
+                .map(bestProductWithRank -> getProductForUsedResDto(bestProductWithRank))
+                .toList();
     }
 
     @Override
@@ -140,7 +135,8 @@ public class ProductServiceImpl implements ProductService {
                 productWithSaleInfoDto.getMaxPrice(),
                 productWithSaleInfoDto.getMinSize(),
                 productWithSaleInfoDto.getMaxSize(),
-                productWithSaleInfoDto.getGradeTypes()
+                productWithSaleInfoDto.getGradeTypes(),
+                productWithSaleInfoDto.getRankNumber()
         );
         return productForUsedResDto;
     }

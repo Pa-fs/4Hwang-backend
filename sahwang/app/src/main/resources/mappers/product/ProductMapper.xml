@@ -11,12 +11,13 @@
         <result property="minSize" column="minSize" />
         <result property="maxSize" column="maxSize" />
         <result property="gradeTypes" column="gradeTypes" />
+        <result property="rankNumber" column="rankNumber" />
         <association property="product" column="productId" javaType="com.green.sahwang.entity.Product"
                      select="com.green.sahwang.product.mapper.ProductMapper.findProductById"/>
     </resultMap>
 
     <!-- 쿼리 정의 -->
-    <select id="findProductsWithInUsedSaleInfo" resultMap="ProductWithSaleInfoDtoResultMap">
+        <select id="findProductsWithInUsedSaleInfo" resultMap="ProductWithSaleInfoDtoResultMap">
         SELECT
         p.product_id AS productId,
         p.name AS name,
@@ -77,6 +78,46 @@
         LIMIT #{pageable.offset}, #{pageable.pageSize}
     </select>
 
+    <select id="findBestProductsWithRank" resultMap="ProductWithSaleInfoDtoResultMap">
+        WITH RankedProducts AS (
+            SELECT
+                p.product_id AS productId,
+                p.name AS name,
+                p.content AS content,
+                p.dtype AS dtype,
+                p.brand_id AS brandId,
+                p.size AS size,
+            p.price AS price,
+            MIN(pp.minPrice) AS minPrice,
+            MAX(pp.maxPrice) AS maxPrice,
+            MIN(pp.minSize) AS minSize,
+            MAX(pp.maxSize) AS maxSize,
+            GROUP_CONCAT(DISTINCT pp.grade_type ORDER BY pp.grade_type SEPARATOR ', ') AS gradeTypes,
+            ROW_NUMBER() OVER (ORDER BY COUNT(p.product_id) DESC) AS rankNumber
+        FROM product p
+            INNER JOIN (
+            SELECT
+            ps.product_id,
+            sg.grade_type AS grade_type,
+            MIN(ps.excepted_selling_price) AS minPrice,
+            MAX(ps.excepted_selling_price) AS maxPrice,
+            MIN(vs.product_size) AS minSize,
+            MAX(vs.product_size) AS maxSize,
+            COUNT(up.used_product_id) AS productCount
+            FROM pending_sale ps
+            JOIN verified_sale vs ON ps.pending_sale_id = vs.pending_sale_id
+            JOIN used_product up ON vs.verified_sale_id = up.verified_sale_id
+            JOIN sale_grade sg ON vs.sale_grade_id = sg.sale_grade_id
+            WHERE (ps.inspection_status = 'SELLING' OR (ps.inspection_status = 'SOLD' AND up.sold_out = true))
+            GROUP BY ps.product_id, sg.sale_grade_id
+            HAVING SUM(CASE WHEN ps.inspection_status = 'SELLING' THEN 1 ELSE 0 END) > 0
+            ) pp ON p.product_id = pp.product_id
+        GROUP BY p.product_id, p.name, p.content, p.dtype, p.brand_id, p.size, p.price
+            )
+        SELECT *
+        FROM RankedProducts
+                 LIMIT #{pageable.offset}, #{pageable.pageSize}
+    </select>
 
     <resultMap id="ProductResultMap" type="com.green.sahwang.entity.Product">
         <id property="id" column="product_id" />

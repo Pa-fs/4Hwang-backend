@@ -44,6 +44,8 @@ public class ProductForUsedResDto {
 
     private String gradeTypes;
 
+    private int rankNumber;
+
     public ProductForUsedResDto(Long productId,
                                 String productName,
                                 String content,
@@ -59,7 +61,8 @@ public class ProductForUsedResDto {
                                 int maxPrice,
                                 int minSize,
                                 int maxSize,
-                                String gradeTypes) {
+                                String gradeTypes,
+                                int rankNumber) {
         this.productId = productId;
         this.productName = productName;
         this.content = content;
@@ -76,5 +79,6 @@ public class ProductForUsedResDto {
         this.minSize = minSize;
         this.maxSize = maxSize;
         this.gradeTypes = gradeTypes;
+        this.rankNumber = rankNumber;
     }
 }
