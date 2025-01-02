@@ -1,15 +1,17 @@
 package com.green.sahwang.adminpage.dto.res;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.time.LocalDateTime;
+
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class RevenueResDto {
-    private Long usedProductId;
-    private int revenue; // 매출수익 (5% 제외금액)
-    private String saleDate;
+public class RevenueResWithTotalPriceDto {
+    private List<RevenueResDto> revenueResDtos;
+    private int totalPrice;
 }

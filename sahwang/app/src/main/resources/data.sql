@@ -8,6 +8,7 @@ DELETE FROM `review`;
 DELETE FROM `delivery_purchase`;
 DELETE FROM `purchase_product`;
 DELETE FROM `sale_payment`;
+DELETE FROM `external_prepare_payment`;
 DELETE FROM `purchase`;
 DELETE FROM `payment`;
 DELETE FROM `product_product_type`;
@@ -389,57 +390,71 @@ INSERT INTO `product_image` (`product_image_id`, `file_desc`, `filename`, `path`
     (94, 'newCandle13', 'c013.png', 'images/file/\\c013.png',  91);
 
 -- pending_sale
-INSERT INTO `pending_sale` (`pending_sale_id`, `brand_name`, `category_name`, `created_date`, `excepted_selling_price`, `inspection_status`, `product_description`, `product_name`, `product_size`, `rejected_reason`, `updated_date`, `used_or_not`, `member_id`, `product_id`) VALUES
-	(40, 'Santa Maria Novella', 'Perfume', '2024-12-30 09:19:29.000000', 145000, 'SELLING', '아쿠아 오드퍼퓸 향수, 50ml, 새 제품, 박스 포함', '아쿠아 오드퍼퓸', 48, NULL, '2024-12-30 09:19:29.000000', b'0', 1, 1),
-	(41, 'Yankee Candle', 'Candle', '2024-12-30 09:19:29.000000', 53000, 'SELLING', '레모네이드 캔들', '레모네이드', 623, NULL, '2024-12-30 09:19:29.000000', b'0', 1, 9),
-	(42, 'Jomalone', 'Diffuser', '2024-12-30 09:19:29.000000', 120000, 'SELLING', 'Jomalone 만다린 디퓨저', '라임 바질 앤 만다린 디퓨저', 130, NULL, '2024-12-30 09:19:29.000000', b'1', 3, 17),
-	(43, 'Santa Maria Novella', 'Perfume', '2024-12-30 09:19:29.000000', 130000, 'SELLING', '아쿠아 오드퍼퓸 향수, 45ml, 중고 제품', '아쿠아 오드퍼퓸', 45, NULL, '2024-12-30 09:19:29.000000', b'0', 1, 1),
-	(44, 'IKEA', 'Diffuser', '2024-12-30 09:19:29.000000', 15000, 'REJECTED', 'IKEA 레드 향초, 새 제품', '레드 캔들', 150, NULL, '2024-12-30 09:19:29.000000', b'0', 1, 17),
-	(45, 'Santa Maria', 'Perfume', '2024-12-30 09:19:29.000000', 98000, 'SOLD', '오드퍼퓸 향수 중고', '오드퍼퓸', 70, NULL, '2024-12-30 09:19:29.000000', b'1', 1, 1),
-	(46, 'Santa Maria', 'Perfume', '2024-12-30 09:19:29.000000', 126600, 'SELLING', '오드퍼퓸 향수 중고', '오드 퍼퓸', 80, NULL, '2024-12-30 09:19:29.000000', b'1', 1, 1),
-	(47, 'Santa Maria', 'Perfume', '2024-12-30 09:19:29.000000', 150000, 'SELLING', '오드퍼퓸 향수 중고', '오드퍼퓸 ', 55, NULL, '2024-12-30 09:19:29.000000', b'1', 1, 1),
-	(48, 'Santa Maria', 'Perfume', '2024-12-30 09:19:29.000000', 150000, 'SELLING', '오드퍼퓸 향수 중고', '오드퍼퓸', 90, NULL, '2024-12-30 09:19:29.000000', b'1', 1, 1),
-	(49, 'Santa Maria', 'Perfume', '2024-12-30 09:19:29.000000', 120000, 'SELLING', '오드퍼퓸 중고', '오드퍼퓸', 75, NULL, '2024-12-30 09:19:29.000000', b'1', 1, 1),
-	(50, 'Santa Maria', 'Perfume', '2024-12-30 09:19:29.000000', 50000, 'REJECTED', '오드퍼퓸', '모름', 55, NULL, '2024-12-30 09:19:29.000000', b'1', 1, 1),
-	(51, 'Jomalone', 'Diffuser', '2024-12-30 09:19:29.000000', 150000, 'SELLING', '디퓨저1', '만다린 디퓨저', 165, NULL, '2024-12-30 09:19:29.000000', b'1', 1, 17),
-	(52, 'Jomalone', 'Diffuser', '2024-12-30 09:19:29.000000', 110000, 'SELLING', '디퓨저2', '만다린 디퓨저', 90, NULL, '2024-12-30 09:19:29.000000', b'1', 1, 17),
-	(53, 'Fragonard', 'Diffuser', '2024-12-30 09:19:29.000000', 50000, 'SOLD', '디퓨저3', '디퓨저', 150, NULL, '2024-12-30 09:19:29.000000', b'1', 1, 77),
-	(54, '디올', 'Perfume', '2024-12-30 19:31:01.166402', 115000, 'SELLING', '새상품', '옴므', 75, NULL, NULL, b'1', 1, 38),
-	(55, '디올', 'Perfume', '2024-12-30 19:43:22.774986', 65000, 'SELLING', '중고입니다', '옴므', 50, NULL, NULL, b'0', 1, 38),
-	(56, '입생로랑', 'Perfume', '2024-12-30 19:48:01.617846', 70000, 'SELLING', '중고상품임', '루미에르', 40, NULL, NULL, b'0', 1, 45),
-	(57, '샤넬', 'Perfume', '2024-12-30 19:54:37.888162', 130000, 'SELLING', '새 상품', '가브리엘 오 드 빠르펭', 50, NULL, NULL, b'1', 1, 40),
-	(58, '샤넬', 'Perfume', '2024-12-30 19:59:04.606678', 50000, 'SELLING', '중고', '오드 빠르펭', 30, NULL, NULL, b'0', 1, 40),
-	(59, '입생로랑', 'Perfume', '2024-12-30 20:12:01.649433', 35000, 'SELLING', '중고', '플라워 플레임', 30, NULL, NULL, b'0', 1, 49),
-	(60, '샤넬', 'Perfume', '2024-12-30 20:18:16.851478', 250000, 'SELLING', '새 상품', '레조드', 125, NULL, NULL, b'1', 1, 41);
+/*
+-- Query: SELECT * FROM pending_sale
+LIMIT 0, 1000
+
+-- Date: 2025-01-03 01:25
+*/
+INSERT INTO `pending_sale` (`pending_sale_id`,`brand_name`,`category_name`,`created_date`,`excepted_selling_price`,`inspection_status`,`product_description`,`product_name`,`product_size`,`rejected_reason`,`updated_date`,`used_or_not`,`member_id`,`product_id`) VALUES (40,'Santa Maria Novella','Perfume','2024-12-30 09:19:29.000000',145000,'SELLING','아쿠아 오드퍼퓸 향수, 50ml, 새 제품, 박스 포함','아쿠아 오드퍼퓸',48,NULL,'2024-12-30 09:19:29.000000', false,1,1);
+INSERT INTO `pending_sale` (`pending_sale_id`,`brand_name`,`category_name`,`created_date`,`excepted_selling_price`,`inspection_status`,`product_description`,`product_name`,`product_size`,`rejected_reason`,`updated_date`,`used_or_not`,`member_id`,`product_id`) VALUES (41,'Yankee Candle','Candle','2024-12-30 09:19:29.000000',53000,'SOLD','레모네이드 캔들','레모네이드',623,NULL,'2024-12-30 09:19:29.000000', false,1,9);
+INSERT INTO `pending_sale` (`pending_sale_id`,`brand_name`,`category_name`,`created_date`,`excepted_selling_price`,`inspection_status`,`product_description`,`product_name`,`product_size`,`rejected_reason`,`updated_date`,`used_or_not`,`member_id`,`product_id`) VALUES (42,'Jomalone','Diffuser','2024-12-30 09:19:29.000000',120000,'SOLD','Jomalone 만다린 디퓨저','라임 바질 앤 만다린 디퓨저',130,NULL,'2024-12-30 09:19:29.000000',true,3,17);
+INSERT INTO `pending_sale` (`pending_sale_id`,`brand_name`,`category_name`,`created_date`,`excepted_selling_price`,`inspection_status`,`product_description`,`product_name`,`product_size`,`rejected_reason`,`updated_date`,`used_or_not`,`member_id`,`product_id`) VALUES (43,'Santa Maria Novella','Perfume','2024-12-30 09:19:29.000000',130000,'SELLING','아쿠아 오드퍼퓸 향수, 45ml, 중고 제품','아쿠아 오드퍼퓸',45,NULL,'2024-12-30 09:19:29.000000', false,1,1);
+INSERT INTO `pending_sale` (`pending_sale_id`,`brand_name`,`category_name`,`created_date`,`excepted_selling_price`,`inspection_status`,`product_description`,`product_name`,`product_size`,`rejected_reason`,`updated_date`,`used_or_not`,`member_id`,`product_id`) VALUES (44,'IKEA','Diffuser','2024-12-30 09:19:29.000000',15000,'REJECTED','IKEA 레드 향초, 새 제품','레드 캔들',150,NULL,'2024-12-30 09:19:29.000000',false,1,17);
+INSERT INTO `pending_sale` (`pending_sale_id`,`brand_name`,`category_name`,`created_date`,`excepted_selling_price`,`inspection_status`,`product_description`,`product_name`,`product_size`,`rejected_reason`,`updated_date`,`used_or_not`,`member_id`,`product_id`) VALUES (45,'Santa Maria','Perfume','2024-12-30 09:19:29.000000',98000,'SOLD','오드퍼퓸 향수 중고','오드퍼퓸',70,NULL,'2024-12-30 09:19:29.000000',true,1,1);
+INSERT INTO `pending_sale` (`pending_sale_id`,`brand_name`,`category_name`,`created_date`,`excepted_selling_price`,`inspection_status`,`product_description`,`product_name`,`product_size`,`rejected_reason`,`updated_date`,`used_or_not`,`member_id`,`product_id`) VALUES (46,'Santa Maria','Perfume','2024-12-30 09:19:29.000000',126600,'SELLING','오드퍼퓸 향수 중고','오드 퍼퓸',80,NULL,'2024-12-30 09:19:29.000000',true,1,1);
+INSERT INTO `pending_sale` (`pending_sale_id`,`brand_name`,`category_name`,`created_date`,`excepted_selling_price`,`inspection_status`,`product_description`,`product_name`,`product_size`,`rejected_reason`,`updated_date`,`used_or_not`,`member_id`,`product_id`) VALUES (47,'Santa Maria','Perfume','2024-12-30 09:19:29.000000',150000,'SELLING','오드퍼퓸 향수 중고','오드퍼퓸 ',55,NULL,'2024-12-30 09:19:29.000000',true,1,1);
+INSERT INTO `pending_sale` (`pending_sale_id`,`brand_name`,`category_name`,`created_date`,`excepted_selling_price`,`inspection_status`,`product_description`,`product_name`,`product_size`,`rejected_reason`,`updated_date`,`used_or_not`,`member_id`,`product_id`) VALUES (48,'Santa Maria','Perfume','2024-12-30 09:19:29.000000',150000,'SELLING','오드퍼퓸 향수 중고','오드퍼퓸',90,NULL,'2024-12-30 09:19:29.000000',true,1,1);
+INSERT INTO `pending_sale` (`pending_sale_id`,`brand_name`,`category_name`,`created_date`,`excepted_selling_price`,`inspection_status`,`product_description`,`product_name`,`product_size`,`rejected_reason`,`updated_date`,`used_or_not`,`member_id`,`product_id`) VALUES (49,'Santa Maria','Perfume','2024-12-30 09:19:29.000000',120000,'SELLING','오드퍼퓸 중고','오드퍼퓸',75,NULL,'2024-12-30 09:19:29.000000',true,1,1);
+INSERT INTO `pending_sale` (`pending_sale_id`,`brand_name`,`category_name`,`created_date`,`excepted_selling_price`,`inspection_status`,`product_description`,`product_name`,`product_size`,`rejected_reason`,`updated_date`,`used_or_not`,`member_id`,`product_id`) VALUES (50,'Santa Maria','Perfume','2024-12-30 09:19:29.000000',50000,'REJECTED','오드퍼퓸','모름',55,NULL,'2024-12-30 09:19:29.000000',true,1,1);
+INSERT INTO `pending_sale` (`pending_sale_id`,`brand_name`,`category_name`,`created_date`,`excepted_selling_price`,`inspection_status`,`product_description`,`product_name`,`product_size`,`rejected_reason`,`updated_date`,`used_or_not`,`member_id`,`product_id`) VALUES (51,'Jomalone','Diffuser','2024-12-30 09:19:29.000000',150000,'SELLING','디퓨저1','만다린 디퓨저',165,NULL,'2024-12-30 09:19:29.000000',true,1,17);
+INSERT INTO `pending_sale` (`pending_sale_id`,`brand_name`,`category_name`,`created_date`,`excepted_selling_price`,`inspection_status`,`product_description`,`product_name`,`product_size`,`rejected_reason`,`updated_date`,`used_or_not`,`member_id`,`product_id`) VALUES (52,'Jomalone','Diffuser','2024-12-30 09:19:29.000000',110000,'SELLING','디퓨저2','만다린 디퓨저',90,NULL,'2024-12-30 09:19:29.000000',true,1,17);
+INSERT INTO `pending_sale` (`pending_sale_id`,`brand_name`,`category_name`,`created_date`,`excepted_selling_price`,`inspection_status`,`product_description`,`product_name`,`product_size`,`rejected_reason`,`updated_date`,`used_or_not`,`member_id`,`product_id`) VALUES (53,'Fragonard','Diffuser','2024-12-30 09:19:29.000000',50000,'SOLD','디퓨저3','디퓨저',150,NULL,'2024-12-30 09:19:29.000000',true,1,77);
+INSERT INTO `pending_sale` (`pending_sale_id`,`brand_name`,`category_name`,`created_date`,`excepted_selling_price`,`inspection_status`,`product_description`,`product_name`,`product_size`,`rejected_reason`,`updated_date`,`used_or_not`,`member_id`,`product_id`) VALUES (54,'디올','Perfume','2024-12-30 19:31:01.166402',115000,'SELLING','새상품','옴므',75,NULL,NULL,true,1,38);
+INSERT INTO `pending_sale` (`pending_sale_id`,`brand_name`,`category_name`,`created_date`,`excepted_selling_price`,`inspection_status`,`product_description`,`product_name`,`product_size`,`rejected_reason`,`updated_date`,`used_or_not`,`member_id`,`product_id`) VALUES (55,'디올','Perfume','2024-12-30 19:43:22.774986',65000,'SELLING','중고입니다','옴므',50,NULL,NULL,false,1,38);
+INSERT INTO `pending_sale` (`pending_sale_id`,`brand_name`,`category_name`,`created_date`,`excepted_selling_price`,`inspection_status`,`product_description`,`product_name`,`product_size`,`rejected_reason`,`updated_date`,`used_or_not`,`member_id`,`product_id`) VALUES (56,'입생로랑','Perfume','2024-12-30 19:48:01.617846',70000,'SELLING','중고상품임','루미에르',40,NULL,NULL,false,1,45);
+INSERT INTO `pending_sale` (`pending_sale_id`,`brand_name`,`category_name`,`created_date`,`excepted_selling_price`,`inspection_status`,`product_description`,`product_name`,`product_size`,`rejected_reason`,`updated_date`,`used_or_not`,`member_id`,`product_id`) VALUES (57,'샤넬','Perfume','2024-12-30 19:54:37.888162',130000,'SELLING','새 상품','가브리엘 오 드 빠르펭',50,NULL,NULL,true,1,40);
+INSERT INTO `pending_sale` (`pending_sale_id`,`brand_name`,`category_name`,`created_date`,`excepted_selling_price`,`inspection_status`,`product_description`,`product_name`,`product_size`,`rejected_reason`,`updated_date`,`used_or_not`,`member_id`,`product_id`) VALUES (58,'샤넬','Perfume','2024-12-30 19:59:04.606678',50000,'SELLING','중고','오드 빠르펭',30,NULL,NULL,false,1,40);
+INSERT INTO `pending_sale` (`pending_sale_id`,`brand_name`,`category_name`,`created_date`,`excepted_selling_price`,`inspection_status`,`product_description`,`product_name`,`product_size`,`rejected_reason`,`updated_date`,`used_or_not`,`member_id`,`product_id`) VALUES (59,'입생로랑','Perfume','2024-12-30 20:12:01.649433',35000,'SELLING','중고','플라워 플레임',30,NULL,NULL,false,1,49);
+INSERT INTO `pending_sale` (`pending_sale_id`,`brand_name`,`category_name`,`created_date`,`excepted_selling_price`,`inspection_status`,`product_description`,`product_name`,`product_size`,`rejected_reason`,`updated_date`,`used_or_not`,`member_id`,`product_id`) VALUES (60,'샤넬','Perfume','2024-12-30 20:18:16.851478',250000,'SELLING','새 상품','레조드',125,NULL,NULL,true,1,41);
+INSERT INTO `pending_sale` (`pending_sale_id`,`brand_name`,`category_name`,`created_date`,`excepted_selling_price`,`inspection_status`,`product_description`,`product_name`,`product_size`,`rejected_reason`,`updated_date`,`used_or_not`,`member_id`,`product_id`) VALUES (61,'양키캔들','Candle','2025-01-03 00:50:02.352335',20000,'SELLING','중고','가드니아',350,NULL,NULL,false ,1,11);
+INSERT INTO `pending_sale` (`pending_sale_id`,`brand_name`,`category_name`,`created_date`,`excepted_selling_price`,`inspection_status`,`product_description`,`product_name`,`product_size`,`rejected_reason`,`updated_date`,`used_or_not`,`member_id`,`product_id`) VALUES (62,'양키캔들','Candle','2025-01-03 01:08:18.166974',30000,'WAITING','중고','아이스레모네이드',350,NULL,NULL,false,1,NULL);
 
 -- user_sale_image
-INSERT INTO `user_sale_image` (`user_sale_image_id`, `file_desc`, `filename`, `is_used`, `path`, `pending_sale_id`) VALUES
-	(1, 'image-1', 'perfume001.png', b'1', 'images/file/\\perfume001.png', 40),
-	(2, 'image-2', 'p_002.png', b'0', 'images/file/\\p_002.png', 40),
-	(3, 'image-3', 'p_003.png', b'1', 'images/file/\\p_003.png', 40),
-	(4, 'image-1', 'c_001.png', b'1', 'images/file/\\c_001.png', 41),
-	(5, 'image-1', 'd_001_01.jpg', b'1', 'images/file/\\d_001_01.jpg', 42),
-	(6, 'image-1', 'perfume002.png', b'1', 'images/file/\\perfume002.png', 43),
-	(7, 'image-1', 'p_009.png', b'1', 'images/file/\\p_009.png', 44),
-	(8, 'image-1', 'p_001_01.jpg', b'1', 'images/file/\\p_001_01.jpg', 45),
-	(9, 'image-1', 'perfume003.png', b'1', 'images/file/\\perfume003.png', 46),
-	(10, 'image-1', 'perfume005.png', b'1', 'images/file/\\perfume005.png', 47),
-	(11, 'image-1', 'perfume004.png', b'1', 'images/file/\\perfume004.png', 48),
-	(12, 'image-1', 'perfume006.png', b'1', 'images/file/\\perfume006.png', 49),
-	(13, 'image-1', 'p_001_06.jpg', b'1', 'images/file/\\p_001_06.jpg', 50),
-	(14, 'image-1', 'd_001_02_new.jpg', b'1', 'images/file/\\d_001_02_new.jpg', 51),
-	(15, 'image-2', 'd_001_02_box.jpg', b'1', 'images/file/\\d_001_02_box.jpg', 51),
-	(16, 'image-1', 'd_001_02_c.jpg', b'1', 'images/file/\\d_001_02_c.jpg', 52),
-	(17, 'image-1', 'd_077_01_c.jpg', b'1', 'images/file/\\d_077_01_c.jpg', 53),
-	(18, 'image-1', 'dior_homme_75ml.png', b'0', 'images/file/\\dior_homme_75ml.png', 54),
-	(19, 'image-1', 'dior_homme_75ml_c.png', b'0', 'images/file/\\dior_homme_75ml_c.png', 55),
-	(20, 'image-1', 'saint laurent_50ml_01.png', b'0', 'images/file/\\saint laurent_50ml_01.png', 56),
-	(21, 'image-1', 'gabriel_chanel.png', b'0', 'images/file/\\gabriel_chanel.png', 57),
-	(22, 'image-2', 'gabriel_chanel_01.png', b'0', 'images/file/\\gabriel_chanel_01.png', 57),
-	(23, 'image-1', 'gabriel_chanel2.png', b'0', 'images/file/\\gabriel_chanel2.png', 58),
-	(24, 'image-1', 'flower_and_flame_50.png', b'0', 'images/file/\\flower_and_flame_50.png', 59),
-	(25, 'image-1', 'chanel_lejode1.png', b'0', 'images/file/\\chanel_lejode1.png', 60);
+/*
+-- Query: SELECT * FROM user_sale_image
+LIMIT 0, 1000
 
+-- Date: 2025-01-03 01:26
+*/
+INSERT INTO `user_sale_image` (`user_sale_image_id`,`file_desc`,`filename`,`is_used`,`path`,`pending_sale_id`) VALUES (1,'image-1','perfume001.png',true,'images/file/\\perfume001.png',40);
+INSERT INTO `user_sale_image` (`user_sale_image_id`,`file_desc`,`filename`,`is_used`,`path`,`pending_sale_id`) VALUES (2,'image-2','p_002.png',false,'images/file/\\p_002.png',40);
+INSERT INTO `user_sale_image` (`user_sale_image_id`,`file_desc`,`filename`,`is_used`,`path`,`pending_sale_id`) VALUES (3,'image-3','p_003.png',true,'images/file/\\p_003.png',40);
+INSERT INTO `user_sale_image` (`user_sale_image_id`,`file_desc`,`filename`,`is_used`,`path`,`pending_sale_id`) VALUES (4,'image-1','c_001.png',true,'images/file/\\c_001.png',41);
+INSERT INTO `user_sale_image` (`user_sale_image_id`,`file_desc`,`filename`,`is_used`,`path`,`pending_sale_id`) VALUES (5,'image-1','d_001_01.jpg',true,'images/file/\\d_001_01.jpg',42);
+INSERT INTO `user_sale_image` (`user_sale_image_id`,`file_desc`,`filename`,`is_used`,`path`,`pending_sale_id`) VALUES (6,'image-1','perfume002.png',true,'images/file/\\perfume002.png',43);
+INSERT INTO `user_sale_image` (`user_sale_image_id`,`file_desc`,`filename`,`is_used`,`path`,`pending_sale_id`) VALUES (7,'image-1','p_009.png',true,'images/file/\\p_009.png',44);
+INSERT INTO `user_sale_image` (`user_sale_image_id`,`file_desc`,`filename`,`is_used`,`path`,`pending_sale_id`) VALUES (8,'image-1','p_001_01.jpg',true,'images/file/\\p_001_01.jpg',45);
+INSERT INTO `user_sale_image` (`user_sale_image_id`,`file_desc`,`filename`,`is_used`,`path`,`pending_sale_id`) VALUES (9,'image-1','perfume003.png',true,'images/file/\\perfume003.png',46);
+INSERT INTO `user_sale_image` (`user_sale_image_id`,`file_desc`,`filename`,`is_used`,`path`,`pending_sale_id`) VALUES (10,'image-1','perfume005.png',true,'images/file/\\perfume005.png',47);
+INSERT INTO `user_sale_image` (`user_sale_image_id`,`file_desc`,`filename`,`is_used`,`path`,`pending_sale_id`) VALUES (11,'image-1','perfume004.png',true,'images/file/\\perfume004.png',48);
+INSERT INTO `user_sale_image` (`user_sale_image_id`,`file_desc`,`filename`,`is_used`,`path`,`pending_sale_id`) VALUES (12,'image-1','perfume006.png',true,'images/file/\\perfume006.png',49);
+INSERT INTO `user_sale_image` (`user_sale_image_id`,`file_desc`,`filename`,`is_used`,`path`,`pending_sale_id`) VALUES (13,'image-1','p_001_06.jpg',true,'images/file/\\p_001_06.jpg',50);
+INSERT INTO `user_sale_image` (`user_sale_image_id`,`file_desc`,`filename`,`is_used`,`path`,`pending_sale_id`) VALUES (14,'image-1','d_001_02_new.jpg',true,'images/file/\\d_001_02_new.jpg',51);
+INSERT INTO `user_sale_image` (`user_sale_image_id`,`file_desc`,`filename`,`is_used`,`path`,`pending_sale_id`) VALUES (15,'image-2','d_001_02_box.jpg',true,'images/file/\\d_001_02_box.jpg',51);
+INSERT INTO `user_sale_image` (`user_sale_image_id`,`file_desc`,`filename`,`is_used`,`path`,`pending_sale_id`) VALUES (16,'image-1','d_001_02_c.jpg',true,'images/file/\\d_001_02_c.jpg',52);
+INSERT INTO `user_sale_image` (`user_sale_image_id`,`file_desc`,`filename`,`is_used`,`path`,`pending_sale_id`) VALUES (17,'image-1','d_077_01_c.jpg',true,'images/file/\\d_077_01_c.jpg',53);
+INSERT INTO `user_sale_image` (`user_sale_image_id`,`file_desc`,`filename`,`is_used`,`path`,`pending_sale_id`) VALUES (18,'image-1','dior_homme_75ml.png',false,'images/file/\\dior_homme_75ml.png',54);
+INSERT INTO `user_sale_image` (`user_sale_image_id`,`file_desc`,`filename`,`is_used`,`path`,`pending_sale_id`) VALUES (19,'image-1','dior_homme_75ml_c.png',false,'images/file/\\dior_homme_75ml_c.png',55);
+INSERT INTO `user_sale_image` (`user_sale_image_id`,`file_desc`,`filename`,`is_used`,`path`,`pending_sale_id`) VALUES (20,'image-1','saint laurent_50ml_01.png',false,'images/file/\\saint laurent_50ml_01.png',56);
+INSERT INTO `user_sale_image` (`user_sale_image_id`,`file_desc`,`filename`,`is_used`,`path`,`pending_sale_id`) VALUES (21,'image-1','gabriel_chanel.png',false,'images/file/\\gabriel_chanel.png',57);
+INSERT INTO `user_sale_image` (`user_sale_image_id`,`file_desc`,`filename`,`is_used`,`path`,`pending_sale_id`) VALUES (22,'image-2','gabriel_chanel_01.png',false,'images/file/\\gabriel_chanel_01.png',57);
+INSERT INTO `user_sale_image` (`user_sale_image_id`,`file_desc`,`filename`,`is_used`,`path`,`pending_sale_id`) VALUES (23,'image-1','gabriel_chanel2.png',false,'images/file/\\gabriel_chanel2.png',58);
+INSERT INTO `user_sale_image` (`user_sale_image_id`,`file_desc`,`filename`,`is_used`,`path`,`pending_sale_id`) VALUES (24,'image-1','flower_and_flame_50.png',false,'images/file/\\flower_and_flame_50.png',59);
+INSERT INTO `user_sale_image` (`user_sale_image_id`,`file_desc`,`filename`,`is_used`,`path`,`pending_sale_id`) VALUES (25,'image-1','chanel_lejode1.png',false,'images/file/\\chanel_lejode1.png',60);
+INSERT INTO `user_sale_image` (`user_sale_image_id`,`file_desc`,`filename`,`is_used`,`path`,`pending_sale_id`) VALUES (26,'image-1','joyfull-gadnia.jpg',false,'images/file//joyfull-gadnia.jpg',61);
+INSERT INTO `user_sale_image` (`user_sale_image_id`,`file_desc`,`filename`,`is_used`,`path`,`pending_sale_id`) VALUES (27,'image-1','ice_lemonade_01.jpg',false,'images/file//ice_lemonade_01.jpg',62);
+INSERT INTO `user_sale_image` (`user_sale_image_id`,`file_desc`,`filename`,`is_used`,`path`,`pending_sale_id`) VALUES (28,'image-2','ice_lemonade_02.jpg',false,'images/file//ice_lemonade_02.jpg',62);
 
 -- sale_grade
 INSERT INTO sale_grade (sale_grade_id, grade_description, grade_type)
@@ -461,138 +476,225 @@ VALUES
   (6, '향수, 캔들, 디퓨저에 해당하지 않는 제품입니다.');
 
 -- verified_sale
-INSERT INTO `verified_sale` (`verified_sale_id`, `brand_name`, `category_name`, `created_date`, `inspection_description`, `inspection_result`, `posted`, `product_name`, `product_size`, `used_or_not`, `verified_selling_price`, `pending_sale_id`, `rejected_sale_id`, `sale_grade_id`) VALUES
-	(1, 'Santa Maria Novella', 'Perfume', '2024-12-30 09:19:29.000000', '아쿠아 오드퍼퓸 향수, 100ml, 새 제품, 박스 포함', b'1', b'0', '아쿠아 오드퍼퓸', 100, b'0', 210000, 40, NULL, 1),
-	(2, 'Yankee Candle', 'Candle', '2024-12-30 09:19:29.000000', 'Yankee Candle 아이스드베리레모네이드, 새 제품', b'1', b'0', '아이스드베리레모네이드', 100, b'0', 55000, 41, NULL, 1),
-	(3, 'Jomalone', 'Diffuser', '2024-12-30 09:19:29.000000', 'Jomalone 만다린 디퓨저, 사용감 있음', b'1', b'0', '라임 바질 앤 만다린 디퓨저', 100, b'1', 99000, 42, NULL, 2),
-	(4, 'Santa Maria Novella', 'Perfume', '2024-12-30 09:19:29.000000', '아쿠아 오드퍼퓸, 75ml, 중고 제품', b'1', b'0', '아쿠아 오드퍼퓸', 100, b'1', 99000, 43, NULL, 3),
-	(5, 'IKEA', 'Candle', '2024-12-30 09:19:29.000000', 'IKEA 레드 향초, 결과참조바람 test1', b'0', b'0', '레드 캔들', 150, b'1', 0, 44, 4, NULL),
-	(6, 'Santa Maria Novella', 'Perfume', '2024-12-30 09:19:29.000000', '아쿠아 오드퍼퓸 향수, 70ml, 중고 제품, 박스 포함', b'1', b'0', '아쿠아 오드퍼퓸', 70, b'1', 110000, 45, NULL, 3),
-	(7, 'Santa Maria Novella', 'Perfume', '2024-12-30 09:19:29.000000', '아쿠아 오드퍼퓸 향수, 85ml, 중고 제품, 박스 포함', b'1', b'0', '아쿠아 오드퍼퓸', 85, b'1', 130000, 46, NULL, 2),
-	(8, 'Santa Maria Novella', 'Perfume', '2024-12-30 09:19:29.000000', '아쿠아 오드퍼퓸 향수, 90ml, 중고 제품, 박스 포함', b'1', b'0', '아쿠아 오드퍼퓸', 90, b'1', 150000, 47, NULL, 2),
-	(9, 'Santa Maria Novella', 'Perfume', '2024-12-30 09:19:29.000000', '아쿠아 오드퍼퓸 향수, 65ml, 중고 제품, 박스 포함', b'1', b'0', '아쿠아 오드퍼퓸', 65, b'1', 90000, 48, NULL, 3),
-	(10, 'Santa Maria Novella', 'Perfume', '2024-12-30 09:19:29.000000', '아쿠아 오드퍼퓸 향수, 55ml, 중고 제품, 박스 포함', b'1', b'0', '아쿠아 오드퍼퓸', 55, b'1', 50000, 49, NULL, 4),
-	(11, 'Santa Maria Novella', 'Perfume', '2024-12-30 09:19:29.000000', '아쿠아 오드퍼퓸 향수, 45ml, 중고 제품, 박스 포함', b'1', b'0', '아쿠아 오드퍼퓸', 45, b'1', 50000, 50, 5, NULL),
-	(12, 'Jomalone', 'Diffuser', '2024-12-30 09:19:29.000000', 'Jomalone 만다린 디퓨저, 새 제품, 박스 포함', b'1', b'0', '라임 바질 앤 만다린 디퓨저', 165, b'0', 150000, 51, NULL, 1),
-	(13, 'Jomalone', 'Diffuser', '2024-12-30 09:19:29.000000', 'Jomalone 만다린 디퓨저, 사용감 있음', b'1', b'0', '라임 바질 앤 만다린 디퓨저', 100, b'1', 99000, 52, NULL, 3),
-	(14, 'Fragonard', 'Diffuser', '2024-12-30 09:19:29.000000', '버베인 디퓨저, 150ml, 중고, 박스포함', b'1', b'0', '버베인 디퓨저', 100, b'1', 45000, 53, NULL, 3),
-	(15, 'Dior', 'Perfume', '2024-12-30 19:35:20.571699', '새상품, 박스 미포함', b'1', b'0', '디올 옴므 코롱', 75, b'0', 120000, 54, NULL, 1),
-	(16, 'Dior', 'Perfume', '2024-12-30 19:44:29.934889', '', b'1', b'0', '디올 옴므 코롱', 40, b'1', 85000, 55, NULL, 3),
-	(17, 'Saint Laurent', 'Perfume', '2024-12-30 19:48:39.622784', '중고상품, 박스 포함', b'1', b'0', '몽파리 오 드 뚜왈렛 루미에르', 30, b'1', 85000, 56, NULL, 3),
-	(18, 'Chanel', 'Perfume', '2024-12-30 19:57:52.687735', '새 상품, 박스 포함', b'1', b'0', '가브리엘 샤넬 에쌍스 오 드 빠르펭', 50, b'0', 140000, 57, NULL, 1),
-	(19, 'Chanel', 'Perfume', '2024-12-30 19:59:51.511306', '중고상품, 박스 미포함', b'1', b'0', '가브리엘 샤넬 에쌍스 오 드 빠르펭', 25, b'1', 68000, 58, NULL, 3),
-	(20, 'Saint Laurent', 'Perfume', '2024-12-30 20:13:18.507925', '중고, 박스 미포함', b'1', b'0', '리브르 플라워 & 플레임', 25, b'1', 50000, 59, NULL, 4),
-	(21, 'Chanel', 'Perfume', '2024-12-30 20:18:59.046337', '새 상품, 박스 포함', b'1', b'0', '레 조 드 샤넬 파리-파리 오 드 뚜왈렛 스프레이', 125, b'0', 2250000, 60, NULL, 1);
+/*
+-- Query: SELECT * FROM fourhwang.verified_sale
+LIMIT 0, 1000
+
+-- Date: 2025-01-03 01:21
+*/
+INSERT INTO `verified_sale` (`verified_sale_id`,`brand_name`,`category_name`,`created_date`,`inspection_description`,`inspection_result`,`posted`,`product_name`,`product_size`,`used_or_not`,`verified_selling_price`,`pending_sale_id`,`rejected_sale_id`,`sale_grade_id`) VALUES (1,'Santa Maria Novella','Perfume','2024-12-30 09:19:29.000000','아쿠아 오드퍼퓸 향수, 100ml, 새 제품, 박스 포함',true,false,'아쿠아 오드퍼퓸',100,false,210000,40,NULL,1);
+INSERT INTO `verified_sale` (`verified_sale_id`,`brand_name`,`category_name`,`created_date`,`inspection_description`,`inspection_result`,`posted`,`product_name`,`product_size`,`used_or_not`,`verified_selling_price`,`pending_sale_id`,`rejected_sale_id`,`sale_grade_id`) VALUES (2,'Yankee Candle','Candle','2024-12-30 09:19:29.000000','Yankee Candle 아이스드베리레모네이드, 새 제품',true,false,'아이스드베리레모네이드',100,false,55000,41,NULL,1);
+INSERT INTO `verified_sale` (`verified_sale_id`,`brand_name`,`category_name`,`created_date`,`inspection_description`,`inspection_result`,`posted`,`product_name`,`product_size`,`used_or_not`,`verified_selling_price`,`pending_sale_id`,`rejected_sale_id`,`sale_grade_id`) VALUES (3,'Jomalone','Diffuser','2024-12-30 09:19:29.000000','Jomalone 만다린 디퓨저, 사용감 있음',true,false,'라임 바질 앤 만다린 디퓨저',100,true,99000,42,NULL,2);
+INSERT INTO `verified_sale` (`verified_sale_id`,`brand_name`,`category_name`,`created_date`,`inspection_description`,`inspection_result`,`posted`,`product_name`,`product_size`,`used_or_not`,`verified_selling_price`,`pending_sale_id`,`rejected_sale_id`,`sale_grade_id`) VALUES (4,'Santa Maria Novella','Perfume','2024-12-30 09:19:29.000000','아쿠아 오드퍼퓸, 75ml, 중고 제품',true,false,'아쿠아 오드퍼퓸',100,true,99000,43,NULL,3);
+INSERT INTO `verified_sale` (`verified_sale_id`,`brand_name`,`category_name`,`created_date`,`inspection_description`,`inspection_result`,`posted`,`product_name`,`product_size`,`used_or_not`,`verified_selling_price`,`pending_sale_id`,`rejected_sale_id`,`sale_grade_id`) VALUES (5,'IKEA','Candle','2024-12-30 09:19:29.000000','IKEA 레드 향초, 결과참조바람 test1',false,false,'레드 캔들',150,true,0,44,4,NULL);
+INSERT INTO `verified_sale` (`verified_sale_id`,`brand_name`,`category_name`,`created_date`,`inspection_description`,`inspection_result`,`posted`,`product_name`,`product_size`,`used_or_not`,`verified_selling_price`,`pending_sale_id`,`rejected_sale_id`,`sale_grade_id`) VALUES (6,'Santa Maria Novella','Perfume','2024-12-30 09:19:29.000000','아쿠아 오드퍼퓸 향수, 70ml, 중고 제품, 박스 포함',true,false,'아쿠아 오드퍼퓸',70,true,110000,45,NULL,3);
+INSERT INTO `verified_sale` (`verified_sale_id`,`brand_name`,`category_name`,`created_date`,`inspection_description`,`inspection_result`,`posted`,`product_name`,`product_size`,`used_or_not`,`verified_selling_price`,`pending_sale_id`,`rejected_sale_id`,`sale_grade_id`) VALUES (7,'Santa Maria Novella','Perfume','2024-12-30 09:19:29.000000','아쿠아 오드퍼퓸 향수, 85ml, 중고 제품, 박스 포함',true,false,'아쿠아 오드퍼퓸',85,true,130000,46,NULL,2);
+INSERT INTO `verified_sale` (`verified_sale_id`,`brand_name`,`category_name`,`created_date`,`inspection_description`,`inspection_result`,`posted`,`product_name`,`product_size`,`used_or_not`,`verified_selling_price`,`pending_sale_id`,`rejected_sale_id`,`sale_grade_id`) VALUES (8,'Santa Maria Novella','Perfume','2024-12-30 09:19:29.000000','아쿠아 오드퍼퓸 향수, 90ml, 중고 제품, 박스 포함',true,false,'아쿠아 오드퍼퓸',90,true,150000,47,NULL,2);
+INSERT INTO `verified_sale` (`verified_sale_id`,`brand_name`,`category_name`,`created_date`,`inspection_description`,`inspection_result`,`posted`,`product_name`,`product_size`,`used_or_not`,`verified_selling_price`,`pending_sale_id`,`rejected_sale_id`,`sale_grade_id`) VALUES (9,'Santa Maria Novella','Perfume','2024-12-30 09:19:29.000000','아쿠아 오드퍼퓸 향수, 65ml, 중고 제품, 박스 포함',true,false,'아쿠아 오드퍼퓸',65,true,90000,48,NULL,3);
+INSERT INTO `verified_sale` (`verified_sale_id`,`brand_name`,`category_name`,`created_date`,`inspection_description`,`inspection_result`,`posted`,`product_name`,`product_size`,`used_or_not`,`verified_selling_price`,`pending_sale_id`,`rejected_sale_id`,`sale_grade_id`) VALUES (10,'Santa Maria Novella','Perfume','2024-12-30 09:19:29.000000','아쿠아 오드퍼퓸 향수, 55ml, 중고 제품, 박스 포함',true,false,'아쿠아 오드퍼퓸',55,true,50000,49,NULL,4);
+INSERT INTO `verified_sale` (`verified_sale_id`,`brand_name`,`category_name`,`created_date`,`inspection_description`,`inspection_result`,`posted`,`product_name`,`product_size`,`used_or_not`,`verified_selling_price`,`pending_sale_id`,`rejected_sale_id`,`sale_grade_id`) VALUES (11,'Santa Maria Novella','Perfume','2024-12-30 09:19:29.000000','아쿠아 오드퍼퓸 향수, 45ml, 중고 제품, 박스 포함',true,false,'아쿠아 오드퍼퓸',45,true,50000,50,5,NULL);
+INSERT INTO `verified_sale` (`verified_sale_id`,`brand_name`,`category_name`,`created_date`,`inspection_description`,`inspection_result`,`posted`,`product_name`,`product_size`,`used_or_not`,`verified_selling_price`,`pending_sale_id`,`rejected_sale_id`,`sale_grade_id`) VALUES (12,'Jomalone','Diffuser','2024-12-30 09:19:29.000000','Jomalone 만다린 디퓨저, 새 제품, 박스 포함',true,false,'라임 바질 앤 만다린 디퓨저',165,false,150000,51,NULL,1);
+INSERT INTO `verified_sale` (`verified_sale_id`,`brand_name`,`category_name`,`created_date`,`inspection_description`,`inspection_result`,`posted`,`product_name`,`product_size`,`used_or_not`,`verified_selling_price`,`pending_sale_id`,`rejected_sale_id`,`sale_grade_id`) VALUES (13,'Jomalone','Diffuser','2024-12-30 09:19:29.000000','Jomalone 만다린 디퓨저, 사용감 있음',true,false,'라임 바질 앤 만다린 디퓨저',100,true,99000,52,NULL,3);
+INSERT INTO `verified_sale` (`verified_sale_id`,`brand_name`,`category_name`,`created_date`,`inspection_description`,`inspection_result`,`posted`,`product_name`,`product_size`,`used_or_not`,`verified_selling_price`,`pending_sale_id`,`rejected_sale_id`,`sale_grade_id`) VALUES (14,'Fragonard','Diffuser','2024-12-30 09:19:29.000000','버베인 디퓨저, 150ml, 중고, 박스포함',true,false,'버베인 디퓨저',100,true,45000,53,NULL,3);
+INSERT INTO `verified_sale` (`verified_sale_id`,`brand_name`,`category_name`,`created_date`,`inspection_description`,`inspection_result`,`posted`,`product_name`,`product_size`,`used_or_not`,`verified_selling_price`,`pending_sale_id`,`rejected_sale_id`,`sale_grade_id`) VALUES (15,'Dior','Perfume','2024-12-30 19:35:20.571699','새상품, 박스 미포함',true,false,'디올 옴므 코롱',75,false,120000,54,NULL,1);
+INSERT INTO `verified_sale` (`verified_sale_id`,`brand_name`,`category_name`,`created_date`,`inspection_description`,`inspection_result`,`posted`,`product_name`,`product_size`,`used_or_not`,`verified_selling_price`,`pending_sale_id`,`rejected_sale_id`,`sale_grade_id`) VALUES (16,'Dior','Perfume','2024-12-30 19:44:29.934889','',true,false,'디올 옴므 코롱',40,true,85000,55,NULL,3);
+INSERT INTO `verified_sale` (`verified_sale_id`,`brand_name`,`category_name`,`created_date`,`inspection_description`,`inspection_result`,`posted`,`product_name`,`product_size`,`used_or_not`,`verified_selling_price`,`pending_sale_id`,`rejected_sale_id`,`sale_grade_id`) VALUES (17,'Saint Laurent','Perfume','2024-12-30 19:48:39.622784','중고상품, 박스 포함',true,false,'몽파리 오 드 뚜왈렛 루미에르',30,true,85000,56,NULL,3);
+INSERT INTO `verified_sale` (`verified_sale_id`,`brand_name`,`category_name`,`created_date`,`inspection_description`,`inspection_result`,`posted`,`product_name`,`product_size`,`used_or_not`,`verified_selling_price`,`pending_sale_id`,`rejected_sale_id`,`sale_grade_id`) VALUES (18,'Chanel','Perfume','2024-12-30 19:57:52.687735','새 상품, 박스 포함',true,false,'가브리엘 샤넬 에쌍스 오 드 빠르펭',50,false,140000,57,NULL,1);
+INSERT INTO `verified_sale` (`verified_sale_id`,`brand_name`,`category_name`,`created_date`,`inspection_description`,`inspection_result`,`posted`,`product_name`,`product_size`,`used_or_not`,`verified_selling_price`,`pending_sale_id`,`rejected_sale_id`,`sale_grade_id`) VALUES (19,'Chanel','Perfume','2024-12-30 19:59:51.511306','중고상품, 박스 미포함',true,false,'가브리엘 샤넬 에쌍스 오 드 빠르펭',25,true,68000,58,NULL,3);
+INSERT INTO `verified_sale` (`verified_sale_id`,`brand_name`,`category_name`,`created_date`,`inspection_description`,`inspection_result`,`posted`,`product_name`,`product_size`,`used_or_not`,`verified_selling_price`,`pending_sale_id`,`rejected_sale_id`,`sale_grade_id`) VALUES (20,'Saint Laurent','Perfume','2024-12-30 20:13:18.507925','중고, 박스 미포함',true,false,'리브르 플라워 & 플레임',25,true,50000,59,NULL,4);
+INSERT INTO `verified_sale` (`verified_sale_id`,`brand_name`,`category_name`,`created_date`,`inspection_description`,`inspection_result`,`posted`,`product_name`,`product_size`,`used_or_not`,`verified_selling_price`,`pending_sale_id`,`rejected_sale_id`,`sale_grade_id`) VALUES (21,'Chanel','Perfume','2024-12-30 20:18:59.046337','새 상품, 박스 포함',true,false,'레 조 드 샤넬 파리-파리 오 드 뚜왈렛 스프레이',125,false,2250000,60,NULL,1);
+INSERT INTO `verified_sale` (`verified_sale_id`,`brand_name`,`category_name`,`created_date`,`inspection_description`,`inspection_result`,`posted`,`product_name`,`product_size`,`used_or_not`,`verified_selling_price`,`pending_sale_id`,`rejected_sale_id`,`sale_grade_id`) VALUES (22,'Yankee Candle','Candle','2025-01-03 00:52:36.777741','조이풀(자스민&가드니아), 400g, 중고제품',true,false,'조이풀(자스민&가드니아)',400,true,40000,61,NULL,3);
 
 -- verified_sale_image
-INSERT INTO verified_sale_image(verified_sale_image_id, filename, path, verified_image_type, verified_sale_id)
-VALUES
-(1, 'p_001.png', 'images/file/\\p_001.png', 'VERIFIED_ACCEPT', 1);
+/*
+-- Query: SELECT * FROM verified_sale_image
+LIMIT 0, 1000
+
+-- Date: 2025-01-03 01:28
+*/
+INSERT INTO `verified_sale_image` (`verified_sale_image_id`,`file_desc`,`filename`,`path`,`verified_image_type`,`verified_sale_id`) VALUES (1,NULL,'p_001.png','images/file/\\p_001.png','VERIFIED_ACCEPT',1);
+INSERT INTO `verified_sale_image` (`verified_sale_image_id`,`file_desc`,`filename`,`path`,`verified_image_type`,`verified_sale_id`) VALUES (2,'image-1','joyfull_verified.jpg','images/file//joyfull_verified.jpg','VERIFIED_ACCEPT',22);
+
 
 -- used_product
-INSERT INTO `used_product` (`used_product_id`, `created_date`, `modified_date`, `sold_out`, `used_product_type`, `verified_sale_id`) VALUES
-	(1, '2024-12-30 09:19:29.000000', NULL, b'0', 'USER_ACCEPT', 1),
-	(2, '2024-12-30 09:19:29.000000', NULL, b'0', 'USER_ACCEPT', 2),
-	(3, '2024-12-30 09:19:29.000000', NULL, b'0', 'USER_ACCEPT', 3),
-	(4, '2024-12-30 09:19:29.000000', NULL, b'0', 'USER_ACCEPT', 4),
-	(5, '2024-12-30 09:19:29.000000', NULL, b'0', 'USER_REJECT', 5),
-	(6, '2024-12-30 09:19:29.000000', NULL, b'1', 'USER_ACCEPT', 6),
-	(7, '2024-12-30 09:19:29.000000', NULL, b'0', 'USER_ACCEPT', 7),
-	(8, '2024-12-30 09:19:29.000000', NULL, b'0', 'USER_ACCEPT', 8),
-	(9, '2024-12-30 09:19:29.000000', NULL, b'0', 'USER_ACCEPT', 9),
-	(10, '2024-12-30 09:19:29.000000', NULL, b'0', 'USER_ACCEPT', 10),
-	(11, '2024-12-30 09:19:29.000000', NULL, b'0', 'USER_REJECT', 11),
-	(12, '2024-12-30 09:19:29.000000', NULL, b'0', 'USER_ACCEPT', 12),
-	(13, '2024-12-30 09:19:29.000000', NULL, b'0', 'USER_ACCEPT', 13),
-	(14, '2024-12-30 09:19:29.000000', NULL, b'1', 'USER_ACCEPT', 14),
-	(15, '2024-12-30 19:37:10.481529', NULL, b'0', 'USER_ACCEPT', 15),
-	(16, '2024-12-30 19:44:52.257779', NULL, b'0', 'USER_ACCEPT', 16),
-	(17, '2024-12-30 19:49:34.181451', NULL, b'0', 'USER_ACCEPT', 17),
-	(18, '2024-12-30 19:58:07.980914', NULL, b'0', 'USER_ACCEPT', 18),
-	(19, '2024-12-30 20:00:25.546324', NULL, b'0', 'USER_ACCEPT', 19),
-	(20, '2024-12-30 20:13:38.715232', NULL, b'0', 'USER_ACCEPT', 20),
-	(21, '2024-12-30 20:19:11.326697', NULL, b'0', 'USER_ACCEPT', 21);
+/*
+-- Query: SELECT * FROM used_product
+LIMIT 0, 1000
+
+-- Date: 2025-01-03 01:28
+*/
+INSERT INTO `used_product` (`used_product_id`,`created_date`,`modified_date`,`sold_out`,`used_product_type`,`verified_sale_id`) VALUES (1,'2024-12-30 09:19:29.000000',NULL,false,'USER_ACCEPT',1);
+INSERT INTO `used_product` (`used_product_id`,`created_date`,`modified_date`,`sold_out`,`used_product_type`,`verified_sale_id`) VALUES (2,'2024-12-30 09:19:29.000000',NULL,true,'USER_ACCEPT',2);
+INSERT INTO `used_product` (`used_product_id`,`created_date`,`modified_date`,`sold_out`,`used_product_type`,`verified_sale_id`) VALUES (3,'2024-12-30 09:19:29.000000',NULL,true,'USER_ACCEPT',3);
+INSERT INTO `used_product` (`used_product_id`,`created_date`,`modified_date`,`sold_out`,`used_product_type`,`verified_sale_id`) VALUES (4,'2024-12-30 09:19:29.000000',NULL,false,'USER_ACCEPT',4);
+INSERT INTO `used_product` (`used_product_id`,`created_date`,`modified_date`,`sold_out`,`used_product_type`,`verified_sale_id`) VALUES (5,'2024-12-30 09:19:29.000000',NULL,false,'USER_REJECT',5);
+INSERT INTO `used_product` (`used_product_id`,`created_date`,`modified_date`,`sold_out`,`used_product_type`,`verified_sale_id`) VALUES (6,'2024-12-30 09:19:29.000000',NULL,true,'USER_ACCEPT',6);
+INSERT INTO `used_product` (`used_product_id`,`created_date`,`modified_date`,`sold_out`,`used_product_type`,`verified_sale_id`) VALUES (7,'2024-12-30 09:19:29.000000',NULL,false,'USER_ACCEPT',7);
+INSERT INTO `used_product` (`used_product_id`,`created_date`,`modified_date`,`sold_out`,`used_product_type`,`verified_sale_id`) VALUES (8,'2024-12-30 09:19:29.000000',NULL,false,'USER_ACCEPT',8);
+INSERT INTO `used_product` (`used_product_id`,`created_date`,`modified_date`,`sold_out`,`used_product_type`,`verified_sale_id`) VALUES (9,'2024-12-30 09:19:29.000000',NULL,false,'USER_ACCEPT',9);
+INSERT INTO `used_product` (`used_product_id`,`created_date`,`modified_date`,`sold_out`,`used_product_type`,`verified_sale_id`) VALUES (10,'2024-12-30 09:19:29.000000',NULL,false,'USER_ACCEPT',10);
+INSERT INTO `used_product` (`used_product_id`,`created_date`,`modified_date`,`sold_out`,`used_product_type`,`verified_sale_id`) VALUES (11,'2024-12-30 09:19:29.000000',NULL,false,'USER_REJECT',11);
+INSERT INTO `used_product` (`used_product_id`,`created_date`,`modified_date`,`sold_out`,`used_product_type`,`verified_sale_id`) VALUES (12,'2024-12-30 09:19:29.000000',NULL,false,'USER_ACCEPT',12);
+INSERT INTO `used_product` (`used_product_id`,`created_date`,`modified_date`,`sold_out`,`used_product_type`,`verified_sale_id`) VALUES (13,'2024-12-30 09:19:29.000000',NULL,false,'USER_ACCEPT',13);
+INSERT INTO `used_product` (`used_product_id`,`created_date`,`modified_date`,`sold_out`,`used_product_type`,`verified_sale_id`) VALUES (14,'2024-12-30 09:19:29.000000',NULL,true,'USER_ACCEPT',14);
+INSERT INTO `used_product` (`used_product_id`,`created_date`,`modified_date`,`sold_out`,`used_product_type`,`verified_sale_id`) VALUES (15,'2024-12-30 19:37:10.481529',NULL,false,'USER_ACCEPT',15);
+INSERT INTO `used_product` (`used_product_id`,`created_date`,`modified_date`,`sold_out`,`used_product_type`,`verified_sale_id`) VALUES (16,'2024-12-30 19:44:52.257779',NULL,false,'USER_ACCEPT',16);
+INSERT INTO `used_product` (`used_product_id`,`created_date`,`modified_date`,`sold_out`,`used_product_type`,`verified_sale_id`) VALUES (17,'2024-12-30 19:49:34.181451',NULL,false,'USER_ACCEPT',17);
+INSERT INTO `used_product` (`used_product_id`,`created_date`,`modified_date`,`sold_out`,`used_product_type`,`verified_sale_id`) VALUES (18,'2024-12-30 19:58:07.980914',NULL,false,'USER_ACCEPT',18);
+INSERT INTO `used_product` (`used_product_id`,`created_date`,`modified_date`,`sold_out`,`used_product_type`,`verified_sale_id`) VALUES (19,'2024-12-30 20:00:25.546324',NULL,false,'USER_ACCEPT',19);
+INSERT INTO `used_product` (`used_product_id`,`created_date`,`modified_date`,`sold_out`,`used_product_type`,`verified_sale_id`) VALUES (20,'2024-12-30 20:13:38.715232',NULL,false,'USER_ACCEPT',20);
+INSERT INTO `used_product` (`used_product_id`,`created_date`,`modified_date`,`sold_out`,`used_product_type`,`verified_sale_id`) VALUES (21,'2024-12-30 20:19:11.326697',NULL,false,'USER_ACCEPT',21);
+INSERT INTO `used_product` (`used_product_id`,`created_date`,`modified_date`,`sold_out`,`used_product_type`,`verified_sale_id`) VALUES (22,'2025-01-03 01:04:40.072151',NULL,false,'USER_ACCEPT',22);
+
 
 -- purchase
-INSERT INTO purchase (purchase_id, purchase_date, purchase_status, total_price, member_id) VALUES (10000001, now(), 'COMPLETED', 110000, 3);
-INSERT INTO purchase (purchase_id, purchase_date, purchase_status, total_price, member_id) VALUES (10000002, now(), 'COMPLETED', 53000, 4);
-INSERT INTO purchase (purchase_id, purchase_date, purchase_status, total_price, member_id) VALUES (10000003, now(), 'COMPLETED', 12000, 5);
-INSERT INTO purchase (purchase_id, purchase_date, purchase_status, total_price, member_id) VALUES (10000004, now(), 'COMPLETED', 100000, 4);
-INSERT INTO purchase (purchase_id, purchase_date, purchase_status, total_price, member_id) VALUES (10000005, now(), 'COMPLETED', 50000, 3);
-INSERT INTO purchase (purchase_id, purchase_date, purchase_status, total_price, member_id) VALUES (10000006, now(), 'COMPLETED', 45000, 3);
+/*
+-- Query: SELECT * FROM purchase
+LIMIT 0, 1000
+
+-- Date: 2025-01-03 01:29
+*/
+INSERT INTO `purchase` (`purchase_id`,`purchase_date`,`purchase_status`,`status`,`total_price`,`member_id`) VALUES (10000001,'2025-01-02 15:42:27.000000','COMPLETED',NULL,110000,3);
+INSERT INTO `purchase` (`purchase_id`,`purchase_date`,`purchase_status`,`status`,`total_price`,`member_id`) VALUES (10000002,'2025-01-02 15:42:27.000000','COMPLETED',NULL,53000,4);
+INSERT INTO `purchase` (`purchase_id`,`purchase_date`,`purchase_status`,`status`,`total_price`,`member_id`) VALUES (10000003,'2025-01-02 15:42:27.000000','COMPLETED',NULL,12000,5);
+INSERT INTO `purchase` (`purchase_id`,`purchase_date`,`purchase_status`,`status`,`total_price`,`member_id`) VALUES (10000004,'2025-01-02 15:42:27.000000','COMPLETED',NULL,100000,4);
+INSERT INTO `purchase` (`purchase_id`,`purchase_date`,`purchase_status`,`status`,`total_price`,`member_id`) VALUES (10000005,'2025-01-02 15:42:27.000000','COMPLETED',NULL,50000,3);
+INSERT INTO `purchase` (`purchase_id`,`purchase_date`,`purchase_status`,`status`,`total_price`,`member_id`) VALUES (10000006,'2025-01-02 15:42:27.000000','COMPLETED',NULL,45000,3);
+INSERT INTO `purchase` (`purchase_id`,`purchase_date`,`purchase_status`,`status`,`total_price`,`member_id`) VALUES (10000007,'2025-01-03 00:43:51.620418','SHIPPED',NULL,120000,1);
+INSERT INTO `purchase` (`purchase_id`,`purchase_date`,`purchase_status`,`status`,`total_price`,`member_id`) VALUES (10000008,'2025-01-03 00:46:03.873506','SHIPPED',NULL,53000,1);
+
+-- external_prepare_payment
+/*
+-- Query: SELECT * FROM external_prepare_payment
+LIMIT 0, 1000
+
+-- Date: 2025-01-03 01:32
+*/
+INSERT INTO `external_prepare_payment` (`external_prepare_payment_id`,`amount`,`merchant_uid`,`purchase_id`) VALUES (1,120000.00,'IMP1735832631568',10000007);
+INSERT INTO `external_prepare_payment` (`external_prepare_payment_id`,`amount`,`merchant_uid`,`purchase_id`) VALUES (2,53000.00,'IMP1735832763848',10000008);
+
 
 -- purchase_product
-INSERT INTO purchase_product (purchase_product_id, product_name, product_quantity, purchase_creation_date, used_product_id, purchase_id) VALUES (10000001, '아쿠아 오드퍼퓸', 1, now(), 1, 10000001);
-INSERT INTO purchase_product (purchase_product_id, product_name, product_quantity, purchase_creation_date, used_product_id, purchase_id) VALUES (10000002, '아이스드베리레모네이드', 1, now(), 2, 10000002);
-INSERT INTO purchase_product (purchase_product_id, product_name, product_quantity, purchase_creation_date, used_product_id, purchase_id) VALUES (10000003, '라임 바질 앤 만다린 디퓨저', 1, now(), 3, 10000003);
-INSERT INTO purchase_product (purchase_product_id, product_name, product_quantity, purchase_creation_date, used_product_id, purchase_id) VALUES (10000004, '아쿠아 오드퍼퓸', 1, now(), 4, 10000004);
-INSERT INTO purchase_product (purchase_product_id, product_name, product_quantity, purchase_creation_date, used_product_id, purchase_id) VALUES (10000005, '아이스드베리레모네이드', 1, now(), 5, 10000005);
+/*
+-- Query: SELECT * FROM purchase_product
+LIMIT 0, 1000
+
+-- Date: 2025-01-03 01:30
+*/
+INSERT INTO `purchase_product` (`purchase_product_id`,`product_name`,`product_quantity`,`purchase_complete_date`,`purchase_creation_date`,`purchase_id`,`used_product_id`) VALUES (10000001,'아쿠아 오드퍼퓸',1,NULL,'2025-01-02 15:42:27.000000',10000001,1);
+INSERT INTO `purchase_product` (`purchase_product_id`,`product_name`,`product_quantity`,`purchase_complete_date`,`purchase_creation_date`,`purchase_id`,`used_product_id`) VALUES (10000002,'아이스드베리레모네이드',1,NULL,'2025-01-02 15:42:27.000000',10000002,2);
+INSERT INTO `purchase_product` (`purchase_product_id`,`product_name`,`product_quantity`,`purchase_complete_date`,`purchase_creation_date`,`purchase_id`,`used_product_id`) VALUES (10000003,'라임 바질 앤 만다린 디퓨저',1,NULL,'2025-01-02 15:42:27.000000',10000003,3);
+INSERT INTO `purchase_product` (`purchase_product_id`,`product_name`,`product_quantity`,`purchase_complete_date`,`purchase_creation_date`,`purchase_id`,`used_product_id`) VALUES (10000004,'아쿠아 오드퍼퓸',1,NULL,'2025-01-02 15:42:27.000000',10000004,4);
+INSERT INTO `purchase_product` (`purchase_product_id`,`product_name`,`product_quantity`,`purchase_complete_date`,`purchase_creation_date`,`purchase_id`,`used_product_id`) VALUES (10000005,'아이스드베리레모네이드',1,NULL,'2025-01-02 15:42:27.000000',10000005,5);
+INSERT INTO `purchase_product` (`purchase_product_id`,`product_name`,`product_quantity`,`purchase_complete_date`,`purchase_creation_date`,`purchase_id`,`used_product_id`) VALUES (10000006,'라임 바질 앤 만다린 디퓨저',1,NULL,'2025-01-03 00:43:51.628114',10000007,3);
+INSERT INTO `purchase_product` (`purchase_product_id`,`product_name`,`product_quantity`,`purchase_complete_date`,`purchase_creation_date`,`purchase_id`,`used_product_id`) VALUES (10000007,'아이스드베리레모네이드',1,NULL,'2025-01-03 00:46:03.877988',10000008,2);
+
+-- delivery_purchase
+/*
+-- Query: SELECT * FROM fourhwang.delivery_purchase
+LIMIT 0, 1000
+
+-- Date: 2025-01-03 01:35
+*/
+INSERT INTO `delivery_purchase` (`delivery_purchases_id`,`delivered_date`,`status`,`purchase_id`,`purchase_product_id`) VALUES (1,'2025-01-03 00:44:26.483201','SHIPPING',10000007,NULL);
+INSERT INTO `delivery_purchase` (`delivery_purchases_id`,`delivered_date`,`status`,`purchase_id`,`purchase_product_id`) VALUES (2,'2025-01-03 00:44:26.485911','SHIPPED',10000007,NULL);
+INSERT INTO `delivery_purchase` (`delivery_purchases_id`,`delivered_date`,`status`,`purchase_id`,`purchase_product_id`) VALUES (3,'2025-01-03 00:46:28.833277','SHIPPING',10000008,NULL);
+INSERT INTO `delivery_purchase` (`delivery_purchases_id`,`delivered_date`,`status`,`purchase_id`,`purchase_product_id`) VALUES (4,'2025-01-03 00:46:28.845303','SHIPPED',10000008,NULL);
+INSERT INTO `delivery_purchase` (`delivery_purchases_id`,`delivered_date`,`status`,`purchase_id`,`purchase_product_id`) VALUES (5,'2025-01-03 00:46:28.851719','SHIPPED',10000008,NULL);
+
 
 -- payment
-INSERT INTO payment (payment_id,total_price, member_id) VALUES (10000001, 100000, 5);
+/*
+-- Query: SELECT * FROM payment
+LIMIT 0, 1000
+
+-- Date: 2025-01-03 01:30
+*/
+INSERT INTO `payment` (`payment_id`,`emb_pg_provider`,`imp_uid`,`merchant_uid`,`paid_at`,`pay_method`,`payment_type`,`pg_provider`,`status`,`system_logic_type`,`total_price`,`member_id`) VALUES (10000001,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,100000,5);
+INSERT INTO `payment` (`payment_id`,`emb_pg_provider`,`imp_uid`,`merchant_uid`,`paid_at`,`pay_method`,`payment_type`,`pg_provider`,`status`,`system_logic_type`,`total_price`,`member_id`) VALUES (10000002,NULL,'imp_606635334971','IMP1735832631568','2025-01-03 00:44:23.000000','point',1,'html5_inicis',2,0,120000,1);
+INSERT INTO `payment` (`payment_id`,`emb_pg_provider`,`imp_uid`,`merchant_uid`,`paid_at`,`pay_method`,`payment_type`,`pg_provider`,`status`,`system_logic_type`,`total_price`,`member_id`) VALUES (10000003,NULL,'imp_473766530688','IMP1735832763848','2025-01-03 00:46:25.000000','point',1,'html5_inicis',2,0,53000,1);
+
+-- sale_payment
+/*
+-- Query: SELECT * FROM sale_payment
+LIMIT 0, 1000
+
+-- Date: 2025-01-03 01:34
+*/
+INSERT INTO `sale_payment` (`sale_payment_id`,`created_date`,`final_price`,`modified_date`,`payments_id`,`used_product_id`) VALUES (1,'2025-01-03 00:44:23.000000',114000,NULL,10000002,3);
+INSERT INTO `sale_payment` (`sale_payment_id`,`created_date`,`final_price`,`modified_date`,`payments_id`,`used_product_id`) VALUES (2,'2025-01-03 00:46:25.000000',50350,NULL,10000003,2);
+
 
 -- purchase_payment
-INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000001, NULL, NOW() - INTERVAL 6 MONTH, 10000001, 10000001, 	    100000, 95);
-INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000002, NULL, NOW() - INTERVAL 6 MONTH, 10000001, 10000002, 	    20000, 599);
-INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000003, NULL, NOW() - INTERVAL 6 MONTH, 10000001, 10000003, 	   100000, 154);
-INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000004, NULL, NOW() - INTERVAL 6 MONTH, 10000001, 10000004, 	     50000, 44);
-INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000005, NULL, NOW() - INTERVAL 6 MONTH, 10000001, 10000005, 	    10000, 349);
-INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000008, NULL, NOW() - INTERVAL 2 MONTH, 10000001, 10000002  , 	    21000, 610                 );
-INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000009, NULL, NOW() - INTERVAL 28 DAY, 10000001, 10000003   , 	   105000, 151                 );
-INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000010, NULL, NOW() - INTERVAL 4 MONTH, 10000001, 10000004  , 	     50000, 45                 );
-INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000011, NULL, NOW() - INTERVAL 250 DAY, 10000001, 10000005  , 	    10000, 350                 );
-INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000013, NULL, now(), 10000001, 10000001                      , 	    90000, 92                );
-INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000014, NULL, now(), 10000001, 10000002                      , 	    20000, 599                );
-INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000015, NULL, now(), 10000001, 10000003                      , 	   100000, 154                );
-INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000016, NULL, now() - INTERVAL 83 DAY, 10000001, 10000004    , 	     50000, 44                );
-INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000017, NULL, now(), 10000001, 10000005                      , 	    10000, 349                );
-INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000019, NULL, NOW() - INTERVAL 7 MONTH, 10000001, 10000001   , 	    100000, 95                );
-INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000020, NULL, NOW() - INTERVAL 7 MONTH, 10000001, 10000002   , 	    20000, 599                );
-INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000021, NULL, NOW() - INTERVAL 7 MONTH, 10000001, 10000003   , 	   100000, 154                );
-INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000022, NULL, NOW() - INTERVAL 7 MONTH, 10000001, 10000004   , 	     50000, 44                );
-INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000023, NULL, NOW() - INTERVAL 7 MONTH, 10000001, 10000005   , 	    10000, 349                );
-INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000025, NULL, NOW() - INTERVAL 8 MONTH, 10000001, 10000001   , 	    100000, 95                );
-INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000026, NULL, NOW() - INTERVAL 8 MONTH, 10000001, 10000002   , 	    20000, 599                );
-INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000027, NULL, NOW() - INTERVAL 8 MONTH, 10000001, 10000003   , 	   100000, 154                );
-INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000028, NULL, NOW() - INTERVAL 8 MONTH, 10000001, 10000004   , 	     50000, 44                );
-INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000029, NULL, NOW() - INTERVAL 8 MONTH, 10000001, 10000005   , 	    10000, 349                );
-INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000031, NULL, NOW() - INTERVAL 8 MONTH - INTERVAL 13 DAY, 10000001,  10000001, 	    100000, 95);
-INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000032, NULL, NOW() - INTERVAL 8 MONTH - INTERVAL 13 DAY, 10000001,  10000002, 	    20000, 599);
-INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000033, NULL, NOW() - INTERVAL 8 MONTH - INTERVAL 13 DAY, 10000001,  10000003, 	   100000, 154);
-INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000034, NULL, NOW() - INTERVAL 8 MONTH - INTERVAL 13 DAY, 10000001,  10000004, 	     50000, 44);
-INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000035, NULL, NOW() - INTERVAL 8 MONTH - INTERVAL 13 DAY, 10000001,  10000005, 	    10000, 349);
-INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000037, NULL, NOW() - INTERVAL 8 MONTH - INTERVAL 23 DAY, 10000001,  10000001, 	    100000, 95);
-INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000038, NULL, NOW() - INTERVAL 8 MONTH - INTERVAL 23 DAY, 10000001,  10000002, 	    20000, 599);
-INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000039, NULL, NOW() - INTERVAL 8 MONTH - INTERVAL 23 DAY, 10000001,  10000003, 	   100000, 154);
-INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000040, NULL, NOW() - INTERVAL 8 MONTH - INTERVAL 23 DAY, 10000001,  10000004, 	     50000, 44);
-INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000041, NULL, NOW() - INTERVAL 8 MONTH - INTERVAL 23 DAY, 10000001,  10000005, 	    10000, 349);
-INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000043, NULL, NOW() - INTERVAL 9 MONTH, 10000001, 10000001	                  , 	    95000, 97);
-INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000044, NULL, NOW() - INTERVAL 9 MONTH, 10000001, 10000002			          , 	    35000, 623);
-INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000045, NULL, NOW() - INTERVAL 9 MONTH, 10000001, 10000003			          , 	   110000, 160);
-INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000046, NULL, NOW() - INTERVAL 9 MONTH, 10000001, 10000004			          , 	     55000, 46);
-INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000047, NULL, NOW() - INTERVAL 9 MONTH, 10000001, 10000005			          , 	    10000, 349);
-INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000049, NULL, NOW() - INTERVAL 9 MONTH - INTERVAL 13 DAY, 10000001,  10000001, 	    100000, 95);
-INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000050, NULL, NOW() - INTERVAL 9 MONTH - INTERVAL 13 DAY, 10000001,  10000002, 	    20000, 599);
-INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000051, NULL, NOW() - INTERVAL 9 MONTH - INTERVAL 13 DAY, 10000001,  10000003, 	   100000, 154);
-INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000052, NULL, NOW() - INTERVAL 9 MONTH - INTERVAL 13 DAY, 10000001,  10000004, 	     50000, 44);
-INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000053, NULL, NOW() - INTERVAL 9 MONTH - INTERVAL 13 DAY, 10000001,  10000005, 	    10000, 349);
-INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000055, NULL, NOW() - INTERVAL 9 MONTH - INTERVAL 23 DAY, 10000001,  10000001, 	    100000, 95);
-INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000056, NULL, NOW() - INTERVAL 9 MONTH - INTERVAL 23 DAY, 10000001,  10000002, 	    20000, 599);
-INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000057, NULL, NOW() - INTERVAL 9 MONTH - INTERVAL 23 DAY, 10000001,  10000003, 	   100000, 154);
-INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000058, NULL, NOW() - INTERVAL 9 MONTH - INTERVAL 23 DAY, 10000001,  10000004, 	     50000, 44);
-INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000059, NULL, NOW() - INTERVAL 9 MONTH - INTERVAL 23 DAY, 10000001,  10000005, 	    10000, 349);
-INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000061, NULL, NOW() - INTERVAL 10 MONTH - INTERVAL 8 DAY, 10000001,  10000001, 	    100000, 95);
-INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000062, NULL, NOW() - INTERVAL 10 MONTH - INTERVAL 12 DAY, 10000001, 10000001, 	   100000, 95);
-INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000063, NULL, NOW() - INTERVAL 10 MONTH - INTERVAL 4 DAY, 10000001,  10000001, 	   110000, 96);
-INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000064, NULL, NOW() - INTERVAL 10 MONTH - INTERVAL 21 DAY, 10000001, 10000001, 	   90000, 91);
-INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000065, NULL, NOW() - INTERVAL 10 MONTH - INTERVAL 23 DAY, 10000001, 10000001, 	   150000, 100);
-INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000066, NULL, NOW() - INTERVAL 10 MONTH - INTERVAL 17 DAY, 10000001, 10000001, 	    100000, 91);
-INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000067, NULL, NOW() - INTERVAL 11 MONTH - INTERVAL 8 DAY, 10000001,  10000001, 	   110000, 96);
-INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000068, NULL, NOW() - INTERVAL 11 MONTH - INTERVAL 12 DAY, 10000001, 10000001, 	    100000, 96);
-INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000069, NULL, NOW() - INTERVAL 11 MONTH - INTERVAL 4 DAY, 10000001,  10000001, 	   120000, 96);
-INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000070, NULL, NOW() - INTERVAL 11 MONTH - INTERVAL 21 DAY, 10000001, 10000001, 	     110000, 97);
-INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000071, NULL, NOW() - INTERVAL 11 MONTH - INTERVAL 23 DAY, 10000001, 10000001, 	    100000, 92);
-INSERT INTO purchase_payment (purchase_payment_id, cancelled_date, created_date, payment_id, purchase_product_id, trade_price, trade_size) VALUES (10000072, NULL, NOW() - INTERVAL 11 MONTH - INTERVAL 17 DAY, 10000001, 10000001, 	   100000, 96);
+/*
+-- Query: SELECT * FROM purchase_payment
+LIMIT 0, 1000
+
+-- Date: 2025-01-03 01:31
+*/
+INSERT INTO `purchase_payment` (`purchase_payment_id`,`cancelled_date`,`created_date`,`trade_price`,`trade_size`,`payment_id`,`purchase_product_id`) VALUES (10000001,NULL,'2024-07-02 15:42:27.000000',100000,95,10000001,10000001);
+INSERT INTO `purchase_payment` (`purchase_payment_id`,`cancelled_date`,`created_date`,`trade_price`,`trade_size`,`payment_id`,`purchase_product_id`) VALUES (10000002,NULL,'2024-07-02 15:42:27.000000',20000,599,10000001,10000002);
+INSERT INTO `purchase_payment` (`purchase_payment_id`,`cancelled_date`,`created_date`,`trade_price`,`trade_size`,`payment_id`,`purchase_product_id`) VALUES (10000003,NULL,'2024-07-02 15:42:27.000000',100000,154,10000001,10000003);
+INSERT INTO `purchase_payment` (`purchase_payment_id`,`cancelled_date`,`created_date`,`trade_price`,`trade_size`,`payment_id`,`purchase_product_id`) VALUES (10000004,NULL,'2024-07-02 15:42:27.000000',50000,44,10000001,10000004);
+INSERT INTO `purchase_payment` (`purchase_payment_id`,`cancelled_date`,`created_date`,`trade_price`,`trade_size`,`payment_id`,`purchase_product_id`) VALUES (10000005,NULL,'2024-07-02 15:42:27.000000',10000,349,10000001,10000005);
+INSERT INTO `purchase_payment` (`purchase_payment_id`,`cancelled_date`,`created_date`,`trade_price`,`trade_size`,`payment_id`,`purchase_product_id`) VALUES (10000008,NULL,'2024-11-02 15:42:27.000000',21000,610,10000001,10000002);
+INSERT INTO `purchase_payment` (`purchase_payment_id`,`cancelled_date`,`created_date`,`trade_price`,`trade_size`,`payment_id`,`purchase_product_id`) VALUES (10000009,NULL,'2024-12-05 15:42:27.000000',105000,151,10000001,10000003);
+INSERT INTO `purchase_payment` (`purchase_payment_id`,`cancelled_date`,`created_date`,`trade_price`,`trade_size`,`payment_id`,`purchase_product_id`) VALUES (10000010,NULL,'2024-09-02 15:42:27.000000',50000,45,10000001,10000004);
+INSERT INTO `purchase_payment` (`purchase_payment_id`,`cancelled_date`,`created_date`,`trade_price`,`trade_size`,`payment_id`,`purchase_product_id`) VALUES (10000011,NULL,'2024-04-27 15:42:27.000000',10000,350,10000001,10000005);
+INSERT INTO `purchase_payment` (`purchase_payment_id`,`cancelled_date`,`created_date`,`trade_price`,`trade_size`,`payment_id`,`purchase_product_id`) VALUES (10000013,NULL,'2025-01-02 15:42:27.000000',90000,92,10000001,10000001);
+INSERT INTO `purchase_payment` (`purchase_payment_id`,`cancelled_date`,`created_date`,`trade_price`,`trade_size`,`payment_id`,`purchase_product_id`) VALUES (10000014,NULL,'2025-01-02 15:42:27.000000',20000,599,10000001,10000002);
+INSERT INTO `purchase_payment` (`purchase_payment_id`,`cancelled_date`,`created_date`,`trade_price`,`trade_size`,`payment_id`,`purchase_product_id`) VALUES (10000015,NULL,'2025-01-02 15:42:27.000000',100000,154,10000001,10000003);
+INSERT INTO `purchase_payment` (`purchase_payment_id`,`cancelled_date`,`created_date`,`trade_price`,`trade_size`,`payment_id`,`purchase_product_id`) VALUES (10000016,NULL,'2024-10-11 15:42:27.000000',50000,44,10000001,10000004);
+INSERT INTO `purchase_payment` (`purchase_payment_id`,`cancelled_date`,`created_date`,`trade_price`,`trade_size`,`payment_id`,`purchase_product_id`) VALUES (10000017,NULL,'2025-01-02 15:42:27.000000',10000,349,10000001,10000005);
+INSERT INTO `purchase_payment` (`purchase_payment_id`,`cancelled_date`,`created_date`,`trade_price`,`trade_size`,`payment_id`,`purchase_product_id`) VALUES (10000019,NULL,'2024-06-02 15:42:27.000000',100000,95,10000001,10000001);
+INSERT INTO `purchase_payment` (`purchase_payment_id`,`cancelled_date`,`created_date`,`trade_price`,`trade_size`,`payment_id`,`purchase_product_id`) VALUES (10000020,NULL,'2024-06-02 15:42:27.000000',20000,599,10000001,10000002);
+INSERT INTO `purchase_payment` (`purchase_payment_id`,`cancelled_date`,`created_date`,`trade_price`,`trade_size`,`payment_id`,`purchase_product_id`) VALUES (10000021,NULL,'2024-06-02 15:42:27.000000',100000,154,10000001,10000003);
+INSERT INTO `purchase_payment` (`purchase_payment_id`,`cancelled_date`,`created_date`,`trade_price`,`trade_size`,`payment_id`,`purchase_product_id`) VALUES (10000022,NULL,'2024-06-02 15:42:27.000000',50000,44,10000001,10000004);
+INSERT INTO `purchase_payment` (`purchase_payment_id`,`cancelled_date`,`created_date`,`trade_price`,`trade_size`,`payment_id`,`purchase_product_id`) VALUES (10000023,NULL,'2024-06-02 15:42:27.000000',10000,349,10000001,10000005);
+INSERT INTO `purchase_payment` (`purchase_payment_id`,`cancelled_date`,`created_date`,`trade_price`,`trade_size`,`payment_id`,`purchase_product_id`) VALUES (10000025,NULL,'2024-05-02 15:42:27.000000',100000,95,10000001,10000001);
+INSERT INTO `purchase_payment` (`purchase_payment_id`,`cancelled_date`,`created_date`,`trade_price`,`trade_size`,`payment_id`,`purchase_product_id`) VALUES (10000026,NULL,'2024-05-02 15:42:27.000000',20000,599,10000001,10000002);
+INSERT INTO `purchase_payment` (`purchase_payment_id`,`cancelled_date`,`created_date`,`trade_price`,`trade_size`,`payment_id`,`purchase_product_id`) VALUES (10000027,NULL,'2024-05-02 15:42:27.000000',100000,154,10000001,10000003);
+INSERT INTO `purchase_payment` (`purchase_payment_id`,`cancelled_date`,`created_date`,`trade_price`,`trade_size`,`payment_id`,`purchase_product_id`) VALUES (10000028,NULL,'2024-05-02 15:42:27.000000',50000,44,10000001,10000004);
+INSERT INTO `purchase_payment` (`purchase_payment_id`,`cancelled_date`,`created_date`,`trade_price`,`trade_size`,`payment_id`,`purchase_product_id`) VALUES (10000029,NULL,'2024-05-02 15:42:27.000000',10000,349,10000001,10000005);
+INSERT INTO `purchase_payment` (`purchase_payment_id`,`cancelled_date`,`created_date`,`trade_price`,`trade_size`,`payment_id`,`purchase_product_id`) VALUES (10000031,NULL,'2024-04-19 15:42:27.000000',100000,95,10000001,10000001);
+INSERT INTO `purchase_payment` (`purchase_payment_id`,`cancelled_date`,`created_date`,`trade_price`,`trade_size`,`payment_id`,`purchase_product_id`) VALUES (10000032,NULL,'2024-04-19 15:42:27.000000',20000,599,10000001,10000002);
+INSERT INTO `purchase_payment` (`purchase_payment_id`,`cancelled_date`,`created_date`,`trade_price`,`trade_size`,`payment_id`,`purchase_product_id`) VALUES (10000033,NULL,'2024-04-19 15:42:27.000000',100000,154,10000001,10000003);
+INSERT INTO `purchase_payment` (`purchase_payment_id`,`cancelled_date`,`created_date`,`trade_price`,`trade_size`,`payment_id`,`purchase_product_id`) VALUES (10000034,NULL,'2024-04-19 15:42:27.000000',50000,44,10000001,10000004);
+INSERT INTO `purchase_payment` (`purchase_payment_id`,`cancelled_date`,`created_date`,`trade_price`,`trade_size`,`payment_id`,`purchase_product_id`) VALUES (10000035,NULL,'2024-04-19 15:42:27.000000',10000,349,10000001,10000005);
+INSERT INTO `purchase_payment` (`purchase_payment_id`,`cancelled_date`,`created_date`,`trade_price`,`trade_size`,`payment_id`,`purchase_product_id`) VALUES (10000037,NULL,'2024-04-09 15:42:27.000000',100000,95,10000001,10000001);
+INSERT INTO `purchase_payment` (`purchase_payment_id`,`cancelled_date`,`created_date`,`trade_price`,`trade_size`,`payment_id`,`purchase_product_id`) VALUES (10000038,NULL,'2024-04-09 15:42:27.000000',20000,599,10000001,10000002);
+INSERT INTO `purchase_payment` (`purchase_payment_id`,`cancelled_date`,`created_date`,`trade_price`,`trade_size`,`payment_id`,`purchase_product_id`) VALUES (10000039,NULL,'2024-04-09 15:42:27.000000',100000,154,10000001,10000003);
+INSERT INTO `purchase_payment` (`purchase_payment_id`,`cancelled_date`,`created_date`,`trade_price`,`trade_size`,`payment_id`,`purchase_product_id`) VALUES (10000040,NULL,'2024-04-09 15:42:27.000000',50000,44,10000001,10000004);
+INSERT INTO `purchase_payment` (`purchase_payment_id`,`cancelled_date`,`created_date`,`trade_price`,`trade_size`,`payment_id`,`purchase_product_id`) VALUES (10000041,NULL,'2024-04-09 15:42:27.000000',10000,349,10000001,10000005);
+INSERT INTO `purchase_payment` (`purchase_payment_id`,`cancelled_date`,`created_date`,`trade_price`,`trade_size`,`payment_id`,`purchase_product_id`) VALUES (10000043,NULL,'2024-04-02 15:42:27.000000',95000,97,10000001,10000001);
+INSERT INTO `purchase_payment` (`purchase_payment_id`,`cancelled_date`,`created_date`,`trade_price`,`trade_size`,`payment_id`,`purchase_product_id`) VALUES (10000044,NULL,'2024-04-02 15:42:27.000000',35000,623,10000001,10000002);
+INSERT INTO `purchase_payment` (`purchase_payment_id`,`cancelled_date`,`created_date`,`trade_price`,`trade_size`,`payment_id`,`purchase_product_id`) VALUES (10000045,NULL,'2024-04-02 15:42:27.000000',110000,160,10000001,10000003);
+INSERT INTO `purchase_payment` (`purchase_payment_id`,`cancelled_date`,`created_date`,`trade_price`,`trade_size`,`payment_id`,`purchase_product_id`) VALUES (10000046,NULL,'2024-04-02 15:42:27.000000',55000,46,10000001,10000004);
+INSERT INTO `purchase_payment` (`purchase_payment_id`,`cancelled_date`,`created_date`,`trade_price`,`trade_size`,`payment_id`,`purchase_product_id`) VALUES (10000047,NULL,'2024-04-02 15:42:27.000000',10000,349,10000001,10000005);
+INSERT INTO `purchase_payment` (`purchase_payment_id`,`cancelled_date`,`created_date`,`trade_price`,`trade_size`,`payment_id`,`purchase_product_id`) VALUES (10000049,NULL,'2024-03-20 15:42:27.000000',100000,95,10000001,10000001);
+INSERT INTO `purchase_payment` (`purchase_payment_id`,`cancelled_date`,`created_date`,`trade_price`,`trade_size`,`payment_id`,`purchase_product_id`) VALUES (10000050,NULL,'2024-03-20 15:42:27.000000',20000,599,10000001,10000002);
+INSERT INTO `purchase_payment` (`purchase_payment_id`,`cancelled_date`,`created_date`,`trade_price`,`trade_size`,`payment_id`,`purchase_product_id`) VALUES (10000051,NULL,'2024-03-20 15:42:27.000000',100000,154,10000001,10000003);
+INSERT INTO `purchase_payment` (`purchase_payment_id`,`cancelled_date`,`created_date`,`trade_price`,`trade_size`,`payment_id`,`purchase_product_id`) VALUES (10000052,NULL,'2024-03-20 15:42:27.000000',50000,44,10000001,10000004);
+INSERT INTO `purchase_payment` (`purchase_payment_id`,`cancelled_date`,`created_date`,`trade_price`,`trade_size`,`payment_id`,`purchase_product_id`) VALUES (10000053,NULL,'2024-03-20 15:42:27.000000',10000,349,10000001,10000005);
+INSERT INTO `purchase_payment` (`purchase_payment_id`,`cancelled_date`,`created_date`,`trade_price`,`trade_size`,`payment_id`,`purchase_product_id`) VALUES (10000055,NULL,'2024-03-10 15:42:27.000000',100000,95,10000001,10000001);
+INSERT INTO `purchase_payment` (`purchase_payment_id`,`cancelled_date`,`created_date`,`trade_price`,`trade_size`,`payment_id`,`purchase_product_id`) VALUES (10000056,NULL,'2024-03-10 15:42:27.000000',20000,599,10000001,10000002);
+INSERT INTO `purchase_payment` (`purchase_payment_id`,`cancelled_date`,`created_date`,`trade_price`,`trade_size`,`payment_id`,`purchase_product_id`) VALUES (10000057,NULL,'2024-03-10 15:42:27.000000',100000,154,10000001,10000003);
+INSERT INTO `purchase_payment` (`purchase_payment_id`,`cancelled_date`,`created_date`,`trade_price`,`trade_size`,`payment_id`,`purchase_product_id`) VALUES (10000058,NULL,'2024-03-10 15:42:27.000000',50000,44,10000001,10000004);
+INSERT INTO `purchase_payment` (`purchase_payment_id`,`cancelled_date`,`created_date`,`trade_price`,`trade_size`,`payment_id`,`purchase_product_id`) VALUES (10000059,NULL,'2024-03-10 15:42:27.000000',10000,349,10000001,10000005);
+INSERT INTO `purchase_payment` (`purchase_payment_id`,`cancelled_date`,`created_date`,`trade_price`,`trade_size`,`payment_id`,`purchase_product_id`) VALUES (10000061,NULL,'2024-02-23 15:42:27.000000',100000,95,10000001,10000001);
+INSERT INTO `purchase_payment` (`purchase_payment_id`,`cancelled_date`,`created_date`,`trade_price`,`trade_size`,`payment_id`,`purchase_product_id`) VALUES (10000062,NULL,'2024-02-19 15:42:27.000000',100000,95,10000001,10000001);
+INSERT INTO `purchase_payment` (`purchase_payment_id`,`cancelled_date`,`created_date`,`trade_price`,`trade_size`,`payment_id`,`purchase_product_id`) VALUES (10000063,NULL,'2024-02-27 15:42:27.000000',110000,96,10000001,10000001);
+INSERT INTO `purchase_payment` (`purchase_payment_id`,`cancelled_date`,`created_date`,`trade_price`,`trade_size`,`payment_id`,`purchase_product_id`) VALUES (10000064,NULL,'2024-02-10 15:42:27.000000',90000,91,10000001,10000001);
+INSERT INTO `purchase_payment` (`purchase_payment_id`,`cancelled_date`,`created_date`,`trade_price`,`trade_size`,`payment_id`,`purchase_product_id`) VALUES (10000065,NULL,'2024-02-08 15:42:27.000000',150000,100,10000001,10000001);
+INSERT INTO `purchase_payment` (`purchase_payment_id`,`cancelled_date`,`created_date`,`trade_price`,`trade_size`,`payment_id`,`purchase_product_id`) VALUES (10000066,NULL,'2024-02-14 15:42:27.000000',100000,91,10000001,10000001);
+INSERT INTO `purchase_payment` (`purchase_payment_id`,`cancelled_date`,`created_date`,`trade_price`,`trade_size`,`payment_id`,`purchase_product_id`) VALUES (10000067,NULL,'2024-01-25 15:42:27.000000',110000,96,10000001,10000001);
+INSERT INTO `purchase_payment` (`purchase_payment_id`,`cancelled_date`,`created_date`,`trade_price`,`trade_size`,`payment_id`,`purchase_product_id`) VALUES (10000068,NULL,'2024-01-21 15:42:27.000000',100000,96,10000001,10000001);
+INSERT INTO `purchase_payment` (`purchase_payment_id`,`cancelled_date`,`created_date`,`trade_price`,`trade_size`,`payment_id`,`purchase_product_id`) VALUES (10000069,NULL,'2024-01-29 15:42:27.000000',120000,96,10000001,10000001);
+INSERT INTO `purchase_payment` (`purchase_payment_id`,`cancelled_date`,`created_date`,`trade_price`,`trade_size`,`payment_id`,`purchase_product_id`) VALUES (10000070,NULL,'2024-01-12 15:42:27.000000',110000,97,10000001,10000001);
+INSERT INTO `purchase_payment` (`purchase_payment_id`,`cancelled_date`,`created_date`,`trade_price`,`trade_size`,`payment_id`,`purchase_product_id`) VALUES (10000071,NULL,'2024-01-10 15:42:27.000000',100000,92,10000001,10000001);
+INSERT INTO `purchase_payment` (`purchase_payment_id`,`cancelled_date`,`created_date`,`trade_price`,`trade_size`,`payment_id`,`purchase_product_id`) VALUES (10000072,NULL,'2024-01-16 15:42:27.000000',100000,96,10000001,10000001);
+INSERT INTO `purchase_payment` (`purchase_payment_id`,`cancelled_date`,`created_date`,`trade_price`,`trade_size`,`payment_id`,`purchase_product_id`) VALUES (10000073,NULL,'2025-01-03 00:44:23.000000',120000,100,10000002,10000006);
+INSERT INTO `purchase_payment` (`purchase_payment_id`,`cancelled_date`,`created_date`,`trade_price`,`trade_size`,`payment_id`,`purchase_product_id`) VALUES (10000074,NULL,'2025-01-03 00:46:25.000000',53000,100,10000003,10000007);
 
 -- review
 INSERT INTO review (review_id, member_id, purchase_product_id, review_creation_date, star, content) VALUES(10000001, 3, 10000001, now(), 4.0, '향수가 정말 좋네요! 조금 강하지만 오래 지속되어 좋습니다.');

@@ -155,7 +155,7 @@ public class AdminController {
     @Operation(summary = "통계 매출수익", description = "판매금액의 5%를 수수료 -> 매출수익")
     @SecurityRequirement(name = "Bearer Authentication")
     @GetMapping("/statistics/revenue")
-    public ResponseEntity<List<RevenueResDto>> getRevenues(@AuthenticationPrincipal UserDetails userDetails,
+    public ResponseEntity<RevenueResWithTotalPriceDto> getRevenues(@AuthenticationPrincipal UserDetails userDetails,
                                                            @RequestParam(value = "startDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
                                                            @RequestParam(value = "endDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate
     ) {
