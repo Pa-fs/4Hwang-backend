@@ -118,6 +118,40 @@ public class AdminController {
         }
     }
 
+    @GetMapping("/dashboard/order")
+    public ResponseEntity<?> getDashOrders(){
+
+        return null;
+    }
+
+    @GetMapping("/dashboard/pending")
+    public ResponseEntity<?> getDashPending(){
+
+        return null;
+    }
+
+    @Operation(summary = "대쉬보드 회원가입 수", description = "오늘 회원가입한 멤버 수")
+    @GetMapping("/dashboard/member/join")
+    public ResponseEntity<DashMemberJoinResDto> getDashJoinMembers(){
+        DashMemberJoinResDto dashMemberJoinResDto = adminService.getDashJoinMembers();
+
+        return ResponseEntity.ok(dashMemberJoinResDto);
+    }
+
+    @Operation(summary = "대쉬보드 로그인 수", description = "오늘 로그인 한 멤버 수")
+    @GetMapping("/dashboard/member/logIn")
+    public ResponseEntity<DashMemberLogInResDto> getDashLogInMembers(){
+        DashMemberLogInResDto dashMemberLogInResDto = adminService.getDashLogInMembers();
+
+        return ResponseEntity.ok(dashMemberLogInResDto);
+    }
+
+    @GetMapping("/dashboard/review")
+    public ResponseEntity<?> getDashReviews(){
+
+        return null;
+    }
+
     @Operation(summary = "통계 매출수익", description = "판매금액의 5%를 수수료 -> 매출수익")
     @SecurityRequirement(name = "Bearer Authentication")
     @GetMapping("/statistics/revenue")

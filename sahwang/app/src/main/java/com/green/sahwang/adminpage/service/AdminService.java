@@ -34,5 +34,9 @@ public interface AdminService {
 
     OrderManageResDto getOrdersByStatus(String status, int pageNum, int size);
 
+    DashMemberJoinResDto getDashJoinMembers();
+
+    DashMemberLogInResDto getDashLogInMembers();
+
     List<RevenueResDto> getRevenues(String email, LocalDate startDate, LocalDate endDate);
 }
