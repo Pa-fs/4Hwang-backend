@@ -45,7 +45,6 @@ public class MyPageServiceImpl implements MyPageService{
     private final PurchaseProductRepository purchaseProductRepository;
     private final WishCategoryRepository wishCategoryRepository;
     private final WishProductRepository wishProductRepository;
-    private final DeliveryPurchasesRepository deliveryPurchasesRepository;
     private final ModelMapper modelMapper;
     private final ReviewRepository reviewRepository;
     private final ReviewImageRepository reviewImageRepository;
@@ -267,10 +266,12 @@ public class MyPageServiceImpl implements MyPageService{
                 .usedProductType(UsedProductType.USER_REJECT)
                 .build();
 
-        usedProduct.getVerifiedSale().getPendingSale().setInspectionStatus(InspectionStatus.REJECTED);
-
-        usedProductRepository.save(usedProduct);
-
+        if(Objects.nonNull(usedProduct.getVerifiedSale())) {
+            usedProduct.getVerifiedSale().getPendingSale().setInspectionStatus(InspectionStatus.REJECTED);
+            usedProductRepository.save(usedProduct);
+        } else {
+            pendingSale.setInspectionStatus(InspectionStatus.REJECTED);
+        }
         pendingSaleRepository.save(pendingSale);
     }
 
