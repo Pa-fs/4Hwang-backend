@@ -1,8 +1,6 @@
 package com.green.sahwang.adminpage.service;
 
-import com.green.sahwang.adminpage.dto.CategoryManageDto;
-import com.green.sahwang.adminpage.dto.MemberManageDto;
-import com.green.sahwang.adminpage.dto.ReviewManageDto;
+import com.green.sahwang.adminpage.dto.*;
 import com.green.sahwang.adminpage.dto.res.*;
 import com.green.sahwang.config.DateTimeUtils;
 import com.green.sahwang.entity.*;
@@ -23,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -215,6 +214,35 @@ public class AdminServiceImpl implements AdminService{
         Pageable pageable = PageRequest.of(pageNum, size);
 
         return new OrderManageResDto();
+    }
+
+    @Transactional
+    public DashMemberJoinResDto getDashJoinMembers(){
+        List<Object[]> joinMembers = memberRepository.getJoinMembers();
+        List<DashMemberJoinListDto> dashMemberJoinListDtoList = joinMembers.stream().map(row -> new DashMemberJoinListDto(
+                (Long) row[0],
+                (String) row[1],
+                (String) row[2],
+                ((Timestamp) row[3]).toLocalDateTime()
+        )).toList();
+
+        int memberCount = memberRepository.joinMembers();
+        return new DashMemberJoinResDto(dashMemberJoinListDtoList, memberCount);
+    }
+
+    @Transactional
+    public DashMemberLogInResDto getDashLogInMembers(){
+        List<Object[]> loginMembers = memberRepository.getLoginMembers();
+        List<DashMemberLogInListDto> dashMemberLogInListDtoList = loginMembers.stream().map(row -> new DashMemberLogInListDto(
+                (Long) row[0],
+                (String) row[1],
+                (String) row[2],
+                ((Timestamp) row[3]).toLocalDateTime()
+        )).toList();
+
+        int memberCount = memberRepository.logInMembers();
+
+        return new DashMemberLogInResDto(dashMemberLogInListDtoList, memberCount);
     }
 
     @Override
