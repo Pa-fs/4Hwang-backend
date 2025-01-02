@@ -414,17 +414,17 @@ INSERT INTO `pending_sale` (`pending_sale_id`, `brand_name`, `category_name`, `c
 
 -- user_sale_image
 INSERT INTO `user_sale_image` (`user_sale_image_id`, `file_desc`, `filename`, `is_used`, `path`, `pending_sale_id`) VALUES
-	(1, 'image-1', 'p_001.png', b'1', 'images/file/\\p_001.png', 40),
+	(1, 'image-1', 'perfume001.png', b'1', 'images/file/\\perfume001.png', 40),
 	(2, 'image-2', 'p_002.png', b'0', 'images/file/\\p_002.png', 40),
 	(3, 'image-3', 'p_003.png', b'1', 'images/file/\\p_003.png', 40),
 	(4, 'image-1', 'c_001.png', b'1', 'images/file/\\c_001.png', 41),
 	(5, 'image-1', 'd_001_01.jpg', b'1', 'images/file/\\d_001_01.jpg', 42),
-	(6, 'image-1', 'p_001.png', b'1', 'images/file/\\p_001.png', 43),
+	(6, 'image-1', 'perfume002.png', b'1', 'images/file/\\perfume002.png', 43),
 	(7, 'image-1', 'p_009.png', b'1', 'images/file/\\p_009.png', 44),
 	(8, 'image-1', 'p_001_01.jpg', b'1', 'images/file/\\p_001_01.jpg', 45),
-	(9, 'image-1', 'p_001_02.jpg', b'1', 'images/file/\\p_001_02.jpg', 46),
+	(9, 'image-1', 'perfume003.jpg', b'1', 'images/file/\\perfume003.jpg', 46),
 	(10, 'image-1', 'p_001_03.jpg', b'1', 'images/file/\\p_001_03.jpg', 47),
-	(11, 'image-1', 'p_001_04.jpg', b'1', 'images/file/\\p_001_04.jpg', 48),
+	(11, 'image-1', 'perfume004.jpg', b'1', 'images/file/\\perfume004.jpg', 48),
 	(12, 'image-1', 'p_001_05.jpg', b'1', 'images/file/\\p_001_05.jpg', 49),
 	(13, 'image-1', 'p_001_06.jpg', b'1', 'images/file/\\p_001_06.jpg', 50),
 	(14, 'image-1', 'd_001_02_new.jpg', b'1', 'images/file/\\d_001_02_new.jpg', 51),
@@ -439,6 +439,7 @@ INSERT INTO `user_sale_image` (`user_sale_image_id`, `file_desc`, `filename`, `i
 	(23, 'image-1', 'gabriel_chanel2.png', b'0', 'images/file/\\gabriel_chanel2.png', 58),
 	(24, 'image-1', 'flower_and_flame_50.png', b'0', 'images/file/\\flower_and_flame_50.png', 59),
 	(25, 'image-1', 'chanel_lejode1.png', b'0', 'images/file/\\chanel_lejode1.png', 60);
+
 
 -- sale_grade
 INSERT INTO sale_grade (sale_grade_id, grade_description, grade_type)
