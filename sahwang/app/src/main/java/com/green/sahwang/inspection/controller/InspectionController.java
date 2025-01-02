@@ -2,6 +2,7 @@ package com.green.sahwang.inspection.controller;
 
 import com.green.sahwang.brand.dto.response.BrandResDto;
 import com.green.sahwang.brand.service.BrandService;
+import com.green.sahwang.config.filepath.ImageFilePathConfig;
 import com.green.sahwang.dto.response.ProductResDto;
 import com.green.sahwang.exception.BizException;
 import com.green.sahwang.exception.ErrorCode;
@@ -33,12 +34,19 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/inspection")
 @Slf4j
-@RequiredArgsConstructor
 public class InspectionController {
 
     private final InspectionService inspectionService;
     private final BrandService brandService;
     private final ImageFileService imageFileService;
+    private final Path imagePath;
+
+    public InspectionController(InspectionService inspectionService, BrandService brandService, ImageFileService imageFileService, ImageFilePathConfig imageFilePathConfig) {
+        this.inspectionService = inspectionService;
+        this.brandService = brandService;
+        this.imageFileService = imageFileService;
+        this.imagePath = imageFilePathConfig.getImageFilePath();
+    }
 
     @GetMapping("/pending-sale/total-count")
     @SecurityRequirement(name = "Bearer Authentication")
@@ -72,14 +80,10 @@ public class InspectionController {
             @RequestPart(name = "inspectionPassReqDto") @Parameter(schema = @Schema(type = "string", format = "binary"))
             InspectionPassReqDto inspectionPassReqDto) {
 
-        log.info("pass inspection");
 //        validateFiles(userImageFiles);
 //        validateFiles(passImageFiles);
 
         try {
-            log.info("pass inspection 2");
-            Path imagePath = Paths.get("images/file/");
-
             inspectionService.inspectPassProduct(inspectionPassReqDto);
 //            imageFileService.saveUserImageFiles(userImageFiles, userImagePath, inspectionPassReqDto.getUserSaleReqImageDtos());
             imageFileService.savePassSaleImageFiles(passImageFiles, imagePath, inspectionPassReqDto.getPassSaleReqImageDtos());
@@ -107,8 +111,6 @@ public class InspectionController {
             InspectionRejectReqDto inspectionRejectReqDto) {
 
         try {
-            Path imagePath = Paths.get("images/file/");
-
             inspectionService.inspectRejectProduct(inspectionRejectReqDto);
 //                imageFileService.saveUserImageFiles(userImageFiles, userImagePath, inspectionRejectReqDto.getUserSaleReqImageDtos());
             imageFileService.saveFailSaleImageFiles(failImageFiles, imagePath, inspectionRejectReqDto.getFailSaleReqImageDtos());
