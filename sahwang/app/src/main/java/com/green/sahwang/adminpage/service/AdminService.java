@@ -37,5 +37,7 @@ public interface AdminService {
 
     DashMemberLogInResDto getDashLogInMembers();
 
+    DashReviewResDto getDashReviews();
+
     RevenueResWithTotalPriceDto getRevenues(String email, LocalDate startDate, LocalDate endDate);
 }
