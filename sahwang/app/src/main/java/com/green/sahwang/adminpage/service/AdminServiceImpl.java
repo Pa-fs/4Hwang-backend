@@ -5,6 +5,7 @@ import com.green.sahwang.adminpage.dto.res.*;
 import com.green.sahwang.config.DateTimeUtils;
 import com.green.sahwang.entity.*;
 import com.green.sahwang.entity.enumtype.MemberRole;
+import com.green.sahwang.pendingsale.repository.PendingSaleRepository;
 import com.green.sahwang.repository.*;
 import com.green.sahwang.usedproduct.entity.UsedProduct;
 import com.green.sahwang.usedproduct.repository.UsedProductRepository;
@@ -41,6 +42,7 @@ public class AdminServiceImpl implements AdminService{
     private final ProductRepository productRepository;
     private final SalePaymentRepository salePaymentRepository;
     private final PurchaseProductRepository purchaseProductRepository;
+    private final PendingSaleRepository pendingSaleRepository;
 
     @Transactional
     public MemberManageResDto getMembers(int pageNum, int size){
@@ -213,6 +215,35 @@ public class AdminServiceImpl implements AdminService{
         Pageable pageable = PageRequest.of(pageNum, size);
 
         return new OrderManageResDto();
+    }
+
+    @Transactional
+    public DashOrderResDto getDashOrders(){
+        List<Object[]> dashOrders = purchaseProductRepository.findDashOrders();
+        List<DashOrderListDto> dashOrderListDtoList = dashOrders.stream().map(row -> new DashOrderListDto(
+                (Long) row[0],
+                ((Timestamp) row[1]).toLocalDateTime(),
+                (String) row[2],
+                (String) row[3],
+                (Integer) row[4],
+                (String) row[5]
+        )).toList();
+        int dashOrderCount = purchaseProductRepository.getDashOrderCount();
+        return new DashOrderResDto(dashOrderListDtoList, dashOrderCount);
+    }
+
+    @Transactional
+    public DashPendingResDto getDashPendingSales(){
+        List<Object[]> dashOrders = pendingSaleRepository.getDashPendingSales();
+        List<DashPendingListDto> dashPendingListDtoList = dashOrders.stream().map(row -> new DashPendingListDto(
+                (Long) row[0],
+                (String) row[1],
+                (String) row[2],
+                ((Timestamp) row[3]).toLocalDateTime(),
+                (String) row[4]
+        )).toList();
+        int dashOrderCount = pendingSaleRepository.getDashPendingSaleCount();
+        return new DashPendingResDto(dashPendingListDtoList, dashOrderCount);
     }
 
     @Transactional

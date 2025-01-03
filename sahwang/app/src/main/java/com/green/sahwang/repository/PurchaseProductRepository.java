@@ -108,4 +108,32 @@ public interface PurchaseProductRepository extends JpaRepository<PurchaseProduct
                 ORDER BY pp.purchaseCreationDate DESC
             """)
     Page<OrderManageResDto> findOrders(Pageable pageable);
+
+    @Query(value = """
+            SELECT pp.purchase_product_id, pp.purchase_creation_date, pro.`name`, vs.product_name, ps.excepted_selling_price, m.nick_name
+            FROM purchase_product pp
+            INNER JOIN purchase p ON p.purchase_id = pp.purchase_id
+            INNER JOIN member m ON m.member_id = p.member_id
+            INNER JOIN used_product up ON up.used_product_id = pp.used_product_id
+            INNER JOIN verified_sale vs ON vs.verified_sale_id = up.verified_sale_id
+            INNER JOIN pending_sale ps ON ps.pending_sale_id = vs.pending_sale_id
+            INNER JOIN product pro ON pro.product_id = ps.product_id
+            WHERE DATE(pp.purchase_creation_date) = CURRENT_DATE
+            AND vs.rejected_sale_id IS NULL;
+            """, nativeQuery = true)
+    List<Object[]> findDashOrders();
+
+    @Query(value = """
+            SELECT COUNT(*)
+            FROM purchase_product pp
+            INNER JOIN purchase p ON p.purchase_id = pp.purchase_id
+            INNER JOIN member m ON m.member_id = p.member_id
+            INNER JOIN used_product up ON up.used_product_id = pp.used_product_id
+            INNER JOIN verified_sale vs ON vs.verified_sale_id = up.verified_sale_id
+            INNER JOIN pending_sale ps ON ps.pending_sale_id = vs.pending_sale_id
+            INNER JOIN product pro ON pro.product_id = ps.product_id
+            WHERE DATE(pp.purchase_creation_date) = CURRENT_DATE
+            AND vs.rejected_sale_id IS NULL;
+            """,nativeQuery = true)
+    int getDashOrderCount();
 }

@@ -33,6 +33,10 @@ public interface AdminService {
 
     OrderManageResDto getOrdersByStatus(String status, int pageNum, int size);
 
+    DashOrderResDto getDashOrders();
+
+    DashPendingResDto getDashPendingSales();
+
     DashMemberJoinResDto getDashJoinMembers();
 
     DashMemberLogInResDto getDashLogInMembers();
