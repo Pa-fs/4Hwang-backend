@@ -146,10 +146,12 @@ public class AdminController {
         return ResponseEntity.ok(dashMemberLogInResDto);
     }
 
+    @Operation(summary = "대쉬보드 리뷰 수", description = "오늘 작성된 리뷰")
     @GetMapping("/dashboard/review")
-    public ResponseEntity<?> getDashReviews(){
+    public ResponseEntity<DashReviewResDto> getDashReview(){
+        DashReviewResDto dashReviewResDto = adminService.getDashReviews();
 
-        return null;
+        return ResponseEntity.ok(dashReviewResDto);
     }
 
     @Operation(summary = "통계 매출수익", description = "판매금액의 5%를 수수료 -> 매출수익")

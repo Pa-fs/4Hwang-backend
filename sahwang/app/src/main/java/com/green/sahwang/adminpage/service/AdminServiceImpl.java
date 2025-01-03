@@ -245,6 +245,24 @@ public class AdminServiceImpl implements AdminService{
         return new DashMemberLogInResDto(dashMemberLogInListDtoList, memberCount);
     }
 
+    @Transactional
+    public DashReviewResDto getDashReviews(){
+        List<Object[]> dashReviews = reviewRepository.findDashReviews();
+        List<DashReviewListDto> dashReviewListDtoList = dashReviews.stream().map(row -> new DashReviewListDto(
+                (Long) row[0],
+                (String) row[1],
+                ((Timestamp) row[2]).toLocalDateTime(),
+                (String) row[3],
+                (String) row[4],
+                (String) row[5],
+                (Integer) row[6],
+                (String) row[7]
+        )).toList();
+
+        int reviewCount = reviewRepository.getDashReviews();
+        return new DashReviewResDto(dashReviewListDtoList, reviewCount);
+    }
+
     @Override
     @Transactional(readOnly = true)
     public List<RevenueResDto> getRevenues(String email, LocalDate startDate, LocalDate endDate) {
