@@ -14,6 +14,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("admin")
@@ -155,12 +157,12 @@ public class AdminController {
         return ResponseEntity.ok(dashReviewResDto);
     }
 
-    @Operation(summary = "통계 매출수익", description = "판매금액의 5%를 수수료 -> 매출수익")
+    @Operation(summary = "통계 순수익", description = "판매금액의 5%를 수수료 -> 순수익")
     @SecurityRequirement(name = "Bearer Authentication")
-    @GetMapping("/statistics/revenue")
-    public ResponseEntity<RevenueResWithTotalPriceDto> getRevenues(@AuthenticationPrincipal UserDetails userDetails,
-                                                           @RequestParam(value = "startDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
-                                                           @RequestParam(value = "endDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate
+    @GetMapping("/statistics/net-profit")
+    public ResponseEntity<NetProfitResWithTotalPriceDto> getRevenues(@AuthenticationPrincipal UserDetails userDetails,
+                                                                     @RequestParam(value = "startDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+                                                                     @RequestParam(value = "endDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate
     ) {
         if (startDate == null) {
             startDate = LocalDate.now().minusMonths(1);
@@ -168,7 +170,37 @@ public class AdminController {
         if (endDate == null) {
             endDate = LocalDate.now();
         }
-        return ResponseEntity.ok(adminService.getRevenues(userDetails.getUsername(), startDate, endDate));
+        return ResponseEntity.ok(adminService.getNetProfit(userDetails.getUsername(), startDate, endDate));
     }
+
+    @Operation(summary = "통계 카테고리별 매출금액", description = "통계 매출금액 일별/월별/년별")
+    @SecurityRequirement(name = "Bearer Authentication")
+    @GetMapping("/statistics/revenue")
+    public ResponseEntity<List<RevenueResDto>> getRevenue(@AuthenticationPrincipal UserDetails userDetails,
+                                                          @RequestParam(value = "day", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) String day,
+                                                          @RequestParam(value = "month", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) String month,
+                                                          @RequestParam(value = "year", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) String year
+    ) {
+        LocalDate startDate = null;
+
+        if (Objects.nonNull(day)) {
+            startDate = LocalDate.now().minusMonths(1);
+
+            if (startDate.getMonth().getValue() == 12) {
+                startDate = LocalDate.of(LocalDate.now().getYear() - 1, 12, LocalDate.now().getDayOfMonth());
+            }
+        }
+        else if (Objects.nonNull(month)) {
+            startDate = LocalDate.now().minusYears(1);
+        }
+        else if (Objects.nonNull(year)) {
+            startDate = LocalDate.of(2024, 1, 1);
+        }
+
+        LocalDate endDate = LocalDate.now();
+        return ResponseEntity.ok(adminService.getRevenues(userDetails.getUsername(), startDate, endDate, day, month, year));
+    }
+
+
 
 }

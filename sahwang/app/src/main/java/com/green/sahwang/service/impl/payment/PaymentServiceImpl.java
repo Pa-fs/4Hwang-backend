@@ -183,6 +183,7 @@ public class PaymentServiceImpl implements PaymentService {
             SalePayment salePayment = SalePayment.builder()
                     .usedProduct(purchaseProduct.getUsedProduct())
                     .payment(payment)
+                    .originalPrice(purchasePayment.getTradePrice())
                     .finalPrice((int) (purchasePayment.getTradePrice() - (purchasePayment.getTradePrice() * 0.05)))
                     .createdDate(payment.getPaidAt())
                     .build();

@@ -621,8 +621,8 @@ LIMIT 0, 1000
 
 -- Date: 2025-01-03 01:34
 */
-INSERT INTO `sale_payment` (`sale_payment_id`,`created_date`,`final_price`,`modified_date`,`payments_id`,`used_product_id`) VALUES (1,'2025-01-03 00:44:23.000000',114000,NULL,10000002,3);
-INSERT INTO `sale_payment` (`sale_payment_id`,`created_date`,`final_price`,`modified_date`,`payments_id`,`used_product_id`) VALUES (2,'2025-01-03 00:46:25.000000',50350,NULL,10000003,2);
+INSERT INTO `sale_payment` (`sale_payment_id`,`created_date`,`final_price`, `original_price`, `modified_date`,`payments_id`,`used_product_id`) VALUES (1,'2025-01-03 00:44:23.000000',114000,120000,NULL,10000002,3);
+INSERT INTO `sale_payment` (`sale_payment_id`,`created_date`,`final_price`, `original_price`, `modified_date`,`payments_id`,`used_product_id`) VALUES (2,'2025-01-03 00:46:25.000000',50350,53000,NULL,10000003,2);
 
 
 -- purchase_payment

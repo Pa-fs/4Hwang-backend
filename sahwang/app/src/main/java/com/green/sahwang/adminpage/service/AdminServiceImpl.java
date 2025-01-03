@@ -2,6 +2,7 @@ package com.green.sahwang.adminpage.service;
 
 import com.green.sahwang.adminpage.dto.*;
 import com.green.sahwang.adminpage.dto.res.*;
+import com.green.sahwang.adminpage.mapper.StatisticsMapper;
 import com.green.sahwang.config.DateTimeUtils;
 import com.green.sahwang.entity.*;
 import com.green.sahwang.entity.enumtype.MemberRole;
@@ -26,6 +27,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @Slf4j
@@ -43,6 +45,7 @@ public class AdminServiceImpl implements AdminService{
     private final SalePaymentRepository salePaymentRepository;
     private final PurchaseProductRepository purchaseProductRepository;
     private final PendingSaleRepository pendingSaleRepository;
+    private final StatisticsMapper statisticsMapper;
 
     @Transactional
     public MemberManageResDto getMembers(int pageNum, int size){
@@ -295,23 +298,57 @@ public class AdminServiceImpl implements AdminService{
 
     @Override
     @Transactional(readOnly = true)
-    public RevenueResWithTotalPriceDto getRevenues(String email, LocalDate startDate, LocalDate endDate) {
+    public NetProfitResWithTotalPriceDto getNetProfit(String email, LocalDate startDate, LocalDate endDate) {
         LocalDateTime startDateTime = startDate.atStartOfDay(); // 00:00:00
         LocalDateTime endDateTime = endDate.atTime(23, 59, 59); // 23:59:59
         List<SalePayment> salePayments = salePaymentRepository.findRevenue(startDateTime, endDateTime);
 
-        List<RevenueResDto> revenueResDtos = salePayments.stream()
-                .map(salePayment -> RevenueResDto.builder()
+        List<NetProfitResDto> netProfitResDtos = salePayments.stream()
+                .map(salePayment -> NetProfitResDto.builder()
                         .usedProductId(salePayment.getUsedProduct().getId())
-                        .revenue((int) (salePayment.getFinalPrice() * 0.05))
+                        .netProfit((int) (salePayment.getFinalPrice() * 0.05))
                         .saleDate(DateTimeUtils.format(salePayment.getCreatedDate()))
                         .build()
                 ).toList();
-        return RevenueResWithTotalPriceDto.builder()
-                .revenueResDtos(revenueResDtos)
-                .totalPrice(revenueResDtos.stream()
-                        .mapToInt(revenueResDto -> revenueResDto.getRevenue())
+        return NetProfitResWithTotalPriceDto.builder()
+                .netProfitResDtos(netProfitResDtos)
+                .totalPrice(netProfitResDtos.stream()
+                        .mapToInt(netProfitResDto -> netProfitResDto.getNetProfit())
                         .sum())
                 .build();
+    }
+
+    @Override
+    @Transactional
+    public List<RevenueResDto> getRevenues(String email, LocalDate startDate, LocalDate endDate, String day, String month, String year) {
+        LocalDateTime startDateTime = startDate.atStartOfDay(); // 00:00:00
+        LocalDateTime endDateTime = endDate.atTime(23, 59, 59); // 23:59:59
+
+        if (Objects.nonNull(day)) {
+            // 일별 매출 조회 쿼리 호출
+            log.info("startDate.getYear() : {}", startDate.getYear());
+            log.info("startDate.getMonth().getValue() : {}", startDate.getMonth().getValue());
+            return getDailyRevenue(startDate, endDate, startDate.getYear(), startDate.getMonth().getValue());
+        } else if (Objects.nonNull(month)) {
+            // 월별 매출 조회 쿼리 호출
+            return getMonthlyRevenue(startDate, endDate, startDate.getYear());
+        } else if (Objects.nonNull(year)) {
+            // 년별 매출 조회 쿼리 호출
+            return getYearlyRevenue(startDate, endDate);
+        }
+
+        return null;
+    }
+
+    private List<RevenueResDto> getDailyRevenue(LocalDate startDate, LocalDate endDate, int year, int month) {
+        return statisticsMapper.getDailyRevenue(startDate, endDate, year, month);
+    }
+
+    private List<RevenueResDto> getMonthlyRevenue(LocalDate startDate, LocalDate endDate, int year) {
+        return statisticsMapper.getMonthlyRevenue(startDate, endDate, year);
+    }
+
+    private List<RevenueResDto> getYearlyRevenue(LocalDate startDate, LocalDate endDate) {
+        return statisticsMapper.getYearlyRevenue(startDate, endDate);
     }
 }

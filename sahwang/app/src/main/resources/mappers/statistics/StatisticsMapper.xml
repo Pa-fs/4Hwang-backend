@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.green.sahwang.adminpage.mapper.StatisticsMapper">
+
+    <!-- ResultMap 정의 -->
+    <resultMap id="RevenueResDtoResultMap" type="com.green.sahwang.adminpage.dto.res.RevenueResDto">
+        <result property="saleDate" column="saleDate" />
+        <result property="categoryName" column="categoryName" />
+        <result property="categoryTotalPrice" column="categoryTotalPrice" />
+    </resultMap>
+
+    <!-- 쿼리 정의 -->
+        <select id="getMonthlyRevenue" resultMap="RevenueResDtoResultMap">
+            SELECT
+            CONCAT(YEAR(sp.created_date), '-', LPAD(MONTH(sp.created_date), 2, '0')) AS saleDate,
+            vs.category_name as categoryName,
+            SUM(sp.original_price) AS categoryTotalPrice
+            FROM used_product up
+            JOIN sale_payment sp ON sp.used_product_id = up.used_product_id
+            JOIN verified_sale vs ON vs.verified_sale_id = up.verified_sale_id
+            WHERE YEAR(sp.created_date) = #{year}
+            GROUP BY saleDate, vs.category_name
+            ORDER BY saleDate, vs.category_name;
+        </select>
+
+        <select id="getDailyRevenue" resultMap="RevenueResDtoResultMap">
+            SELECT
+            DATE(sp.created_date) AS saleDate,  -- 일별
+            vs.category_name AS categoryName,
+            SUM(sp.final_price) AS categoryTotalPrice
+            FROM used_product up
+            JOIN sale_payment sp ON sp.used_product_id = up.used_product_id
+            JOIN verified_sale vs ON vs.verified_sale_id = up.verified_sale_id
+            WHERE sp.created_date between (year(sp.created_date) = #{year} and month(sp.created_date) = #{month}) and now()
+            GROUP BY saleDate, vs.category_name
+            ORDER BY saleDate, vs.category_name;
+        </select>
+
+        <select id="getYearlyRevenue" resultMap="RevenueResDtoResultMap">
+            SELECT
+            YEAR(sp.created_date) AS saleDate,
+            vs.category_name AS categoryName,
+            SUM(sp.original_price) AS categoryTotalPrice
+            FROM used_product up
+            JOIN sale_payment sp ON sp.used_product_id = up.used_product_id
+            JOIN verified_sale vs ON vs.verified_sale_id = up.verified_sale_id
+            WHERE YEAR(sp.created_date) >= 2024
+            GROUP BY saleDate, vs.category_name
+            ORDER BY saleDate, vs.category_name;
+        </select>
+</mapper>

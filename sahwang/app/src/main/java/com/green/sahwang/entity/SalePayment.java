@@ -32,4 +32,6 @@ public class SalePayment {
     private UsedProduct usedProduct;
 
     private int finalPrice;
+
+    private int originalPrice;
 }

@@ -5,12 +5,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class RevenueResDto {
-    private String SaleDate;
-    private int categoryTotalPrice;
-    private String categoryName;
+public class NetProfitResWithTotalPriceDto {
+    private List<NetProfitResDto> netProfitResDtos;
+    private int totalPrice;
 }
