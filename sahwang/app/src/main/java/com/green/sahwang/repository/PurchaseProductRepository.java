@@ -68,6 +68,7 @@ public interface PurchaseProductRepository extends JpaRepository<PurchaseProduct
                 JOIN ps.userSaleImages usi
                 JOIN ps.product pr
                 WHERE vs.rejectionReason IS NULL
+                AND p.purchaseStatus IN ('PAID', 'SHIP_READY', 'SHIPPING', 'SHIPPED', 'COMPLETED', 'CANCEL', 'CANCELLED', 'REVIEWED')
                 AND p.member.id = :memberId
                 GROUP BY pp.id, pr.name, vs.brandName, vs.productName, vs.productSize, ps.exceptedSellingPrice, pp.purchaseCreationDate, p.purchaseStatus
                 ORDER BY pp.purchaseCreationDate DESC
