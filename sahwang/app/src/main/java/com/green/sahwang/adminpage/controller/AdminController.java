@@ -1,13 +1,11 @@
 package com.green.sahwang.adminpage.controller;
 
 import com.green.sahwang.adminpage.dto.req.MemberRoleReqDto;
-import com.green.sahwang.adminpage.dto.MemberManageDto;
 import com.green.sahwang.adminpage.dto.res.*;
 import com.green.sahwang.adminpage.service.AdminService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cglib.core.Local;
 import org.springframework.data.domain.Page;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +14,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @RestController
 @RequestMapping("admin")
@@ -118,16 +115,20 @@ public class AdminController {
         }
     }
 
+    @Operation(summary = "대쉬보드 주문내역 수", description = "오늘 들어온 구매신청 수")
     @GetMapping("/dashboard/order")
-    public ResponseEntity<?> getDashOrders(){
+    public ResponseEntity<DashOrderResDto> getDashPending(){
+        DashOrderResDto dashOrderResDto = adminService.getDashOrders();
 
-        return null;
+        return ResponseEntity.ok(dashOrderResDto);
     }
 
+    @Operation(summary = "대쉬보드 판매신청 수", description = "오늘 들어온 판매신청 수")
     @GetMapping("/dashboard/pending")
-    public ResponseEntity<?> getDashPending(){
+    public ResponseEntity<DashPendingResDto> getDashPendingSales(){
+        DashPendingResDto dashPendingResDto = adminService.getDashPendingSales();
 
-        return null;
+        return ResponseEntity.ok(dashPendingResDto);
     }
 
     @Operation(summary = "대쉬보드 회원가입 수", description = "오늘 회원가입한 멤버 수")
