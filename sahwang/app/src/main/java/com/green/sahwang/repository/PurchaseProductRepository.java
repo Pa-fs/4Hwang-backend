@@ -58,9 +58,12 @@ public interface PurchaseProductRepository extends JpaRepository<PurchaseProduct
                     ps.exceptedSellingPrice,
                     pp.purchaseCreationDate,
                     p.purchaseStatus,
-                    MIN(usi.filename)
+                    MIN(usi.filename),
+                    pay.impUid
                 )
                 FROM PurchaseProduct pp
+                JOIN pp.purchasePayment ppa
+                JOIN ppa.payment pay
                 JOIN pp.purchase p
                 JOIN pp.usedProduct up
                 JOIN up.verifiedSale vs
@@ -70,7 +73,7 @@ public interface PurchaseProductRepository extends JpaRepository<PurchaseProduct
                 WHERE vs.rejectionReason IS NULL
                 AND p.purchaseStatus IN ('PAID', 'SHIP_READY', 'SHIPPING', 'SHIPPED', 'COMPLETED', 'CANCEL', 'CANCELLED', 'REVIEWED')
                 AND p.member.id = :memberId
-                GROUP BY pp.id, pr.name, vs.brandName, vs.productName, vs.productSize, ps.exceptedSellingPrice, pp.purchaseCreationDate, p.purchaseStatus
+                GROUP BY pp.id, pr.name, vs.brandName, vs.productName, vs.productSize, ps.exceptedSellingPrice, pp.purchaseCreationDate, p.purchaseStatus, pay.impUid
                 ORDER BY pp.purchaseCreationDate DESC
             """)
     Page<OrderListResDto> findPurchaseProductsByMemberId(@Param("memberId") Long memberId, Pageable pageable);

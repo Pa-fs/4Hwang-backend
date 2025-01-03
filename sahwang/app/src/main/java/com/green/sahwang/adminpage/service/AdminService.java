@@ -46,5 +46,5 @@ public interface AdminService {
 
     List<RevenueResDto> getRevenues(String email, LocalDate startDate, LocalDate endDate, String day, String month, String year);
 
-    NetProfitResWithTotalPriceDto getNetProfit(String email, LocalDate startDate, LocalDate endDate);
+    List<NetProfitResDto> getNetProfit(String email, LocalDate startDate, LocalDate endDate, String day, String month, String year);
 }

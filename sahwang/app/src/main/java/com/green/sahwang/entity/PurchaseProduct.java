@@ -23,6 +23,9 @@ public class PurchaseProduct {
     @JoinColumn(name = "purchase_id")
     private Purchase purchase;
 
+    @OneToOne(mappedBy = "purchaseProduct")
+    private PurchasePayment purchasePayment;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "used_product_id")
     private UsedProduct usedProduct;

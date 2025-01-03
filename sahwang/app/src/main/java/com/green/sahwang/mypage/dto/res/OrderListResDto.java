@@ -23,5 +23,6 @@ public class OrderListResDto {
     private LocalDateTime purchaseCreationDate;
     private PurchaseStatus purchaseStatus;
     private String filename;
+    private String impUid;
 
 }

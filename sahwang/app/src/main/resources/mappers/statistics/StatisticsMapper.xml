@@ -4,23 +4,22 @@
 
 <mapper namespace="com.green.sahwang.adminpage.mapper.StatisticsMapper">
 
-    <!-- ResultMap 정의 -->
     <resultMap id="RevenueResDtoResultMap" type="com.green.sahwang.adminpage.dto.res.RevenueResDto">
         <result property="saleDate" column="saleDate" />
         <result property="categoryName" column="categoryName" />
         <result property="categoryTotalPrice" column="categoryTotalPrice" />
     </resultMap>
 
-    <!-- 쿼리 정의 -->
         <select id="getMonthlyRevenue" resultMap="RevenueResDtoResultMap">
             SELECT
-            CONCAT(YEAR(sp.created_date), '-', LPAD(MONTH(sp.created_date), 2, '0')) AS saleDate,
-            vs.category_name as categoryName,
-            SUM(sp.original_price) AS categoryTotalPrice
+                CONCAT(YEAR(sp.created_date), '-', LPAD(MONTH(sp.created_date), 2, '0')) AS saleDate,
+                vs.category_name AS categoryName,
+                SUM(sp.original_price) AS categoryTotalPrice
             FROM used_product up
-            JOIN sale_payment sp ON sp.used_product_id = up.used_product_id
-            JOIN verified_sale vs ON vs.verified_sale_id = up.verified_sale_id
-            WHERE YEAR(sp.created_date) = #{year}
+                     JOIN sale_payment sp ON sp.used_product_id = up.used_product_id
+                     JOIN verified_sale vs ON vs.verified_sale_id = up.verified_sale_id
+            WHERE sp.created_date BETWEEN STR_TO_DATE(CONCAT(#{year}, '-01-01'), '%Y-%m-%d')
+                      AND LAST_DAY(CURDATE())
             GROUP BY saleDate, vs.category_name
             ORDER BY saleDate, vs.category_name;
         </select>
@@ -50,4 +49,50 @@
             GROUP BY saleDate, vs.category_name
             ORDER BY saleDate, vs.category_name;
         </select>
+
+    <resultMap id="NetProfitResDtoResultMap" type="com.green.sahwang.adminpage.dto.res.NetProfitResDto">
+        <result property="saleDate" column="saleDate" />
+        <result property="categoryName" column="categoryName" />
+        <result property="categoryNetProfit" column="categoryNetProfit" />
+    </resultMap>
+
+    <select id="getMonthlyNetProfit" resultMap="NetProfitResDtoResultMap">
+        SELECT
+            CONCAT(YEAR(sp.created_date), '-', LPAD(MONTH(sp.created_date), 2, '0')) AS saleDate,
+            vs.category_name AS categoryName,
+            SUM(sp.original_price - sp.final_price) AS categoryNetProfit
+        FROM used_product up
+                 JOIN sale_payment sp ON sp.used_product_id = up.used_product_id
+                 JOIN verified_sale vs ON vs.verified_sale_id = up.verified_sale_id
+        WHERE sp.created_date BETWEEN STR_TO_DATE(CONCAT(#{year}, '-01-01'), '%Y-%m-%d')
+                  AND LAST_DAY(CURDATE())
+        GROUP BY saleDate, vs.category_name
+        ORDER BY saleDate, vs.category_name;
+    </select>
+
+    <select id="getDailyNetProfit" resultMap="NetProfitResDtoResultMap">
+        SELECT
+            DATE(sp.created_date) AS saleDate,  -- 일별
+            vs.category_name AS categoryName,
+            SUM(sp.original_price - sp.final_price) AS categoryNetProfit
+        FROM used_product up
+            JOIN sale_payment sp ON sp.used_product_id = up.used_product_id
+            JOIN verified_sale vs ON vs.verified_sale_id = up.verified_sale_id
+        WHERE sp.created_date between (year(sp.created_date) = #{year} and month(sp.created_date) = #{month}) and now()
+        GROUP BY saleDate, vs.category_name
+        ORDER BY saleDate, vs.category_name;
+    </select>
+
+    <select id="getYearlyNetProfit" resultMap="NetProfitResDtoResultMap">
+        SELECT
+            YEAR(sp.created_date) AS saleDate,
+            vs.category_name AS categoryName,
+            SUM(sp.original_price - sp.final_price) AS categoryNetProfit
+        FROM used_product up
+            JOIN sale_payment sp ON sp.used_product_id = up.used_product_id
+            JOIN verified_sale vs ON vs.verified_sale_id = up.verified_sale_id
+        WHERE YEAR(sp.created_date) >= 2024
+        GROUP BY saleDate, vs.category_name
+        ORDER BY saleDate, vs.category_name;
+    </select>
 </mapper>

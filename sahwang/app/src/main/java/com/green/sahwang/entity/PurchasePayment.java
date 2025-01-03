@@ -23,7 +23,7 @@ public class PurchasePayment {
     @JoinColumn(name = "purchase_product_id")
     private PurchaseProduct purchaseProduct;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "payment_id")
     private Payment payment;
 

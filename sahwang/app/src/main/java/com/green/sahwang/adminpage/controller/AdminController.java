@@ -160,17 +160,29 @@ public class AdminController {
     @Operation(summary = "통계 순수익", description = "판매금액의 5%를 수수료 -> 순수익")
     @SecurityRequirement(name = "Bearer Authentication")
     @GetMapping("/statistics/net-profit")
-    public ResponseEntity<NetProfitResWithTotalPriceDto> getRevenues(@AuthenticationPrincipal UserDetails userDetails,
-                                                                     @RequestParam(value = "startDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
-                                                                     @RequestParam(value = "endDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate
+    public ResponseEntity<List<NetProfitResDto>> getNetProfit(@AuthenticationPrincipal UserDetails userDetails,
+                                                          @RequestParam(value = "day", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) String day,
+                                                          @RequestParam(value = "month", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) String month,
+                                                          @RequestParam(value = "year", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) String year
     ) {
-        if (startDate == null) {
+        LocalDate startDate = null;
+
+        if (Objects.nonNull(day)) {
             startDate = LocalDate.now().minusMonths(1);
+
+            if (startDate.getMonth().getValue() == 12) {
+                startDate = LocalDate.of(LocalDate.now().getYear() - 1, 12, LocalDate.now().getDayOfMonth());
+            }
         }
-        if (endDate == null) {
-            endDate = LocalDate.now();
+        else if (Objects.nonNull(month)) {
+            startDate = LocalDate.now().minusYears(1);
         }
-        return ResponseEntity.ok(adminService.getNetProfit(userDetails.getUsername(), startDate, endDate));
+        else if (Objects.nonNull(year)) {
+            startDate = LocalDate.of(2024, 1, 1);
+        }
+
+        LocalDate endDate = LocalDate.now();
+        return ResponseEntity.ok(adminService.getNetProfit(userDetails.getUsername(), startDate, endDate, day, month, year));
     }
 
     @Operation(summary = "통계 카테고리별 매출금액", description = "통계 매출금액 일별/월별/년별")
@@ -200,7 +212,4 @@ public class AdminController {
         LocalDate endDate = LocalDate.now();
         return ResponseEntity.ok(adminService.getRevenues(userDetails.getUsername(), startDate, endDate, day, month, year));
     }
-
-
-
 }

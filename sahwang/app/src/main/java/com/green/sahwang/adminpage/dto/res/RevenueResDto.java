@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class RevenueResDto {
-    private String SaleDate;
+    private String saleDate;
     private int categoryTotalPrice;
     private String categoryName;
 }

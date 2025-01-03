@@ -298,28 +298,36 @@ public class AdminServiceImpl implements AdminService{
 
     @Override
     @Transactional(readOnly = true)
-    public NetProfitResWithTotalPriceDto getNetProfit(String email, LocalDate startDate, LocalDate endDate) {
+    public List<NetProfitResDto> getNetProfit(String email, LocalDate startDate, LocalDate endDate, String day, String month, String year) {
         LocalDateTime startDateTime = startDate.atStartOfDay(); // 00:00:00
         LocalDateTime endDateTime = endDate.atTime(23, 59, 59); // 23:59:59
-        List<SalePayment> salePayments = salePaymentRepository.findRevenue(startDateTime, endDateTime);
 
-        List<NetProfitResDto> netProfitResDtos = salePayments.stream()
-                .map(salePayment -> NetProfitResDto.builder()
-                        .usedProductId(salePayment.getUsedProduct().getId())
-                        .netProfit((int) (salePayment.getFinalPrice() * 0.05))
-                        .saleDate(DateTimeUtils.format(salePayment.getCreatedDate()))
-                        .build()
-                ).toList();
-        return NetProfitResWithTotalPriceDto.builder()
-                .netProfitResDtos(netProfitResDtos)
-                .totalPrice(netProfitResDtos.stream()
-                        .mapToInt(netProfitResDto -> netProfitResDto.getNetProfit())
-                        .sum())
-                .build();
+        if (Objects.nonNull(day)) {
+            return getDailyNetProfit(startDate, endDate, startDate.getYear(), startDate.getMonth().getValue());
+        } else if (Objects.nonNull(month)) {
+            return getMonthlyNetProfit(startDate, endDate, startDate.getYear());
+        } else if (Objects.nonNull(year)) {
+            return getYearlyNetProfit(startDate, endDate);
+        }
+
+        return null;
+    }
+
+
+    private List<NetProfitResDto> getDailyNetProfit(LocalDate startDate, LocalDate endDate, int year, int month) {
+        return statisticsMapper.getDailyNetProfit(startDate, endDate, year, month);
+    }
+
+    private List<NetProfitResDto> getMonthlyNetProfit(LocalDate startDate, LocalDate endDate, int year) {
+        return statisticsMapper.getMonthlyNetProfit(startDate, endDate, year);
+    }
+
+    private List<NetProfitResDto> getYearlyNetProfit(LocalDate startDate, LocalDate endDate) {
+        return statisticsMapper.getYearlyNetProfit(startDate, endDate);
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<RevenueResDto> getRevenues(String email, LocalDate startDate, LocalDate endDate, String day, String month, String year) {
         LocalDateTime startDateTime = startDate.atStartOfDay(); // 00:00:00
         LocalDateTime endDateTime = endDate.atTime(23, 59, 59); // 23:59:59
