@@ -12,6 +12,8 @@ import com.green.sahwang.exception.CartDomainException;
 import com.green.sahwang.exception.ErrorCode;
 import com.green.sahwang.exception.payment.PaymentDomainException;
 import com.green.sahwang.model.payment.avro.PurchasePaidEventAvroModel;
+import com.green.sahwang.payment.entity.Payment;
+import com.green.sahwang.payment.repository.PaymentRepository;
 import com.green.sahwang.repository.*;
 import com.green.sahwang.cart.service.cart.CartService;
 import com.green.sahwang.cart.service.cart.helper.CartServiceHelper;

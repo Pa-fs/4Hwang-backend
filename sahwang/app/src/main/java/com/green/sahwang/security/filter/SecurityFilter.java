@@ -3,20 +3,14 @@ package com.green.sahwang.security.filter;
 import com.green.sahwang.entity.Member;
 import com.green.sahwang.entity.enumtype.MemberRole;
 import com.green.sahwang.repository.MemberRepository;
-import com.green.sahwang.repository.PaymentRepository;
 import com.green.sahwang.security.entity.JWTRefreshToken;
 import com.green.sahwang.security.error.UserException;
 import com.green.sahwang.security.repository.JWTRefreshTokenRepository;
-import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -27,7 +21,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 

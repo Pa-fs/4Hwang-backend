@@ -1,13 +1,14 @@
-package com.green.sahwang.controller;
+package com.green.sahwang.payment.controller;
 
 import com.green.sahwang.dto.request.CartProductPurchaseReadyReqDto;
-import com.green.sahwang.dto.request.PaymentCompleteRequest;
-import com.green.sahwang.dto.request.externalapi.ExternalPaymentReqDto;
-import com.green.sahwang.dto.request.externalapi.ExternalPurchasePaymentReqDto;
-import com.green.sahwang.dto.response.BuyerInfoResDto;
+import com.green.sahwang.payment.dto.req.CancelPaymentReqDto;
+import com.green.sahwang.payment.dto.req.PaymentCompleteRequest;
+import com.green.sahwang.payment.dto.req.externalapi.ExternalPaymentReqDto;
+import com.green.sahwang.payment.dto.req.externalapi.ExternalPurchasePaymentReqDto;
+import com.green.sahwang.payment.dto.res.BuyerInfoResDto;
 import com.green.sahwang.dto.response.CartProductPurchaseReadyResDto;
-import com.green.sahwang.entity.externalapi.ExternalPrePaymentReqDto;
-import com.green.sahwang.service.PaymentService;
+import com.green.sahwang.payment.entity.externalapi.ExternalPrePaymentReqDto;
+import com.green.sahwang.payment.service.PaymentService;
 import com.siot.IamportRestClient.exception.IamportResponseException;
 import com.siot.IamportRestClient.response.Payment;
 import io.swagger.v3.oas.annotations.Operation;
@@ -80,5 +81,18 @@ public class PaymentController {
                                                    @AuthenticationPrincipal UserDetails userDetails) {
         paymentService.savePurchaseInfoForPayment(externalPurchasePaymentReqDto, userDetails.getUsername());
         return ResponseEntity.ok(externalPurchasePaymentReqDto.getMerchantUId());
+    }
+
+    @PostMapping("/cancel")
+    @Operation(summary = "결제 취소", description = "배송되기 전 취소 가능")
+    public ResponseEntity<String> cancelPayment(@RequestBody CancelPaymentReqDto cancelPaymentReqDto) {
+        String result = paymentService.cancelPayment(cancelPaymentReqDto);
+
+        if(result.equals("success")) {
+            return ResponseEntity.ok("결제가 성공적으로 취소되었습니다.");
+        } else if (result.equals("fail")) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("결제 취소에 실패했습니다. 관리자에게 문의하세요.");
+        }
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("결제 취소 처리 중 오류가 발생했습니다.");
     }
 }

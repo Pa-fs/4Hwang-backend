@@ -1,9 +1,9 @@
 package com.green.sahwang.entity;
 
+import com.green.sahwang.payment.entity.Payment;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity

@@ -1,5 +1,6 @@
 package com.green.sahwang.entity;
 
+import com.green.sahwang.payment.entity.Payment;
 import com.green.sahwang.usedproduct.entity.UsedProduct;
 import jakarta.persistence.*;
 import lombok.*;

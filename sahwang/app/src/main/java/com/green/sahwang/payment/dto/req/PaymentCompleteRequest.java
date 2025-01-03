@@ -1,4 +1,4 @@
-package com.green.sahwang.dto.request;
+package com.green.sahwang.payment.dto.req;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;

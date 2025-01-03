@@ -1,19 +1,20 @@
-package com.green.sahwang.service.impl.payment;
+package com.green.sahwang.payment.service.impl;
 
 import com.green.sahwang.config.AvroToDBSerializer;
 import com.green.sahwang.dto.request.CartProductPurchaseReadyReqDto;
-import com.green.sahwang.dto.request.PaymentCompleteRequest;
-import com.green.sahwang.dto.request.externalapi.ExternalPaymentReqDto;
-import com.green.sahwang.dto.request.externalapi.ExternalPurchasePaymentReqDto;
-import com.green.sahwang.dto.response.BuyerInfoResDto;
+import com.green.sahwang.payment.dto.req.CancelPaymentReqDto;
+import com.green.sahwang.payment.dto.req.PaymentCompleteRequest;
+import com.green.sahwang.payment.dto.req.externalapi.ExternalPaymentReqDto;
+import com.green.sahwang.payment.dto.req.externalapi.ExternalPurchasePaymentReqDto;
+import com.green.sahwang.payment.dto.res.BuyerInfoResDto;
 import com.green.sahwang.dto.response.CartProductPurchaseReadyResDto;
 import com.green.sahwang.entity.*;
 import com.green.sahwang.entity.enumtype.OutboxStatus;
 import com.green.sahwang.entity.enumtype.PaymentType;
 import com.green.sahwang.entity.enumtype.PurchaseStatus;
 import com.green.sahwang.entity.enumtype.SystemLogicType;
-import com.green.sahwang.entity.externalapi.ExternalPrePaymentReqDto;
-import com.green.sahwang.entity.externalapi.PrePaymentEntity;
+import com.green.sahwang.payment.entity.externalapi.ExternalPrePaymentReqDto;
+import com.green.sahwang.payment.entity.externalapi.PrePaymentEntity;
 import com.green.sahwang.exception.BizException;
 import com.green.sahwang.exception.ErrorCode;
 import com.green.sahwang.exception.outbox.OutboxSerializeEventException;
@@ -22,10 +23,12 @@ import com.green.sahwang.exception.payment.PaymentDomainException;
 import com.green.sahwang.model.payment.avro.PaymentAvroMethod;
 import com.green.sahwang.model.payment.avro.PaymentAvroStatus;
 import com.green.sahwang.model.payment.avro.PurchasePaidEventAvroModel;
+import com.green.sahwang.payment.entity.Payment;
+import com.green.sahwang.payment.repository.PaymentRepository;
 import com.green.sahwang.repository.*;
-import com.green.sahwang.repository.externalapi.ExternalPrePaymentApiRepository;
-import com.green.sahwang.service.PaymentService;
-import com.green.sahwang.service.impl.payment.helper.PaymentServiceHelper;
+import com.green.sahwang.payment.repository.externalapi.ExternalPrePaymentApiRepository;
+import com.green.sahwang.payment.service.PaymentService;
+import com.green.sahwang.payment.service.helper.PaymentServiceHelper;
 import com.green.sahwang.usedproduct.entity.UsedProduct;
 import com.green.sahwang.usedproduct.repository.UsedProductRepository;
 import com.siot.IamportRestClient.IamportClient;
@@ -37,6 +40,8 @@ import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -239,6 +244,31 @@ public class PaymentServiceImpl implements PaymentService {
                             .quantity(cartProductPurchaseReadyReqDto.getQuantity())
                             .build();
                 }).toList();
+    }
+
+    @Override
+    @Transactional
+    public String cancelPayment(CancelPaymentReqDto cancelPaymentReqDto) {
+        try {
+            // CancelData 생성 (imp_uid와 취소 사유)
+            CancelData cancelData = new CancelData(cancelPaymentReqDto.getImpUid(), true);
+            cancelData.setReason(cancelPaymentReqDto.getReason());
+
+            // 결제 취소 API 호출
+            IamportResponse<com.siot.IamportRestClient.response.Payment> cancelResponse =
+                    paymentExternalApi.cancelPaymentByImpUid(cancelData);
+
+            if (cancelResponse.getResponse() != null) {
+                log.info("결제 취소 성공: imp_uid = {}", cancelPaymentReqDto.getImpUid());
+                return "success";
+            } else {
+                log.error("결제 취소 실패: {}", cancelResponse.getMessage());
+                return "fail";
+            }
+        } catch (Exception e) {
+            log.error("결제 취소 중 오류 발생", e);
+            return "error";
+        }
     }
 
     private CancelData cancelPayment(IamportResponse<com.siot.IamportRestClient.response.Payment>

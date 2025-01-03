@@ -1,13 +1,13 @@
-package com.green.sahwang.service;
+package com.green.sahwang.payment.service;
 
 import com.green.sahwang.dto.request.CartProductPurchaseReadyReqDto;
-import com.green.sahwang.dto.request.PaymentCompleteRequest;
-import com.green.sahwang.dto.request.externalapi.ExternalPaymentReqDto;
-import com.green.sahwang.dto.request.externalapi.ExternalPurchasePaymentReqDto;
-import com.green.sahwang.dto.response.BuyerInfoResDto;
+import com.green.sahwang.payment.dto.req.CancelPaymentReqDto;
+import com.green.sahwang.payment.dto.req.PaymentCompleteRequest;
+import com.green.sahwang.payment.dto.req.externalapi.ExternalPaymentReqDto;
+import com.green.sahwang.payment.dto.req.externalapi.ExternalPurchasePaymentReqDto;
+import com.green.sahwang.payment.dto.res.BuyerInfoResDto;
 import com.green.sahwang.dto.response.CartProductPurchaseReadyResDto;
-import com.green.sahwang.entity.externalapi.ExternalPrePaymentReqDto;
-import com.green.sahwang.model.purchase.avro.PurchaseCreatedEventAvroModel;
+import com.green.sahwang.payment.entity.externalapi.ExternalPrePaymentReqDto;
 import com.siot.IamportRestClient.exception.IamportResponseException;
 import com.siot.IamportRestClient.response.Payment;
 
@@ -33,4 +33,6 @@ public interface PaymentService {
     BuyerInfoResDto getBuyerInfo(String email);
 
     List<CartProductPurchaseReadyResDto> getCartProductInfo(List<CartProductPurchaseReadyReqDto> cartProductPurchaseReadyReqDtos);
+
+    String cancelPayment(CancelPaymentReqDto cancelPaymentReqDto);
 }

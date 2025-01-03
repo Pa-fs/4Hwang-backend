@@ -1,4 +1,4 @@
-package com.green.sahwang.dto.request.externalapi;
+package com.green.sahwang.payment.dto.req.externalapi;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;

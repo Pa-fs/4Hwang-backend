@@ -2,7 +2,7 @@ package com.green.sahwang.service;
 
 import com.green.sahwang.purchase.dto.request.PurchaseReqDto;
 import com.green.sahwang.purchase.dto.response.PurchaseResDto;
-import com.green.sahwang.dto.response.externalapi.ExternalPaymentResDto;
+import com.green.sahwang.payment.dto.res.externalapi.ExternalPaymentResDto;
 
 public interface PurchaseService {
 

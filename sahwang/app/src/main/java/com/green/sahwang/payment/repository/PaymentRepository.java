@@ -1,7 +1,6 @@
-package com.green.sahwang.repository;
+package com.green.sahwang.payment.repository;
 
-import com.green.sahwang.entity.Member;
-import com.green.sahwang.entity.Payment;
+import com.green.sahwang.payment.entity.Payment;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

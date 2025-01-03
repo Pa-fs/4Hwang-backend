@@ -2,7 +2,7 @@ package com.green.sahwang.purchase.controller;
 
 import com.green.sahwang.purchase.dto.request.PurchaseReqDto;
 import com.green.sahwang.purchase.dto.response.PurchaseResDto;
-import com.green.sahwang.dto.response.externalapi.ExternalPaymentResDto;
+import com.green.sahwang.payment.dto.res.externalapi.ExternalPaymentResDto;
 import com.green.sahwang.service.PurchaseService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;

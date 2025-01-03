@@ -1,5 +1,6 @@
-package com.green.sahwang.entity;
+package com.green.sahwang.payment.entity;
 
+import com.green.sahwang.entity.Member;
 import com.green.sahwang.entity.enumtype.PaymentStatus;
 import com.green.sahwang.entity.enumtype.PaymentType;
 import com.green.sahwang.entity.enumtype.PurchaseStatus;

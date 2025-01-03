@@ -1,13 +1,13 @@
 package com.green.sahwang.controller;
 
 import com.green.sahwang.entity.Member;
-import com.green.sahwang.entity.Payment;
+import com.green.sahwang.payment.entity.Payment;
 import com.green.sahwang.exception.BizException;
 import com.green.sahwang.exception.ErrorCode;
 import com.green.sahwang.exception.payment.PaymentDomainException;
 import com.green.sahwang.model.payment.avro.PurchasePaidEventAvroModel;
 import com.green.sahwang.repository.MemberRepository;
-import com.green.sahwang.repository.PaymentRepository;
+import com.green.sahwang.payment.repository.PaymentRepository;
 import com.green.sahwang.service.SseEmitterService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

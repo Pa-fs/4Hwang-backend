@@ -1,4 +1,4 @@
-package com.green.sahwang.dto.response;
+package com.green.sahwang.payment.dto.res;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.green.sahwang.entity.Address;

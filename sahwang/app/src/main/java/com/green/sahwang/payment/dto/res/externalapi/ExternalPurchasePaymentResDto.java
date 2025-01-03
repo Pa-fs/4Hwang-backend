@@ -1,4 +1,4 @@
-package com.green.sahwang.dto.response.externalapi;
+package com.green.sahwang.payment.dto.res.externalapi;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;

@@ -28,7 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 
-//@Service
+@Service
 @RequiredArgsConstructor
 @Slf4j
 public class DeliveryPurchaseServiceImpl implements DeliveryPurchaseService {
@@ -76,7 +76,7 @@ public class DeliveryPurchaseServiceImpl implements DeliveryPurchaseService {
     }
 
 
-    @Scheduled(fixedRate = 5000)
+//    @Scheduled(fixedRate = 600000)
     public void shippingProcess() {
         List<Purchase> purchases = purchaseRepository.findByPurchaseStatus(PurchaseStatus.SHIP_READY);
 
@@ -93,7 +93,7 @@ public class DeliveryPurchaseServiceImpl implements DeliveryPurchaseService {
                     }
                 });
     }
-    @Scheduled(fixedRate = 15000)
+//    @Scheduled(fixedRate = 600000)
     public void shippedProcess() {
         List<Purchase> purchases = purchaseRepository.findByPurchaseStatus(PurchaseStatus.SHIPPING);
 

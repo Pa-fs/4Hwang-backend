@@ -1,4 +1,4 @@
-package com.green.sahwang.entity.externalapi;
+package com.green.sahwang.payment.entity.externalapi;
 
 import jakarta.persistence.*;
 import lombok.*;

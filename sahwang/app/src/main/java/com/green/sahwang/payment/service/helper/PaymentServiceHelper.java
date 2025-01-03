@@ -1,4 +1,4 @@
-package com.green.sahwang.service.impl.payment.helper;
+package com.green.sahwang.payment.service.helper;
 
 import com.green.sahwang.entity.Purchase;
 import com.green.sahwang.exception.PurchaseDomainException;
