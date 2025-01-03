@@ -124,8 +124,15 @@ public class InspectionServiceImpl implements InspectionService {
                 .build();
 
         VerifiedSale savedVerifiedSale = verifiedSaleRepository.save(verifiedSale);
+
+        log.info("verifiedSale.getId() : {}", verifiedSale.getId());
+        pendingSale.setVerifiedSale(savedVerifiedSale); // verifiedSale을 pendingSale에 할당
+        pendingSaleRepository.save(pendingSale); // pendingSale을 저장
+
         inspectionPassReqDto.getPassSaleReqImageDtos().forEach(passSaleReqImageDto ->
-                passSaleReqImageDto.setVerifiedSaleId(savedVerifiedSale.getId()));
+                passSaleReqImageDto.setVerifiedSaleId(savedVerifiedSale.getPendingSale().getVerifiedSale().getId()));
+
+        log.info("savedVerifiedSale.getPendingSale().getVerifiedSale().getId() : {}", savedVerifiedSale.getPendingSale().getVerifiedSale().getId());
 
         pendingSale.setInspectionStatus(InspectionStatus.ACCEPTED);
         pendingSaleRepository.save(pendingSale);

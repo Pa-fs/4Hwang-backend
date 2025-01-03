@@ -5,7 +5,6 @@ import com.green.sahwang.adminpage.dto.res.*;
 import com.green.sahwang.config.DateTimeUtils;
 import com.green.sahwang.entity.*;
 import com.green.sahwang.entity.enumtype.MemberRole;
-import com.green.sahwang.entity.enumtype.PurchaseStatus;
 import com.green.sahwang.repository.*;
 import com.green.sahwang.usedproduct.entity.UsedProduct;
 import com.green.sahwang.usedproduct.repository.UsedProductRepository;
@@ -265,17 +264,23 @@ public class AdminServiceImpl implements AdminService{
 
     @Override
     @Transactional(readOnly = true)
-    public List<RevenueResDto> getRevenues(String email, LocalDate startDate, LocalDate endDate) {
+    public RevenueResWithTotalPriceDto getRevenues(String email, LocalDate startDate, LocalDate endDate) {
         LocalDateTime startDateTime = startDate.atStartOfDay(); // 00:00:00
         LocalDateTime endDateTime = endDate.atTime(23, 59, 59); // 23:59:59
         List<SalePayment> salePayments = salePaymentRepository.findRevenue(startDateTime, endDateTime);
-        return salePayments.stream()
+
+        List<RevenueResDto> revenueResDtos = salePayments.stream()
                 .map(salePayment -> RevenueResDto.builder()
                         .usedProductId(salePayment.getUsedProduct().getId())
-                        .totalPrice(salePayment.getFinalPrice())
-                        .revenue((int)(salePayment.getFinalPrice() * 0.05))
+                        .revenue((int) (salePayment.getFinalPrice() * 0.05))
                         .saleDate(DateTimeUtils.format(salePayment.getCreatedDate()))
                         .build()
                 ).toList();
+        return RevenueResWithTotalPriceDto.builder()
+                .revenueResDtos(revenueResDtos)
+                .totalPrice(revenueResDtos.stream()
+                        .mapToInt(revenueResDto -> revenueResDto.getRevenue())
+                        .sum())
+                .build();
     }
 }

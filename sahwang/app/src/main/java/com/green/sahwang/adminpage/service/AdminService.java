@@ -4,7 +4,6 @@ import com.green.sahwang.adminpage.dto.res.*;
 import org.springframework.data.domain.Page;
 
 import java.time.LocalDate;
-import java.util.List;
 
 public interface AdminService {
 
@@ -40,5 +39,5 @@ public interface AdminService {
 
     DashReviewResDto getDashReviews();
 
-    List<RevenueResDto> getRevenues(String email, LocalDate startDate, LocalDate endDate);
+    RevenueResWithTotalPriceDto getRevenues(String email, LocalDate startDate, LocalDate endDate);
 }

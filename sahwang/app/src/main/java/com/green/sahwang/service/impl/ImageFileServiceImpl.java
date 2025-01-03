@@ -153,6 +153,7 @@ public class ImageFileServiceImpl implements ImageFileService {
     @Transactional
     public void savePassSaleImageFiles(MultipartFile[] files, Path imagePath, List<PassSaleReqImageDto> passSaleReqImageDtos) {
         try {
+            String relativePath = "images/file/";
             // 파일과 DTO 리스트의 크기가 동일한지 확인
             if (files.length != passSaleReqImageDtos.size()) {
                 throw new IllegalArgumentException("파일 수와 DTO 수가 일치하지 않습니다.");
@@ -163,8 +164,8 @@ public class ImageFileServiceImpl implements ImageFileService {
                 PassSaleReqImageDto passSaleReqImageDto = passSaleReqImageDtos.get(i);
 
                 String filename = file.getOriginalFilename();
-                String filePath = imagePath.toString() + File.separator + filename;
-                String absoluteFilePath = imagePath + File.separator + filename;
+                String filePath = relativePath + File.separator + filename;
+                String absoluteFilePath = imagePath.toString() + File.separator + filename;
 
                 // 파일을 지정된 경로로 저장
                 File dest = new File(absoluteFilePath);
