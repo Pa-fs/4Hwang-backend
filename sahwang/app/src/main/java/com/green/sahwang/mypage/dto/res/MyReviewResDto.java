@@ -19,8 +19,6 @@ public class MyReviewResDto {
 
     private LocalDateTime createDate;
 
-    private LocalDateTime modifiedDate;
-
     private double star;
 
     private Long memberId;

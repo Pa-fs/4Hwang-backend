@@ -117,6 +117,7 @@ public class MyPageController {
         return ResponseEntity.ok(wishProductList);
     }
 
+    @SecurityRequirement(name = "Bearer Authentication")
     @GetMapping("/reviewList")
     public ResponseEntity<List<MyReviewResDto>> getReviewList(@AuthenticationPrincipal UserDetails userDetails,
                                                            @RequestParam(name = "pageNum", defaultValue = "0", required = false) int pageNum,

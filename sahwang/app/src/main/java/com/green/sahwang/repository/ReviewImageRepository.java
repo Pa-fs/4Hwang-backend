@@ -60,4 +60,16 @@ public interface ReviewImageRepository extends JpaRepository<ReviewImage, Long> 
             WHERE review_id = :reviewId
             """,nativeQuery = true)
     void deleteByReviewId(@Param("reviewId") Long reviewId);
+
+    @Query(value = """
+            SELECT r.review_id, r.content, ri.filename, r.review_creation_date, r.star, m.member_id, pp.purchase_product_id, vs.product_name, vs.product_size
+            FROM review_image ri
+            INNER JOIN review r ON r.review_id = ri.review_id
+            INNER JOIN member m ON m.member_id = r.member_id
+            INNER JOIN purchase_product pp ON pp.purchase_product_id = r.purchase_product_id
+            INNER JOIN used_product up ON up.used_product_id = pp.used_product_id
+            INNER JOIN verified_sale vs ON vs.verified_sale_id = up.verified_sale_id
+            WHERE m.member_id = :memberId
+            """, nativeQuery = true)
+    List<Object[]> findMyReviews(@Param("memberId") Long memberId);
 }
