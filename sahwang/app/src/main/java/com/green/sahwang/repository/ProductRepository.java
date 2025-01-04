@@ -53,8 +53,20 @@ public interface ProductRepository extends JpaRepository<Product, Long>, Product
 
     Optional<Product> findByName(String productName);
 
-    @Query(value = "SELECT * FROM product ORDER BY RAND() LIMIT 5", nativeQuery = true)
-    List<Product> findByRandom();
+    @Query(value = """
+            SELECT p.product_id, p.main_image, b.`name`, p.`name`, MIN(ps.excepted_selling_price) AS min_price, MAX(ps.excepted_selling_price) AS max_price, p.content, p.size, COUNT(up.used_product_id) AS usedProductCount
+            FROM product p
+            INNER JOIN brand b ON b.brand_id = p.brand_id
+            INNER JOIN pending_sale ps ON ps.product_id = p.product_id
+            INNER JOIN verified_sale vs ON vs.pending_sale_id = ps.pending_sale_id
+            INNER JOIN used_product up ON up.verified_sale_id = vs.verified_sale_id
+            WHERE vs.rejected_sale_id IS NULL
+            AND ps.inspection_status = 'SELLING'
+            GROUP BY p.product_id
+            ORDER BY RAND()
+            LIMIT 5
+            """, nativeQuery = true)
+    List<Object[]> findByRandom();
 
     @Query(value = "SELECT " +
             "p.product_id, " +

@@ -32,6 +32,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -160,23 +161,19 @@ public class MyPageServiceImpl implements MyPageService{
     public List<MyReviewResDto> getReviewList(UserDetails userDetails, int pageNum, int size){
         Member member = memberRepository.findByEmail(userDetails.getUsername());
 
-        Pageable pageable = PageRequest.of(pageNum, size);
-        Page<Review> reviewPage = reviewRepository.findAllByMember(member, pageable);
+        List<Object[]> myReviews = reviewImageRepository.findMyReviews(member.getId());
 
-        return reviewPage.getContent().stream()
-                .map(review -> new MyReviewResDto(
-                        review.getId(),
-                        review.getContent(),
-                        review.getImage(),
-                        review.getReviewCreationDate(),
-                        review.getReviewModifiedDate(),
-                        review.getStar(),
-                        review.getMember().getId(),
-                        review.getPurchaseProduct().getId(),
-                        review.getPurchaseProduct().getProductName(),
-                        review.getPurchaseProduct().getUsedProduct().getVerifiedSale().getProductSize()
-                ))
-                .toList();
+        return myReviews.stream().map(row -> new MyReviewResDto(
+                (Long) row[0],
+                (String) row[1],
+                (String) row[2],
+                ((Timestamp) row[3]).toLocalDateTime(),
+                (Double) row[4],
+                (Long) row[5],
+                (Long) row[6],
+                (String) row[7],
+                (Integer) row[8]
+        )).toList();
     }
 
     @Transactional

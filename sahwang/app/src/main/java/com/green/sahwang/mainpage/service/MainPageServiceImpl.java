@@ -20,22 +20,19 @@ public class MainPageServiceImpl implements MainPageService{
 
     @Transactional
     public List<EditorPickResDto> getEditorPickInfo(){
-        List<Product> productList = productRepository.findByRandom();
+        List<Object[]> editor = productRepository.findByRandom();
 
-        List<EditorPickResDto> editorPickResDtoList = new ArrayList<>();
-        for (Product product : productList){
-            EditorPickResDto editorPickResDto = new EditorPickResDto();
-            editorPickResDto.setProductId(product.getId());
-            editorPickResDto.setFileName(product.getMainImage());
-            editorPickResDto.setBrandName(product.getBrand().getName());
-            editorPickResDto.setProductName(product.getName());
-            editorPickResDto.setContent(product.getContent());
-            editorPickResDto.setPrice(product.getPrice());
-            editorPickResDto.setSize(product.getSize());
-            editorPickResDtoList.add(editorPickResDto);
-        }
-
-        return editorPickResDtoList;
+        return editor.stream().map(row -> new EditorPickResDto(
+                (Long) row[0],
+                (String) row[1],
+                (String) row[2],
+                (String) row[3],
+                (Integer) row[4],
+                (Integer) row[5],
+                (String) row[6],
+                (Integer) row[7],
+                (Long) row[8]
+        )).toList();
     }
 
 }
