@@ -174,7 +174,8 @@ public class MyPageServiceImpl implements MyPageService{
                 (Long) row[5],
                 (Long) row[6],
                 (String) row[7],
-                (Integer) row[8]
+                (Integer) row[8],
+                reviewCount
         )).toList();
 
     }

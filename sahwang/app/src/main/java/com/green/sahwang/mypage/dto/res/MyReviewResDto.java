@@ -29,4 +29,6 @@ public class MyReviewResDto {
 
     private int size;
 
+    private int reviewCount;
+
 }
