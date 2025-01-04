@@ -60,8 +60,7 @@ public interface PendingSaleRepository extends JpaRepository<PendingSale, Long> 
             SELECT ps.pending_sale_id, ps.product_name, ps.category_name, ps.created_date, m.nick_name
             FROM pending_sale ps
             INNER JOIN member m ON m.member_id = ps.member_id
-            WHERE DATE(ps.created_date) = CURRENT_DATE
-            AND ps.inspection_status LIKE 'WAITING';
+            WHERE DATE(ps.created_date) = CURRENT_DATE;
             """,nativeQuery = true)
     List<Object[]> getDashPendingSales();
 
@@ -69,8 +68,7 @@ public interface PendingSaleRepository extends JpaRepository<PendingSale, Long> 
             SELECT COUNT(*)
             FROM pending_sale ps
             INNER JOIN member m ON m.member_id = ps.member_id
-            WHERE DATE(ps.created_date) = CURRENT_DATE
-            AND ps.inspection_status LIKE 'WAITING';
+            WHERE DATE(ps.created_date) = CURRENT_DATE;
             """,nativeQuery = true)
     int getDashPendingSaleCount();
 }
