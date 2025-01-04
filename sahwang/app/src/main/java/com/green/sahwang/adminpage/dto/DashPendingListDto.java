@@ -14,9 +14,9 @@ public class DashPendingListDto {
 
     private Long pendingSaleId;
 
-    private String CategoryName;
-
     private String productName;
+
+    private String CategoryName;
 
     private LocalDateTime createDate;
 
