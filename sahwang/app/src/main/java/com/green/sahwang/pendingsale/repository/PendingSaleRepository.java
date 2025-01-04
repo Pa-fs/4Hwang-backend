@@ -57,10 +57,9 @@ public interface PendingSaleRepository extends JpaRepository<PendingSale, Long> 
     Long countByInspectionStatus(InspectionStatus inspectionStatus);
 
     @Query(value = """
-            SELECT ps.pending_sale_id, p.`name`, ps.product_name, ps.created_date, m.nick_name
+            SELECT ps.pending_sale_id, ps.product_name, ps.category_name, ps.created_date, m.nick_name
             FROM pending_sale ps
             INNER JOIN member m ON m.member_id = ps.member_id
-            INNER JOIN product p ON p.product_id = ps.product_id
             WHERE DATE(ps.created_date) = CURRENT_DATE
             AND ps.inspection_status LIKE 'WAITING';
             """,nativeQuery = true)
@@ -70,7 +69,6 @@ public interface PendingSaleRepository extends JpaRepository<PendingSale, Long> 
             SELECT COUNT(*)
             FROM pending_sale ps
             INNER JOIN member m ON m.member_id = ps.member_id
-            INNER JOIN product p ON p.product_id = ps.product_id
             WHERE DATE(ps.created_date) = CURRENT_DATE
             AND ps.inspection_status LIKE 'WAITING';
             """,nativeQuery = true)

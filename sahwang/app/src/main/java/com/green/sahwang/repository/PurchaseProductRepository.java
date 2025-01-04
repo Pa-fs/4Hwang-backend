@@ -74,7 +74,7 @@ public interface PurchaseProductRepository extends JpaRepository<PurchaseProduct
                 AND p.purchaseStatus IN ('PAID', 'SHIP_READY', 'SHIPPING', 'SHIPPED', 'COMPLETED', 'CANCEL', 'CANCELLED', 'REVIEWED')
                 AND p.member.id = :memberId
                 GROUP BY pp.id, pr.name, vs.brandName, vs.productName, vs.productSize, ps.exceptedSellingPrice, pp.purchaseCreationDate, p.purchaseStatus, pay.impUid
-                ORDER BY pp.purchaseCreationDate DESC
+                ORDER BY pp.purchaseCreationDate DESC   
             """)
     Page<OrderListResDto> findPurchaseProductsByMemberId(@Param("memberId") Long memberId, Pageable pageable);
 
