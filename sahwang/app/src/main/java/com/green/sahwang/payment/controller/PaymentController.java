@@ -7,7 +7,8 @@ import com.green.sahwang.payment.dto.req.externalapi.ExternalPaymentReqDto;
 import com.green.sahwang.payment.dto.req.externalapi.ExternalPurchasePaymentReqDto;
 import com.green.sahwang.payment.dto.res.BuyerInfoResDto;
 import com.green.sahwang.dto.response.CartProductPurchaseReadyResDto;
-import com.green.sahwang.payment.entity.externalapi.ExternalPrePaymentReqDto;
+import com.green.sahwang.payment.dto.req.externalapi.ExternalPrePaymentReqDto;
+import com.green.sahwang.payment.dto.res.externalapi.BuyerResDto;
 import com.green.sahwang.payment.service.PaymentService;
 import com.siot.IamportRestClient.exception.IamportResponseException;
 import com.siot.IamportRestClient.response.Payment;
@@ -94,5 +95,11 @@ public class PaymentController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("결제 취소에 실패했습니다. 관리자에게 문의하세요.");
         }
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("결제 취소 처리 중 오류가 발생했습니다.");
+    }
+
+    @GetMapping("/orderCompleted")
+    @Operation(summary = "결제내역", description = "결제 후 내역 조회")
+    public ResponseEntity<BuyerResDto> getPaymentDetail(@RequestParam String merchant_uid) {
+        return ResponseEntity.ok(paymentService.getPaymentDetails(merchant_uid));
     }
 }

@@ -1,5 +1,6 @@
 package com.green.sahwang.usedproduct.entity;
 
+import com.green.sahwang.payment.entity.externalapi.PostPaymentEntity;
 import com.green.sahwang.usedproduct.entity.enumtype.UsedProductType;
 import com.green.sahwang.verifiedsale.entity.VerifiedSale;
 import jakarta.persistence.*;

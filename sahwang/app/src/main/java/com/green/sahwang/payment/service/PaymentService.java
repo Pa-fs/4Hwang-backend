@@ -7,7 +7,8 @@ import com.green.sahwang.payment.dto.req.externalapi.ExternalPaymentReqDto;
 import com.green.sahwang.payment.dto.req.externalapi.ExternalPurchasePaymentReqDto;
 import com.green.sahwang.payment.dto.res.BuyerInfoResDto;
 import com.green.sahwang.dto.response.CartProductPurchaseReadyResDto;
-import com.green.sahwang.payment.entity.externalapi.ExternalPrePaymentReqDto;
+import com.green.sahwang.payment.dto.req.externalapi.ExternalPrePaymentReqDto;
+import com.green.sahwang.payment.dto.res.externalapi.BuyerResDto;
 import com.siot.IamportRestClient.exception.IamportResponseException;
 import com.siot.IamportRestClient.response.Payment;
 
@@ -35,4 +36,6 @@ public interface PaymentService {
     List<CartProductPurchaseReadyResDto> getCartProductInfo(List<CartProductPurchaseReadyReqDto> cartProductPurchaseReadyReqDtos);
 
     String cancelPayment(CancelPaymentReqDto cancelPaymentReqDto);
+
+    BuyerResDto getPaymentDetails(String merchantUid);
 }
