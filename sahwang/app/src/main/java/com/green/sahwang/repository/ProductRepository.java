@@ -68,30 +68,32 @@ public interface ProductRepository extends JpaRepository<Product, Long>, Product
             """, nativeQuery = true)
     List<Object[]> findByRandom();
 
-    @Query(value = "SELECT " +
-            "p.product_id, " +
-            "p.name AS product_name, " +
-            "p.size, " +
-            "p.dtype, " +
-            "b.name AS brand_name, " +
-            "COALESCE(SUM(CASE WHEN vs.rejected_sale_id IS NULL AND up.used_product_id IS NOT NULL THEN 1 ELSE 0 END), 0) AS used_product_count, " +
-            "pi.filename " +
-            "FROM product p " +
-            "INNER JOIN brand b ON b.brand_id = p.brand_id " +
-            "LEFT JOIN pending_sale ps ON ps.product_id = p.product_id " +
-            "LEFT JOIN verified_sale vs ON vs.pending_sale_id = ps.pending_sale_id " +
-            "LEFT JOIN used_product up ON up.verified_sale_id = vs.verified_sale_id " +
-            "LEFT JOIN (SELECT MIN(filename) AS filename, product_id FROM product_image pi GROUP BY product_id) pi ON pi.product_id = p.product_id " +
-            "GROUP BY " +
-            "p.product_id, " +
-            "p.name, " +
-            "p.size, " +
-            "p.dtype, " +
-            "b.name, " +
-            "pi.filename " +
-            "ORDER BY p.product_id " +
-            "LIMIT :limit OFFSET :offset",
-            nativeQuery = true)
+    @Query(value = """
+            SELECT
+                p.product_id,
+                p.name AS product_name,
+                p.size,
+                p.dtype,
+                b.name AS brand_name,
+                COALESCE(SUM(CASE WHEN vs.rejected_sale_id IS NULL AND up.used_product_id IS NOT NULL THEN 1 ELSE 0 END), 0) AS used_product_count,
+                pi.filename
+            FROM product p
+            INNER JOIN brand b ON b.brand_id = p.brand_id
+            LEFT JOIN pending_sale ps ON ps.product_id = p.product_id
+            LEFT JOIN verified_sale vs ON vs.pending_sale_id = ps.pending_sale_id
+            LEFT JOIN used_product up ON up.verified_sale_id = vs.verified_sale_id
+            LEFT JOIN (SELECT MIN(filename) AS filename, product_id FROM product_image pi GROUP BY product_id) pi ON pi.product_id = p.product_id
+            WHERE ps.inspection_status = 'SELLING' OR ps.product_id IS NULL
+            GROUP BY
+                p.product_id,
+                p.name,
+                p.size,
+                p.dtype,
+                b.name,
+                pi.filename
+            ORDER BY p.product_id
+            LIMIT :limit OFFSET :offset
+            """, nativeQuery = true)
     List<Object[]> findProducts(@Param("limit") int limit, @Param("offset") int offset);
 
     @Query("SELECT COUNT(p) FROM Product p")

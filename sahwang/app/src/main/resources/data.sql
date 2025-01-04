@@ -58,8 +58,8 @@ values (3, 'Perfume');
 
 insert into brand(brand_id, name)
 values (1, 'Ferrari');
-insert into brand(brand_id, name)
-values (2, 'Chanel');
+--insert into brand(brand_id, name)
+--values (2, 'Chanel');
 insert into brand(brand_id, name)
 values (3, 'Versace');
 insert into brand(brand_id, name)
@@ -97,8 +97,8 @@ values (19, 'Dior');
 
 insert into category_brand(category_brand_id, category_id, brand_id, created_date)
 values (1, 3, 1, now());
-insert into category_brand(category_brand_id, category_id, brand_id, created_date)
-values (2, 3, 2, now());
+--insert into category_brand(category_brand_id, category_id, brand_id, created_date)
+--values (2, 3, 2, now());
 insert into category_brand(category_brand_id, category_id, brand_id, created_date)
 values (3, 3, 3, now());
 insert into category_brand(category_brand_id, category_id, brand_id, created_date)
