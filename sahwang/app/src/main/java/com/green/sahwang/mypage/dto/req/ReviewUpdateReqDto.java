@@ -14,6 +14,4 @@ public class ReviewUpdateReqDto {
 
     private String content;
 
-    private double Star;
-
 }
