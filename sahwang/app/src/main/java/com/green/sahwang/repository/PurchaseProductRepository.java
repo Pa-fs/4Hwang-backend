@@ -113,7 +113,7 @@ public interface PurchaseProductRepository extends JpaRepository<PurchaseProduct
     Page<OrderManageResDto> findOrders(Pageable pageable);
 
     @Query(value = """
-            SELECT pp.purchase_product_id, pp.purchase_creation_date, pro.`name`, vs.product_name, ps.excepted_selling_price, m.nick_name
+            SELECT pp.purchase_product_id, pp.purchase_creation_date, vs.category_name, vs.product_name, ps.excepted_selling_price, m.nick_name
             FROM purchase_product pp
             INNER JOIN purchase p ON p.purchase_id = pp.purchase_id
             INNER JOIN member m ON m.member_id = p.member_id
