@@ -155,7 +155,7 @@ public interface UsedProductRepository extends JpaRepository<UsedProduct, Long> 
 
     @Query("SELECT new com.green.sahwang.adminpage.dto.res.ProductManageDto( " +
             "up.id, vs.productName, vs.brandName, MIN(usi.filename), vs.productSize," +
-            "vs.verifiedSellingPrice, vs.categoryName, ps.inspectionStatus, up.createdDate, up.modifiedDate) " +
+            "ps.exceptedSellingPrice, vs.categoryName, ps.inspectionStatus, up.createdDate, up.modifiedDate) " +
             "FROM UsedProduct up " +
             "JOIN up.verifiedSale vs " +
             "JOIN vs.pendingSale ps " +
