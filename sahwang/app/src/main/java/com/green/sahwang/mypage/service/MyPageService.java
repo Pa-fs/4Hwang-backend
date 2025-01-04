@@ -19,7 +19,7 @@ public interface MyPageService {
     Page<OrderListResDto> getOrderList(UserDetails userDetails, int pageNum, int size);
 
 //    String getSaleList(UserDetails userDetails, int pageNum, int size);
-    List<SaleListResDto> getSaleList(UserDetails userDetails, int pageNum, int size);
+    SaleListWithTotalCountResDto getSaleList(UserDetails userDetails, int pageNum, int size);
 
     List<WishListCategoryResDto> getWishCategoryList(UserDetails userDetails, int pageNum, int size);
 

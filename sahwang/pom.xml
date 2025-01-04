@@ -36,6 +36,7 @@
 		<querydsl-version>5.0.0</querydsl-version>
 		<mybatis-spring-boot-starter-version>3.0.4</mybatis-spring-boot-starter-version>
 		<mybatis-version>3.5.17</mybatis-version>
+		<pagehelper-version>5.3.1</pagehelper-version>
 	</properties>
 
 	<dependencyManagement>

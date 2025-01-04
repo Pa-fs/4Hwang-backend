@@ -1,6 +1,5 @@
 package com.green.sahwang.mypage.service;
 
-import com.green.sahwang.config.DateTimeUtils;
 import com.green.sahwang.dto.response.ImageResDto;
 import com.green.sahwang.entity.*;
 import com.green.sahwang.exception.BizException;
@@ -92,7 +91,7 @@ public class MyPageServiceImpl implements MyPageService{
     }
 
     @Transactional(readOnly = true)
-    public List<SaleListResDto> getSaleList(UserDetails userDetails, int pageNum, int size) {
+    public SaleListWithTotalCountResDto getSaleList(UserDetails userDetails, int pageNum, int size) {
         Member member = memberRepository.findByEmail(userDetails.getUsername());
 
         Pageable pageable = PageRequest.of(pageNum, size);
@@ -108,7 +107,10 @@ public class MyPageServiceImpl implements MyPageService{
             }
         }
 
-        return saleListResDtos;
+        return SaleListWithTotalCountResDto.builder()
+                .saleListResDtos(saleListResDtos)
+                .totalCount(saleMapper.findSaleListTotalCount(member.getId()))
+                .build();
     }
 
     @Transactional(readOnly = true)

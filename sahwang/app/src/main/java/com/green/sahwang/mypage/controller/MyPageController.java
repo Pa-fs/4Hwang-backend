@@ -1,7 +1,6 @@
 package com.green.sahwang.mypage.controller;
 
 import com.green.sahwang.config.filepath.ImageFilePathConfig;
-import com.green.sahwang.mypage.dto.WishListCategoryDto;
 import com.green.sahwang.mypage.dto.req.ApproveVerifiedSaleReqDto;
 import com.green.sahwang.mypage.dto.req.MemberInfoReqDto;
 import com.green.sahwang.mypage.dto.req.ReviewCreateReqDto;
@@ -68,9 +67,9 @@ public class MyPageController {
     @SecurityRequirement(name = "Bearer Authentication")
     @GetMapping("/saleList")
     @Operation(summary = "판매내역 리스트", description = "판매 진행에 대한 리스트")
-    public ResponseEntity<List<SaleListResDto>> getSaleList(@AuthenticationPrincipal UserDetails userDetails,
-                                                            @RequestParam(name = "pageNum", defaultValue = "0", required = false) int pageNum,
-                                                            @RequestParam(name = "size", defaultValue = "5", required = false) int size
+    public ResponseEntity<SaleListWithTotalCountResDto> getSaleList(@AuthenticationPrincipal UserDetails userDetails,
+                                                                    @RequestParam(name = "pageNum", defaultValue = "0", required = false) int pageNum,
+                                                                    @RequestParam(name = "size", defaultValue = "5", required = false) int size
     ){
 
         return ResponseEntity.ok(myPageService.getSaleList(userDetails, pageNum, size));
