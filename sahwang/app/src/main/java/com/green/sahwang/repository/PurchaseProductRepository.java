@@ -105,6 +105,7 @@ public interface PurchaseProductRepository extends JpaRepository<PurchaseProduct
                 JOIN p.member m
                 LEFT JOIN DeliveryPurchase dp ON dp.purchaseProduct.id = pp.id
                 WHERE vs.rejectionReason IS NULL
+                AND p.purchaseStatus != 'CREATED'
                 GROUP BY pp.id, pr.name, vs.brandName, vs.productName, vs.productSize, vs.categoryName,
                          ps.exceptedSellingPrice, pp.purchaseCreationDate, p.purchaseStatus,
                          m.nickName, m.name, dp.deliveredDate, dp.status
