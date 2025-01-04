@@ -160,8 +160,10 @@ public class MyPageServiceImpl implements MyPageService{
     @Transactional(readOnly = true)
     public List<MyReviewResDto> getReviewList(UserDetails userDetails, int pageNum, int size){
         Member member = memberRepository.findByEmail(userDetails.getUsername());
+        Pageable pageable = PageRequest.of(pageNum, size);
 
-        List<Object[]> myReviews = reviewImageRepository.findMyReviews(member.getId());
+        Page<Object[]> myReviews = reviewImageRepository.findMyReviews(member.getId(), pageable);
+        int reviewCount = reviewImageRepository.reviewCount(member.getId());
 
         return myReviews.stream().map(row -> new MyReviewResDto(
                 (Long) row[0],
@@ -174,6 +176,7 @@ public class MyPageServiceImpl implements MyPageService{
                 (String) row[7],
                 (Integer) row[8]
         )).toList();
+
     }
 
     @Transactional
@@ -197,7 +200,6 @@ public class MyPageServiceImpl implements MyPageService{
         Review review = reviewRepository.findById(reviewUpdateReqDto.getReviewId()).orElseThrow();
         review.setReviewModifiedDate(LocalDateTime.now());
         review.setContent(reviewUpdateReqDto.getContent());
-        review.setStar(reviewUpdateReqDto.getStar());
         reviewRepository.save(review);
     }
 

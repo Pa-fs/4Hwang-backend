@@ -70,6 +70,29 @@ public interface ReviewImageRepository extends JpaRepository<ReviewImage, Long> 
             INNER JOIN used_product up ON up.used_product_id = pp.used_product_id
             INNER JOIN verified_sale vs ON vs.verified_sale_id = up.verified_sale_id
             WHERE m.member_id = :memberId
-            """, nativeQuery = true)
-    List<Object[]> findMyReviews(@Param("memberId") Long memberId);
+            """,
+            countQuery = """
+            SELECT COUNT(*)
+            FROM review_image ri
+            INNER JOIN review r ON r.review_id = ri.review_id
+            INNER JOIN member m ON m.member_id = r.member_id
+            INNER JOIN purchase_product pp ON pp.purchase_product_id = r.purchase_product_id
+            INNER JOIN used_product up ON up.used_product_id = pp.used_product_id
+            INNER JOIN verified_sale vs ON vs.verified_sale_id = up.verified_sale_id
+            WHERE m.member_id = :memberId
+            """
+            , nativeQuery = true)
+    Page<Object[]> findMyReviews(@Param("memberId") Long memberId, Pageable pageable);
+
+    @Query(value = """
+            SELECT COUNT(*)
+            FROM review_image ri
+            INNER JOIN review r ON r.review_id = ri.review_id
+            INNER JOIN member m ON m.member_id = r.member_id
+            INNER JOIN purchase_product pp ON pp.purchase_product_id = r.purchase_product_id
+            INNER JOIN used_product up ON up.used_product_id = pp.used_product_id
+            INNER JOIN verified_sale vs ON vs.verified_sale_id = up.verified_sale_id
+            WHERE m.member_id = :memberId
+            """,nativeQuery = true)
+    int reviewCount(@Param("memberId") Long memberId);
 }
