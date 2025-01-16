@@ -159,10 +159,6 @@ public class KakaoServiceImpl implements KakaoService{
             throw new RuntimeException("비밀번호가 일치 하지 않습니다");
         }
 
-        if(member.getRole() != MemberRole.ADMIN){
-            throw new RuntimeException("관리자가 아닙니다");
-        }
-
         member.setLastLoginDate(LocalDateTime.now());
         memberRepository.save(member);
 
