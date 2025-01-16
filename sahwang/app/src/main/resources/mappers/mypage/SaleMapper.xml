@@ -61,4 +61,19 @@
         ORDER BY ps.pending_sale_id DESC
         LIMIT #{pageable.offset}, #{pageable.pageSize}
     </select>
+
+    <select id="findSaleListTotalCount" resultType="int">
+        SELECT
+        COUNT(*) AS totalCount
+        FROM member m
+        INNER JOIN pending_sale ps ON ps.member_id = m.member_id
+        LEFT JOIN verified_sale vs ON ps.pending_sale_id = vs.pending_sale_id
+        LEFT JOIN used_product up ON vs.verified_sale_id = up.used_product_id
+        LEFT JOIN sale_grade sg ON sg.sale_grade_id = vs.sale_grade_id
+        LEFT JOIN rejection_reason rr ON rr.rejection_reason_id = vs.rejected_sale_id
+        WHERE m.member_id = #{memberId}
+        AND ps.inspection_status in ('WAITING', 'ACCEPTED', 'REJECTED', 'SELLING', 'SOLD')
+    </select>
+
+
 </mapper>

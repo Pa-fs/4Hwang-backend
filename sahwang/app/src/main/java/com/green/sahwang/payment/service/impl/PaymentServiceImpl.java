@@ -13,7 +13,9 @@ import com.green.sahwang.entity.enumtype.OutboxStatus;
 import com.green.sahwang.entity.enumtype.PaymentType;
 import com.green.sahwang.entity.enumtype.PurchaseStatus;
 import com.green.sahwang.entity.enumtype.SystemLogicType;
-import com.green.sahwang.payment.entity.externalapi.ExternalPrePaymentReqDto;
+import com.green.sahwang.payment.dto.req.externalapi.ExternalPrePaymentReqDto;
+import com.green.sahwang.payment.dto.res.externalapi.BuyerResDto;
+import com.green.sahwang.payment.entity.externalapi.PostPaymentEntity;
 import com.green.sahwang.payment.entity.externalapi.PrePaymentEntity;
 import com.green.sahwang.exception.BizException;
 import com.green.sahwang.exception.ErrorCode;
@@ -25,10 +27,14 @@ import com.green.sahwang.model.payment.avro.PaymentAvroStatus;
 import com.green.sahwang.model.payment.avro.PurchasePaidEventAvroModel;
 import com.green.sahwang.payment.entity.Payment;
 import com.green.sahwang.payment.repository.PaymentRepository;
+import com.green.sahwang.payment.repository.externalapi.ExternalPostPaymentApiRepository;
 import com.green.sahwang.repository.*;
 import com.green.sahwang.payment.repository.externalapi.ExternalPrePaymentApiRepository;
 import com.green.sahwang.payment.service.PaymentService;
 import com.green.sahwang.payment.service.helper.PaymentServiceHelper;
+import com.green.sahwang.service.ProductService;
+import com.green.sahwang.service.impl.ProductServiceImpl;
+import com.green.sahwang.usedproduct.dto.response.GeneralUsedProductResDto;
 import com.green.sahwang.usedproduct.entity.UsedProduct;
 import com.green.sahwang.usedproduct.repository.UsedProductRepository;
 import com.siot.IamportRestClient.IamportClient;
@@ -40,14 +46,13 @@ import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -70,6 +75,9 @@ public class PaymentServiceImpl implements PaymentService {
 
     private final ProductRepository productRepository;
     private final UsedProductRepository usedProductRepository;
+
+    private final ExternalPostPaymentApiRepository externalPostPaymentApiRepository;
+    private final ProductServiceImpl productService;
 
     private IamportClient paymentExternalApi;
     private final ExternalPrePaymentApiRepository prePaymentApiRepository;
@@ -161,10 +169,6 @@ public class PaymentServiceImpl implements PaymentService {
     @Transactional
     public void savePurchaseInfoForPayment(ExternalPurchasePaymentReqDto externalPurchasePaymentReqDto, String email) {
         log.info("externalPurchasePaymentReqDto : {}", externalPurchasePaymentReqDto.toString());
-//        List<PurchaseProduct> purchaseProducts = purchaseProductRepository.findAllByProductIdInAndPurchase(externalPurchasePaymentReqDto
-//                .getPurchaseProductDtos().stream()
-//                .map(purchaseProductReqDto -> purchaseProductReqDto.getProductId())
-//                .toList());
 
         Purchase resPurchase = purchaseRepository.findById(externalPurchasePaymentReqDto.getPurchaseId())
                 .orElseThrow(() -> new BizException(ErrorCode.NO_PURCHASE));
@@ -196,9 +200,23 @@ public class PaymentServiceImpl implements PaymentService {
 
             purchase = purchaseProduct.getPurchase();
         }
+        PostPaymentEntity postPaymentEntity = PostPaymentEntity.builder()
+                .purchaseId(purchase.getId())
+                .buyerEmail(externalPurchasePaymentReqDto.getBuyerEmail())
+                .buyerName(externalPurchasePaymentReqDto.getBuyerName())
+                .buyerAddr(externalPurchasePaymentReqDto.getBuyerAddr())
+                .buyerPostcode(externalPurchasePaymentReqDto.getBuyerPostcode())
+                .buyerPhone(externalPurchasePaymentReqDto.getBuyerPhone())
+                .merchantUid(externalPurchasePaymentReqDto.getMerchantUId())
+                .impUid(externalPurchasePaymentReqDto.getImpUid())
+                .payMethod(externalPurchasePaymentReqDto.getPayMethod())
+                .amount(externalPurchasePaymentReqDto.getAmount())
+                .build();
+
+        externalPostPaymentApiRepository.save(postPaymentEntity);
 
         // 결제 완료
-        purchase.setPurchaseStatus(PurchaseStatus.SHIP_READY);
+        purchase.setPurchaseStatus(PurchaseStatus.PAID);
         purchaseRepository.save(purchase);
         // 이벤트 준비
         createPaymentPaidOutboxMessage(purchase, payment, externalPurchasePaymentReqDto);
@@ -271,6 +289,7 @@ public class PaymentServiceImpl implements PaymentService {
         }
     }
 
+
     private CancelData cancelPayment(IamportResponse<com.siot.IamportRestClient.response.Payment>
                                        response) {
         return new CancelData(response.getResponse().getImpUid(), true);
@@ -318,5 +337,29 @@ public class PaymentServiceImpl implements PaymentService {
 
         outboxRepository.save(outboxMessage);
         log.info("outboxMessage = {}", outboxMessage);
+    }
+    @Override
+    @Transactional
+    public BuyerResDto getPaymentDetails(String merchantUid) {
+        PostPaymentEntity postPaymentEntity = externalPostPaymentApiRepository.findByMerchantUid(merchantUid)
+                .orElseThrow(() -> new BizException(ErrorCode.NO_ACCEPT_PAYMENT));
+
+        List<PurchaseProduct> purchaseProducts = purchaseProductRepository.findAllByPurchase(purchaseRepository.findById(postPaymentEntity.getPurchaseId())
+                .orElseThrow(() -> new BizException(ErrorCode.NO_PURCHASE)));
+
+        return BuyerResDto.builder()
+                .purchaseId(postPaymentEntity.getPurchaseId())
+                .buyerEmail(postPaymentEntity.getBuyerEmail())
+                .buyerName(postPaymentEntity.getBuyerName())
+                .buyerAddr(postPaymentEntity.getBuyerAddr())
+                .buyerPostcode(postPaymentEntity.getBuyerPostcode())
+                .buyerPhone(postPaymentEntity.getBuyerPhone())
+                .payMethod(postPaymentEntity.getPayMethod())
+                .amount(postPaymentEntity.getAmount().intValue())
+                .usedProductResDtos(purchaseProducts
+                        .stream()
+                        .map(purchaseProduct -> productService.getUsedProductResDto(purchaseProduct.getUsedProduct()))
+                        .toList())
+                .build();
     }
 }

@@ -23,4 +23,6 @@ public interface SaleMapper {
 
     String findSellerById(@Param("memberId") Long memberId);
 
+    int findSaleListTotalCount(@Param("memberId") Long memberId);
+
 }
