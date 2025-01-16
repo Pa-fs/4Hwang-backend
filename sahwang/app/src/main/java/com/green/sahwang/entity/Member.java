@@ -32,6 +32,8 @@ public class Member {
     // kakao 로그인 할때 가져옴
     private String email;
 
+    private String password;
+
     @Embedded
     private Address address;
 

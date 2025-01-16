@@ -6,6 +6,7 @@ import com.green.sahwang.entity.enumtype.SnsType;
 import com.green.sahwang.repository.MemberRepository;
 import com.green.sahwang.security.dto.KakaoTokenDto;
 import com.green.sahwang.security.dto.KakaoUserInfoDto;
+import com.green.sahwang.security.dto.LoginReqDto;
 import com.green.sahwang.security.entity.JWTRefreshToken;
 import com.green.sahwang.security.entity.KakaoAccessToken;
 import com.green.sahwang.security.entity.KakaoRefreshToken;
@@ -22,6 +23,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
@@ -30,7 +32,6 @@ import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
 import java.util.Date;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -44,6 +45,7 @@ public class KakaoServiceImpl implements KakaoService{
     private final KakaoAccessTokenRepository kakaoAccessTokenRepository;
     private final KakaoRefreshTokenRepository kakaoRefreshTokenRepository;
     private final JWTRefreshTokenRepository jwtRefreshTokenRepository;
+    private final PasswordEncoder passwordEncoder;
 
     /*
      1. 카카오 https://kauth.kakao.com/oauth/token -> accessToken 발급
@@ -144,6 +146,33 @@ public class KakaoServiceImpl implements KakaoService{
             e.printStackTrace();
         }
         return "fail";
+    }
+
+    @Transactional
+    public String formLogin(LoginReqDto loginReqDto){
+        Member member = memberRepository.findByEmail(loginReqDto.getEmail());
+        if (member == null){
+            throw new RuntimeException("사용자를 찾을 수 없습니다");
+        }
+
+        if (!passwordEncoder.matches(loginReqDto.getPassword(), member.getPassword())){
+            throw new RuntimeException("비밀번호가 일치 하지 않습니다");
+        }
+
+        if(member.getRole() != MemberRole.ADMIN){
+            throw new RuntimeException("관리자가 아닙니다");
+        }
+
+        member.setLastLoginDate(LocalDateTime.now());
+        memberRepository.save(member);
+
+        String jwtRefreshToken = jwtUtils.createRefreshToken();
+        long ttl = calcTtlFromJwt(jwtRefreshToken);
+        JWTRefreshToken JwtRefreshToken = new JWTRefreshToken(jwtRefreshToken, member.getId(), ttl);
+        jwtRefreshTokenRepository.save(JwtRefreshToken);
+
+        return jwtUtils.createJWT(member.getEmail(), member.getRole());
+
     }
 
     // 메시지 보내기 함수..
