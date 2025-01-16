@@ -25,7 +25,7 @@
 
 ## ❣ 사이트 링크  
 🔗 **[Cherrish 바로가기](http://cherrish.kro.kr/)**  
-
+🔗 **[ERD 바로가기](https://www.erdcloud.com/d/zmWWSeZhqRCtuiLiG)**
 ---
 
 ## ❣ 관련 자료  
