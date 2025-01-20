@@ -44,6 +44,12 @@ INSERT INTO `member` (`member_id`, `account`, `ad_received`, `addr`, `post_code`
 VALUES (4, NULL, NULL, '대구광역시 중구', '567-988', 'kdh7313@naver.com', NULL, '2024-11-01', NULL, '강도현', '010-1234-5678', 'ADMIN', 1, NULL, 'http://k.kakaocdn.net/dn/b7yPFA/btsKquPi0Cw/BjABLmpyNB6gbKxUAX9I40/img_640x640.jpg', 'http://k.kakaocdn.net/dn/b7yPFA/btsKquPi0Cw/BjABLmpyNB6gbKxUAX9I40/img_110x110.jpg', 0);
 INSERT INTO `member` (`member_id`, `account`, `ad_received`, `addr`, `post_code`, `email`, `is_deleted`, `join_date`, `name`, `nick_name`, `phone_num`, `role`, `sns_type`, `withdraw_date`, `profile_image`, `thumbnail_image`, `warn_count`)
 VALUES (5, NULL, NULL, '대구광역시 중구', '999-100', 'thdghckd111@naver.com', NULL, '2024-11-01', NULL, '송호창', '010-1234-5678', 'ADMIN', 1, NULL, 'http://img1.kakaocdn.net/thumb/R640x640.q70/?fname=http://t1.kakaocdn.net/account_images/default_profile.jpeg', 'http://img1.kakaocdn.net/thumb/R110x110.q70/?fname=http://t1.kakaocdn.net/account_images/default_profile.jpeg', 0);
+insert into member(member_id, email, password, role, addr, post_code, phone_num, `warn_count`)
+values (11111111, 'admin@cherrish.com', 'admin1234', 'ADMIN', '대구광역시 중구', '345-678', '010-1234-5678', 0);
+insert into member(member_id, email, password, role, addr, post_code, phone_num, `warn_count`)
+values (22222222, 'appraiser@cherrish.com', 'appraiser1234', 'APPRAISER', '대구광역시 중구', '345-678', '010-1234-5678', 0);
+insert into member(member_id, email, password, role, addr, post_code, phone_num, `warn_count`)
+values (33333333, 'user@cherrish.com', 'user1234', 'USER', '대구광역시 중구', '345-678', '010-1234-5678', 0);
 
 insert into cart(cart_id, quantities, member_id)
 values (1, 3, 1);
