@@ -45,7 +45,6 @@ public class KakaoServiceImpl implements KakaoService{
     private final KakaoAccessTokenRepository kakaoAccessTokenRepository;
     private final KakaoRefreshTokenRepository kakaoRefreshTokenRepository;
     private final JWTRefreshTokenRepository jwtRefreshTokenRepository;
-    private final PasswordEncoder passwordEncoder;
 
     /*
      1. 카카오 https://kauth.kakao.com/oauth/token -> accessToken 발급
@@ -155,7 +154,7 @@ public class KakaoServiceImpl implements KakaoService{
             throw new RuntimeException("사용자를 찾을 수 없습니다");
         }
 
-        if (!passwordEncoder.matches(loginReqDto.getPassword(), member.getPassword())){
+        if (!member.getPassword().equals(loginReqDto.getPassword())){
             throw new RuntimeException("비밀번호가 일치 하지 않습니다");
         }
 

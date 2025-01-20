@@ -25,7 +25,7 @@ public class KakaoController {
         return ResponseEntity.ok(jwt);
     }
 
-    @GetMapping("formLogin")
+    @PostMapping("formLogin")
     public ResponseEntity<String> formLogin(@RequestBody LoginReqDto loginReqDto){
         String jwt = kakaoService.formLogin(loginReqDto);
 
