@@ -428,7 +428,7 @@ LIMIT 0, 1000
 -- Date: 2025-01-03 01:26
 */
 INSERT INTO `user_sale_image` (`user_sale_image_id`,`file_desc`,`filename`,`is_used`,`path`,`pending_sale_id`) VALUES (1,'image-1','perfume001.png',true,'images/file/\\perfume001.png',40);
-INSERT INTO `user_sale_image` (`user_sale_image_id`,`file_desc`,`filename`,`is_used`,`path`,`pending_sale_id`) VALUES (2,'image-2','p_002.png',false,'images/file/\\p_002.png',40);
+INSERT INTO `user_sale_image` (`user_sale_image_id`,`file_desc`,`filename`,`is_used`,`path`,`pending_sale_id`) VALUES (2,'image-2','p_002.png',true,'images/file/\\p_002.png',40);
 INSERT INTO `user_sale_image` (`user_sale_image_id`,`file_desc`,`filename`,`is_used`,`path`,`pending_sale_id`) VALUES (3,'image-3','p_003.png',true,'images/file/\\p_003.png',40);
 INSERT INTO `user_sale_image` (`user_sale_image_id`,`file_desc`,`filename`,`is_used`,`path`,`pending_sale_id`) VALUES (4,'image-1','c_001.png',true,'images/file/\\c_001.png',41);
 INSERT INTO `user_sale_image` (`user_sale_image_id`,`file_desc`,`filename`,`is_used`,`path`,`pending_sale_id`) VALUES (5,'image-1','d_001_01.jpg',true,'images/file/\\d_001_01.jpg',42);
@@ -444,17 +444,17 @@ INSERT INTO `user_sale_image` (`user_sale_image_id`,`file_desc`,`filename`,`is_u
 INSERT INTO `user_sale_image` (`user_sale_image_id`,`file_desc`,`filename`,`is_used`,`path`,`pending_sale_id`) VALUES (15,'image-2','d_001_02_box.jpg',true,'images/file/\\d_001_02_box.jpg',51);
 INSERT INTO `user_sale_image` (`user_sale_image_id`,`file_desc`,`filename`,`is_used`,`path`,`pending_sale_id`) VALUES (16,'image-1','d_001_02_c.jpg',true,'images/file/\\d_001_02_c.jpg',52);
 INSERT INTO `user_sale_image` (`user_sale_image_id`,`file_desc`,`filename`,`is_used`,`path`,`pending_sale_id`) VALUES (17,'image-1','d_077_01_c.jpg',true,'images/file/\\d_077_01_c.jpg',53);
-INSERT INTO `user_sale_image` (`user_sale_image_id`,`file_desc`,`filename`,`is_used`,`path`,`pending_sale_id`) VALUES (18,'image-1','dior_homme_75ml.png',false,'images/file/\\dior_homme_75ml.png',54);
-INSERT INTO `user_sale_image` (`user_sale_image_id`,`file_desc`,`filename`,`is_used`,`path`,`pending_sale_id`) VALUES (19,'image-1','dior_homme_75ml_c.png',false,'images/file/\\dior_homme_75ml_c.png',55);
-INSERT INTO `user_sale_image` (`user_sale_image_id`,`file_desc`,`filename`,`is_used`,`path`,`pending_sale_id`) VALUES (20,'image-1','saint laurent_50ml_01.png',false,'images/file/\\saint laurent_50ml_01.png',56);
-INSERT INTO `user_sale_image` (`user_sale_image_id`,`file_desc`,`filename`,`is_used`,`path`,`pending_sale_id`) VALUES (21,'image-1','gabriel_chanel.png',false,'images/file/\\gabriel_chanel.png',57);
-INSERT INTO `user_sale_image` (`user_sale_image_id`,`file_desc`,`filename`,`is_used`,`path`,`pending_sale_id`) VALUES (22,'image-2','gabriel_chanel_01.png',false,'images/file/\\gabriel_chanel_01.png',57);
-INSERT INTO `user_sale_image` (`user_sale_image_id`,`file_desc`,`filename`,`is_used`,`path`,`pending_sale_id`) VALUES (23,'image-1','gabriel_chanel2.png',false,'images/file/\\gabriel_chanel2.png',58);
-INSERT INTO `user_sale_image` (`user_sale_image_id`,`file_desc`,`filename`,`is_used`,`path`,`pending_sale_id`) VALUES (24,'image-1','flower_and_flame_50.png',false,'images/file/\\flower_and_flame_50.png',59);
-INSERT INTO `user_sale_image` (`user_sale_image_id`,`file_desc`,`filename`,`is_used`,`path`,`pending_sale_id`) VALUES (25,'image-1','chanel_lejode1.png',false,'images/file/\\chanel_lejode1.png',60);
-INSERT INTO `user_sale_image` (`user_sale_image_id`,`file_desc`,`filename`,`is_used`,`path`,`pending_sale_id`) VALUES (26,'image-1','joyfull-gadnia.jpg',false,'images/file//joyfull-gadnia.jpg',61);
-INSERT INTO `user_sale_image` (`user_sale_image_id`,`file_desc`,`filename`,`is_used`,`path`,`pending_sale_id`) VALUES (27,'image-1','ice_lemonade_01.jpg',false,'images/file//ice_lemonade_01.jpg',62);
-INSERT INTO `user_sale_image` (`user_sale_image_id`,`file_desc`,`filename`,`is_used`,`path`,`pending_sale_id`) VALUES (28,'image-2','ice_lemonade_02.jpg',false,'images/file//ice_lemonade_02.jpg',62);
+INSERT INTO `user_sale_image` (`user_sale_image_id`,`file_desc`,`filename`,`is_used`,`path`,`pending_sale_id`) VALUES (18,'image-1','dior_homme_75ml.png',true,'images/file/\\dior_homme_75ml.png',54);
+INSERT INTO `user_sale_image` (`user_sale_image_id`,`file_desc`,`filename`,`is_used`,`path`,`pending_sale_id`) VALUES (19,'image-1','dior_homme_75ml_c.png',true,'images/file/\\dior_homme_75ml_c.png',55);
+INSERT INTO `user_sale_image` (`user_sale_image_id`,`file_desc`,`filename`,`is_used`,`path`,`pending_sale_id`) VALUES (20,'image-1','saint laurent_50ml_01.png',true,'images/file/\\saint laurent_50ml_01.png',56);
+INSERT INTO `user_sale_image` (`user_sale_image_id`,`file_desc`,`filename`,`is_used`,`path`,`pending_sale_id`) VALUES (21,'image-1','gabriel_chanel.png',true,'images/file/\\gabriel_chanel.png',57);
+INSERT INTO `user_sale_image` (`user_sale_image_id`,`file_desc`,`filename`,`is_used`,`path`,`pending_sale_id`) VALUES (22,'image-2','gabriel_chanel_01.png',true,'images/file/\\gabriel_chanel_01.png',57);
+INSERT INTO `user_sale_image` (`user_sale_image_id`,`file_desc`,`filename`,`is_used`,`path`,`pending_sale_id`) VALUES (23,'image-1','gabriel_chanel2.png',true,'images/file/\\gabriel_chanel2.png',58);
+INSERT INTO `user_sale_image` (`user_sale_image_id`,`file_desc`,`filename`,`is_used`,`path`,`pending_sale_id`) VALUES (24,'image-1','flower_and_flame_50.png',true,'images/file/\\flower_and_flame_50.png',59);
+INSERT INTO `user_sale_image` (`user_sale_image_id`,`file_desc`,`filename`,`is_used`,`path`,`pending_sale_id`) VALUES (25,'image-1','chanel_lejode1.png',true,'images/file/\\chanel_lejode1.png',60);
+INSERT INTO `user_sale_image` (`user_sale_image_id`,`file_desc`,`filename`,`is_used`,`path`,`pending_sale_id`) VALUES (26,'image-1','joyfull-gadnia.jpg',true,'images/file//joyfull-gadnia.jpg',61);
+INSERT INTO `user_sale_image` (`user_sale_image_id`,`file_desc`,`filename`,`is_used`,`path`,`pending_sale_id`) VALUES (27,'image-1','ice_lemonade_01.jpg',true,'images/file//ice_lemonade_01.jpg',62);
+INSERT INTO `user_sale_image` (`user_sale_image_id`,`file_desc`,`filename`,`is_used`,`path`,`pending_sale_id`) VALUES (28,'image-2','ice_lemonade_02.jpg',true,'images/file//ice_lemonade_02.jpg',62);
 
 -- sale_grade
 INSERT INTO sale_grade (sale_grade_id, grade_description, grade_type)

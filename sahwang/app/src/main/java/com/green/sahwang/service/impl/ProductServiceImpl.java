@@ -182,7 +182,6 @@ public class ProductServiceImpl implements ProductService {
     //    @NotNull
     public GeneralUsedProductResDto getUsedProductResDto(UsedProduct usedProduct) {
         List<UserSaleImage> userSaleImages = usedProduct.getVerifiedSale().getPendingSale().getUserSaleImages().stream()
-                .filter(userSaleImage -> userSaleImage.isUsed())
                 .toList();
 
         log.info("UserSaleImages : {}", userSaleImages);
