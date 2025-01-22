@@ -1,5 +1,6 @@
 package com.green.sahwang.security.controller;
 
+import com.green.sahwang.security.dto.LoginReqDto;
 import com.green.sahwang.security.service.KakaoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +21,13 @@ public class KakaoController {
     public ResponseEntity<String> kakaoCode(@RequestParam(value = "code") String code){
         String jwt = kakaoService.getToken(code);
 
+
+        return ResponseEntity.ok(jwt);
+    }
+
+    @PostMapping("formLogin")
+    public ResponseEntity<String> formLogin(@RequestBody LoginReqDto loginReqDto){
+        String jwt = kakaoService.formLogin(loginReqDto);
 
         return ResponseEntity.ok(jwt);
     }
